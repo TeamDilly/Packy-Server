@@ -1,13 +1,12 @@
-package com.example.packy;
+package com.dilly;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
-public class PackyApplication {
+@SpringBootApplication(scanBasePackages = "com.dilly")
+public class ApiApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(PackyApplication.class, args);
+        SpringApplication.run(ApiApplication.class, args);
     }
-
 }
