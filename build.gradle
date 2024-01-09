@@ -22,6 +22,7 @@ allprojects {
     }
 }
 
+// 해당 프로젝트에 포함된 모든 모듈에 영향을 주는 설정
 subprojects {
     apply plugin: 'java'
     apply plugin: 'java-library'
