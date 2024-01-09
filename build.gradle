@@ -4,22 +4,42 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.4'
 }
 
-group = 'com.dilly'
-version = '0.0.1-SNAPSHOT'
-
 java {
     sourceCompatibility = '17'
 }
 
-repositories {
-    mavenCentral()
+// 루트 프로젝트를 포함해 하위 프로젝트 전체에 영향을 주는 설정
+allprojects {
+    group = 'com.dilly'
+    version = '0.0.1-SNAPSHOT'
+
+    repositories {
+        mavenCentral()
+    }
+
+    // 공통 dependencies
+    dependencies {
+    }
 }
 
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+// 해당 프로젝트에 포함된 모든 모듈에 영향을 주는 설정
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'java-library'
+    apply plugin: 'org.springframework.boot'
+    // spring boot dependency를 사용하여 사용중인 부트 버전에서 자동으로 의존성을 가져온다
+    apply plugin: 'io.spring.dependency-management'
+
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+    }
 }
 
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+bootJar.enabled = false

@@ -1,1 +1,6 @@
 rootProject.name = 'packy'
+include 'packy-api'
+include 'packy-api'
+include 'packy-domain'
+include 'packy-infra'
+include 'packy-clients'
