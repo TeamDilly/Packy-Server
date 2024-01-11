@@ -10,3 +10,8 @@ spring:
       ddl-auto: create
     properties:
       hibernate.dialect: org.hibernate.dialect.MySQLDialect
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true
