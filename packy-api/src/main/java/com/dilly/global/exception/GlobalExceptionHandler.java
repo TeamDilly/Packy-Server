@@ -17,7 +17,7 @@ public class GlobalExceptionHandler {
     // 비즈니스 예외 처리
     @ExceptionHandler(BusinessException.class)
     protected ResponseEntity<Object> handleBusinessException(BusinessException e) {
-        log.error(e.toString());
+        log.error(e.toString(), e);
         return handleExceptionInternal(e.getErrorCode());
     }
 
@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
     // 그 밖에 발생하는 모든 예외 처리
     @ExceptionHandler(value = {Exception.class, RuntimeException.class, SQLException.class, DataIntegrityViolationException.class})
     protected ResponseEntity<Object> handleException(Exception e) {
-        log.error(e.toString());
+        log.error(e.toString(), e);
 
         return handleExceptionInternal(ErrorCode.INTERNAL_ERROR, e);
     }
