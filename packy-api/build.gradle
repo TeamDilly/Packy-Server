@@ -10,6 +10,7 @@ repositories {
 }
 
 dependencies {
+    // multi module
     implementation project(':packy-domain')
 
     testImplementation platform('org.junit:junit-bom:5.9.1')
@@ -20,10 +21,32 @@ dependencies {
 
     // orm
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // oauth
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    // jwt
+    compileOnly group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
+
+    // webflux (for WebClient)
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+    // TODO: Remove this dependency
+    implementation 'com.google.code.gson:gson:2.8.7'
 }
 
 test {
     useJUnitPlatform()
+}
+
+processResources.dependsOn('copySecret')
+tasks.register('copySecret', Copy) {
+    from '../packy-submodule/api'
+    include '*'
+    into './src/main/resources'
 }
 
 bootJar.enabled = true

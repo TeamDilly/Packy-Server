@@ -27,7 +27,6 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'java-library'
     apply plugin: 'org.springframework.boot'
-    // spring boot dependency를 사용하여 사용중인 부트 버전에서 자동으로 의존성을 가져온다
     apply plugin: 'io.spring.dependency-management'
 
     dependencies {
@@ -35,6 +34,7 @@ subprojects {
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok'
+        implementation 'com.fasterxml.jackson.core:jackson-databind'
     }
 }
 
