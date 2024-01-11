@@ -35,3 +35,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### application.yml ###
+/packy-api/src/main/resources/
