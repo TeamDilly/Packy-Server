@@ -34,7 +34,7 @@ public class AuthController {
 	}
 
 	@GetMapping("/token/kakao/{code}")
-	public DataResponseDto<String> getKakaoAccessToken(@PathVariable String code) {
+	public DataResponseDto<String> getKakaoAccessToken(@PathVariable(name = "code") String code) {
 		return DataResponseDto.from(kakaoService.getKakaoAccessToken(code));
 	}
 }
