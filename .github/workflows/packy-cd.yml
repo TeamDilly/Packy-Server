@@ -1,7 +1,7 @@
 name: packy API Server - CD
 
 on:
-  pull_request:
+  push:
     branches:
       - develop
 
