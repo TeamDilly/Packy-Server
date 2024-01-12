@@ -38,3 +38,4 @@ out/
 
 ### application.yml ###
 /packy-api/src/main/resources/
+/packy-domain/src/main/resources/
