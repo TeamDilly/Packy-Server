@@ -12,6 +12,8 @@ public class AdminController {
 
 	@GetMapping("/health")
 	public DataResponseDto<String> healthCheck() {
-		return DataResponseDto.from("health check success!");
+		String activeProfile = System.getProperty("spring.profiles.active");
+
+		return DataResponseDto.from("This is " + activeProfile + " server!");
 	}
 }
