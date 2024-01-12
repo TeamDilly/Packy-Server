@@ -34,7 +34,7 @@ dependencies {
     // webflux (for WebClient)
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
-    // TODO: Remove this dependency
+    // json parser
     implementation 'com.google.code.gson:gson:2.8.7'
 }
 
