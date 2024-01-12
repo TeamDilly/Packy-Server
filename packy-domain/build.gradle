@@ -28,5 +28,12 @@ test {
     useJUnitPlatform()
 }
 
+processResources.dependsOn('copySecret')
+tasks.register('copySecret', Copy) {
+    from '../packy-submodule/domain'
+    include '*'
+    into './src/main/resources'
+}
+
 bootJar.enabled = false
 jar.enabled = true
