@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'com.google.cloud.tools.jib' version '3.4.0'
 }
 
 group = 'com.dilly'
@@ -47,6 +48,12 @@ tasks.register('copySecret', Copy) {
     from '../packy-submodule/api'
     include '*'
     into './src/main/resources'
+}
+
+if (project.hasProperty('dev')) {
+    apply from: project.file('profile-dev.gradle');
+} else if (project.hasProperty('prod')) {
+    apply from: project.file('profile-prod.gradle');
 }
 
 bootJar.enabled = true

@@ -1,0 +1,20 @@
+jib {
+    from {
+        image = "amazoncorretto:17.0.4-al2"
+        platforms {
+            platform {
+                architecture = "arm64"
+                os = "linux"
+            }
+        }
+    }
+    to {
+        image = "714646531644.dkr.ecr.ap-northeast-2.amazonaws.com/packy-prod"
+        tags = ["latest", "${project.name}-" + System.currentTimeMillis()]
+    }
+    container {
+        creationTime = "USE_CURRENT_TIMESTAMP"
+        jvmFlags = ['-Dspring.profiles.active=prod', '-XX:+UseContainerSupport']
+        ports = ['8083']
+    }
+}
