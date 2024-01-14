@@ -33,6 +33,13 @@ public class AuthController {
 		return DataResponseDto.from(authService.signUp(providerAccessToken, signupRequest));
 	}
 
+	@GetMapping("/sign-in/{provider}")
+	public DataResponseDto<JwtResponse> signIn(
+		@PathVariable(name = "provider") String provider,
+		@RequestHeader("Authorization") String providerAccessToken) {
+		return DataResponseDto.from(authService.signIn(provider, providerAccessToken));
+	}
+
 	@GetMapping("/token/kakao/{code}")
 	public DataResponseDto<String> getKakaoAccessToken(@PathVariable(name = "code") String code) {
 		return DataResponseDto.from(kakaoService.getKakaoAccessToken(code));

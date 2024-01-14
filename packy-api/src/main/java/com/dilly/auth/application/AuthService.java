@@ -51,7 +51,6 @@ public class AuthService {
 			}
 
 			case "apple" -> {
-				loginType = APPLE;
 				provider = APPLE;
 			}
 
@@ -60,6 +59,13 @@ public class AuthService {
 
 		return jwtService.issueJwt(member);
 	}
+
+	public JwtResponse signIn(String provider, String providerAccessToken) {
+		Member member = null;
+		switch (provider) {
+			case "kakao" -> {
+				KakaoResource kakaoResource = kakaoService.getKaKaoAccount(providerAccessToken);
+				member = kakaoAccountReader.getMemberById(kakaoResource.getId());
 			}
 
 			default -> throw new NotSupportedException(ErrorCode.NOT_SUPPORTED_LOGIN_TYPE);
