@@ -13,10 +13,13 @@ import com.dilly.auth.dto.request.SignupRequest;
 import com.dilly.auth.model.KakaoResource;
 import com.dilly.global.exception.NotSupportedException;
 import com.dilly.global.response.ErrorCode;
+import com.dilly.global.utils.SecurityUtil;
 import com.dilly.jwt.JwtService;
+import com.dilly.jwt.domain.JwtWriter;
 import com.dilly.jwt.dto.JwtResponse;
 import com.dilly.member.Member;
 import com.dilly.member.Provider;
+import com.dilly.member.domain.MemberReader;
 import com.dilly.member.domain.MemberWriter;
 
 import lombok.RequiredArgsConstructor;
@@ -30,10 +33,12 @@ public class AuthService {
 
 	private final JwtService jwtService;
 	private final KakaoService kakaoService;
+	private final MemberReader memberReader;
 	private final MemberWriter memberWriter;
 	private final ProfileImageReader profileImageReader;
 	private final KakaoAccountReader kakaoAccountReader;
 	private final KakaoAccountWriter kakaoAccountWriter;
+	private final JwtWriter jwtWriter;
 
 	public JwtResponse signUp(String providerAccessToken, SignupRequest signupRequest) {
 		Provider provider;
@@ -72,5 +77,20 @@ public class AuthService {
 		}
 
 		return jwtService.issueJwt(member);
+	}
+
+	public String withdraw() {
+		Long memberId = SecurityUtil.getMemberId();
+		Member member = memberReader.findById(memberId);
+
+		switch (member.getProvider()) {
+			case KAKAO -> kakaoService.unlinkKakaoAccount(member);
+			default -> throw new NotSupportedException(ErrorCode.NOT_SUPPORTED_LOGIN_TYPE);
+		}
+
+		jwtWriter.delete(memberId);
+		member.withdraw();
+
+		return "회원 탈퇴가 완료되었습니다.";
 	}
 }

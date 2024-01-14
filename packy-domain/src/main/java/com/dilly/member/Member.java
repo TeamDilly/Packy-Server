@@ -52,4 +52,8 @@ public class Member extends BaseTimeEntity {
 		this.pushNotification = pushNotification;
 		this.marketingAgreement = marketingAgreement;
 	}
+
+	public void withdraw() {
+		this.isWithdrawal = true;
+	}
 }

@@ -1,5 +1,6 @@
 package com.dilly.auth.api;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,6 +40,11 @@ public class AuthController {
 		@PathVariable(name = "provider") String provider,
 		@RequestHeader("Authorization") String providerAccessToken) {
 		return DataResponseDto.from(authService.signIn(provider, providerAccessToken));
+	}
+
+	@DeleteMapping("/withdraw")
+	public DataResponseDto<String> withdraw() {
+		return DataResponseDto.from(authService.withdraw());
 	}
 
 	@PostMapping("/reissue")

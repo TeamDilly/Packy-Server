@@ -29,6 +29,7 @@ public enum ErrorCode {
 	UNSUPPORTED_JWT("AUTH004", HttpStatus.UNAUTHORIZED, "지원하지 않는 JWT 토큰입니다."),
 	ILLEGAL_JWT("AUTH005", HttpStatus.UNAUTHORIZED, "잘못된 JWT 토큰입니다."),
 	INVALID_REFRESH_TOKEN("AUTH006", HttpStatus.UNAUTHORIZED, "유효하지 않은 Refresh Token입니다."),
+	AUTH_INFO_NOT_FOUND("AUTH007", HttpStatus.UNAUTHORIZED, "Security Context에 인증 정보가 없습니다."),
 
 	// Not Found
 	MEMBER_NOT_FOUND("NF000", HttpStatus.NOT_FOUND, "유저를 찾을 수 없습니다."),
