@@ -1,0 +1,13 @@
+{
+  "AWSEBDockerrunVersion": "1",
+  "Image": {
+    "Name": "714646531644.dkr.ecr.ap-northeast-2.amazonaws.com/packy-dev:latest",
+    "Update": "true"
+  },
+  "Ports": [
+    {
+      "ContainerPort": "8082",
+      "HostPort": "8082"
+    }
+  ]
+}
