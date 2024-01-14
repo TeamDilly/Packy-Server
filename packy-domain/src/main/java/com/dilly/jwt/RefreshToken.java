@@ -1,25 +1,37 @@
 package com.dilly.jwt;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.redis.core.RedisHash;
+import static jakarta.persistence.GenerationType.*;
 
+import com.dilly.global.BaseTimeEntity;
+import com.dilly.member.Member;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@RedisHash(value = "refreshToken", timeToLive = 60 * 60 * 24 * 7)
+@Entity
 @Getter
 @NoArgsConstructor
-public class RefreshToken {
+public class RefreshToken extends BaseTimeEntity {
 
 	@Id
-	private Long memberId;
+	@GeneratedValue(strategy = IDENTITY)
+	private Long id;
 
 	private String refreshToken;
 
+	@OneToOne
+	@JoinColumn(name = "member_id")
+	private Member member;
+
 	@Builder
-	public RefreshToken(Long memberId, String refreshToken) {
-		this.memberId = memberId;
+	public RefreshToken(Member member, String refreshToken) {
+		this.member = member;
 		this.refreshToken = refreshToken;
 	}
 }

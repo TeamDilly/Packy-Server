@@ -19,9 +19,6 @@ public class JwtWriter {
 
 	public void delete(Long memberId) {
 		refreshTokenRepository.findById(memberId).ifPresent(refreshTokenRepository::delete);
-	}
-
-	public void delete(RefreshToken refreshToken) {
-		refreshTokenRepository.delete(refreshToken);
+		refreshTokenRepository.flush();
 	}
 }
