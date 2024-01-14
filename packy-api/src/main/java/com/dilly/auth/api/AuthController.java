@@ -13,6 +13,7 @@ import com.dilly.auth.application.KakaoService;
 import com.dilly.auth.dto.request.SignupRequest;
 import com.dilly.global.response.DataResponseDto;
 import com.dilly.jwt.JwtService;
+import com.dilly.jwt.dto.JwtRequest;
 import com.dilly.jwt.dto.JwtResponse;
 
 import lombok.RequiredArgsConstructor;
@@ -38,6 +39,11 @@ public class AuthController {
 		@PathVariable(name = "provider") String provider,
 		@RequestHeader("Authorization") String providerAccessToken) {
 		return DataResponseDto.from(authService.signIn(provider, providerAccessToken));
+	}
+
+	@PostMapping("/reissue")
+	public DataResponseDto<JwtResponse> reissue(@RequestBody JwtRequest jwtRequest) {
+		return DataResponseDto.from(jwtService.reissueJwt(jwtRequest));
 	}
 
 	@GetMapping("/token/kakao/{code}")
