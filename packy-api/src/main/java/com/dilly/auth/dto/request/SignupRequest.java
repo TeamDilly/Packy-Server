@@ -1,20 +1,20 @@
 package com.dilly.auth.dto.request;
 
 import com.dilly.admin.ProfileImage;
-import com.dilly.member.LoginType;
 import com.dilly.member.Member;
+import com.dilly.member.Provider;
 
 public record SignupRequest(
-	String loginType,
+	String provider,
 	String nickname,
 	Long profileImg,
 	Boolean pushNotification,
 	Boolean marketingAgreement
 ) {
 
-	public Member toEntity(LoginType loginType, ProfileImage profileImage) {
+	public Member toEntity(Provider provider, ProfileImage profileImage) {
 		return Member.builder()
-			.loginType(loginType)
+			.provider(provider)
 			.nickname(nickname)
 			.profileImg(profileImage)
 			.pushNotification(pushNotification)

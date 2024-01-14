@@ -1,6 +1,6 @@
 package com.dilly.member;
 
-public enum LoginType {
+public enum Provider {
 
 	KAKAO,
 	APPLE;

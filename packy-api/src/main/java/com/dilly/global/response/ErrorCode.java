@@ -19,6 +19,7 @@ public enum ErrorCode {
 	INTERNAL_ERROR("SERVER000", HttpStatus.INTERNAL_SERVER_ERROR, "서버에 오류가 발생했습니다."),
 	METHOD_NOT_ALLOWED("SERVER001", HttpStatus.METHOD_NOT_ALLOWED, "지원하지 않는 HTTP Method 요청입니다."),
 	KAKAO_SERVER_ERROR("SERVER002", HttpStatus.INTERNAL_SERVER_ERROR, "카카오 서버 연동에 오류가 발생했습니다."),
+	API_NOT_FOUND("SERVER003", HttpStatus.NOT_FOUND, "요청한 API를 찾을 수 없습니다."),
 
 	// Authorization
 	NOT_SUPPORTED_LOGIN_TYPE("AUTH000", HttpStatus.BAD_REQUEST, "지원하지 않는 로그인 타입입니다."),
@@ -28,6 +29,7 @@ public enum ErrorCode {
 	UNSUPPORTED_JWT("AUTH004", HttpStatus.UNAUTHORIZED, "지원하지 않는 JWT 토큰입니다."),
 	ILLEGAL_JWT("AUTH005", HttpStatus.UNAUTHORIZED, "잘못된 JWT 토큰입니다."),
 	INVALID_REFRESH_TOKEN("AUTH006", HttpStatus.UNAUTHORIZED, "유효하지 않은 Refresh Token입니다."),
+	AUTH_INFO_NOT_FOUND("AUTH007", HttpStatus.UNAUTHORIZED, "Security Context에 인증 정보가 없습니다."),
 
 	// Not Found
 	MEMBER_NOT_FOUND("NF000", HttpStatus.NOT_FOUND, "유저를 찾을 수 없습니다."),

@@ -27,7 +27,7 @@ public class Member extends BaseTimeEntity {
 	private Long id;
 
 	@Enumerated(EnumType.STRING)
-	private LoginType loginType;
+	private Provider provider;
 
 	@Enumerated(EnumType.STRING)
 	private Role role = Role.ROLE_USER;
@@ -44,12 +44,16 @@ public class Member extends BaseTimeEntity {
 	Boolean isWithdrawal = false;
 
 	@Builder
-	public Member(LoginType loginType, String nickname, ProfileImage profileImg,
+	public Member(Provider provider, String nickname, ProfileImage profileImg,
 		Boolean pushNotification, Boolean marketingAgreement) {
-		this.loginType = loginType;
+		this.provider = provider;
 		this.nickname = nickname;
 		this.profileImg = profileImg;
 		this.pushNotification = pushNotification;
 		this.marketingAgreement = marketingAgreement;
+	}
+
+	public void withdraw() {
+		this.isWithdrawal = true;
 	}
 }

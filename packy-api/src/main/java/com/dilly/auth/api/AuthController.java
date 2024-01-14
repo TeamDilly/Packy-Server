@@ -1,5 +1,6 @@
 package com.dilly.auth.api;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +14,7 @@ import com.dilly.auth.application.KakaoService;
 import com.dilly.auth.dto.request.SignupRequest;
 import com.dilly.global.response.DataResponseDto;
 import com.dilly.jwt.JwtService;
+import com.dilly.jwt.dto.JwtRequest;
 import com.dilly.jwt.dto.JwtResponse;
 
 import lombok.RequiredArgsConstructor;
@@ -31,6 +33,23 @@ public class AuthController {
 		@RequestHeader("Authorization") String providerAccessToken,
 		@RequestBody SignupRequest signupRequest) {
 		return DataResponseDto.from(authService.signUp(providerAccessToken, signupRequest));
+	}
+
+	@GetMapping("/sign-in/{provider}")
+	public DataResponseDto<JwtResponse> signIn(
+		@PathVariable(name = "provider") String provider,
+		@RequestHeader("Authorization") String providerAccessToken) {
+		return DataResponseDto.from(authService.signIn(provider, providerAccessToken));
+	}
+
+	@DeleteMapping("/withdraw")
+	public DataResponseDto<String> withdraw() {
+		return DataResponseDto.from(authService.withdraw());
+	}
+
+	@PostMapping("/reissue")
+	public DataResponseDto<JwtResponse> reissue(@RequestBody JwtRequest jwtRequest) {
+		return DataResponseDto.from(jwtService.reissueJwt(jwtRequest));
 	}
 
 	@GetMapping("/token/kakao/{code}")
