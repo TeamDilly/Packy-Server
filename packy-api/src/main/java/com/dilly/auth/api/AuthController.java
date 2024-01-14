@@ -31,7 +31,7 @@ public class AuthController {
 	private final JwtService jwtService;
 	private final KakaoService kakaoService;
 
-	@Operation(summary = "회원 가입")
+	@Operation(summary = "회원 가입", description = "provider는 kakao 또는 apple")
 	@PostMapping("/sign-up")
 	public DataResponseDto<JwtResponse> signUp(
 		@RequestHeader("Authorization") String providerAccessToken,
