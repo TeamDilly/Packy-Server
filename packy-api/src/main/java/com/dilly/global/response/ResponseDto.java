@@ -7,10 +7,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ResponseDto {
 
-    private final String code;
-    private final String message;
+	private final String code;
+	private final String message;
 
-    public static ResponseDto of(ErrorCode errorCode) {
-        return new ResponseDto(errorCode.getCode(), errorCode.getMessage());
-    }
+	public static ResponseDto of(ErrorCode errorCode) {
+		return new ResponseDto(errorCode.toString(), errorCode.getMessage());
+	}
 }
