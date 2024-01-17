@@ -1,11 +1,12 @@
 package com.dilly.auth.domain;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Component;
 
 import com.dilly.auth.KakaoAccount;
 import com.dilly.auth.KakaoAccountRepository;
 import com.dilly.global.exception.alreadyexist.MemberAlreadyExistException;
-import com.dilly.global.exception.entitynotfound.MemberNotFoundException;
 import com.dilly.member.Member;
 
 import lombok.RequiredArgsConstructor;
@@ -22,8 +23,8 @@ public class KakaoAccountReader {
 		}
 	}
 
-	public Member getMemberById(String id) {
-		return kakaoAccountRepository.findById(id).orElseThrow(MemberNotFoundException::new).getMember();
+	public Optional<Member> getMemberById(String id) {
+		return kakaoAccountRepository.findById(id).map(KakaoAccount::getMember);
 	}
 
 	public KakaoAccount findByMember(Member member) {

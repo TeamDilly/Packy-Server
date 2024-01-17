@@ -2,6 +2,8 @@ package com.dilly.auth.application;
 
 import static com.dilly.member.Provider.*;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,6 +12,7 @@ import com.dilly.admin.ProfileImageReader;
 import com.dilly.auth.domain.KakaoAccountReader;
 import com.dilly.auth.domain.KakaoAccountWriter;
 import com.dilly.auth.dto.request.SignupRequest;
+import com.dilly.auth.dto.response.SignInResponse;
 import com.dilly.auth.model.KakaoResource;
 import com.dilly.global.exception.NotSupportedException;
 import com.dilly.global.response.ErrorCode;
@@ -19,6 +22,7 @@ import com.dilly.jwt.domain.JwtWriter;
 import com.dilly.jwt.dto.JwtResponse;
 import com.dilly.member.Member;
 import com.dilly.member.Provider;
+import com.dilly.member.Status;
 import com.dilly.member.domain.MemberReader;
 import com.dilly.member.domain.MemberWriter;
 
@@ -65,8 +69,8 @@ public class AuthService {
 		return jwtService.issueJwt(member);
 	}
 
-	public JwtResponse signIn(String provider, String providerAccessToken) {
-		Member member = null;
+	public SignInResponse signIn(String provider, String providerAccessToken) {
+		Optional<Member> member;
 		switch (provider) {
 			case "kakao" -> {
 				KakaoResource kakaoResource = kakaoService.getKaKaoAccount(providerAccessToken);
@@ -76,7 +80,20 @@ public class AuthService {
 			default -> throw new NotSupportedException(ErrorCode.NOT_SUPPORTED_LOGIN_TYPE);
 		}
 
-		return jwtService.issueJwt(member);
+		SignInResponse signInResponse;
+		if (member.isEmpty()) {
+			signInResponse = SignInResponse.builder()
+				.status(Status.NOT_REGISTERED)
+				.tokenInfo(JwtResponse.builder().build())
+				.build();
+		} else {
+			signInResponse = SignInResponse.builder()
+				.status(member.get().getStatus())
+				.tokenInfo(jwtService.issueJwt(member.get()))
+				.build();
+		}
+
+		return signInResponse;
 	}
 
 	public String withdraw() {
