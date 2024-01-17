@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.dilly.admin.dao.LetterRepository;
+import com.dilly.admin.dao.LetterPaperRepository;
 import com.dilly.admin.dto.response.LetterImgResponse;
 
 import lombok.RequiredArgsConstructor;
@@ -13,16 +13,15 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class LetterReader {
 
-	private final LetterRepository letterRepository;
+	private final LetterPaperRepository letterPaperRepository;
 
 	public List<LetterImgResponse> findAll() {
-		return letterRepository.findAll().stream()
-			.map(letter -> LetterImgResponse.builder()
-				.id(letter.getId())
-				.letterPaper(letter.getLetterPaper().getWritingPaperUrl())
-				.envelope(letter.getLetterPaper().getEnvelopeUrl())
-				.build()
-			)
+		return letterPaperRepository.findAll().stream()
+			.map(letterPaper -> LetterImgResponse.builder()
+				.id(letterPaper.getId())
+				.letterPaper(letterPaper.getWritingPaperUrl())
+				.envelope(letterPaper.getEnvelopeUrl())
+				.build())
 			.toList();
 	}
 }
