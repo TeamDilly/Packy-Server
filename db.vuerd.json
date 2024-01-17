@@ -3,9 +3,9 @@
     "version": "2.2.11",
     "width": 2500,
     "height": 2500,
-    "scrollTop": 0,
-    "scrollLeft": 0,
-    "zoomLevel": 0.3,
+    "scrollTop": -251,
+    "scrollLeft": -1339,
+    "zoomLevel": 0.8,
     "show": {
       "tableComment": true,
       "columnComment": true,
@@ -751,9 +751,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 2060.7934,
+          "left": 2076.7934,
           "top": 413.6199,
-          "zIndex": 2,
+          "zIndex": 31,
           "widthName": 60,
           "widthComment": 60
         },
@@ -812,7 +812,7 @@
           },
           {
             "id": "151107b9-e942-47df-97dd-8b5de5918ce9",
-            "name": "envelopeId",
+            "name": "letterPaperId",
             "comment": "",
             "dataType": "BIGINT",
             "default": "",
@@ -827,7 +827,7 @@
               "pk": false,
               "fk": true,
               "pfk": false,
-              "widthName": 62.29393005371094,
+              "widthName": 73.20088195800781,
               "widthComment": 60,
               "widthDataType": 60,
               "widthDefault": 60
@@ -836,9 +836,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 1569.587,
-          "top": 298.5784,
-          "zIndex": 3,
+          "left": 1490.587,
+          "top": 328.5784,
+          "zIndex": 21,
           "widthName": 60,
           "widthComment": 60
         },
@@ -1101,7 +1101,7 @@
       },
       {
         "id": "f7dd4680-c8f4-4b8a-b764-2d5c27742e1b",
-        "name": "Youtube",
+        "name": "Music",
         "comment": "패키 유튜브 (Admin)",
         "columns": [
           {
@@ -1149,59 +1149,13 @@
               "widthDataType": 60,
               "widthDefault": 60
             }
-          },
-          {
-            "id": "8cf14a33-c64e-4b78-8c4b-f6fab9e40c07",
-            "name": "title",
-            "comment": "",
-            "dataType": "VARCHAR",
-            "default": "",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": false,
-              "unique": false,
-              "notNull": true
-            },
-            "ui": {
-              "active": false,
-              "pk": false,
-              "fk": false,
-              "pfk": false,
-              "widthName": 60,
-              "widthComment": 60,
-              "widthDataType": 60,
-              "widthDefault": 60
-            }
-          },
-          {
-            "id": "411f3d71-e1dc-4367-a385-a1edf1f4bc49",
-            "name": "thumbnailUrl",
-            "comment": "",
-            "dataType": "TEXT",
-            "default": "",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": false,
-              "unique": false,
-              "notNull": false
-            },
-            "ui": {
-              "active": false,
-              "pk": false,
-              "fk": false,
-              "pfk": false,
-              "widthName": 72.87588500976562,
-              "widthComment": 60,
-              "widthDataType": 60,
-              "widthDefault": 60
-            }
           }
         ],
         "ui": {
           "active": false,
           "left": 2063,
           "top": 552,
-          "zIndex": 12,
+          "zIndex": 30,
           "widthName": 60,
           "widthComment": 108.61288452148438
         },
@@ -1209,7 +1163,7 @@
       },
       {
         "id": "18ab0bbe-f634-4cc1-9573-66fa5a02b2a3",
-        "name": "Hashtag",
+        "name": "MusicHashtag",
         "comment": "해시태그",
         "columns": [
           {
@@ -1286,8 +1240,8 @@
           "active": false,
           "left": 2114,
           "top": 794,
-          "zIndex": 11,
-          "widthName": 60,
+          "zIndex": 26,
+          "widthName": 77.81587219238281,
           "widthComment": 60
         },
         "visible": true
@@ -1754,7 +1708,7 @@
           "columnIds": [
             "4cf90644-8fb3-4634-abe8-d19ccc01288d"
           ],
-          "x": 2060.7934,
+          "x": 2076.7934,
           "y": 468.6199,
           "direction": "left"
         },
@@ -1780,8 +1734,8 @@
           "columnIds": [
             "6d36f191-020b-427f-aa19-fca9b53ea4f1"
           ],
-          "x": 1744.2339650268555,
-          "y": 298.5784,
+          "x": 1670.687440979004,
+          "y": 328.5784,
           "direction": "top"
         },
         "end": {
@@ -1815,8 +1769,8 @@
           "columnIds": [
             "151107b9-e942-47df-97dd-8b5de5918ce9"
           ],
-          "x": 1744.2339650268555,
-          "y": 429.0784,
+          "x": 1670.687440979004,
+          "y": 459.0784,
           "direction": "bottom"
         },
         "constraintName": "fk_envelope_to_letter",
@@ -1884,8 +1838,8 @@
           "columnIds": [
             "a8ea215a-a2c2-4669-bba0-259843dd030c"
           ],
-          "x": 2242.937942504883,
-          "y": 703,
+          "x": 2238.0304641723633,
+          "y": 662,
           "direction": "bottom"
         },
         "end": {

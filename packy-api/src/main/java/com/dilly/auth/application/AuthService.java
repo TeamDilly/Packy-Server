@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dilly.admin.ProfileImage;
-import com.dilly.admin.ProfileImageReader;
+import com.dilly.admin.domain.ProfileImageReader;
 import com.dilly.auth.domain.KakaoAccountReader;
 import com.dilly.auth.domain.KakaoAccountWriter;
 import com.dilly.auth.dto.request.SignupRequest;
