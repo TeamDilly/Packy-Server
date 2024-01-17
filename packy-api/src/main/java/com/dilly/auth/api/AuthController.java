@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dilly.auth.application.AuthService;
 import com.dilly.auth.application.KakaoService;
 import com.dilly.auth.dto.request.SignupRequest;
+import com.dilly.auth.dto.response.SignInResponse;
 import com.dilly.global.response.DataResponseDto;
 import com.dilly.jwt.JwtService;
 import com.dilly.jwt.dto.JwtRequest;
@@ -41,7 +42,7 @@ public class AuthController {
 
 	@Operation(summary = "로그인")
 	@GetMapping("/sign-in/{provider}")
-	public DataResponseDto<JwtResponse> signIn(
+	public DataResponseDto<SignInResponse> signIn(
 		@PathVariable(name = "provider") String provider,
 		@RequestHeader("Authorization") String providerAccessToken) {
 		return DataResponseDto.from(authService.signIn(provider, providerAccessToken));

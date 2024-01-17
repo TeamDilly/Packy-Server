@@ -41,7 +41,7 @@ public class Member extends BaseTimeEntity {
 
 	Boolean marketingAgreement;
 
-	Boolean isWithdrawal = false;
+	Status status = Status.REGISTERED;
 
 	@Builder
 	public Member(Provider provider, String nickname, ProfileImage profileImg,
@@ -54,6 +54,6 @@ public class Member extends BaseTimeEntity {
 	}
 
 	public void withdraw() {
-		this.isWithdrawal = true;
+		this.status = Status.WITHDRAWAL;
 	}
 }
