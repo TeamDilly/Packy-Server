@@ -38,7 +38,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
 
       - name: Build with Gradle
-        run: ./gradlew -Pdev clean jib -x test
+        run: ./gradlew -Pdev clean jib
 
       - name: Get current time
         uses: 1466587594/get-current-time@v2
