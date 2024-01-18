@@ -12,10 +12,21 @@ repositories {
 dependencies {
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
+
+    // aws
+    implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.4.4'
+    implementation 'io.awspring.cloud:spring-cloud-starter-aws-secrets-manager-config:2.4.4'
 }
 
 test {
     useJUnitPlatform()
+}
+
+processResources.dependsOn('copySecret')
+tasks.register('copySecret', Copy) {
+    from '../packy-submodule/infra'
+    include '*'
+    into './src/main/resources'
 }
 
 bootJar.enabled = false
