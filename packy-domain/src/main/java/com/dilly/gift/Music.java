@@ -1,21 +1,25 @@
-package com.dilly.admin;
+package com.dilly.gift;
 
 import static jakarta.persistence.GenerationType.*;
+
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.Getter;
 
 @Entity
 @Getter
-public class LetterPaper {
+public class Music {
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 	private Long id;
 
-	private String envelopeUrl;
+	private String youtubeUrl;
 
-	private String writingPaperUrl;
+	@OneToMany(mappedBy = "music")
+	private List<MusicHashtag> hashtags;
 }

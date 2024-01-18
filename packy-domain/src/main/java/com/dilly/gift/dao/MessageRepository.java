@@ -1,8 +1,8 @@
-package com.dilly.admin.dao;
+package com.dilly.gift.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.dilly.admin.Message;
+import com.dilly.gift.Message;
 
 public interface MessageRepository extends JpaRepository<Message, Long> {
 }

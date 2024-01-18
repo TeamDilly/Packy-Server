@@ -1,4 +1,4 @@
-package com.dilly.admin;
+package com.dilly.gift;
 
 import static jakarta.persistence.GenerationType.*;
 
@@ -9,13 +9,11 @@ import lombok.Getter;
 
 @Entity
 @Getter
-public class Box {
+public class ProfileImage {
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 	private Long id;
 
-	private String topImgUrl;
-
-	private String bottomImgUrl;
+	private String imgUrl;
 }

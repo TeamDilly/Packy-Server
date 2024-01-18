@@ -1,17 +1,20 @@
-package com.dilly.admin.domain;
+package com.dilly.gift.domain;
 
 import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.dilly.admin.dao.LetterPaperRepository;
 import com.dilly.admin.dto.response.LetterImgResponse;
+import com.dilly.gift.LetterPaper;
+import com.dilly.gift.dao.LetterPaperRepository;
+import com.dilly.global.exception.entitynotfound.EntityNotFoundException;
+import com.dilly.global.response.ErrorCode;
 
 import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class LetterReader {
+public class LetterPaperReader {
 
 	private final LetterPaperRepository letterPaperRepository;
 
@@ -23,5 +26,11 @@ public class LetterReader {
 				.envelope(letterPaper.getEnvelopeUrl())
 				.build())
 			.toList();
+	}
+
+	public LetterPaper findById(Long id) {
+		return letterPaperRepository.findById(id).orElseThrow(
+			() -> new EntityNotFoundException(ErrorCode.LETTER_PAPER_NOT_FOUND)
+		);
 	}
 }

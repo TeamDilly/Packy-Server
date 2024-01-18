@@ -1,12 +1,12 @@
-package com.dilly.admin.domain;
+package com.dilly.member.domain;
 
 import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.dilly.admin.ProfileImage;
-import com.dilly.admin.dao.ProfileImageRepository;
 import com.dilly.admin.dto.response.ImgResponse;
+import com.dilly.gift.ProfileImage;
+import com.dilly.gift.dao.ProfileImageRepository;
 
 import lombok.RequiredArgsConstructor;
 

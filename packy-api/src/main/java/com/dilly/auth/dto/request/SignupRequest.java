@@ -1,6 +1,6 @@
 package com.dilly.auth.dto.request;
 
-import com.dilly.admin.ProfileImage;
+import com.dilly.gift.ProfileImage;
 import com.dilly.member.Member;
 import com.dilly.member.Provider;
 

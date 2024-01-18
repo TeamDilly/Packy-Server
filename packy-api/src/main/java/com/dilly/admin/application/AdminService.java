@@ -5,15 +5,15 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dilly.admin.domain.BoxReader;
-import com.dilly.admin.domain.LetterReader;
-import com.dilly.admin.domain.MessageReader;
-import com.dilly.admin.domain.MusicReader;
-import com.dilly.admin.domain.ProfileImageReader;
 import com.dilly.admin.dto.response.BoxImgResponse;
 import com.dilly.admin.dto.response.ImgResponse;
 import com.dilly.admin.dto.response.LetterImgResponse;
 import com.dilly.admin.dto.response.MusicResponse;
+import com.dilly.gift.domain.BoxReader;
+import com.dilly.gift.domain.LetterPaperReader;
+import com.dilly.gift.domain.MessageReader;
+import com.dilly.gift.domain.MusicReader;
+import com.dilly.member.domain.ProfileImageReader;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

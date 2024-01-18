@@ -1,11 +1,12 @@
-package com.dilly.admin.domain;
+package com.dilly.gift.domain;
 
 import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.dilly.admin.dao.BoxRepository;
 import com.dilly.admin.dto.response.BoxImgResponse;
+import com.dilly.gift.Box;
+import com.dilly.gift.dao.BoxRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,5 +25,9 @@ public class BoxReader {
 				.build()
 			)
 			.toList();
+	}
+
+	public Box findById(Long id) {
+		return boxRepository.findById(id).orElseThrow();
 	}
 }

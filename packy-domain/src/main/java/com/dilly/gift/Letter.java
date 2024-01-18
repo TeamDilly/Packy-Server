@@ -1,4 +1,4 @@
-package com.dilly.admin;
+package com.dilly.gift;
 
 import static jakarta.persistence.GenerationType.*;
 
@@ -7,18 +7,20 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import lombok.Builder;
 import lombok.Getter;
 
 @Entity
 @Getter
-public class MusicHashtag {
+@Builder
+public class Letter {
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 	private Long id;
 
-	private String hashtag;
+	private String content;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	private Music music;
+	private LetterPaper letterPaper;
 }
