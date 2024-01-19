@@ -19,6 +19,9 @@ spring:
       mode: always
       data-locations=classpath: classpath:data.sql;
 
+  flyway:
+    enabled: false
+    
 security:
   oauth2:
     provider:
