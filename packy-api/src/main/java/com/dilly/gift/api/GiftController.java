@@ -10,6 +10,7 @@ import com.dilly.gift.dto.request.GiftBoxRequest;
 import com.dilly.gift.dto.response.GiftBoxResponse;
 import com.dilly.global.response.DataResponseDto;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
@@ -21,6 +22,7 @@ public class GiftController {
 
 	private final GiftService giftService;
 
+	@Operation(summary = "선물박스 생성", description = "giftType은 photo 또는 link")
 	@PostMapping("")
 	public DataResponseDto<GiftBoxResponse> createGiftBox(
 		@RequestBody GiftBoxRequest giftBoxRequest

@@ -30,15 +30,21 @@ subprojects {
     apply plugin: 'io.spring.dependency-management'
 
     dependencies {
+        // basic
         implementation 'org.springframework.boot:spring-boot-starter'
 
+        // lombok
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok'
 
         implementation 'com.fasterxml.jackson.core:jackson-databind'
 
+        // test
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
         testRuntimeOnly 'com.h2database:h2'
+
+        // swagger
+        implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
     }
 }
 

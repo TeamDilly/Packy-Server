@@ -19,6 +19,7 @@ import com.dilly.jwt.dto.JwtRequest;
 import com.dilly.jwt.dto.JwtResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
@@ -35,15 +36,15 @@ public class AuthController {
 	@Operation(summary = "회원 가입", description = "provider는 kakao 또는 apple")
 	@PostMapping("/sign-up")
 	public DataResponseDto<JwtResponse> signUp(
-		@RequestHeader("Authorization") String providerAccessToken,
+		@RequestHeader("Authorization") @Schema(description = "Bearer prefix 제외해주세요") String providerAccessToken,
 		@RequestBody SignupRequest signupRequest) {
 		return DataResponseDto.from(authService.signUp(providerAccessToken, signupRequest));
 	}
 
-	@Operation(summary = "로그인")
+	@Operation(summary = "로그인", description = "status는 NOT_REGISTERED, REGISTERED, WITHDRAWAL, BLACKLIST")
 	@GetMapping("/sign-in/{provider}")
 	public DataResponseDto<SignInResponse> signIn(
-		@PathVariable(name = "provider") String provider,
+		@PathVariable(name = "provider") @Schema(description = "kakao 또는 apple") String provider,
 		@RequestHeader("Authorization") String providerAccessToken) {
 		return DataResponseDto.from(authService.signIn(provider, providerAccessToken));
 	}
