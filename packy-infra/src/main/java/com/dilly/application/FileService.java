@@ -2,7 +2,6 @@ package com.dilly.application;
 
 import java.net.URL;
 import java.util.Date;
-import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +12,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.Headers;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
+import com.dilly.dto.request.FileRequest;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,7 +25,7 @@ public class FileService {
 
 	private final AmazonS3 amazonS3;
 
-	public Map<String, String> getPresignedUrl(String prefix, String fileName) {
+	public FileRequest getPresignedUrl(String prefix, String fileName) {
 		if (!prefix.isEmpty()) {
 			fileName = createPath(prefix, fileName);
 		}
@@ -33,7 +33,9 @@ public class FileService {
 		GeneratePresignedUrlRequest generatePresignedUrlRequest = getGeneratePresignedUrlRequest(bucket, fileName);
 		URL url = amazonS3.generatePresignedUrl(generatePresignedUrlRequest);
 
-		return Map.of("url", url.toString());
+		return FileRequest.builder()
+			.url(url.toString())
+			.build();
 	}
 
 	private GeneratePresignedUrlRequest getGeneratePresignedUrlRequest(String bucket, String fileName) {

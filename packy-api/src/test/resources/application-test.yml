@@ -1,2 +1,45 @@
 jwt:
   secret: 'testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest'
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:test
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    database-platform: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: true
+
+  sql:
+    init:
+      mode: always
+      data-locations=classpath: classpath:data.sql;
+
+security:
+  oauth2:
+    provider:
+      kakao:
+        authorization-uri: test
+        token-uri: test
+        user-info-uri: test
+        unlink-uri: test
+        client-id: test
+        admin-key: test
+      apple:
+        team-id: test
+        client-id: test
+        key-id: test
+        private-key: test
+
+cloud:
+  aws:
+    region: test
+    credentials:
+      access-key: test
+      secret-key: test
+  s3:
+    bucket: test

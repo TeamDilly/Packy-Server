@@ -40,9 +40,6 @@ dependencies {
     // json parser
     implementation 'com.google.code.gson:gson:2.8.9'
 
-    // swagger
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
-
     // logback
     implementation 'com.github.maricn:logback-slack-appender:1.6.1'
 }
@@ -54,8 +51,15 @@ test {
 processResources.dependsOn('copySecret')
 tasks.register('copySecret', Copy) {
     from '../packy-submodule/api'
-    include '*'
+    include '*.yml, *.p8'
     into './src/main/resources'
+}
+
+processTestResources.dependsOn('copySql')
+tasks.register('copySql', Copy) {
+    from '../packy-submodule/api'
+    include '*.sql'
+    into './src/test/resources'
 }
 
 if (project.hasProperty('dev')) {

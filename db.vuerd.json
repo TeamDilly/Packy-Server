@@ -3,8 +3,8 @@
     "version": "2.2.11",
     "width": 2500,
     "height": 2500,
-    "scrollTop": -251,
-    "scrollLeft": -1339,
+    "scrollTop": -102.33333333333337,
+    "scrollLeft": -1192.3333333333335,
     "zoomLevel": 0.8,
     "show": {
       "tableComment": true,
@@ -272,7 +272,7 @@
         "columns": [
           {
             "id": "211e72fa-78df-474c-8132-87cdc1236252",
-            "name": "memberId",
+            "name": "id",
             "comment": "",
             "dataType": "BIGINT",
             "default": "",
@@ -284,9 +284,9 @@
             },
             "ui": {
               "active": false,
-              "pk": false,
+              "pk": true,
               "fk": false,
-              "pfk": true,
+              "pfk": false,
               "widthName": 60,
               "widthComment": 60,
               "widthDataType": 60,
@@ -294,14 +294,60 @@
             }
           },
           {
-            "id": "6ff0e88b-a982-44ca-a2f9-ead3899b18ab",
-            "name": "presentId",
+            "id": "ea8dab43-5f7f-451f-8a70-09a2c47aceb4",
+            "name": "memberId",
             "comment": "",
-            "dataType": "VARCHAR",
+            "dataType": "BIGINT",
             "default": "",
             "option": {
               "autoIncrement": false,
-              "primaryKey": true,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            }
+          },
+          {
+            "id": "7cbf394a-dd2e-4f10-946b-4418eff80f7f",
+            "name": "giftBoxId",
+            "comment": "UUID",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            }
+          },
+          {
+            "id": "5a019bc2-20ee-46ce-8b44-60e327905ab9",
+            "name": "isSender",
+            "comment": "",
+            "dataType": "TINYINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
               "unique": false,
               "notNull": true
             },
@@ -309,7 +355,7 @@
               "active": false,
               "pk": false,
               "fk": false,
-              "pfk": true,
+              "pfk": false,
               "widthName": 60,
               "widthComment": 60,
               "widthDataType": 60,
@@ -321,7 +367,7 @@
           "active": false,
           "left": 1113.1054,
           "top": 56.7647,
-          "zIndex": 9,
+          "zIndex": 16,
           "widthName": 67.41592407226562,
           "widthComment": 85.34294128417969
         },
@@ -406,7 +452,7 @@
           "active": false,
           "left": 544.329,
           "top": 440.1912,
-          "zIndex": 14,
+          "zIndex": 4,
           "widthName": 60,
           "widthComment": 60
         },
@@ -414,14 +460,14 @@
       },
       {
         "id": "47966f5e-3bfe-4d71-91d6-e0003848c932",
-        "name": "Gift",
+        "name": "GiftBox",
         "comment": "선물박스",
         "columns": [
           {
             "id": "1f0095df-47d9-44ee-9992-1d5cf1102126",
             "name": "id",
             "comment": "UUID",
-            "dataType": "VARCHAR",
+            "dataType": "BIGINT",
             "default": "",
             "option": {
               "autoIncrement": false,
@@ -432,6 +478,29 @@
             "ui": {
               "active": false,
               "pk": true,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            }
+          },
+          {
+            "id": "4e16cace-2815-497f-b773-3e430d7ddc7b",
+            "name": "uuid",
+            "comment": "",
+            "dataType": "VARCHAR",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
               "fk": false,
               "pfk": false,
               "widthName": 60,
@@ -533,6 +602,52 @@
             }
           },
           {
+            "id": "a698d729-4e16-4df0-badf-9f400e69e257",
+            "name": "giftType",
+            "comment": "photo, link",
+            "dataType": "VARCHAR",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            }
+          },
+          {
+            "id": "d07f885a-1916-4dd1-a8f7-0a1a68f72a43",
+            "name": "giftMessage",
+            "comment": "",
+            "dataType": "VARCHAR",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 67.18190002441406,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            }
+          },
+          {
             "id": "8cc40b5b-dda7-4f0c-805f-c6ffeadf2424",
             "name": "createdAt",
             "comment": "",
@@ -583,7 +698,7 @@
           "active": false,
           "left": 1536.517,
           "top": 37.8357,
-          "zIndex": 8,
+          "zIndex": 14,
           "widthName": 60,
           "widthComment": 60
         },
@@ -691,7 +806,7 @@
           "active": false,
           "left": 2049.3102,
           "top": 205.9783,
-          "zIndex": 7,
+          "zIndex": 2,
           "widthName": 60,
           "widthComment": 60
         },
@@ -753,7 +868,7 @@
           "active": false,
           "left": 2076.7934,
           "top": 413.6199,
-          "zIndex": 31,
+          "zIndex": 9,
           "widthName": 60,
           "widthComment": 60
         },
@@ -836,9 +951,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 1490.587,
-          "top": 328.5784,
-          "zIndex": 21,
+          "left": 1498.587,
+          "top": 413.5784,
+          "zIndex": 13,
           "widthName": 60,
           "widthComment": 60
         },
@@ -921,9 +1036,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 1555.5056,
-          "top": 589.6032,
-          "zIndex": 4,
+          "left": 1563.5056,
+          "top": 650.6032,
+          "zIndex": 12,
           "widthName": 66.36289978027344,
           "widthComment": 60
         },
@@ -959,9 +1074,9 @@
           },
           {
             "id": "de69f269-72d0-403c-aa08-97b12491cdfe",
-            "name": "presentId",
+            "name": "giftBoxId",
             "comment": "UUID",
-            "dataType": "VARCHAR",
+            "dataType": "BIGINT",
             "default": "",
             "option": {
               "autoIncrement": false,
@@ -1025,13 +1140,36 @@
               "widthDataType": 60,
               "widthDefault": 60
             }
+          },
+          {
+            "id": "9965d07a-0195-4944-be71-1eeab5b5ecf0",
+            "name": "sequence",
+            "comment": "",
+            "dataType": "INT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            }
           }
         ],
         "ui": {
-          "active": false,
+          "active": true,
           "left": 2052.7251,
           "top": 27.9817,
-          "zIndex": 1,
+          "zIndex": 23,
           "widthName": 60,
           "widthComment": 60
         },
@@ -1093,7 +1231,7 @@
           "active": false,
           "left": 93.5,
           "top": 63,
-          "zIndex": 6,
+          "zIndex": 1,
           "widthName": 60,
           "widthComment": 72.88896179199219
         },
@@ -1155,7 +1293,7 @@
           "active": false,
           "left": 2063,
           "top": 552,
-          "zIndex": 30,
+          "zIndex": 8,
           "widthName": 60,
           "widthComment": 108.61288452148438
         },
@@ -1240,7 +1378,7 @@
           "active": false,
           "left": 2114,
           "top": 794,
-          "zIndex": 26,
+          "zIndex": 7,
           "widthName": 77.81587219238281,
           "widthComment": 60
         },
@@ -1371,7 +1509,7 @@
           "active": false,
           "left": 710.3333,
           "top": 748.3614,
-          "zIndex": 15,
+          "zIndex": 5,
           "widthName": 66.44088745117188,
           "widthComment": 60
         },
@@ -1479,7 +1617,7 @@
           "active": false,
           "left": 229,
           "top": 619,
-          "zIndex": 13,
+          "zIndex": 3,
           "widthName": 101.15083312988281,
           "widthComment": 63.840972900390625
         },
@@ -1541,7 +1679,7 @@
           "active": false,
           "left": 639.1953,
           "top": 1092.6945,
-          "zIndex": 16,
+          "zIndex": 6,
           "widthName": 89.56784057617188,
           "widthComment": 60
         },
@@ -1557,9 +1695,9 @@
         "value": "편지지 디자인 + 편지봉투 디자인 한 세트!",
         "ui": {
           "active": false,
-          "left": 1557.3888888888846,
-          "top": 734.888888888889,
-          "zIndex": 5,
+          "left": 1562.3888888888846,
+          "top": 809.888888888889,
+          "zIndex": 11,
           "width": 255,
           "height": 100
         }
@@ -1568,32 +1706,6 @@
   },
   "relationship": {
     "relationships": [
-      {
-        "id": "c8c5dde6-7b06-418a-ae55-ee0a2e5c7cdd",
-        "identification": true,
-        "relationshipType": "ZeroN",
-        "startRelationshipType": "Dash",
-        "start": {
-          "tableId": "cd084f39-b9f7-4756-b509-21e56852208d",
-          "columnIds": [
-            "e425f403-77ff-4332-acac-340f8cb521aa"
-          ],
-          "x": 998.3785625,
-          "y": 160.7714,
-          "direction": "right"
-        },
-        "end": {
-          "tableId": "70414db4-a90c-4b5d-bc4f-92b274a66f74",
-          "columnIds": [
-            "211e72fa-78df-474c-8132-87cdc1236252"
-          ],
-          "x": 1113.1054,
-          "y": 111.7647,
-          "direction": "left"
-        },
-        "constraintName": "fk_member_to_present",
-        "visible": true
-      },
       {
         "id": "8375c2c9-fa1f-4caf-83ce-0092aa313c3e",
         "identification": false,
@@ -1647,32 +1759,6 @@
         "visible": true
       },
       {
-        "id": "876cc8bb-fbc7-4c51-bf39-8b4421aeb17d",
-        "identification": true,
-        "relationshipType": "OneN",
-        "startRelationshipType": "Dash",
-        "start": {
-          "tableId": "47966f5e-3bfe-4d71-91d6-e0003848c932",
-          "columnIds": [
-            "1f0095df-47d9-44ee-9992-1d5cf1102126"
-          ],
-          "x": 1536.517,
-          "y": 144.0857,
-          "direction": "left"
-        },
-        "end": {
-          "tableId": "70414db4-a90c-4b5d-bc4f-92b274a66f74",
-          "columnIds": [
-            "6ff0e88b-a982-44ca-a2f9-ead3899b18ab"
-          ],
-          "x": 1460.1054,
-          "y": 111.7647,
-          "direction": "right"
-        },
-        "constraintName": "fk_present_to_memberpresent",
-        "visible": true
-      },
-      {
         "id": "8f458e2c-14ea-4e0e-b4b7-594a3d93d581",
         "identification": false,
         "relationshipType": "OneN",
@@ -1717,8 +1803,8 @@
           "columnIds": [
             "19d124b6-24fb-4347-a938-d8551da12a5a"
           ],
-          "x": 1954.8258531494141,
-          "y": 197.2107,
+          "x": 1958.9468248291016,
+          "y": 243.3357,
           "direction": "right"
         },
         "constraintName": "fk_message_to_present",
@@ -1734,8 +1820,8 @@
           "columnIds": [
             "6d36f191-020b-427f-aa19-fca9b53ea4f1"
           ],
-          "x": 1670.687440979004,
-          "y": 328.5784,
+          "x": 1678.687440979004,
+          "y": 413.5784,
           "direction": "top"
         },
         "end": {
@@ -1743,8 +1829,8 @@
           "columnIds": [
             "3f89ecfc-e228-4223-b30d-35558abba959"
           ],
-          "x": 1745.671426574707,
-          "y": 250.3357,
+          "x": 1747.7319124145508,
+          "y": 311.8357,
           "direction": "bottom"
         },
         "constraintName": "fk_letter_to_present",
@@ -1760,8 +1846,8 @@
           "columnIds": [
             "9d7e1a3b-bf8e-4e38-a95f-658b7957cc82"
           ],
-          "x": 1742.5870208984375,
-          "y": 589.6032,
+          "x": 1750.5870208984375,
+          "y": 650.6032,
           "direction": "top"
         },
         "end": {
@@ -1769,8 +1855,8 @@
           "columnIds": [
             "151107b9-e942-47df-97dd-8b5de5918ce9"
           ],
-          "x": 1670.687440979004,
-          "y": 459.0784,
+          "x": 1678.687440979004,
+          "y": 544.0784,
           "direction": "bottom"
         },
         "constraintName": "fk_envelope_to_letter",
@@ -1786,8 +1872,8 @@
           "columnIds": [
             "1f0095df-47d9-44ee-9992-1d5cf1102126"
           ],
-          "x": 1954.8258531494141,
-          "y": 90.9607,
+          "x": 1958.9468248291016,
+          "y": 106.3357,
           "direction": "right"
         },
         "end": {
@@ -1796,7 +1882,7 @@
             "de69f269-72d0-403c-aa08-97b12491cdfe"
           ],
           "x": 2052.7251,
-          "y": 103.4817,
+          "y": 113.7317,
           "direction": "left"
         },
         "constraintName": "fk_present_to_photo",
@@ -1930,6 +2016,58 @@
           "direction": "bottom"
         },
         "constraintName": "fk_anniversaryicon_to_anniversary",
+        "visible": true
+      },
+      {
+        "id": "859a1e9b-bd09-489a-9c34-985d7e8ba981",
+        "identification": false,
+        "relationshipType": "ZeroN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "cd084f39-b9f7-4756-b509-21e56852208d",
+          "columnIds": [
+            "e425f403-77ff-4332-acac-340f8cb521aa"
+          ],
+          "x": 998.3785625,
+          "y": 160.7714,
+          "direction": "right"
+        },
+        "end": {
+          "tableId": "70414db4-a90c-4b5d-bc4f-92b274a66f74",
+          "columnIds": [
+            "ea8dab43-5f7f-451f-8a70-09a2c47aceb4"
+          ],
+          "x": 1113.1054,
+          "y": 132.2647,
+          "direction": "left"
+        },
+        "constraintName": "fk_member_to_membergift",
+        "visible": true
+      },
+      {
+        "id": "03c0b874-df20-4922-b484-7d87083a73f0",
+        "identification": false,
+        "relationshipType": "ZeroN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "47966f5e-3bfe-4d71-91d6-e0003848c932",
+          "columnIds": [
+            "1f0095df-47d9-44ee-9992-1d5cf1102126"
+          ],
+          "x": 1536.517,
+          "y": 174.8357,
+          "direction": "left"
+        },
+        "end": {
+          "tableId": "70414db4-a90c-4b5d-bc4f-92b274a66f74",
+          "columnIds": [
+            "7cbf394a-dd2e-4f10-946b-4418eff80f7f"
+          ],
+          "x": 1460.1054,
+          "y": 132.2647,
+          "direction": "right"
+        },
+        "constraintName": "fk_gift_to_membergift",
         "visible": true
       }
     ]

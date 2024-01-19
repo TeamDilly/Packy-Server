@@ -7,14 +7,13 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dilly.admin.ProfileImage;
-import com.dilly.admin.domain.ProfileImageReader;
 import com.dilly.auth.domain.KakaoAccountReader;
 import com.dilly.auth.domain.KakaoAccountWriter;
 import com.dilly.auth.dto.request.SignupRequest;
 import com.dilly.auth.dto.response.SignInResponse;
 import com.dilly.auth.model.KakaoResource;
-import com.dilly.global.exception.NotSupportedException;
+import com.dilly.gift.ProfileImage;
+import com.dilly.global.exception.UnsupportedException;
 import com.dilly.global.response.ErrorCode;
 import com.dilly.global.utils.SecurityUtil;
 import com.dilly.jwt.JwtService;
@@ -25,6 +24,7 @@ import com.dilly.member.Provider;
 import com.dilly.member.Status;
 import com.dilly.member.domain.MemberReader;
 import com.dilly.member.domain.MemberWriter;
+import com.dilly.member.domain.ProfileImageReader;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -63,7 +63,7 @@ public class AuthService {
 				provider = APPLE;
 			}
 
-			default -> throw new NotSupportedException(ErrorCode.NOT_SUPPORTED_LOGIN_TYPE);
+			default -> throw new UnsupportedException(ErrorCode.UNSUPPORTED_LOGIN_TYPE);
 		}
 
 		return jwtService.issueJwt(member);
@@ -77,7 +77,7 @@ public class AuthService {
 				member = kakaoAccountReader.getMemberById(kakaoResource.getId());
 			}
 
-			default -> throw new NotSupportedException(ErrorCode.NOT_SUPPORTED_LOGIN_TYPE);
+			default -> throw new UnsupportedException(ErrorCode.UNSUPPORTED_LOGIN_TYPE);
 		}
 
 		SignInResponse signInResponse;
@@ -102,7 +102,7 @@ public class AuthService {
 
 		switch (member.getProvider()) {
 			case KAKAO -> kakaoService.unlinkKakaoAccount(member);
-			default -> throw new NotSupportedException(ErrorCode.NOT_SUPPORTED_LOGIN_TYPE);
+			default -> throw new UnsupportedException(ErrorCode.UNSUPPORTED_LOGIN_TYPE);
 		}
 
 		jwtWriter.delete(memberId);
