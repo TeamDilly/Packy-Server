@@ -27,7 +27,7 @@ public class AdminService {
 	private final ProfileImageReader profileImageReader;
 	private final BoxReader boxReader;
 	private final MessageReader messageReader;
-	private final LetterReader letterReader;
+	private final LetterPaperReader letterPaperReader;
 	private final MusicReader musicReader;
 
 	public List<ImgResponse> getProfiles() {
@@ -43,7 +43,7 @@ public class AdminService {
 	}
 
 	public List<LetterImgResponse> getLetters() {
-		return letterReader.findAll();
+		return letterPaperReader.findAll();
 	}
 
 	public List<MusicResponse> getMusics() {

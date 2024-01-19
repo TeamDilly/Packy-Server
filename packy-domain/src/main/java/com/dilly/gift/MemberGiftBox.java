@@ -2,6 +2,8 @@ package com.dilly.gift;
 
 import static jakarta.persistence.GenerationType.*;
 
+import com.dilly.member.Member;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -13,18 +15,21 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Getter
 @Builder
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Letter {
+public class MemberGiftBox {
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 	private Long id;
 
-	private String content;
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Member member;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	private LetterPaper letterPaper;
+	private GiftBox giftBox;
+
+	private Boolean isSender;
 }

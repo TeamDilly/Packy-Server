@@ -1,11 +1,5 @@
 package com.dilly.global.config;
 
-import com.dilly.jwt.JwtAccessDeniedHandler;
-import com.dilly.jwt.JwtAuthenticationEntryPoint;
-import com.dilly.jwt.JwtFilter;
-import com.dilly.jwt.TokenProvider;
-import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -17,6 +11,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.dilly.jwt.JwtAccessDeniedHandler;
+import com.dilly.jwt.JwtAuthenticationEntryPoint;
+import com.dilly.jwt.JwtFilter;
+import com.dilly.jwt.TokenProvider;
+
+import lombok.RequiredArgsConstructor;
 
 @Configuration
 @RequiredArgsConstructor

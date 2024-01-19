@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 import com.dilly.admin.dto.response.BoxImgResponse;
 import com.dilly.gift.Box;
 import com.dilly.gift.dao.BoxRepository;
+import com.dilly.global.exception.entitynotfound.EntityNotFoundException;
+import com.dilly.global.response.ErrorCode;
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,6 +30,6 @@ public class BoxReader {
 	}
 
 	public Box findById(Long id) {
-		return boxRepository.findById(id).orElseThrow();
+		return boxRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(ErrorCode.BOX_NOT_FOUND));
 	}
 }
