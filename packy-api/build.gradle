@@ -54,8 +54,15 @@ test {
 processResources.dependsOn('copySecret')
 tasks.register('copySecret', Copy) {
     from '../packy-submodule/api'
-    include '*'
+    include '*.yml, *.p8'
     into './src/main/resources'
+}
+
+processTestResources.dependsOn('copySql')
+tasks.register('copySql', Copy) {
+    from '../packy-submodule/api'
+    include '*.sql'
+    into './src/test/resources'
 }
 
 if (project.hasProperty('dev')) {
