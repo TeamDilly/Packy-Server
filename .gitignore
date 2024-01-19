@@ -36,9 +36,11 @@ out/
 ### VS Code ###
 .vscode/
 
-### application.yml ###
+### Secrets Managing wit submodule ###
 packy-api/src/main/resources/*.yml
 packy-api/src/main/resources/*.p8
+packy-api/src/main/resources/*.properties
+
 packy-api/src/test/resources/*.sql
 packy-domain/src/main/resources/*.yml
 packy-domain/src/main/resources/*.sql
