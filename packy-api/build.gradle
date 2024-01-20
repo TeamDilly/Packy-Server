@@ -45,6 +45,10 @@ dependencies {
 
     // sentry
     implementation 'io.sentry:sentry-logback:6.26.0'
+
+    // apple login
+    implementation 'org.bouncycastle:bcprov-jdk15on:1.69'
+    implementation 'org.bouncycastle:bcpkix-jdk14:1.72'
 }
 
 test {

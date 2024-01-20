@@ -7,11 +7,16 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dilly.auth.AppleAccount;
 import com.dilly.auth.KakaoAccount;
+import com.dilly.auth.domain.AppleAccountReader;
+import com.dilly.auth.domain.AppleAccountWriter;
 import com.dilly.auth.domain.KakaoAccountReader;
 import com.dilly.auth.domain.KakaoAccountWriter;
 import com.dilly.auth.dto.request.SignupRequest;
 import com.dilly.auth.dto.response.SignInResponse;
+import com.dilly.auth.model.AppleAccountInfo;
+import com.dilly.auth.model.AppleToken;
 import com.dilly.auth.model.KakaoResource;
 import com.dilly.gift.ProfileImage;
 import com.dilly.global.exception.UnsupportedException;
@@ -40,11 +45,14 @@ public class AuthService {
 
 	private final JwtService jwtService;
 	private final KakaoService kakaoService;
+	private final AppleService appleService;
 	private final MemberReader memberReader;
 	private final MemberWriter memberWriter;
 	private final ProfileImageReader profileImageReader;
 	private final KakaoAccountReader kakaoAccountReader;
 	private final KakaoAccountWriter kakaoAccountWriter;
+	private final AppleAccountReader appleAccountReader;
+	private final AppleAccountWriter appleAccountWriter;
 	private final JwtReader jwtReader;
 	private final JwtWriter jwtWriter;
 
@@ -65,6 +73,17 @@ public class AuthService {
 
 			case "apple" -> {
 				provider = APPLE;
+				AppleToken appleToken = appleService.getAppleToken(providerAccessToken);
+				AppleAccountInfo appleAccountInfo = appleService.getAppleAccountInfo(appleToken.idToken());
+				appleAccountReader.isAppleAccountPresent(appleAccountInfo.sub());
+
+				member = memberWriter.save(signupRequest.toEntity(provider, profileImage));
+				appleAccountWriter.save(AppleAccount.builder()
+					.id(appleAccountInfo.sub())
+					.member(member)
+					.refreshToken(appleToken.refreshToken())
+					.build()
+				);
 			}
 
 			default -> throw new UnsupportedException(ErrorCode.UNSUPPORTED_LOGIN_TYPE);
@@ -110,7 +129,7 @@ public class AuthService {
 				kakaoService.unlinkKakaoAccount(kakaoAccount);
 				kakaoAccountWriter.delete(kakaoAccount);
 			}
-			
+
 			default -> throw new UnsupportedException(ErrorCode.UNSUPPORTED_LOGIN_TYPE);
 		}
 
