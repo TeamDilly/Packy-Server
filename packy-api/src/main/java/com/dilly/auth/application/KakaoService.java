@@ -79,10 +79,11 @@ public class KakaoService {
 
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
 			StringBuilder sb = new StringBuilder();
-			sb.append("grant_type=authorization_code");
-			sb.append("&client_id=" + KAKAO_CLIENT_ID);
-			sb.append("&redirect_uri=http://127.0.0.1:9000/kakaocallback");
-			sb.append("&code=" + code);
+			sb.append("grant_type=authorization_code")
+				.append("&client_id=")
+				.append(KAKAO_CLIENT_ID)
+				.append("&redirect_uri=http://127.0.0.1:9000/kakaocallback")
+				.append("&code=" + code);
 			bw.write(sb.toString());
 			bw.flush();
 
