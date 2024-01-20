@@ -43,9 +43,9 @@ public class KakaoService {
 	private String kakaoClientId;
 	@Value("${security.oauth2.provider.kakao.admin-key}")
 	private String kakaoAdminKey;
-	private final String bearerPrefix = "Bearer ";
 
 	public KakaoResource getKaKaoAccount(String kakaoAccessToken) {
+		String bearerPrefix = "Bearer ";
 		WebClient webClient = WebClient.builder()
 			.baseUrl(kakaoUserInfoUri)
 			.defaultHeader(HttpHeaders.AUTHORIZATION, bearerPrefix + kakaoAccessToken)
