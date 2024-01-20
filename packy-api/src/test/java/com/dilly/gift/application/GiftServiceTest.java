@@ -46,7 +46,7 @@ class GiftServiceTest extends IntegrationTestSupport {
 		// when
 		GiftBoxResponse giftBoxResponse = giftService.createGiftBox(giftBoxRequest);
 		GiftBox giftBox = giftBoxRepository.findTopByOrderByIdDesc();
-		List<Photo> photos = photoRepository.findAllByGiftBoxId(giftBox.getId());
+		List<Photo> photos = photoRepository.findAllByGiftBox(giftBox);
 		MemberGiftBox memberGiftBox = memberGiftBoxRepository.findByMemberIdAndGiftBoxId(memberId, giftBox.getId());
 
 		// then
