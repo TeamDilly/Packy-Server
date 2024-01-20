@@ -100,6 +100,12 @@ public class AuthService {
 				member = kakaoAccountReader.getMemberById(kakaoResource.getId());
 			}
 
+			case "apple" -> {
+				AppleToken appleToken = appleService.getAppleToken(providerAccessToken);
+				AppleAccountInfo appleAccountInfo = appleService.getAppleAccountInfo(appleToken.idToken());
+				member = appleAccountReader.getMemberById(appleAccountInfo.sub());
+			}
+
 			default -> throw new UnsupportedException(ErrorCode.UNSUPPORTED_LOGIN_TYPE);
 		}
 

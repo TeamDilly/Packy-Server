@@ -18,4 +18,7 @@ public class AppleAccountReader {
 			throw new MemberAlreadyExistException();
 		}
 	}
+	public Optional<Member> getMemberById(String sub) {
+		return appleAccountRepository.findById(sub).map(AppleAccount::getMember);
+	}
 }
