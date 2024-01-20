@@ -29,6 +29,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.dilly.auth.AppleAccount;
 import com.dilly.auth.model.AppleAccountInfo;
 import com.dilly.auth.model.ApplePublicKey;
 import com.dilly.auth.model.ApplePublicKey.Key;
@@ -56,6 +57,8 @@ public class AppleService {
 	private String APPLE_TOKEN_URI;
 	@Value("${security.oauth2.provider.apple.key-uri}")
 	private String APPLE_KEY_URI;
+	@Value("${security.oauth2.provider.apple.revoke-uri}")
+	private String APPLE_REVOKE_URI;
 	@Value("${spring.security.oauth2.provider.apple.team-id}")
 	private String appleTeamId;
 	@Value("${spring.security.oauth2.provider.apple.client-id}")
@@ -161,6 +164,31 @@ public class AppleService {
 			PrivateKeyInfo object = (PrivateKeyInfo)pemParser.readObject();
 
 			return converter.getPrivateKey(object);
+		} catch (Exception e) {
+			throw new InternalServerException(ErrorCode.APPLE_SERVER_ERROR);
+		}
+	}
+
+	public void revokeAppleAccount(AppleAccount appleAccount) {
+		try {
+			String appleRefreshToken = appleAccount.getRefreshToken();
+
+			WebClient webClient = WebClient.builder()
+				.baseUrl(APPLE_REVOKE_URI)
+				.build();
+
+			MultiValueMap<String, String> bodyData = new LinkedMultiValueMap<>();
+			bodyData.add("client_id", appleClientId);
+			bodyData.add("client_secret", getAppleClientSecret());
+			bodyData.add("token", appleRefreshToken);
+			bodyData.add("token_type_hint", "refresh_token");
+
+			webClient.post()
+				.body(BodyInserters.fromFormData(bodyData))
+				.retrieve()
+				.bodyToMono(Void.class)
+				.block();
+
 		} catch (Exception e) {
 			throw new InternalServerException(ErrorCode.APPLE_SERVER_ERROR);
 		}

@@ -136,6 +136,12 @@ public class AuthService {
 				kakaoAccountWriter.delete(kakaoAccount);
 			}
 
+			case APPLE -> {
+				AppleAccount appleAccount = appleAccountReader.findByMember(member);
+				appleService.revokeAppleAccount(appleAccount);
+				appleAccountWriter.delete(appleAccount);
+			}
+
 			default -> throw new UnsupportedException(ErrorCode.UNSUPPORTED_LOGIN_TYPE);
 		}
 

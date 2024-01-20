@@ -16,4 +16,8 @@ public class AppleAccountWriter {
 	public void save(AppleAccount appleAccount) {
 		appleAccountRepository.save(appleAccount);
 	}
+
+	public void delete(AppleAccount appleAccount) {
+		appleAccountRepository.delete(appleAccount);
+	}
 }
