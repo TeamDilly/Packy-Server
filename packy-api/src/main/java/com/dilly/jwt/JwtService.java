@@ -11,6 +11,7 @@ import com.dilly.jwt.domain.JwtWriter;
 import com.dilly.jwt.dto.JwtRequest;
 import com.dilly.jwt.dto.JwtResponse;
 import com.dilly.member.Member;
+import com.dilly.member.domain.MemberReader;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,17 +25,21 @@ public class JwtService {
 	private final TokenProvider tokenProvider;
 	private final JwtReader jwtReader;
 	private final JwtWriter jwtWriter;
+	private final MemberReader memberReader;
 
 	public JwtResponse issueJwt(Member member) {
-		jwtWriter.delete(member.getId());
-
 		JwtResponse jwtResponse = tokenProvider.generateJwt(member);
-		RefreshToken refreshToken = RefreshToken.builder()
-			.refreshToken(jwtResponse.refreshToken())
-			.member(member)
-			.build();
 
-		jwtWriter.save(refreshToken);
+		if (jwtWriter.existsByMember(member)) { // 로그인
+			RefreshToken refreshToken = jwtReader.findByMember(member);
+			refreshToken.update(jwtResponse.refreshToken());
+		} else { // 회원가입
+			RefreshToken refreshToken = RefreshToken.builder()
+				.refreshToken(jwtResponse.refreshToken())
+				.member(member)
+				.build();
+			jwtWriter.save(refreshToken);
+		}
 
 		return jwtResponse;
 	}
@@ -47,21 +52,15 @@ public class JwtService {
 		Authentication authentication = tokenProvider.getAuthentication(jwtRequest.accessToken());
 		Long memberId = Long.parseLong(authentication.getName());
 
-		RefreshToken refreshToken = jwtReader.findByMemberId(memberId);
+		Member member = memberReader.findById(memberId);
+		RefreshToken refreshToken = jwtReader.findByMember(member);
 		if (!refreshToken.getRefreshToken().equals(jwtRequest.refreshToken())) {
 			throw new AuthorizationFailedException(ErrorCode.INVALID_REFRESH_TOKEN);
 		}
 
-		jwtWriter.delete(memberId);
-
-		Member member = refreshToken.getMember();
 		JwtResponse jwtResponse = tokenProvider.generateJwt(member);
 
-		RefreshToken newRefreshToken = RefreshToken.builder()
-			.refreshToken(jwtResponse.refreshToken())
-			.member(member)
-			.build();
-		jwtWriter.save(newRefreshToken);
+		refreshToken.update(jwtResponse.refreshToken());
 
 		return jwtResponse;
 	}
