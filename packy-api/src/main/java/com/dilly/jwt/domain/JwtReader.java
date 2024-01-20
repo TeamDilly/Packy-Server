@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 import com.dilly.jwt.RefreshToken;
 import com.dilly.jwt.RefreshTokenRepository;
+import com.dilly.member.Member;
 
 import lombok.RequiredArgsConstructor;
 
@@ -13,7 +14,7 @@ public class JwtReader {
 
 	private final RefreshTokenRepository refreshTokenRepository;
 
-	public RefreshToken findByMemberId(Long memberId) {
-		return refreshTokenRepository.findByMemberId(memberId);
+	public RefreshToken findByMember(Member member) {
+		return refreshTokenRepository.findByMember(member);
 	}
 }
