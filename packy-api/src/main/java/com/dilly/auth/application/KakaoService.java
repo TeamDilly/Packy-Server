@@ -20,7 +20,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientException;
 
 import com.dilly.auth.KakaoAccount;
-import com.dilly.auth.domain.KakaoAccountReader;
 import com.dilly.auth.model.KakaoResource;
 import com.dilly.global.exception.InternalServerException;
 import com.dilly.global.response.ErrorCode;
@@ -35,8 +34,6 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 @Slf4j
 public class KakaoService {
-
-	private final KakaoAccountReader kakaoAccountReader;
 
 	@Value("${security.oauth2.provider.kakao.token-uri}")
 	private String KAKAO_TOKEN_URI;
