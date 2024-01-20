@@ -21,7 +21,7 @@ spring:
 
   flyway:
     enabled: false
-    
+
 security:
   oauth2:
     provider:
@@ -33,6 +33,10 @@ security:
         client-id: test
         admin-key: test
       apple:
+        audience-uri: test
+        token-uri: test
+        key-uri: test
+        revoke-uri: test
         team-id: test
         client-id: test
         key-id: test

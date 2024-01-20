@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -20,7 +19,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientException;
 
 import com.dilly.auth.KakaoAccount;
-import com.dilly.auth.domain.KakaoAccountReader;
 import com.dilly.auth.model.KakaoResource;
 import com.dilly.global.exception.InternalServerException;
 import com.dilly.global.response.ErrorCode;
@@ -32,28 +30,25 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 @Slf4j
 public class KakaoService {
 
-	private final KakaoAccountReader kakaoAccountReader;
-
 	@Value("${security.oauth2.provider.kakao.token-uri}")
-	private String KAKAO_TOKEN_URI;
+	private String kakaoTokenUri;
 	@Value("${security.oauth2.provider.kakao.user-info-uri}")
-	private String KAKAO_USER_INFO_URI;
+	private String kakaoUserInfoUri;
 	@Value("${security.oauth2.provider.kakao.unlink-uri}")
-	private String KAKAO_UNLINK_URI;
+	private String kakaoUnlinkUri;
 	@Value("${security.oauth2.provider.kakao.client-id}")
-	private String KAKAO_CLIENT_ID;
+	private String kakaoClientId;
 	@Value("${security.oauth2.provider.kakao.admin-key}")
-	private String KAKAO_ADMIN_KEY;
-	private String BEARER_PREFIX = "Bearer ";
+	private String kakaoAdminKey;
 
 	public KakaoResource getKaKaoAccount(String kakaoAccessToken) {
+		String bearerPrefix = "Bearer ";
 		WebClient webClient = WebClient.builder()
-			.baseUrl(KAKAO_USER_INFO_URI)
-			.defaultHeader(HttpHeaders.AUTHORIZATION, BEARER_PREFIX + kakaoAccessToken)
+			.baseUrl(kakaoUserInfoUri)
+			.defaultHeader(HttpHeaders.AUTHORIZATION, bearerPrefix + kakaoAccessToken)
 			.defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 			.build();
 
@@ -71,7 +66,7 @@ public class KakaoService {
 		String access_Token = "";
 
 		try {
-			URL url = new URL(KakaoService.this.KAKAO_TOKEN_URI);
+			URL url = new URL(KakaoService.this.kakaoTokenUri);
 			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
 
 			conn.setRequestMethod("POST");
@@ -79,10 +74,11 @@ public class KakaoService {
 
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
 			StringBuilder sb = new StringBuilder();
-			sb.append("grant_type=authorization_code");
-			sb.append("&client_id=" + KAKAO_CLIENT_ID);
-			sb.append("&redirect_uri=http://127.0.0.1:9000/kakaocallback");
-			sb.append("&code=" + code);
+			sb.append("grant_type=authorization_code")
+				.append("&client_id=")
+				.append(kakaoClientId)
+				.append("&redirect_uri=http://127.0.0.1:9000/kakaocallback")
+				.append("&code=" + code);
 			bw.write(sb.toString());
 			bw.flush();
 
@@ -106,8 +102,8 @@ public class KakaoService {
 
 	public void unlinkKakaoAccount(KakaoAccount kakaoAccount) {
 		WebClient webClient = WebClient.builder()
-			.baseUrl(KAKAO_UNLINK_URI)
-			.defaultHeader(HttpHeaders.AUTHORIZATION, "KakaoAK " + KAKAO_ADMIN_KEY)
+			.baseUrl(kakaoUnlinkUri)
+			.defaultHeader(HttpHeaders.AUTHORIZATION, "KakaoAK " + kakaoAdminKey)
 			.defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 			.build();
 
