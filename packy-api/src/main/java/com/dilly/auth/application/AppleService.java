@@ -57,13 +57,13 @@ public class AppleService {
 	private String appleKeyUri;
 	@Value("${security.oauth2.provider.apple.revoke-uri}")
 	private String appleRevokeUri;
-	@Value("${spring.security.oauth2.provider.apple.team-id}")
+	@Value("${security.oauth2.provider.apple.team-id}")
 	private String appleTeamId;
-	@Value("${spring.security.oauth2.provider.apple.client-id}")
+	@Value("${security.oauth2.provider.apple.client-id}")
 	private String appleClientId;
-	@Value("${spring.security.oauth2.provider.apple.key-id}")
+	@Value("${security.oauth2.provider.apple.key-id}")
 	private String appleKeyId;
-	@Value("${spring.security.oauth2.provider.apple.private-key}")
+	@Value("${security.oauth2.provider.apple.private-key}")
 	private String applePrivateKey;
 
 	public AppleToken getAppleToken(String providerAccessToken) {
