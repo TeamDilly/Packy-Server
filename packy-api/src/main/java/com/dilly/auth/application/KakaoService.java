@@ -34,21 +34,21 @@ import lombok.extern.slf4j.Slf4j;
 public class KakaoService {
 
 	@Value("${security.oauth2.provider.kakao.token-uri}")
-	private String KAKAO_TOKEN_URI;
+	private String kakaoTokenUri;
 	@Value("${security.oauth2.provider.kakao.user-info-uri}")
-	private String KAKAO_USER_INFO_URI;
+	private String kakaoUserInfoUri;
 	@Value("${security.oauth2.provider.kakao.unlink-uri}")
-	private String KAKAO_UNLINK_URI;
+	private String kakaoUnlinkUri;
 	@Value("${security.oauth2.provider.kakao.client-id}")
-	private String KAKAO_CLIENT_ID;
+	private String kakaoClientId;
 	@Value("${security.oauth2.provider.kakao.admin-key}")
-	private String KAKAO_ADMIN_KEY;
-	private String BEARER_PREFIX = "Bearer ";
+	private String kakaoAdminKey;
+	private final String bearerPrefix = "Bearer ";
 
 	public KakaoResource getKaKaoAccount(String kakaoAccessToken) {
 		WebClient webClient = WebClient.builder()
-			.baseUrl(KAKAO_USER_INFO_URI)
-			.defaultHeader(HttpHeaders.AUTHORIZATION, BEARER_PREFIX + kakaoAccessToken)
+			.baseUrl(kakaoUserInfoUri)
+			.defaultHeader(HttpHeaders.AUTHORIZATION, bearerPrefix + kakaoAccessToken)
 			.defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 			.build();
 
@@ -66,7 +66,7 @@ public class KakaoService {
 		String access_Token = "";
 
 		try {
-			URL url = new URL(KakaoService.this.KAKAO_TOKEN_URI);
+			URL url = new URL(KakaoService.this.kakaoTokenUri);
 			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
 
 			conn.setRequestMethod("POST");
@@ -76,7 +76,7 @@ public class KakaoService {
 			StringBuilder sb = new StringBuilder();
 			sb.append("grant_type=authorization_code")
 				.append("&client_id=")
-				.append(KAKAO_CLIENT_ID)
+				.append(kakaoClientId)
 				.append("&redirect_uri=http://127.0.0.1:9000/kakaocallback")
 				.append("&code=" + code);
 			bw.write(sb.toString());
@@ -102,8 +102,8 @@ public class KakaoService {
 
 	public void unlinkKakaoAccount(KakaoAccount kakaoAccount) {
 		WebClient webClient = WebClient.builder()
-			.baseUrl(KAKAO_UNLINK_URI)
-			.defaultHeader(HttpHeaders.AUTHORIZATION, "KakaoAK " + KAKAO_ADMIN_KEY)
+			.baseUrl(kakaoUnlinkUri)
+			.defaultHeader(HttpHeaders.AUTHORIZATION, "KakaoAK " + kakaoAdminKey)
 			.defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 			.build();
 

@@ -50,13 +50,13 @@ import lombok.extern.slf4j.Slf4j;
 public class AppleService {
 
 	@Value("${security.oauth2.provider.apple.audience-uri}")
-	private String APPLE_AUDIENCE_URI;
+	private String appleAudienceUri;
 	@Value("${security.oauth2.provider.apple.token-uri}")
-	private String APPLE_TOKEN_URI;
+	private String appleTokenUri;
 	@Value("${security.oauth2.provider.apple.key-uri}")
-	private String APPLE_KEY_URI;
+	private String appleKeyUri;
 	@Value("${security.oauth2.provider.apple.revoke-uri}")
-	private String APPLE_REVOKE_URI;
+	private String appleRevokeUri;
 	@Value("${spring.security.oauth2.provider.apple.team-id}")
 	private String appleTeamId;
 	@Value("${spring.security.oauth2.provider.apple.client-id}")
@@ -69,7 +69,7 @@ public class AppleService {
 	public AppleToken getAppleToken(String providerAccessToken) {
 		try {
 			WebClient webClient = WebClient.builder()
-				.baseUrl(APPLE_TOKEN_URI)
+				.baseUrl(appleTokenUri)
 				.defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 				.build();
 
@@ -92,7 +92,7 @@ public class AppleService {
 	public AppleAccountInfo getAppleAccountInfo(String idToken) {
 		try {
 			WebClient webClient = WebClient.builder()
-				.baseUrl(APPLE_KEY_URI)
+				.baseUrl(appleKeyUri)
 				.build();
 
 			ApplePublicKey applePublicKey = webClient.get()
@@ -143,7 +143,7 @@ public class AppleService {
 				.setIssuer(appleTeamId)
 				.setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(expirationDate)
-				.setAudience(APPLE_AUDIENCE_URI)
+				.setAudience(appleAudienceUri)
 				.setSubject(appleClientId)
 				.signWith(getApplePrivateKey(), SignatureAlgorithm.ES256)
 				.compact();
@@ -172,7 +172,7 @@ public class AppleService {
 			String appleRefreshToken = appleAccount.getRefreshToken();
 
 			WebClient webClient = WebClient.builder()
-				.baseUrl(APPLE_REVOKE_URI)
+				.baseUrl(appleRevokeUri)
 				.build();
 
 			MultiValueMap<String, String> bodyData = new LinkedMultiValueMap<>();
