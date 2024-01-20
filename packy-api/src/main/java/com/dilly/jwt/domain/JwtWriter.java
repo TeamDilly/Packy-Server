@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 import com.dilly.jwt.RefreshToken;
 import com.dilly.jwt.RefreshTokenRepository;
+import com.dilly.member.Member;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,8 +18,11 @@ public class JwtWriter {
 		refreshTokenRepository.save(refreshToken);
 	}
 
-	public void delete(Long memberId) {
-		refreshTokenRepository.findById(memberId).ifPresent(refreshTokenRepository::delete);
-		refreshTokenRepository.flush();
+	public void delete(RefreshToken refreshToken) {
+		refreshTokenRepository.delete(refreshToken);
+	}
+
+	public boolean existsByMember(Member member) {
+		return refreshTokenRepository.existsByMember(member);
 	}
 }

@@ -41,6 +41,7 @@ public class Member extends BaseTimeEntity {
 
 	Boolean marketingAgreement;
 
+	@Enumerated(EnumType.STRING)
 	Status status = Status.REGISTERED;
 
 	@Builder

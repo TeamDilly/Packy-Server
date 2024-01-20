@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dilly.auth.KakaoAccount;
 import com.dilly.auth.domain.KakaoAccountReader;
 import com.dilly.auth.domain.KakaoAccountWriter;
 import com.dilly.auth.dto.request.SignupRequest;
@@ -17,6 +18,8 @@ import com.dilly.global.exception.UnsupportedException;
 import com.dilly.global.response.ErrorCode;
 import com.dilly.global.utils.SecurityUtil;
 import com.dilly.jwt.JwtService;
+import com.dilly.jwt.RefreshToken;
+import com.dilly.jwt.domain.JwtReader;
 import com.dilly.jwt.domain.JwtWriter;
 import com.dilly.jwt.dto.JwtResponse;
 import com.dilly.member.Member;
@@ -42,6 +45,7 @@ public class AuthService {
 	private final ProfileImageReader profileImageReader;
 	private final KakaoAccountReader kakaoAccountReader;
 	private final KakaoAccountWriter kakaoAccountWriter;
+	private final JwtReader jwtReader;
 	private final JwtWriter jwtWriter;
 
 	public JwtResponse signUp(String providerAccessToken, SignupRequest signupRequest) {
@@ -101,11 +105,17 @@ public class AuthService {
 		Member member = memberReader.findById(memberId);
 
 		switch (member.getProvider()) {
-			case KAKAO -> kakaoService.unlinkKakaoAccount(member);
+			case KAKAO -> {
+				KakaoAccount kakaoAccount = kakaoAccountReader.findByMember(member);
+				kakaoService.unlinkKakaoAccount(kakaoAccount);
+				kakaoAccountWriter.delete(kakaoAccount);
+			}
+			
 			default -> throw new UnsupportedException(ErrorCode.UNSUPPORTED_LOGIN_TYPE);
 		}
 
-		jwtWriter.delete(memberId);
+		RefreshToken refreshToken = jwtReader.findByMember(member);
+		jwtWriter.delete(refreshToken);
 		member.withdraw();
 
 		return "회원 탈퇴가 완료되었습니다.";

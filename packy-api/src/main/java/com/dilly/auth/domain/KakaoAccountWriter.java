@@ -16,4 +16,8 @@ public class KakaoAccountWriter {
 	public void save(KakaoAccount kakaoAccount) {
 		kakaoAccountRepository.save(kakaoAccount);
 	}
+
+	public void delete(KakaoAccount kakaoAccount) {
+		kakaoAccountRepository.delete(kakaoAccount);
+	}
 }

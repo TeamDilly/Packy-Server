@@ -24,7 +24,6 @@ import com.dilly.auth.domain.KakaoAccountReader;
 import com.dilly.auth.model.KakaoResource;
 import com.dilly.global.exception.InternalServerException;
 import com.dilly.global.response.ErrorCode;
-import com.dilly.member.Member;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -105,9 +104,7 @@ public class KakaoService {
 		return access_Token;
 	}
 
-	public void unlinkKakaoAccount(Member member) {
-		KakaoAccount kakaoAccount = kakaoAccountReader.findByMember(member);
-
+	public void unlinkKakaoAccount(KakaoAccount kakaoAccount) {
 		WebClient webClient = WebClient.builder()
 			.baseUrl(KAKAO_UNLINK_URI)
 			.defaultHeader(HttpHeaders.AUTHORIZATION, "KakaoAK " + KAKAO_ADMIN_KEY)
