@@ -467,7 +467,7 @@
             "id": "1f0095df-47d9-44ee-9992-1d5cf1102126",
             "name": "id",
             "comment": "UUID",
-            "dataType": "BIGINT",
+            "dataType": "VARCHAR",
             "default": "",
             "option": {
               "autoIncrement": false,
@@ -1036,9 +1036,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 1563.5056,
-          "top": 650.6032,
-          "zIndex": 12,
+          "left": 1555.5056,
+          "top": 589.6032,
+          "zIndex": 4,
           "widthName": 66.36289978027344,
           "widthComment": 60
         },
@@ -1231,7 +1231,7 @@
           "active": false,
           "left": 93.5,
           "top": 63,
-          "zIndex": 1,
+          "zIndex": 6,
           "widthName": 60,
           "widthComment": 72.88896179199219
         },
@@ -1855,8 +1855,8 @@
           "columnIds": [
             "151107b9-e942-47df-97dd-8b5de5918ce9"
           ],
-          "x": 1678.687440979004,
-          "y": 544.0784,
+          "x": 1744.2339650268555,
+          "y": 429.0784,
           "direction": "bottom"
         },
         "constraintName": "fk_envelope_to_letter",

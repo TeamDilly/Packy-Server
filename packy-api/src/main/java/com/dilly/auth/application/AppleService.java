@@ -27,13 +27,15 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientException;
 
 import com.dilly.auth.AppleAccount;
 import com.dilly.auth.model.AppleAccountInfo;
 import com.dilly.auth.model.ApplePublicKey;
 import com.dilly.auth.model.ApplePublicKey.Key;
 import com.dilly.auth.model.AppleToken;
-import com.dilly.global.exception.InternalServerException;
+import com.dilly.global.exception.internalserver.AppleServerException;
+import com.dilly.global.exception.internalserver.InternalServerException;
 import com.dilly.global.response.ErrorCode;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -85,21 +87,26 @@ public class AppleService {
 				.bodyToMono(AppleToken.class)
 				.block();
 		} catch (Exception e) {
-			throw new InternalServerException(ErrorCode.APPLE_SERVER_ERROR);
+			throw new AppleServerException(ErrorCode.APPLE_FAILED_TO_GET_TOKEN);
 		}
 	}
 
 	public AppleAccountInfo getAppleAccountInfo(String idToken) {
+		ApplePublicKey applePublicKey;
 		try {
 			WebClient webClient = WebClient.builder()
 				.baseUrl(appleKeyUri)
 				.build();
 
-			ApplePublicKey applePublicKey = webClient.get()
+			applePublicKey = webClient.get()
 				.retrieve()
 				.bodyToMono(ApplePublicKey.class)
 				.block();
+		} catch (WebClientException e) {
+			throw new InternalServerException(ErrorCode.APPLE_FAILED_TO_GET_PUBLIC_KEY);
+		}
 
+		try {
 			String headerOfIdToken = idToken.substring(0, idToken.indexOf("."));
 
 			Map<String, String> header = new ObjectMapper().readValue(
@@ -107,7 +114,7 @@ public class AppleService {
 				Map.class
 			);
 			Key key = applePublicKey.getMatchedKeyBy(header.get("kid"), header.get("alg"))
-				.orElseThrow(() -> new NullPointerException("Apple ID 서버에서 공개키를 가져오지 못했습니다."));
+				.orElseThrow(NullPointerException::new);
 
 			byte[] nBytes = Base64.getUrlDecoder().decode(key.getN());
 			byte[] eBytes = Base64.getUrlDecoder().decode(key.getE());
@@ -127,7 +134,7 @@ public class AppleService {
 				.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 				.convertValue(expectedMap, AppleAccountInfo.class);
 		} catch (Exception e) {
-			throw new InternalServerException(ErrorCode.APPLE_SERVER_ERROR);
+			throw new InternalServerException(ErrorCode.APPLE_FAILED_TO_GET_INFO);
 		}
 	}
 
@@ -148,7 +155,7 @@ public class AppleService {
 				.signWith(getApplePrivateKey(), SignatureAlgorithm.ES256)
 				.compact();
 		} catch (Exception e) {
-			throw new InternalServerException(ErrorCode.APPLE_SERVER_ERROR);
+			throw new InternalServerException(ErrorCode.APPLE_FAILED_TO_GET_CLIENT_SECRET);
 		}
 	}
 
@@ -163,7 +170,7 @@ public class AppleService {
 
 			return converter.getPrivateKey(object);
 		} catch (Exception e) {
-			throw new InternalServerException(ErrorCode.APPLE_SERVER_ERROR);
+			throw new InternalServerException(ErrorCode.APPLE_FAILED_TO_GET_PUBLIC_KEY);
 		}
 	}
 
@@ -188,7 +195,7 @@ public class AppleService {
 				.block();
 
 		} catch (Exception e) {
-			throw new InternalServerException(ErrorCode.APPLE_SERVER_ERROR);
+			throw new InternalServerException(ErrorCode.APPLE_FAILED_TO_REVOKE_ACCOUNT);
 		}
 	}
 }
