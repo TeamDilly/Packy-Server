@@ -92,6 +92,8 @@ public class AppleService {
 	}
 
 	public AppleAccountInfo getAppleAccountInfo(String idToken) {
+		log.error("idToken: {}", idToken);
+
 		ApplePublicKey applePublicKey;
 		try {
 			WebClient webClient = WebClient.builder()
