@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import com.dilly.auth.AppleAccount;
 import com.dilly.auth.AppleAccountRepository;
-import com.dilly.global.exception.alreadyexist.MemberAlreadyExistException;
+import com.dilly.exception.alreadyexist.MemberAlreadyExistException;
 import com.dilly.member.Member;
 
 import lombok.RequiredArgsConstructor;

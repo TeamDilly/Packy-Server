@@ -4,8 +4,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dilly.global.exception.AuthorizationFailedException;
-import com.dilly.global.response.ErrorCode;
+import com.dilly.exception.AuthorizationFailedException;
+import com.dilly.exception.ErrorCode;
 import com.dilly.jwt.domain.JwtReader;
 import com.dilly.jwt.domain.JwtWriter;
 import com.dilly.jwt.dto.JwtRequest;

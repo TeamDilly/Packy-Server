@@ -1,4 +1,4 @@
-package com.dilly.global.response;
+package com.dilly.exception;
 
 import java.util.Optional;
 import java.util.function.Predicate;

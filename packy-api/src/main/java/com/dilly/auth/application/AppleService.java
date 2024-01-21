@@ -34,9 +34,9 @@ import com.dilly.auth.model.AppleAccountInfo;
 import com.dilly.auth.model.ApplePublicKey;
 import com.dilly.auth.model.ApplePublicKey.Key;
 import com.dilly.auth.model.AppleToken;
-import com.dilly.global.exception.internalserver.AppleServerException;
-import com.dilly.global.exception.internalserver.InternalServerException;
-import com.dilly.global.response.ErrorCode;
+import com.dilly.exception.ErrorCode;
+import com.dilly.exception.internalserver.AppleServerException;
+import com.dilly.exception.internalserver.InternalServerException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

@@ -1,5 +1,7 @@
 package com.dilly.global.response;
 
+import com.dilly.exception.ErrorCode;
+
 public class ErrorResponseDto extends ResponseDto {
 
 	private ErrorResponseDto(ErrorCode errorCode) {

@@ -5,10 +5,10 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.dilly.admin.dto.response.LetterImgResponse;
+import com.dilly.exception.ErrorCode;
+import com.dilly.exception.entitynotfound.EntityNotFoundException;
 import com.dilly.gift.LetterPaper;
 import com.dilly.gift.dao.LetterPaperRepository;
-import com.dilly.global.exception.entitynotfound.EntityNotFoundException;
-import com.dilly.global.response.ErrorCode;
 
 import lombok.RequiredArgsConstructor;
 

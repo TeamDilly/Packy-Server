@@ -1,6 +1,4 @@
-package com.dilly.global.exception;
-
-import com.dilly.global.response.ErrorCode;
+package com.dilly.exception;
 
 public class UnsupportedException extends BusinessException {
 
