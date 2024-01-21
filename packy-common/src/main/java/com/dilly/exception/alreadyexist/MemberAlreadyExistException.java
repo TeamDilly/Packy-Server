@@ -1,6 +1,6 @@
-package com.dilly.global.exception.alreadyexist;
+package com.dilly.exception.alreadyexist;
 
-import com.dilly.global.response.ErrorCode;
+import com.dilly.exception.ErrorCode;
 
 public class MemberAlreadyExistException extends AlreadyExistException {
 

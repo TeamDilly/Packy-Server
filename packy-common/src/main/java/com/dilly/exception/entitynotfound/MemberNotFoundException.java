@@ -1,13 +1,11 @@
-package com.dilly.global.exception.entitynotfound;
+package com.dilly.exception.entitynotfound;
 
-import static com.dilly.global.response.ErrorCode.*;
-
-import com.dilly.global.response.ErrorCode;
+import com.dilly.exception.ErrorCode;
 
 public class MemberNotFoundException extends EntityNotFoundException {
 
 	public MemberNotFoundException() {
-		super(MEMBER_NOT_FOUND);
+		super(ErrorCode.MEMBER_NOT_FOUND);
 	}
 
 	public MemberNotFoundException(ErrorCode errorCode) {

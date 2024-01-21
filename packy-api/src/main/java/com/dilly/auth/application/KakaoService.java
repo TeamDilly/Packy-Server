@@ -20,8 +20,8 @@ import org.springframework.web.reactive.function.client.WebClientException;
 
 import com.dilly.auth.KakaoAccount;
 import com.dilly.auth.model.KakaoResource;
-import com.dilly.global.exception.internalserver.InternalServerException;
-import com.dilly.global.response.ErrorCode;
+import com.dilly.exception.ErrorCode;
+import com.dilly.exception.internalserver.InternalServerException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
