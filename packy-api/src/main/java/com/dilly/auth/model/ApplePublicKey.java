@@ -1,21 +1,19 @@
 package com.dilly.auth.model;
 
-import static com.fasterxml.jackson.annotation.JsonInclude.Include.*;
-
 import java.util.ArrayList;
 import java.util.Optional;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 import lombok.Getter;
+import lombok.ToString;
 
-@JsonInclude(NON_NULL)
+@Getter
+@ToString
 public class ApplePublicKey {
 
 	ArrayList<Key> keys;
 
 	@Getter
-	@JsonInclude(NON_NULL)
+	@ToString
 	public static class Key {
 
 		String kty;
