@@ -55,7 +55,7 @@ jobs:
           cd deploy && zip -r deploy.zip .
 
       - name: Beanstalk Deploy
-        uses: einaregilsson/beanstalk-deploy@v14
+        uses: einaregilsson/beanstalk-deploy@v16
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
