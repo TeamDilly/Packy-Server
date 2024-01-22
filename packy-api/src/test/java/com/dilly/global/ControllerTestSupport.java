@@ -22,7 +22,7 @@ public abstract class ControllerTestSupport {
 		System.setProperty("spring.config.name", "application-test");
 	}
 
-	protected final String BASE_URL = "/api/v1";
+	protected final String baseUrl = "/api/v1";
 
 	@Autowired
 	protected MockMvc mockMvc;

@@ -19,7 +19,7 @@ class AdminControllerTest extends ControllerTestSupport {
 		// given // when // then
 		// TODO: active profile이 null로 뜸
 		mockMvc.perform(
-				get("/api/v1/admin/health")
+				get(baseUrl + "/admin/health")
 			)
 			.andDo(print())
 			.andExpect(status().isOk());
