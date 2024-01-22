@@ -8,7 +8,6 @@ import com.dilly.gift.Box;
 import com.dilly.gift.Gift;
 import com.dilly.gift.GiftBox;
 import com.dilly.gift.Letter;
-import com.dilly.gift.Message;
 import com.dilly.gift.dao.GiftBoxRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -19,11 +18,10 @@ public class GiftBoxWriter {
 
 	private final GiftBoxRepository giftBoxRepository;
 
-	public GiftBox save(Box box, Message message, Letter letter, String youtubeUrl, Gift gift) {
+	public GiftBox save(Box box, Letter letter, String youtubeUrl, Gift gift) {
 		return giftBoxRepository.save(GiftBox.builder()
 			.uuid(UUID.randomUUID().toString())
 			.box(box)
-			.message(message)
 			.letter(letter)
 			.youtubeUrl(youtubeUrl)
 			.gift(gift)

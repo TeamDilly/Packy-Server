@@ -45,12 +45,6 @@ public class AdminController {
 		return DataResponseDto.from(adminService.getBoxes());
 	}
 
-	@Operation(summary = "메시지 디자인 조회")
-	@GetMapping("/design/messages")
-	public DataResponseDto<List<ImgResponse>> getMessages() {
-		return DataResponseDto.from(adminService.getMessages());
-	}
-
 	@Operation(summary = "편지지 디자인 조회")
 	@GetMapping("/design/letters")
 	public DataResponseDto<List<LetterImgResponse>> getLetters() {

@@ -5,11 +5,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.TestPropertySource;
 
-import com.dilly.gift.MemberGiftBoxRepository;
 import com.dilly.gift.application.GiftService;
 import com.dilly.gift.dao.BoxRepository;
 import com.dilly.gift.dao.GiftBoxRepository;
 import com.dilly.gift.dao.LetterRepository;
+import com.dilly.gift.dao.MemberGiftBoxRepository;
 import com.dilly.gift.dao.MessageRepository;
 import com.dilly.gift.dao.PhotoRepository;
 

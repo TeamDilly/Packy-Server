@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 import com.dilly.gift.GiftBox;
 import com.dilly.gift.MemberGiftBox;
-import com.dilly.gift.MemberGiftBoxRepository;
+import com.dilly.gift.dao.MemberGiftBoxRepository;
 import com.dilly.member.Member;
 import com.dilly.member.domain.MemberReader;
 

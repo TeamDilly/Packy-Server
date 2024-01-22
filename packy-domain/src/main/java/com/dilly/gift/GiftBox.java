@@ -32,9 +32,6 @@ public class GiftBox extends BaseTimeEntity {
 	private Box box;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	private Message message;
-
-	@ManyToOne(fetch = FetchType.LAZY)
 	private Letter letter;
 
 	private String youtubeUrl;
