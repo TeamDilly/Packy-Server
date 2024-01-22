@@ -26,6 +26,7 @@ public class ProfileImageReader {
 			.map(profileImage -> ImgResponse.builder()
 				.id(profileImage.getId())
 				.imgUrl(profileImage.getImgUrl())
+				.sequence(profileImage.getSequence())
 				.build()
 			)
 			.toList();
