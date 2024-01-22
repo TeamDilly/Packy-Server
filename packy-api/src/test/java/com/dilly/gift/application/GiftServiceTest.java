@@ -51,8 +51,7 @@ class GiftServiceTest extends IntegrationTestSupport {
 
 		// then
 		assertThat(giftBox.getBox().getId()).isEqualTo(giftBoxRequest.boxId());
-		assertThat(giftBox.getMessage().getId()).isEqualTo(giftBoxRequest.messageId());
-		assertThat(giftBox.getLetter().getLetterPaper().getId()).isEqualTo(giftBoxRequest.letterPaperId());
+		assertThat(giftBox.getLetter().getEnvelope().getId()).isEqualTo(giftBoxRequest.letterPaperId());
 		assertThat(giftBox.getLetter().getContent()).isEqualTo(giftBoxRequest.letterContent());
 		assertThat(giftBox.getYoutubeUrl()).isEqualTo(giftBoxRequest.youtubeUrl());
 		assertThat(giftBox.getGift().getGiftType().name()).isEqualTo(giftBoxRequest.giftType().toUpperCase());

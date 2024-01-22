@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dilly.admin.application.AdminService;
 import com.dilly.admin.dto.response.BoxImgResponse;
 import com.dilly.admin.dto.response.ImgResponse;
-import com.dilly.admin.dto.response.LetterImgResponse;
 import com.dilly.admin.dto.response.MusicResponse;
 import com.dilly.global.response.DataResponseDto;
 
@@ -45,10 +44,10 @@ public class AdminController {
 		return DataResponseDto.from(adminService.getBoxes());
 	}
 
-	@Operation(summary = "편지지 디자인 조회")
-	@GetMapping("/design/letters")
-	public DataResponseDto<List<LetterImgResponse>> getLetters() {
-		return DataResponseDto.from(adminService.getLetters());
+	@Operation(summary = "편지 봉투 디자인 조회")
+	@GetMapping("/design/envelopes")
+	public DataResponseDto<List<ImgResponse>> getEnvelopes() {
+		return DataResponseDto.from(adminService.getEnvelopes());
 	}
 
 	@Operation(summary = "패키 추천 음악 조회")

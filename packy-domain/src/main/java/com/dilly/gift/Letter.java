@@ -26,5 +26,5 @@ public class Letter {
 	private String content;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	private LetterPaper letterPaper;
+	private Envelope envelope;
 }
