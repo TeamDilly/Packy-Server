@@ -1,4 +1,4 @@
-package com.dilly.gift;
+package com.dilly.member;
 
 import static jakarta.persistence.GenerationType.*;
 
@@ -16,4 +16,6 @@ public class ProfileImage {
 	private Long id;
 
 	private String imgUrl;
+
+	private Long sequence;
 }

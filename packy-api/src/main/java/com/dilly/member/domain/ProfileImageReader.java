@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.dilly.admin.dto.response.ImgResponse;
-import com.dilly.gift.ProfileImage;
 import com.dilly.gift.dao.ProfileImageRepository;
+import com.dilly.member.ProfileImage;
 
 import lombok.RequiredArgsConstructor;
 
