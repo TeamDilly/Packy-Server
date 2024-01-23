@@ -14,8 +14,8 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import com.dilly.global.exception.AuthorizationFailedException;
-import com.dilly.global.response.ErrorCode;
+import com.dilly.exception.AuthorizationFailedException;
+import com.dilly.exception.ErrorCode;
 import com.dilly.jwt.dto.JwtResponse;
 import com.dilly.member.Member;
 

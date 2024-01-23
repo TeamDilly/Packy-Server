@@ -1,13 +1,11 @@
-package com.dilly.global.exception.entitynotfound;
+package com.dilly.exception.entitynotfound;
 
-import static com.dilly.global.response.ErrorCode.*;
-
-import com.dilly.global.response.ErrorCode;
+import com.dilly.exception.ErrorCode;
 
 public class RefreshTokenNotFoundException extends EntityNotFoundException {
 
 	public RefreshTokenNotFoundException() {
-		super(REFRESH_TOKEN_NOT_FOUND);
+		super(ErrorCode.REFRESH_TOKEN_NOT_FOUND);
 	}
 
 	public RefreshTokenNotFoundException(ErrorCode errorCode) {

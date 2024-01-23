@@ -12,6 +12,7 @@ repositories {
 
 dependencies {
     // multi module
+    implementation project(':packy-common')
     implementation project(':packy-domain')
     implementation project(':packy-infra')
 

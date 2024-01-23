@@ -1,4 +1,4 @@
-package com.dilly.global.exception;
+package com.dilly.global.response;
 
 import java.sql.SQLException;
 
@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
-import com.dilly.global.response.ErrorCode;
-import com.dilly.global.response.ErrorResponseDto;
+import com.dilly.exception.BusinessException;
+import com.dilly.exception.ErrorCode;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -2,7 +2,7 @@ package com.dilly.member.domain;
 
 import org.springframework.stereotype.Component;
 
-import com.dilly.global.exception.entitynotfound.MemberNotFoundException;
+import com.dilly.exception.entitynotfound.MemberNotFoundException;
 import com.dilly.member.Member;
 import com.dilly.member.MemberRepository;
 

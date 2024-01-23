@@ -1,7 +1,7 @@
-package com.dilly.global.exception.entitynotfound;
+package com.dilly.exception.entitynotfound;
 
-import com.dilly.global.exception.BusinessException;
-import com.dilly.global.response.ErrorCode;
+import com.dilly.exception.BusinessException;
+import com.dilly.exception.ErrorCode;
 
 public class EntityNotFoundException extends BusinessException {
 
