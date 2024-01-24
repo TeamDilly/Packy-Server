@@ -22,8 +22,10 @@ public class BoxReader {
 		return boxRepository.findAll().stream()
 			.map(box -> BoxImgResponse.builder()
 				.id(box.getId())
-				.boxTop(box.getTopImgUrl())
+				.boxFull(box.getFullImgUrl())
+				.boxPart(box.getPartImgUrl())
 				.boxBottom(box.getBottomImgUrl())
+				.sequence(box.getSequence())
 				.build()
 			)
 			.toList();

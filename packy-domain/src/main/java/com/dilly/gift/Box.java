@@ -15,7 +15,11 @@ public class Box {
 	@GeneratedValue(strategy = IDENTITY)
 	private Long id;
 
-	private String topImgUrl;
+	private Long sequence;
+
+	private String fullImgUrl;
+
+	private String partImgUrl;
 
 	private String bottomImgUrl;
 }

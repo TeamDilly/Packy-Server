@@ -3,7 +3,6 @@ package com.dilly.member;
 import static jakarta.persistence.FetchType.*;
 import static jakarta.persistence.GenerationType.*;
 
-import com.dilly.gift.ProfileImage;
 import com.dilly.global.BaseTimeEntity;
 
 import jakarta.persistence.Entity;

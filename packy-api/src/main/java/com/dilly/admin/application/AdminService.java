@@ -7,11 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dilly.admin.dto.response.BoxImgResponse;
 import com.dilly.admin.dto.response.ImgResponse;
-import com.dilly.admin.dto.response.LetterImgResponse;
 import com.dilly.admin.dto.response.MusicResponse;
 import com.dilly.gift.domain.BoxReader;
-import com.dilly.gift.domain.LetterPaperReader;
-import com.dilly.gift.domain.MessageReader;
+import com.dilly.gift.domain.EnvelopeReader;
 import com.dilly.gift.domain.MusicReader;
 import com.dilly.member.domain.ProfileImageReader;
 
@@ -26,8 +24,7 @@ public class AdminService {
 
 	private final ProfileImageReader profileImageReader;
 	private final BoxReader boxReader;
-	private final MessageReader messageReader;
-	private final LetterPaperReader letterPaperReader;
+	private final EnvelopeReader envelopeReader;
 	private final MusicReader musicReader;
 
 	public List<ImgResponse> getProfiles() {
@@ -38,12 +35,8 @@ public class AdminService {
 		return boxReader.findAll();
 	}
 
-	public List<ImgResponse> getMessages() {
-		return messageReader.findAll();
-	}
-
-	public List<LetterImgResponse> getLetters() {
-		return letterPaperReader.findAll();
+	public List<ImgResponse> getEnvelopes() {
+		return envelopeReader.findAll();
 	}
 
 	public List<MusicResponse> getMusics() {

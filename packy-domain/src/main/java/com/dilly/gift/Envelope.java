@@ -9,11 +9,13 @@ import lombok.Getter;
 
 @Entity
 @Getter
-public class Message {
+public class Envelope {
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 	private Long id;
+
+	private Long sequence;
 
 	private String imgUrl;
 }

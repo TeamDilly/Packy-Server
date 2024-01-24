@@ -48,7 +48,7 @@ class GiftControllerTest extends ControllerTestSupport {
 
 		// when // then
 		mockMvc.perform(
-				post(BASE_URL + "/giftbox")
+				post(baseUrl + "/giftbox")
 					.with(csrf())
 					.contentType(MediaType.APPLICATION_JSON)
 					.content(objectMapper.writeValueAsString(giftBoxRequest))

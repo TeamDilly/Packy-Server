@@ -7,6 +7,8 @@ import lombok.Builder;
 public record ImgResponse(
 	@Schema(example = "1")
 	Long id,
+	@Schema(example = "1")
+	Long sequence,
 	@Schema(example = "www.example.com")
 	String imgUrl
 ) {

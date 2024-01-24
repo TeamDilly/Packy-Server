@@ -51,8 +51,7 @@ class GiftServiceTest extends IntegrationTestSupport {
 
 		// then
 		assertThat(giftBox.getBox().getId()).isEqualTo(giftBoxRequest.boxId());
-		assertThat(giftBox.getMessage().getId()).isEqualTo(giftBoxRequest.messageId());
-		assertThat(giftBox.getLetter().getLetterPaper().getId()).isEqualTo(giftBoxRequest.letterPaperId());
+		assertThat(giftBox.getLetter().getEnvelope().getId()).isEqualTo(giftBoxRequest.letterPaperId());
 		assertThat(giftBox.getLetter().getContent()).isEqualTo(giftBoxRequest.letterContent());
 		assertThat(giftBox.getYoutubeUrl()).isEqualTo(giftBoxRequest.youtubeUrl());
 		assertThat(giftBox.getGift().getGiftType().name()).isEqualTo(giftBoxRequest.giftType().toUpperCase());
@@ -70,9 +69,9 @@ class GiftServiceTest extends IntegrationTestSupport {
 	}
 
 	public static boolean isValidUUID(String value) {
-		final Pattern UUID_PATTERN =
+		final Pattern uuidPattern =
 			Pattern.compile(
 				"^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$");
-		return value != null && UUID_PATTERN.matcher(value).matches();
+		return value != null && uuidPattern.matcher(value).matches();
 	}
 }

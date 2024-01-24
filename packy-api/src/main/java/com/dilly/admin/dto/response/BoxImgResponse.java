@@ -7,8 +7,12 @@ import lombok.Builder;
 public record BoxImgResponse(
 	@Schema(example = "1")
 	Long id,
+	@Schema(example = "1")
+	Long sequence,
 	@Schema(example = "www.example.com")
-	String boxTop,
+	String boxFull,
+	@Schema(example = "www.example.com")
+	String boxPart,
 	@Schema(example = "www.example.com")
 	String boxBottom
 ) {
