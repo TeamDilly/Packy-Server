@@ -1,9 +1,8 @@
 package com.dilly.gift;
 
-import static jakarta.persistence.GenerationType.*;
+import static jakarta.persistence.GenerationType.IDENTITY;
 
 import com.dilly.global.BaseTimeEntity;
-
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -22,20 +21,23 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class GiftBox extends BaseTimeEntity {
 
-	@Id
-	@GeneratedValue(strategy = IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    private Long id;
 
-	private String uuid;
+    private String uuid;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	private Box box;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Box box;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	private Letter letter;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Letter letter;
 
-	private String youtubeUrl;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Sticker sticker;
 
-	@Embedded
-	private Gift gift;
+    private String youtubeUrl;
+
+    @Embedded
+    private Gift gift;
 }
