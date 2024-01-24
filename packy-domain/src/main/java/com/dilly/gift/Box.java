@@ -20,4 +20,6 @@ public class Box {
 	private String fullImgUrl;
 
 	private String partImgUrl;
+
+	private String bottomImgUrl;
 }

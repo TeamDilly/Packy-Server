@@ -12,6 +12,8 @@ public record BoxImgResponse(
 	@Schema(example = "www.example.com")
 	String boxFull,
 	@Schema(example = "www.example.com")
-	String boxPart
+	String boxPart,
+	@Schema(example = "www.example.com")
+	String boxBottom
 ) {
 }

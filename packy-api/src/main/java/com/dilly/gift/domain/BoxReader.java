@@ -24,6 +24,7 @@ public class BoxReader {
 				.id(box.getId())
 				.boxFull(box.getFullImgUrl())
 				.boxPart(box.getPartImgUrl())
+				.boxBottom(box.getBottomImgUrl())
 				.sequence(box.getSequence())
 				.build()
 			)
