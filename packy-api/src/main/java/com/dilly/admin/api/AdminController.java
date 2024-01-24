@@ -63,7 +63,7 @@ public class AdminController {
     @GetMapping("/design/stickers")
     public DataResponseDto<Slice<ImgResponse>> getStickers(
         @Parameter(hidden = true) @PageableDefault(size = 10) Pageable pageable,
-        @Schema(description = "마지막 스티커 ID", example = "10")
+        @Schema(description = "마지막 스티커 ID", example = "0")
         @RequestParam(value = "lastStickerId", required = false)
         Long lastStickerId) {
         return DataResponseDto.from(adminService.getStickers(lastStickerId, pageable));
