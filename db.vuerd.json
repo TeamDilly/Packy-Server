@@ -3,8 +3,8 @@
     "version": "2.2.11",
     "width": 2500,
     "height": 2500,
-    "scrollTop": -1,
-    "scrollLeft": -623,
+    "scrollTop": 0,
+    "scrollLeft": -1059,
     "zoomLevel": 1,
     "show": {
       "tableComment": true,
@@ -259,7 +259,7 @@
           "active": false,
           "left": 536.402,
           "top": 34.0214,
-          "zIndex": 30,
+          "zIndex": 9,
           "widthName": 60,
           "widthComment": 60
         },
@@ -410,10 +410,10 @@
           }
         ],
         "ui": {
-          "active": true,
+          "active": false,
           "left": 1113.1054,
           "top": 56.7647,
-          "zIndex": 59,
+          "zIndex": 10,
           "widthName": 67.41592407226562,
           "widthComment": 85.34294128417969
         },
@@ -533,31 +533,8 @@
             }
           },
           {
-            "id": "4e16cace-2815-497f-b773-3e430d7ddc7b",
-            "name": "uuid",
-            "comment": "",
-            "dataType": "VARCHAR",
-            "default": "",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": false,
-              "unique": false,
-              "notNull": true
-            },
-            "ui": {
-              "active": false,
-              "pk": false,
-              "fk": false,
-              "pfk": false,
-              "widthName": 60,
-              "widthComment": 60,
-              "widthDataType": 60,
-              "widthDefault": 60
-            }
-          },
-          {
-            "id": "3fc01aca-f7a4-4d78-82e1-bc28524ce7d2",
-            "name": "boxId",
+            "id": "8f314eec-c651-4b78-9f08-cb356f4e9519",
+            "name": "box_id",
             "comment": "",
             "dataType": "BIGINT",
             "default": "",
@@ -570,7 +547,30 @@
             "ui": {
               "active": false,
               "pk": false,
-              "fk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            }
+          },
+          {
+            "id": "d5bdbaf5-a850-4e23-9473-a9971c5c0ccb",
+            "name": "sticker_id",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
               "pfk": false,
               "widthName": 60,
               "widthComment": 60,
@@ -594,6 +594,29 @@
               "active": false,
               "pk": false,
               "fk": true,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            }
+          },
+          {
+            "id": "4e16cace-2815-497f-b773-3e430d7ddc7b",
+            "name": "uuid",
+            "comment": "",
+            "dataType": "VARCHAR",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
               "pfk": false,
               "widthName": 60,
               "widthComment": 60,
@@ -715,36 +738,13 @@
               "widthDataType": 68.2479248046875,
               "widthDefault": 60
             }
-          },
-          {
-            "id": "30a5af47-0d02-4573-840d-93f9b73f086e",
-            "name": "id",
-            "comment": "",
-            "dataType": "BIGINT",
-            "default": "",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": false,
-              "unique": false,
-              "notNull": true
-            },
-            "ui": {
-              "active": false,
-              "pk": false,
-              "fk": true,
-              "pfk": false,
-              "widthName": 60,
-              "widthComment": 60,
-              "widthDataType": 60,
-              "widthDefault": 60
-            }
           }
         ],
         "ui": {
-          "active": false,
+          "active": true,
           "left": 1552.767,
           "top": 42.8357,
-          "zIndex": 11,
+          "zIndex": 17,
           "widthName": 60,
           "widthComment": 60
         },
@@ -823,12 +823,35 @@
               "widthDataType": 60,
               "widthDefault": 60
             }
+          },
+          {
+            "id": "b4b7944f-45fb-4f53-9889-e148954e74a7",
+            "name": "sequence",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            }
           }
         ],
         "ui": {
           "active": false,
-          "left": 2027.8102,
-          "top": 325.7283,
+          "left": 2086.8102,
+          "top": 216.7283,
           "zIndex": 13,
           "widthName": 60,
           "widthComment": 60
@@ -914,7 +937,7 @@
           "active": false,
           "left": 1498.587,
           "top": 413.5784,
-          "zIndex": 12,
+          "zIndex": 7,
           "widthName": 60,
           "widthComment": 60
         },
@@ -970,13 +993,36 @@
               "widthDataType": 60,
               "widthDefault": 60
             }
+          },
+          {
+            "id": "8b59d3f4-b3f1-44f1-83be-08727f91cd82",
+            "name": "sequence",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            }
           }
         ],
         "ui": {
           "active": false,
-          "left": 1504.2556,
+          "left": 1505.2556,
           "top": 659.6032,
-          "zIndex": 14,
+          "zIndex": 11,
           "widthName": 60,
           "widthComment": 65.6739501953125
         },
@@ -1107,7 +1153,7 @@
           "active": false,
           "left": 2052.7251,
           "top": 27.9817,
-          "zIndex": 10,
+          "zIndex": 6,
           "widthName": 60,
           "widthComment": 60
         },
@@ -1192,7 +1238,7 @@
           "active": false,
           "left": 93.5,
           "top": 63,
-          "zIndex": 15,
+          "zIndex": 8,
           "widthName": 60,
           "widthComment": 72.88896179199219
         },
@@ -1248,13 +1294,36 @@
               "widthDataType": 60,
               "widthDefault": 60
             }
+          },
+          {
+            "id": "0770b021-d473-46a4-adfa-faacf0e0c08f",
+            "name": "sequence",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            }
           }
         ],
         "ui": {
           "active": false,
           "left": 2063,
           "top": 552,
-          "zIndex": 6,
+          "zIndex": 12,
           "widthName": 60,
           "widthComment": 108.61288452148438
         },
@@ -1645,25 +1714,97 @@
           "widthComment": 60
         },
         "visible": true
+      },
+      {
+        "id": "5994e084-05c5-44c6-8bc7-2b09bf6e82da",
+        "name": "Sticker",
+        "comment": "스티커",
+        "columns": [
+          {
+            "id": "29e97eff-8967-4e33-80fc-e273b45e07c5",
+            "name": "id",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": true,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": true,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            }
+          },
+          {
+            "id": "20ea707e-2fe4-4d66-a77e-570b5c1a4369",
+            "name": "imgUrl",
+            "comment": "",
+            "dataType": "TEXT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            }
+          },
+          {
+            "id": "763ae73a-242e-4574-ad30-b9b497f71ccf",
+            "name": "sequence",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            }
+          }
+        ],
+        "ui": {
+          "active": false,
+          "left": 2049,
+          "top": 402,
+          "zIndex": 14,
+          "widthName": 60,
+          "widthComment": 60
+        },
+        "visible": true
       }
     ],
     "indexes": []
   },
   "memo": {
-    "memos": [
-      {
-        "id": "27ebea60-5b78-4060-9e82-bb58bcb84b0b",
-        "value": "편지지 디자인 + 편지봉투 디자인 한 세트!",
-        "ui": {
-          "active": false,
-          "left": 1562.3888888888846,
-          "top": 809.888888888889,
-          "zIndex": 8,
-          "width": 255,
-          "height": 100
-        }
-      }
-    ]
+    "memos": []
   },
   "relationship": {
     "relationships": [
@@ -1755,7 +1896,7 @@
           "columnIds": [
             "9d7e1a3b-bf8e-4e38-a95f-658b7957cc82"
           ],
-          "x": 1677.7556,
+          "x": 1678.7556,
           "y": 659.6032,
           "direction": "top"
         },
@@ -1782,7 +1923,7 @@
             "1f0095df-47d9-44ee-9992-1d5cf1102126"
           ],
           "x": 1975.1968248291016,
-          "y": 111.3357,
+          "y": 88.50236666666666,
           "direction": "right"
         },
         "end": {
@@ -1834,7 +1975,7 @@
             "a8ea215a-a2c2-4669-bba0-259843dd030c"
           ],
           "x": 2238.0304641723633,
-          "y": 662,
+          "y": 682.5,
           "direction": "bottom"
         },
         "end": {
@@ -1980,32 +2121,6 @@
         "visible": true
       },
       {
-        "id": "8e7fdddb-368f-406b-8e74-fbdff1c398c3",
-        "identification": false,
-        "relationshipType": "OneN",
-        "startRelationshipType": "Dash",
-        "start": {
-          "tableId": "d3458f78-11f7-4dc8-9990-5282aade4396",
-          "columnIds": [
-            "0a823c91-d2cb-4f5f-96ab-558ab77782b2"
-          ],
-          "x": 2027.8102,
-          "y": 390.9783,
-          "direction": "left"
-        },
-        "end": {
-          "tableId": "47966f5e-3bfe-4d71-91d6-e0003848c932",
-          "columnIds": [
-            "30a5af47-0d02-4573-840d-93f9b73f086e"
-          ],
-          "x": 1975.1968248291016,
-          "y": 248.3357,
-          "direction": "right"
-        },
-        "constraintName": "fk_box_to_giftbox",
-        "visible": true
-      },
-      {
         "id": "07d687a6-32ec-415b-a918-f7fd4c6f8d21",
         "identification": false,
         "relationshipType": "ZeroN",
@@ -2029,6 +2144,58 @@
           "direction": "left"
         },
         "constraintName": "fk_member_to_membergift",
+        "visible": true
+      },
+      {
+        "id": "c395606a-ed58-46b8-9e45-8d23df5b6fcc",
+        "identification": false,
+        "relationshipType": "ZeroN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "d3458f78-11f7-4dc8-9990-5282aade4396",
+          "columnIds": [
+            "0a823c91-d2cb-4f5f-96ab-558ab77782b2"
+          ],
+          "x": 2086.8102,
+          "y": 292.2283,
+          "direction": "left"
+        },
+        "end": {
+          "tableId": "47966f5e-3bfe-4d71-91d6-e0003848c932",
+          "columnIds": [
+            "8f314eec-c651-4b78-9f08-cb356f4e9519"
+          ],
+          "x": 1975.1968248291016,
+          "y": 179.83569999999997,
+          "direction": "right"
+        },
+        "constraintName": "fk_box_to_giftbox",
+        "visible": true
+      },
+      {
+        "id": "2355cae2-817b-4fb3-bce2-030ebf7e6537",
+        "identification": false,
+        "relationshipType": "ZeroN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "5994e084-05c5-44c6-8bc7-2b09bf6e82da",
+          "columnIds": [
+            "29e97eff-8967-4e33-80fc-e273b45e07c5"
+          ],
+          "x": 2049,
+          "y": 467.25,
+          "direction": "left"
+        },
+        "end": {
+          "tableId": "47966f5e-3bfe-4d71-91d6-e0003848c932",
+          "columnIds": [
+            "d5bdbaf5-a850-4e23-9473-a9971c5c0ccb"
+          ],
+          "x": 1975.1968248291016,
+          "y": 271.1690333333333,
+          "direction": "right"
+        },
+        "constraintName": "fk_sticker_to_giftbox",
         "visible": true
       }
     ]
