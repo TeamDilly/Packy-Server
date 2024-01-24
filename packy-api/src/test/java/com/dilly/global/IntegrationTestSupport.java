@@ -5,13 +5,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.TestPropertySource;
 
+import com.dilly.admin.application.AdminService;
 import com.dilly.gift.application.GiftService;
 import com.dilly.gift.dao.BoxRepository;
+import com.dilly.gift.dao.EnvelopeRepository;
 import com.dilly.gift.dao.GiftBoxRepository;
 import com.dilly.gift.dao.LetterRepository;
 import com.dilly.gift.dao.MemberGiftBoxRepository;
-import com.dilly.gift.dao.MessageRepository;
+import com.dilly.gift.dao.MusicRepository;
 import com.dilly.gift.dao.PhotoRepository;
+import com.dilly.gift.dao.ProfileImageRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -27,16 +30,25 @@ public abstract class IntegrationTestSupport {
 	protected int port;
 
 	@Autowired
+	protected AdminService adminService;
+
+	@Autowired
 	protected GiftService giftService;
+
+	@Autowired
+	protected ProfileImageRepository profileImageRepository;
 
 	@Autowired
 	protected BoxRepository boxRepository;
 
 	@Autowired
-	protected MessageRepository messageRepository;
+	protected EnvelopeRepository envelopeRepository;
 
 	@Autowired
 	protected LetterRepository letterRepository;
+
+	@Autowired
+	protected MusicRepository musicRepository;
 
 	@Autowired
 	protected PhotoRepository photoRepository;
