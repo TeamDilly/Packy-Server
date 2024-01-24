@@ -5,6 +5,7 @@ import com.dilly.admin.dto.response.BoxImgResponse;
 import com.dilly.admin.dto.response.ImgResponse;
 import com.dilly.admin.dto.response.MusicResponse;
 import com.dilly.global.response.DataResponseDto;
+import com.dilly.global.response.SliceResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -12,7 +13,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -61,11 +61,12 @@ public class AdminController {
 
     @Operation(summary = "스티커 조회")
     @GetMapping("/design/stickers")
-    public DataResponseDto<Slice<ImgResponse>> getStickers(
+    public DataResponseDto<SliceResponseDto<ImgResponse>> getStickers(
         @Parameter(hidden = true) @PageableDefault(size = 10) Pageable pageable,
         @Schema(description = "마지막 스티커 ID", example = "0")
         @RequestParam(value = "lastStickerId", required = false)
         Long lastStickerId) {
-        return DataResponseDto.from(adminService.getStickers(lastStickerId, pageable));
+        return DataResponseDto.from(
+            SliceResponseDto.from(adminService.getStickers(lastStickerId, pageable)));
     }
 }
