@@ -20,7 +20,6 @@ import com.dilly.auth.model.AppleToken;
 import com.dilly.auth.model.KakaoResource;
 import com.dilly.exception.ErrorCode;
 import com.dilly.exception.UnsupportedException;
-import com.dilly.gift.ProfileImage;
 import com.dilly.global.utils.SecurityUtil;
 import com.dilly.jwt.JwtService;
 import com.dilly.jwt.RefreshToken;
