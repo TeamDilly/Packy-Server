@@ -1,10 +1,11 @@
 package com.dilly.gift.dao;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
+import com.dilly.gift.GiftBox;
 import com.dilly.gift.MemberGiftBox;
+import com.dilly.member.Member;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MemberGiftBoxRepository extends JpaRepository<MemberGiftBox, Long> {
 
-	MemberGiftBox findByMemberIdAndGiftBoxId(Long memberId, Long giftBoxId);
+    MemberGiftBox findBySenderAndGiftBox(Member sender, GiftBox giftBox);
 }

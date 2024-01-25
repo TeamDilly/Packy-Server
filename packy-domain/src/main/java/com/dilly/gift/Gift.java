@@ -15,8 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Gift {
 
-	@Enumerated(EnumType.STRING)
-	private GiftType giftType;
-	private String giftUrl;
-	private String giftMessage;
+    @Enumerated(EnumType.STRING)
+    private GiftType giftType;
+    private String giftUrl;
 }
