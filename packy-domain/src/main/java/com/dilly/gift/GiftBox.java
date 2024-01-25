@@ -33,9 +33,6 @@ public class GiftBox extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Letter letter;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Sticker sticker;
-
     private String youtubeUrl;
 
     @Embedded
