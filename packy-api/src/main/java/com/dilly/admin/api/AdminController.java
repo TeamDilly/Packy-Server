@@ -8,6 +8,7 @@ import com.dilly.global.response.DataResponseDto;
 import com.dilly.global.response.SliceResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
@@ -60,10 +61,16 @@ public class AdminController {
     }
 
     @Operation(summary = "스티커 조회")
+    @Parameter(in = ParameterIn.QUERY
+        , description = "한 페이지에 보여줄 스티커 개수. 기본값은 10개"
+        , name = "size"
+        , schema = @Schema(type = "integer"))
     @GetMapping("/design/stickers")
     public DataResponseDto<SliceResponseDto<ImgResponse>> getStickers(
-        @Parameter(hidden = true) @PageableDefault(size = 10) Pageable pageable,
-        @Schema(description = "마지막 스티커 ID", example = "0")
+        @PageableDefault(size = 10)
+        @Parameter(hidden = true)
+        Pageable pageable,
+        @Schema(description = "마지막 스티커 ID", type = "integer")
         @RequestParam(value = "lastStickerId", required = false)
         Long lastStickerId) {
         return DataResponseDto.from(
