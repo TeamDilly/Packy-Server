@@ -4,7 +4,7 @@
     "width": 2500,
     "height": 2500,
     "scrollTop": 0,
-    "scrollLeft": -1059,
+    "scrollLeft": -936,
     "zoomLevel": 1,
     "show": {
       "tableComment": true,
@@ -413,7 +413,7 @@
           "active": false,
           "left": 1113.1054,
           "top": 56.7647,
-          "zIndex": 10,
+          "zIndex": 17,
           "widthName": 67.41592407226562,
           "widthComment": 85.34294128417969
         },
@@ -534,30 +534,7 @@
           },
           {
             "id": "8f314eec-c651-4b78-9f08-cb356f4e9519",
-            "name": "box_id",
-            "comment": "",
-            "dataType": "BIGINT",
-            "default": "",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": false,
-              "unique": false,
-              "notNull": true
-            },
-            "ui": {
-              "active": false,
-              "pk": false,
-              "fk": true,
-              "pfk": false,
-              "widthName": 60,
-              "widthComment": 60,
-              "widthDataType": 60,
-              "widthDefault": 60
-            }
-          },
-          {
-            "id": "d5bdbaf5-a850-4e23-9473-a9971c5c0ccb",
-            "name": "sticker_id",
+            "name": "boxId",
             "comment": "",
             "dataType": "BIGINT",
             "default": "",
@@ -741,10 +718,10 @@
           }
         ],
         "ui": {
-          "active": true,
-          "left": 1552.767,
-          "top": 42.8357,
-          "zIndex": 17,
+          "active": false,
+          "left": 1564.767,
+          "top": 44.8357,
+          "zIndex": 71,
           "widthName": 60,
           "widthComment": 60
         },
@@ -935,9 +912,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 1498.587,
-          "top": 413.5784,
-          "zIndex": 7,
+          "left": 1735.587,
+          "top": 415.5784,
+          "zIndex": 29,
           "widthName": 60,
           "widthComment": 60
         },
@@ -1020,9 +997,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 1505.2556,
-          "top": 659.6032,
-          "zIndex": 11,
+          "left": 1715.2556,
+          "top": 631.6032,
+          "zIndex": 30,
           "widthName": 60,
           "widthComment": 65.6739501953125
         },
@@ -1151,9 +1128,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 2052.7251,
-          "top": 27.9817,
-          "zIndex": 6,
+          "left": 2082.7251,
+          "top": 28.9817,
+          "zIndex": 22,
           "widthName": 60,
           "widthComment": 60
         },
@@ -1321,9 +1298,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 2063,
-          "top": 552,
-          "zIndex": 12,
+          "left": 2148,
+          "top": 553,
+          "zIndex": 31,
           "widthName": 60,
           "widthComment": 108.61288452148438
         },
@@ -1792,10 +1769,118 @@
         ],
         "ui": {
           "active": false,
-          "left": 2049,
-          "top": 402,
-          "zIndex": 14,
+          "left": 1134,
+          "top": 618,
+          "zIndex": 65,
           "widthName": 60,
+          "widthComment": 60
+        },
+        "visible": true
+      },
+      {
+        "id": "2bd92bc1-98cd-42d2-a70e-9e10942ad58f",
+        "name": "GiftBoxSticker",
+        "comment": "",
+        "columns": [
+          {
+            "id": "158c8b81-003d-4861-aa8c-234b3a12eb3b",
+            "name": "id",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": true,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": true,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            }
+          },
+          {
+            "id": "76fc991c-14ab-440a-b545-a20c314c91a2",
+            "name": "giftboxId",
+            "comment": "UUID",
+            "dataType": "VARCHAR",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            }
+          },
+          {
+            "id": "0f79be76-3ce9-436c-a6e4-93f9fb627428",
+            "name": "stickerIid",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            }
+          },
+          {
+            "id": "3c755742-c723-41d9-bd5c-be93389d94ad",
+            "name": "location",
+            "comment": "",
+            "dataType": "INT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            }
+          }
+        ],
+        "ui": {
+          "active": false,
+          "left": 1132,
+          "top": 380,
+          "zIndex": 89,
+          "widthName": 79.92185974121094,
           "widthComment": 60
         },
         "visible": true
@@ -1870,8 +1955,8 @@
           "columnIds": [
             "6d36f191-020b-427f-aa19-fca9b53ea4f1"
           ],
-          "x": 1673.2339650268555,
-          "y": 413.5784,
+          "x": 1910.2339650268555,
+          "y": 415.5784,
           "direction": "top"
         },
         "end": {
@@ -1879,8 +1964,8 @@
           "columnIds": [
             "3f89ecfc-e228-4223-b30d-35558abba959"
           ],
-          "x": 1763.9819124145508,
-          "y": 316.8357,
+          "x": 1775.9819124145508,
+          "y": 298.3357,
           "direction": "bottom"
         },
         "constraintName": "fk_letter_to_present",
@@ -1896,8 +1981,8 @@
           "columnIds": [
             "9d7e1a3b-bf8e-4e38-a95f-658b7957cc82"
           ],
-          "x": 1678.7556,
-          "y": 659.6032,
+          "x": 1888.7556,
+          "y": 631.6032,
           "direction": "top"
         },
         "end": {
@@ -1905,8 +1990,8 @@
           "columnIds": [
             "151107b9-e942-47df-97dd-8b5de5918ce9"
           ],
-          "x": 1673.2339650268555,
-          "y": 544.0784,
+          "x": 1910.2339650268555,
+          "y": 546.0784,
           "direction": "bottom"
         },
         "constraintName": "fk_envelope_to_letter",
@@ -1922,8 +2007,8 @@
           "columnIds": [
             "1f0095df-47d9-44ee-9992-1d5cf1102126"
           ],
-          "x": 1975.1968248291016,
-          "y": 88.50236666666666,
+          "x": 1987.1968248291016,
+          "y": 108.2107,
           "direction": "right"
         },
         "end": {
@@ -1931,8 +2016,8 @@
           "columnIds": [
             "de69f269-72d0-403c-aa08-97b12491cdfe"
           ],
-          "x": 2052.7251,
-          "y": 113.7317,
+          "x": 2082.7251,
+          "y": 114.7317,
           "direction": "left"
         },
         "constraintName": "fk_present_to_photo",
@@ -1974,8 +2059,8 @@
           "columnIds": [
             "a8ea215a-a2c2-4669-bba0-259843dd030c"
           ],
-          "x": 2238.0304641723633,
-          "y": 682.5,
+          "x": 2323.0304641723633,
+          "y": 683.5,
           "direction": "bottom"
         },
         "end": {
@@ -2104,8 +2189,8 @@
           "columnIds": [
             "1f0095df-47d9-44ee-9992-1d5cf1102126"
           ],
-          "x": 1552.767,
-          "y": 179.8357,
+          "x": 1564.767,
+          "y": 108.2107,
           "direction": "left"
         },
         "end": {
@@ -2165,37 +2250,63 @@
           "columnIds": [
             "8f314eec-c651-4b78-9f08-cb356f4e9519"
           ],
-          "x": 1975.1968248291016,
-          "y": 179.83569999999997,
+          "x": 1987.1968248291016,
+          "y": 234.9607,
           "direction": "right"
         },
         "constraintName": "fk_box_to_giftbox",
         "visible": true
       },
       {
-        "id": "2355cae2-817b-4fb3-bce2-030ebf7e6537",
+        "id": "60336fdd-2c1c-4517-8ef3-5f1caf9a0a4f",
         "identification": false,
-        "relationshipType": "ZeroN",
+        "relationshipType": "OneN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "47966f5e-3bfe-4d71-91d6-e0003848c932",
+          "columnIds": [
+            "1f0095df-47d9-44ee-9992-1d5cf1102126"
+          ],
+          "x": 1564.767,
+          "y": 234.9607,
+          "direction": "left"
+        },
+        "end": {
+          "tableId": "2bd92bc1-98cd-42d2-a70e-9e10942ad58f",
+          "columnIds": [
+            "76fc991c-14ab-440a-b545-a20c314c91a2"
+          ],
+          "x": 1479,
+          "y": 455.5,
+          "direction": "right"
+        },
+        "constraintName": "fk_giftbox_to_giftboxsticker",
+        "visible": true
+      },
+      {
+        "id": "d36e79c8-1f2f-435b-aaa7-32138fc18c77",
+        "identification": false,
+        "relationshipType": "OneN",
         "startRelationshipType": "Dash",
         "start": {
           "tableId": "5994e084-05c5-44c6-8bc7-2b09bf6e82da",
           "columnIds": [
             "29e97eff-8967-4e33-80fc-e273b45e07c5"
           ],
-          "x": 2049,
-          "y": 467.25,
-          "direction": "left"
+          "x": 1307.5,
+          "y": 618,
+          "direction": "top"
         },
         "end": {
-          "tableId": "47966f5e-3bfe-4d71-91d6-e0003848c932",
+          "tableId": "2bd92bc1-98cd-42d2-a70e-9e10942ad58f",
           "columnIds": [
-            "d5bdbaf5-a850-4e23-9473-a9971c5c0ccb"
+            "0f79be76-3ce9-436c-a6e4-93f9fb627428"
           ],
-          "x": 1975.1968248291016,
-          "y": 271.1690333333333,
-          "direction": "right"
+          "x": 1305.5,
+          "y": 531,
+          "direction": "bottom"
         },
-        "constraintName": "fk_sticker_to_giftbox",
+        "constraintName": "fk_sticker_to_giftboxsticker",
         "visible": true
       }
     ]
