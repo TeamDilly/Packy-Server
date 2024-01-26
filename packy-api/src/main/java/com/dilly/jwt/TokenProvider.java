@@ -98,7 +98,7 @@ public class TokenProvider {
 		} catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
 			log.error(ErrorCode.MALFORMED_JWT.getMessage(), e);
 		} catch (ExpiredJwtException e) {
-			log.error(ErrorCode.EXPIRED_JWT.getMessage(), e);
+			log.warn(ErrorCode.EXPIRED_JWT.getMessage(), e);
 		} catch (UnsupportedJwtException e) {
 			log.error(ErrorCode.UNSUPPORTED_JWT.getMessage(), e);
 		} catch (IllegalArgumentException e) {
