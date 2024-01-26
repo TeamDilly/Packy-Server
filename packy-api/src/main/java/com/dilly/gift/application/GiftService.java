@@ -45,7 +45,7 @@ public class GiftService {
         Letter letter = letterWriter.save(giftBoxRequest.letterContent(), envelope);
         Gift gift = Gift.builder()
             .giftType(GiftType.valueOf(giftBoxRequest.gift().type().toUpperCase()))
-            .giftUrl(giftBoxRequest.gift().imgUrl())
+            .giftUrl(giftBoxRequest.gift().url())
             .build();
 
         GiftBox giftBox = giftBoxWriter.save(box, letter, giftBoxRequest.youtubeUrl(), gift);

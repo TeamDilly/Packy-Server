@@ -8,7 +8,7 @@ public record GiftRequest(
     @Schema(example = "photo")
     String type,
     @Schema(example = "www.example.com")
-    String imgUrl
+    String url
 ) {
 
 }
