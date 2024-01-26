@@ -51,7 +51,7 @@ class GiftServiceTest extends IntegrationTestSupport {
             )
             .gift(GiftRequest.builder()
                 .type("photo")
-                .imgUrl("www.naver.com")
+                .url("www.naver.com")
                 .build()
             )
             .build();
@@ -71,7 +71,7 @@ class GiftServiceTest extends IntegrationTestSupport {
         assertThat(giftBox.getYoutubeUrl()).isEqualTo(giftBoxRequest.youtubeUrl());
         assertThat(giftBox.getGift().getGiftType().name()).isEqualTo(
             giftBoxRequest.gift().type().toUpperCase());
-        assertThat(giftBox.getGift().getGiftUrl()).isEqualTo(giftBoxRequest.gift().imgUrl());
+        assertThat(giftBox.getGift().getGiftUrl()).isEqualTo(giftBoxRequest.gift().url());
         assertThat(photos).hasSize(2)
             .extracting("imgUrl", "description", "sequence")
             .contains(tuple("www.test1.com", "description1", 1),

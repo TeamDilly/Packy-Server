@@ -45,7 +45,7 @@ class GiftControllerTest extends ControllerTestSupport {
             )
             .gift(GiftRequest.builder()
                 .type("photo")
-                .imgUrl("www.naver.com")
+                .url("www.naver.com")
                 .build()
             )
             .build();
