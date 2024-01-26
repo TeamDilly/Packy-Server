@@ -63,13 +63,6 @@ tasks.register('copySecret', Copy) {
     into './src/main/resources'
 }
 
-processTestResources.dependsOn('copySql')
-tasks.register('copySql', Copy) {
-    from '../packy-submodule/api'
-    include '*.sql'
-    into './src/test/resources'
-}
-
 if (project.hasProperty('dev')) {
     apply from: project.file('profile-dev.gradle');
 } else if (project.hasProperty('prod')) {
