@@ -21,8 +21,8 @@ public class StickerQueryRepository {
     public Slice<Sticker> searchBySlice(Long lastStickerId, Pageable pageable) {
         List<Sticker> results = jpaQueryFactory.selectFrom(sticker)
             .where(gtStickerId(lastStickerId))
-            .orderBy(sticker.id.asc())
-            .limit(pageable.getPageSize() + 1)
+            .orderBy(sticker.sequence.asc())
+            .limit(pageable.getPageSize() + 1L)
             .fetch();
 
         return checkLastPage(pageable, results);
