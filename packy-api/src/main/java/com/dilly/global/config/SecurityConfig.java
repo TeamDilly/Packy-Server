@@ -1,5 +1,10 @@
 package com.dilly.global.config;
 
+import com.dilly.jwt.JwtAccessDeniedHandler;
+import com.dilly.jwt.JwtAuthenticationEntryPoint;
+import com.dilly.jwt.JwtFilter;
+import com.dilly.jwt.TokenProvider;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -11,13 +16,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import com.dilly.jwt.JwtAccessDeniedHandler;
-import com.dilly.jwt.JwtAuthenticationEntryPoint;
-import com.dilly.jwt.JwtFilter;
-import com.dilly.jwt.TokenProvider;
-
-import lombok.RequiredArgsConstructor;
 
 @Configuration
 @RequiredArgsConstructor
@@ -59,8 +57,16 @@ public class SecurityConfig {
 			// 토큰이 없는 상태에서 요청이 가능한 API는 permitAll 설정
 			.authorizeHttpRequests(authorizeRequests ->
 				authorizeRequests
-					// TODO: permitAll() 범위 수정
-					.requestMatchers("/**").permitAll()
+					.requestMatchers("/", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**")
+					.permitAll()
+					.requestMatchers(
+						"/api/v1/admin/health",
+						"/api/v1/auth/token/kakao/**",
+						"/api/v1/admin/design/profiles",
+						"/api/v1/auth/sign-up",
+						"/api/v1/auth/sign-in/**",
+						"/api/v1/auth/reissue"
+					).permitAll()
 					.anyRequest().authenticated()
 			)
 			.formLogin(Customizer.withDefaults())
