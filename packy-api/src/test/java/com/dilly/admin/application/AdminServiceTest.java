@@ -80,6 +80,7 @@ class AdminServiceTest extends IntegrationTestSupport {
         List<MusicResponse> musics = musicRepository.findAll()
             .stream().map(music -> MusicResponse.builder()
                 .id(music.getId())
+                .sequence(music.getSequence())
                 .youtubeUrl(music.getYoutubeUrl())
                 .hashtags(music.getHashtags().stream().map(MusicHashtag::getHashtag).toList())
                 .build()

@@ -1,21 +1,20 @@
 package com.dilly.admin.api;
 
-import static org.hamcrest.Matchers.*;
-import static org.mockito.BDDMockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import java.util.List;
-
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.dilly.admin.dto.response.BoxImgResponse;
 import com.dilly.admin.dto.response.ImgResponse;
 import com.dilly.admin.dto.response.MusicResponse;
 import com.dilly.global.ControllerTestSupport;
 import com.dilly.global.WithCustomMockUser;
+import java.util.List;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 class AdminControllerTest extends ControllerTestSupport {
 
@@ -125,8 +124,10 @@ class AdminControllerTest extends ControllerTestSupport {
 		// given
 		List<String> hashtags = List.of("#테스트1", "#테스트2");
 		List<MusicResponse> musics = List.of(
-			MusicResponse.builder().id(1L).youtubeUrl("www.youtube.com").hashtags(hashtags).build(),
-			MusicResponse.builder().id(2L).youtubeUrl("www.youtube.com").hashtags(hashtags).build());
+			MusicResponse.builder().id(1L).sequence(1L).youtubeUrl("www.youtube.com")
+				.hashtags(hashtags).build(),
+			MusicResponse.builder().id(2L).sequence(2L).youtubeUrl("www.youtube.com")
+				.hashtags(hashtags).build());
 
 		given(adminService.getMusics()).willReturn(musics);
 

@@ -21,7 +21,7 @@ import org.springframework.test.context.TestPropertySource;
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
     properties = "spring.profiles.active=test"
 )
-@TestPropertySource(locations = {"classpath:application-test.yml", "classpath:data.sql"})
+@TestPropertySource(locations = {"classpath:application-test.yml"})
 @Transactional
 public abstract class IntegrationTestSupport {
 
