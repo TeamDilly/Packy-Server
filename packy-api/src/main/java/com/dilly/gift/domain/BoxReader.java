@@ -1,16 +1,13 @@
 package com.dilly.gift.domain;
 
-import java.util.List;
-
-import org.springframework.stereotype.Component;
-
 import com.dilly.admin.dto.response.BoxImgResponse;
 import com.dilly.exception.ErrorCode;
 import com.dilly.exception.entitynotfound.EntityNotFoundException;
 import com.dilly.gift.Box;
 import com.dilly.gift.dao.BoxRepository;
-
+import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
@@ -19,7 +16,7 @@ public class BoxReader {
 	private final BoxRepository boxRepository;
 
 	public List<BoxImgResponse> findAll() {
-		return boxRepository.findAll().stream()
+        return boxRepository.findAllByOrderBySequenceAsc().stream()
 			.map(box -> BoxImgResponse.builder()
 				.id(box.getId())
 				.boxFull(box.getFullImgUrl())
