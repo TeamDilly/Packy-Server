@@ -1,24 +1,9 @@
 package com.dilly.jwt;
 
-import java.security.Key;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
-
 import com.dilly.exception.AuthorizationFailedException;
 import com.dilly.exception.ErrorCode;
 import com.dilly.jwt.dto.JwtResponse;
 import com.dilly.member.Member;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -27,7 +12,19 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import java.security.Key;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
@@ -94,19 +91,18 @@ public class TokenProvider {
 		return new UsernamePasswordAuthenticationToken(principal, "", authorities);
 	}
 
-	// TODO: 주석 해제하면 예외 처리 Response가 안 가고 500 에러가 남
 	public boolean validateToken(String token) {
 		try {
 			Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
 			return true;
 		} catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-			//            throw new AuthorizationFailedException(ErrorCode.MALFORMED_JWT);
+			log.error(ErrorCode.MALFORMED_JWT.getMessage(), e);
 		} catch (ExpiredJwtException e) {
-			//            throw new AuthorizationFailedException(ErrorCode.EXPIRED_JWT);
+			log.warn(ErrorCode.EXPIRED_JWT.getMessage(), e);
 		} catch (UnsupportedJwtException e) {
-			//            throw new AuthorizationFailedException(ErrorCode.UNSUPPORTED_JWT);
+			log.error(ErrorCode.UNSUPPORTED_JWT.getMessage(), e);
 		} catch (IllegalArgumentException e) {
-			//            throw new AuthorizationFailedException(ErrorCode.ILLEGAL_JWT);
+			log.error(ErrorCode.ILLEGAL_JWT.getMessage(), e);
 		}
 		return false;
 	}

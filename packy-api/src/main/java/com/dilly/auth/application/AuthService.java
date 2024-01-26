@@ -1,11 +1,8 @@
 package com.dilly.auth.application;
 
-import static com.dilly.member.Provider.*;
-
-import java.util.Optional;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import static com.dilly.member.Provider.APPLE;
+import static com.dilly.member.Provider.KAKAO;
+import static com.dilly.member.Provider.TEST;
 
 import com.dilly.auth.AppleAccount;
 import com.dilly.auth.KakaoAccount;
@@ -33,9 +30,11 @@ import com.dilly.member.Status;
 import com.dilly.member.domain.MemberReader;
 import com.dilly.member.domain.MemberWriter;
 import com.dilly.member.domain.ProfileImageReader;
-
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -84,6 +83,11 @@ public class AuthService {
 					.refreshToken(appleToken.refreshToken())
 					.build()
 				);
+			}
+
+			case "test" -> {
+				provider = TEST;
+				member = memberWriter.save(signupRequest.toEntity(provider, profileImage));
 			}
 
 			default -> throw new UnsupportedException(ErrorCode.UNSUPPORTED_LOGIN_TYPE);
