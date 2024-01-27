@@ -11,6 +11,7 @@ import com.dilly.gift.dao.MusicRepository;
 import com.dilly.gift.dao.PhotoRepository;
 import com.dilly.gift.dao.ProfileImageRepository;
 import com.dilly.member.MemberRepository;
+import com.dilly.mypage.application.MyPageService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -33,6 +34,9 @@ public abstract class IntegrationTestSupport {
 
     @Autowired
     protected GiftService giftService;
+
+    @Autowired
+    protected MyPageService myPageService;
 
     @Autowired
     protected ProfileImageRepository profileImageRepository;
