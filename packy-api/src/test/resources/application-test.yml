@@ -50,3 +50,7 @@ cloud:
       secret-key: test
   s3:
     bucket: test
+
+youtube:
+  api:
+    key: test
