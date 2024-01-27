@@ -36,7 +36,7 @@ public class YoutubeService {
 
         // video 정보 접근 불가능
         Optional<Video> video = getVideoInfo(videoId);
-        if (!video.isPresent()) {
+        if (video.isEmpty()) {
             return StatusResponse.from(false);
         }
 
