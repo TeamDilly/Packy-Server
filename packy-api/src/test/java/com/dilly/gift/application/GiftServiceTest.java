@@ -65,6 +65,7 @@ class GiftServiceTest extends IntegrationTestSupport {
 
         // then
         assertThat(giftBox.getBox().getId()).isEqualTo(giftBoxRequest.boxId());
+        assertThat(giftBox.getName()).isEqualTo(giftBoxRequest.name());
         assertThat(giftBox.getLetter().getEnvelope().getId()).isEqualTo(
             giftBoxRequest.envelopeId());
         assertThat(giftBox.getLetter().getContent()).isEqualTo(giftBoxRequest.letterContent());
