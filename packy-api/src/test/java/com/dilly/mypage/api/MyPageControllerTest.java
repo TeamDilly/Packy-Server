@@ -30,7 +30,7 @@ class MyPageControllerTest extends ControllerTestSupport {
 
         // when // then
         mockMvc.perform(
-            get("/api/v1/mypage/profile")
+                get("/api/v1/my-page/profile")
         )
             .andDo(print())
             .andExpect(status().isOk())
