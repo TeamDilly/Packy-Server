@@ -2,6 +2,7 @@ package com.dilly.global;
 
 import com.dilly.admin.api.AdminController;
 import com.dilly.admin.application.AdminService;
+import com.dilly.application.YoutubeService;
 import com.dilly.gift.api.GiftController;
 import com.dilly.gift.application.GiftService;
 import com.dilly.mypage.api.MyPageController;
@@ -40,4 +41,7 @@ public abstract class ControllerTestSupport {
 
     @MockBean
     protected MyPageService myPageService;
+
+	@MockBean
+	protected YoutubeService youtubeService;
 }
