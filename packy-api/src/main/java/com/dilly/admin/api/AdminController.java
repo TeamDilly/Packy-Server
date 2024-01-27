@@ -4,6 +4,8 @@ import com.dilly.admin.application.AdminService;
 import com.dilly.admin.dto.response.BoxImgResponse;
 import com.dilly.admin.dto.response.ImgResponse;
 import com.dilly.admin.dto.response.MusicResponse;
+import com.dilly.application.YoutubeService;
+import com.dilly.dto.response.StatusResponse;
 import com.dilly.global.response.DataResponseDto;
 import com.dilly.global.response.SliceResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminController {
 
     private final AdminService adminService;
+    private final YoutubeService youtubeService;
 
     @Operation(summary = "서버 상태 체크")
     @GetMapping("/health")
@@ -75,5 +78,14 @@ public class AdminController {
         Long lastStickerId) {
         return DataResponseDto.from(
             SliceResponseDto.from(adminService.getStickers(lastStickerId, pageable)));
+    }
+
+    @Operation(summary = "유튜브 링크 유효성 검사")
+    @GetMapping("/youtube")
+    public DataResponseDto<StatusResponse> validateYoutubeUrl(
+        @Schema(description = "유튜브 링크", type = "string")
+        @RequestParam(value = "url", required = true)
+        String url) {
+        return DataResponseDto.from(youtubeService.validateYoutubeUrl(url));
     }
 }
