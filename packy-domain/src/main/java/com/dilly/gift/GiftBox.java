@@ -27,6 +27,8 @@ public class GiftBox extends BaseTimeEntity {
 
     private String uuid;
 
+    private String name;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Box box;
 

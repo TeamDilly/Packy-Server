@@ -48,7 +48,8 @@ public class GiftService {
             .giftUrl(giftBoxRequest.gift().url())
             .build();
 
-        GiftBox giftBox = giftBoxWriter.save(box, letter, giftBoxRequest.youtubeUrl(), gift);
+        GiftBox giftBox = giftBoxWriter.save(box, letter, gift, giftBoxRequest.name(),
+            giftBoxRequest.youtubeUrl());
 
         for (PhotoRequest photoRequest : giftBoxRequest.photos()) {
             photoWriter.save(giftBox, photoRequest);
