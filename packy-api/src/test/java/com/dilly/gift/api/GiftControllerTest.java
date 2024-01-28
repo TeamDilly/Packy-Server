@@ -11,7 +11,7 @@ import com.dilly.gift.dto.request.GiftBoxRequest;
 import com.dilly.gift.dto.request.GiftRequest;
 import com.dilly.gift.dto.request.PhotoRequest;
 import com.dilly.gift.dto.request.StickerRequest;
-import com.dilly.gift.dto.response.GiftBoxResponse;
+import com.dilly.gift.dto.response.GiftBoxIdResponse;
 import com.dilly.global.ControllerTestSupport;
 import com.dilly.global.WithCustomMockUser;
 import java.util.Collection;
@@ -39,7 +39,7 @@ class GiftControllerTest extends ControllerTestSupport {
         List<StickerRequest> stickers = List.of(
             StickerRequest.builder().id(1L).location(1).build(),
             StickerRequest.builder().id(2L).location(2).build());
-        GiftBoxResponse giftBoxResponse = GiftBoxResponse.builder()
+        GiftBoxIdResponse giftBoxIdResponse = GiftBoxIdResponse.builder()
             .id(1L)
             .uuid("550e8400-e29b-41d4-a716-446655440000")
             .build();
@@ -64,7 +64,7 @@ class GiftControllerTest extends ControllerTestSupport {
                     )
                     .build();
 
-                given(giftService.createGiftBox(giftBoxRequest)).willReturn(giftBoxResponse);
+                given(giftService.createGiftBox(giftBoxRequest)).willReturn(giftBoxIdResponse);
 
                 // when // then
                 mockMvc.perform(
@@ -93,7 +93,7 @@ class GiftControllerTest extends ControllerTestSupport {
                     .gift(null)
                     .build();
 
-                given(giftService.createGiftBox(giftBoxRequest)).willReturn(giftBoxResponse);
+                given(giftService.createGiftBox(giftBoxRequest)).willReturn(giftBoxIdResponse);
 
                 // when // then
                 mockMvc.perform(
