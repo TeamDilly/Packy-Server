@@ -53,5 +53,6 @@ public class GiftBox extends BaseTimeEntity {
     private Gift gift;
 
     @Enumerated(EnumType.STRING)
-    private GiftBoxType giftBoxType;
+    @Builder.Default
+    private GiftBoxType giftBoxType = GiftBoxType.PRIVATE;
 }
