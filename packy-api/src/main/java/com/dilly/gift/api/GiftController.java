@@ -3,7 +3,6 @@ package com.dilly.gift.api;
 import com.dilly.gift.application.GiftService;
 import com.dilly.gift.dto.request.GiftBoxRequest;
 import com.dilly.gift.dto.response.GiftBoxIdResponse;
-import com.dilly.gift.dto.response.GiftBoxResponse;
 import com.dilly.global.response.DataResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
