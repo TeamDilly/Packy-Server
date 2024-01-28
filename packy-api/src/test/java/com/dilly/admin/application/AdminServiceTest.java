@@ -81,6 +81,7 @@ class AdminServiceTest extends IntegrationTestSupport {
             .stream().map(music -> MusicResponse.builder()
                 .id(music.getId())
                 .sequence(music.getSequence())
+                .title(music.getTitle())
                 .youtubeUrl(music.getYoutubeUrl())
                 .hashtags(music.getHashtags().stream().map(MusicHashtag::getHashtag).toList())
                 .build()

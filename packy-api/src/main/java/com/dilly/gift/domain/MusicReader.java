@@ -19,6 +19,7 @@ public class MusicReader {
 			.map(music -> MusicResponse.builder()
 				.id(music.getId())
                 .sequence(music.getSequence())
+				.title(music.getTitle())
 				.youtubeUrl(music.getYoutubeUrl())
 				.hashtags(getHashTags(music))
 				.build()

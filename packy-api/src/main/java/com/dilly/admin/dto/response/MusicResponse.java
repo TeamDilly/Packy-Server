@@ -10,6 +10,8 @@ public record MusicResponse(
 	Long id,
 	@Schema(example = "www.youtube.com")
 	String youtubeUrl,
+	@Schema(example = "행복한 날에 어울리는 행복한 음악")
+	String title,
 	@Schema(example = "1")
 	Long sequence,
 	List<String> hashtags
