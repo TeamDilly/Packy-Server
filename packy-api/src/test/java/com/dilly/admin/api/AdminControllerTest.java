@@ -124,9 +124,9 @@ class AdminControllerTest extends ControllerTestSupport {
 		// given
 		List<String> hashtags = List.of("#테스트1", "#테스트2");
 		List<MusicResponse> musics = List.of(
-			MusicResponse.builder().id(1L).sequence(1L).youtubeUrl("www.youtube.com")
+			MusicResponse.builder().id(1L).sequence(1L).title("test1").youtubeUrl("www.youtube.com")
 				.hashtags(hashtags).build(),
-			MusicResponse.builder().id(2L).sequence(2L).youtubeUrl("www.youtube.com")
+			MusicResponse.builder().id(2L).sequence(2L).title("test2").youtubeUrl("www.youtube.com")
 				.hashtags(hashtags).build());
 
 		given(adminService.getMusics()).willReturn(musics);

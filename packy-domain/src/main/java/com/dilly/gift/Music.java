@@ -19,6 +19,8 @@ public class Music {
 
 	private String youtubeUrl;
 
+	private String title;
+
     private Long sequence;
 
 	@OneToMany(mappedBy = "music")
