@@ -20,7 +20,10 @@ public class GiftController {
 
     private final GiftService giftService;
 
-    @Operation(summary = "선물박스 만들기", description = "giftType은 photo만 가능합니다.")
+    @Operation(summary = "선물박스 만들기", description = """
+        1. giftType은 photo만 가능합니다.
+        2. gift가 없을 경우 null로 보내주세요.
+        """)
     @PostMapping("")
     public DataResponseDto<GiftBoxIdResponse> createGiftBox(
         @RequestBody GiftBoxRequest giftBoxRequest
