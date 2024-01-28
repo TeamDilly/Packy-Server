@@ -50,7 +50,8 @@ public class GiftService {
         GiftBox giftBox;
         if (giftBoxRequest.gift() == null) {
             giftBox = giftBoxWriter.save(box, letter, sender,
-                giftBoxRequest.name(), giftBoxRequest.youtubeUrl());
+                giftBoxRequest.name(), giftBoxRequest.youtubeUrl(),
+                giftBoxRequest.senderName(), giftBoxRequest.receiverName());
         } else {
             Gift gift = Gift.builder()
                 .giftType(GiftType.valueOf(giftBoxRequest.gift().type().toUpperCase()))
@@ -58,7 +59,8 @@ public class GiftService {
                 .build();
 
             giftBox = giftBoxWriter.save(box, letter, gift, sender,
-                giftBoxRequest.name(), giftBoxRequest.youtubeUrl());
+                giftBoxRequest.name(), giftBoxRequest.youtubeUrl(),
+                giftBoxRequest.senderName(), giftBoxRequest.receiverName());
         }
 
         for (PhotoRequest photoRequest : giftBoxRequest.photos()) {

@@ -31,6 +31,9 @@ public class GiftBox extends BaseTimeEntity {
 
     private String name;
 
+    private String senderName;
+    private String receiverName;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sender_id")
     private Member sender;

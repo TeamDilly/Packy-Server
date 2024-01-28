@@ -17,7 +17,7 @@ public class GiftBoxWriter {
 	private final GiftBoxRepository giftBoxRepository;
 
 	public GiftBox save(Box box, Letter letter, Gift gift, Member member,
-		String name, String youtubeUrl) {
+		String name, String youtubeUrl, String senderName, String receiverName) {
 		return giftBoxRepository.save(GiftBox.builder()
 			.uuid(UUID.randomUUID().toString())
 			.name(name)
@@ -25,12 +25,14 @@ public class GiftBoxWriter {
 			.box(box)
 			.letter(letter)
 			.youtubeUrl(youtubeUrl)
+			.senderName(senderName)
+			.receiverName(receiverName)
 			.gift(gift)
 			.build());
 	}
 
 	public GiftBox save(Box box, Letter letter, Member member,
-		String name, String youtubeUrl) {
+		String name, String youtubeUrl, String senderName, String receiverName) {
 		return giftBoxRepository.save(GiftBox.builder()
 			.uuid(UUID.randomUUID().toString())
 			.name(name)
@@ -38,6 +40,8 @@ public class GiftBoxWriter {
 			.box(box)
 			.letter(letter)
 			.youtubeUrl(youtubeUrl)
+			.senderName(senderName)
+			.receiverName(receiverName)
 			.build());
 	}
 }
