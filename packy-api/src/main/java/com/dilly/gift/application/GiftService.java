@@ -16,7 +16,6 @@ import com.dilly.gift.dto.request.GiftBoxRequest;
 import com.dilly.gift.dto.request.PhotoRequest;
 import com.dilly.gift.dto.request.StickerRequest;
 import com.dilly.gift.dto.response.GiftBoxIdResponse;
-import com.dilly.gift.dto.response.GiftBoxResponse;
 import com.dilly.global.utils.SecurityUtil;
 import com.dilly.member.Member;
 import com.dilly.member.domain.MemberReader;
