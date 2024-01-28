@@ -7,6 +7,7 @@ import com.dilly.gift.domain.BoxReader;
 import com.dilly.gift.domain.EnvelopeReader;
 import com.dilly.gift.domain.MusicReader;
 import com.dilly.gift.domain.StickerReader;
+import com.dilly.gift.dto.response.EnvelopeListResponse;
 import com.dilly.member.domain.ProfileImageReader;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +37,7 @@ public class AdminService {
         return boxReader.findAll();
     }
 
-    public List<ImgResponse> getEnvelopes() {
+    public List<EnvelopeListResponse> getEnvelopes() {
         return envelopeReader.findAll();
     }
 

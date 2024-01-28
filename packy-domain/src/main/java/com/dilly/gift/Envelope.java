@@ -1,6 +1,6 @@
 package com.dilly.gift;
 
-import static jakarta.persistence.GenerationType.*;
+import static jakarta.persistence.GenerationType.IDENTITY;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,6 +16,8 @@ public class Envelope {
 	private Long id;
 
 	private Long sequence;
+
+	private String borderColorCode;
 
 	private String imgUrl;
 }
