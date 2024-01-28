@@ -11,13 +11,14 @@ import com.dilly.gift.domain.EnvelopeReader;
 import com.dilly.gift.domain.GiftBoxStickerWriter;
 import com.dilly.gift.domain.GiftBoxWriter;
 import com.dilly.gift.domain.LetterWriter;
-import com.dilly.gift.domain.MemberGiftBoxWriter;
 import com.dilly.gift.domain.PhotoWriter;
 import com.dilly.gift.dto.request.GiftBoxRequest;
 import com.dilly.gift.dto.request.PhotoRequest;
 import com.dilly.gift.dto.request.StickerRequest;
 import com.dilly.gift.dto.response.GiftBoxResponse;
 import com.dilly.global.utils.SecurityUtil;
+import com.dilly.member.Member;
+import com.dilly.member.domain.MemberReader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -30,15 +31,16 @@ import org.springframework.transaction.annotation.Transactional;
 public class GiftService {
 
     private final GiftBoxWriter giftBoxWriter;
-    private final MemberGiftBoxWriter memberGiftBoxWriter;
     private final BoxReader boxReader;
     private final EnvelopeReader envelopeReader;
     private final LetterWriter letterWriter;
     private final PhotoWriter photoWriter;
     private final GiftBoxStickerWriter giftBoxStickerWriter;
+    private final MemberReader memberReader;
 
     public GiftBoxResponse createGiftBox(GiftBoxRequest giftBoxRequest) {
         Long memberId = SecurityUtil.getMemberId();
+        Member sender = memberReader.findById(memberId);
 
         Box box = boxReader.findById(giftBoxRequest.boxId());
         Envelope envelope = envelopeReader.findById(giftBoxRequest.envelopeId());
@@ -48,8 +50,8 @@ public class GiftService {
             .giftUrl(giftBoxRequest.gift().url())
             .build();
 
-        GiftBox giftBox = giftBoxWriter.save(box, letter, gift, giftBoxRequest.name(),
-            giftBoxRequest.youtubeUrl());
+        GiftBox giftBox = giftBoxWriter.save(box, letter, gift, sender,
+            giftBoxRequest.name(), giftBoxRequest.youtubeUrl());
 
         for (PhotoRequest photoRequest : giftBoxRequest.photos()) {
             photoWriter.save(giftBox, photoRequest);
@@ -58,8 +60,6 @@ public class GiftService {
         for (StickerRequest stickerRequest : giftBoxRequest.stickers()) {
             giftBoxStickerWriter.save(giftBox, stickerRequest);
         }
-
-        memberGiftBoxWriter.save(memberId, giftBox, giftBoxRequest);
 
         return GiftBoxResponse.builder()
             .id(giftBox.getId())

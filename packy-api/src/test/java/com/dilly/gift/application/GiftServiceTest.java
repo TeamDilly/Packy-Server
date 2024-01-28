@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.tuple;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.dilly.gift.GiftBox;
-import com.dilly.gift.MemberGiftBox;
 import com.dilly.gift.Photo;
 import com.dilly.gift.dto.request.GiftBoxRequest;
 import com.dilly.gift.dto.request.GiftRequest;
@@ -60,8 +59,6 @@ class GiftServiceTest extends IntegrationTestSupport {
         GiftBoxResponse giftBoxResponse = giftService.createGiftBox(giftBoxRequest);
         GiftBox giftBox = giftBoxRepository.findTopByOrderByIdDesc();
         List<Photo> photos = photoRepository.findAllByGiftBox(giftBox);
-        MemberGiftBox memberGiftBox = memberGiftBoxRepository.findBySenderAndGiftBox(member,
-            giftBox);
 
         // then
         assertThat(giftBox.getBox().getId()).isEqualTo(giftBoxRequest.boxId());
@@ -77,9 +74,6 @@ class GiftServiceTest extends IntegrationTestSupport {
             .extracting("imgUrl", "description", "sequence")
             .contains(tuple("www.test1.com", "description1", 1),
                 tuple("www.test2.com", "description2", 2));
-        assertThat(memberGiftBox.getSender()).isEqualTo(member);
-        assertThat(memberGiftBox.getGiftBox()).isEqualTo(giftBox);
-        assertThat(memberGiftBox.getReceiver()).isNull();
         assertThat(giftBoxResponse.id()).isEqualTo(giftBox.getId());
         assertTrue(isValidUUID(giftBoxResponse.uuid()));
     }
