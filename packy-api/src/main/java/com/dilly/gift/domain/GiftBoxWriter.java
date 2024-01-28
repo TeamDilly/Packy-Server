@@ -28,4 +28,16 @@ public class GiftBoxWriter {
 			.gift(gift)
 			.build());
 	}
+
+	public GiftBox save(Box box, Letter letter, Member member,
+		String name, String youtubeUrl) {
+		return giftBoxRepository.save(GiftBox.builder()
+			.uuid(UUID.randomUUID().toString())
+			.name(name)
+			.sender(member)
+			.box(box)
+			.letter(letter)
+			.youtubeUrl(youtubeUrl)
+			.build());
+	}
 }

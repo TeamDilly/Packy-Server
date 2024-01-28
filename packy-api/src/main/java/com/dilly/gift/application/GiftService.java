@@ -45,13 +45,20 @@ public class GiftService {
         Box box = boxReader.findById(giftBoxRequest.boxId());
         Envelope envelope = envelopeReader.findById(giftBoxRequest.envelopeId());
         Letter letter = letterWriter.save(giftBoxRequest.letterContent(), envelope);
-        Gift gift = Gift.builder()
-            .giftType(GiftType.valueOf(giftBoxRequest.gift().type().toUpperCase()))
-            .giftUrl(giftBoxRequest.gift().url())
-            .build();
 
-        GiftBox giftBox = giftBoxWriter.save(box, letter, gift, sender,
-            giftBoxRequest.name(), giftBoxRequest.youtubeUrl());
+        GiftBox giftBox;
+        if (giftBoxRequest.gift() == null) {
+            giftBox = giftBoxWriter.save(box, letter, sender,
+                giftBoxRequest.name(), giftBoxRequest.youtubeUrl());
+        } else {
+            Gift gift = Gift.builder()
+                .giftType(GiftType.valueOf(giftBoxRequest.gift().type().toUpperCase()))
+                .giftUrl(giftBoxRequest.gift().url())
+                .build();
+
+            giftBox = giftBoxWriter.save(box, letter, gift, sender,
+                giftBoxRequest.name(), giftBoxRequest.youtubeUrl());
+        }
 
         for (PhotoRequest photoRequest : giftBoxRequest.photos()) {
             photoWriter.save(giftBox, photoRequest);
