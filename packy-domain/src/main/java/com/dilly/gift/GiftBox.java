@@ -6,6 +6,8 @@ import com.dilly.global.BaseTimeEntity;
 import com.dilly.member.Member;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -31,6 +33,10 @@ public class GiftBox extends BaseTimeEntity {
 
     private String name;
 
+    private String senderName;
+
+    private String receiverName;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sender_id")
     private Member sender;
@@ -45,4 +51,7 @@ public class GiftBox extends BaseTimeEntity {
 
     @Embedded
     private Gift gift;
+
+    @Enumerated(EnumType.STRING)
+    private GiftBoxType giftBoxType;
 }

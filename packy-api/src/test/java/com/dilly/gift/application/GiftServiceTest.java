@@ -10,7 +10,7 @@ import com.dilly.gift.dto.request.GiftBoxRequest;
 import com.dilly.gift.dto.request.GiftRequest;
 import com.dilly.gift.dto.request.PhotoRequest;
 import com.dilly.gift.dto.request.StickerRequest;
-import com.dilly.gift.dto.response.GiftBoxResponse;
+import com.dilly.gift.dto.response.GiftBoxIdResponse;
 import com.dilly.global.IntegrationTestSupport;
 import com.dilly.global.WithCustomMockUser;
 import com.dilly.global.utils.SecurityUtil;
@@ -65,13 +65,15 @@ class GiftServiceTest extends IntegrationTestSupport {
                     .build();
 
                 // when
-                GiftBoxResponse giftBoxResponse = giftService.createGiftBox(giftBoxRequest);
+                GiftBoxIdResponse giftBoxIdResponse = giftService.createGiftBox(giftBoxRequest);
                 GiftBox giftBox = giftBoxRepository.findTopByOrderByIdDesc();
                 List<Photo> photos = photoRepository.findAllByGiftBox(giftBox);
 
                 // then
                 assertThat(giftBox.getBox().getId()).isEqualTo(giftBoxRequest.boxId());
                 assertThat(giftBox.getName()).isEqualTo(giftBoxRequest.name());
+                assertThat(giftBox.getSenderName()).isEqualTo(giftBoxRequest.senderName());
+                assertThat(giftBox.getReceiverName()).isEqualTo(giftBoxRequest.receiverName());
                 assertThat(giftBox.getLetter().getEnvelope().getId()).isEqualTo(
                     giftBoxRequest.envelopeId());
                 assertThat(giftBox.getLetter().getContent()).isEqualTo(
@@ -85,8 +87,8 @@ class GiftServiceTest extends IntegrationTestSupport {
                     .contains(tuple("www.test1.com", "description1", 1),
                         tuple("www.test2.com", "description2", 2));
 
-                assertThat(giftBoxResponse.id()).isEqualTo(giftBox.getId());
-                assertTrue(isValidUUID(giftBoxResponse.uuid()));
+                assertThat(giftBoxIdResponse.id()).isEqualTo(giftBox.getId());
+                assertTrue(isValidUUID(giftBoxIdResponse.uuid()));
             }),
             DynamicTest.dynamicTest("선물이 없을 경우", () -> {
                 //given
@@ -103,13 +105,15 @@ class GiftServiceTest extends IntegrationTestSupport {
                     .build();
 
                 // when
-                GiftBoxResponse giftBoxResponse = giftService.createGiftBox(giftBoxRequest);
+                GiftBoxIdResponse giftBoxIdResponse = giftService.createGiftBox(giftBoxRequest);
                 GiftBox giftBox = giftBoxRepository.findTopByOrderByIdDesc();
                 List<Photo> photos = photoRepository.findAllByGiftBox(giftBox);
 
                 // then
                 assertThat(giftBox.getBox().getId()).isEqualTo(giftBoxRequest.boxId());
                 assertThat(giftBox.getName()).isEqualTo(giftBoxRequest.name());
+                assertThat(giftBox.getSenderName()).isEqualTo(giftBoxRequest.senderName());
+                assertThat(giftBox.getReceiverName()).isEqualTo(giftBoxRequest.receiverName());
                 assertThat(giftBox.getLetter().getEnvelope().getId()).isEqualTo(
                     giftBoxRequest.envelopeId());
                 assertThat(giftBox.getLetter().getContent()).isEqualTo(
@@ -121,8 +125,8 @@ class GiftServiceTest extends IntegrationTestSupport {
                     .contains(tuple("www.test1.com", "description1", 1),
                         tuple("www.test2.com", "description2", 2));
 
-                assertThat(giftBoxResponse.id()).isEqualTo(giftBox.getId());
-                assertTrue(isValidUUID(giftBoxResponse.uuid()));
+                assertThat(giftBoxIdResponse.id()).isEqualTo(giftBox.getId());
+                assertTrue(isValidUUID(giftBoxIdResponse.uuid()));
             })
         );
     }

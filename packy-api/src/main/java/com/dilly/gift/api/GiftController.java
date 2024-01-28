@@ -2,7 +2,7 @@ package com.dilly.gift.api;
 
 import com.dilly.gift.application.GiftService;
 import com.dilly.gift.dto.request.GiftBoxRequest;
-import com.dilly.gift.dto.response.GiftBoxResponse;
+import com.dilly.gift.dto.response.GiftBoxIdResponse;
 import com.dilly.global.response.DataResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,7 +22,7 @@ public class GiftController {
 
     @Operation(summary = "선물박스 만들기", description = "giftType은 photo만 가능합니다.")
     @PostMapping("")
-    public DataResponseDto<GiftBoxResponse> createGiftBox(
+    public DataResponseDto<GiftBoxIdResponse> createGiftBox(
         @RequestBody GiftBoxRequest giftBoxRequest
     ) {
         return DataResponseDto.from(giftService.createGiftBox(giftBoxRequest));

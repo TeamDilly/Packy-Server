@@ -6,6 +6,7 @@ import com.dilly.admin.dto.response.BoxImgResponse;
 import com.dilly.admin.dto.response.ImgResponse;
 import com.dilly.admin.dto.response.MusicResponse;
 import com.dilly.gift.MusicHashtag;
+import com.dilly.gift.dto.response.EnvelopeListResponse;
 import com.dilly.global.IntegrationTestSupport;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -57,22 +58,22 @@ class AdminServiceTest extends IntegrationTestSupport {
     @Test
     void getEnvelopes() {
         // given
-        List<ImgResponse> envelopes = envelopeRepository.findAll()
-            .stream().map(envelope -> ImgResponse.builder()
+        List<EnvelopeListResponse> envelopes = envelopeRepository.findAll()
+            .stream().map(envelope -> EnvelopeListResponse.builder()
                 .id(envelope.getId())
                 .imgUrl(envelope.getImgUrl())
                 .sequence(envelope.getSequence())
+                .borderColorCode(envelope.getBorderColorCode())
                 .build()
             ).toList();
 
         // when
-        List<ImgResponse> response = adminService.getEnvelopes();
+        List<EnvelopeListResponse> response = adminService.getEnvelopes();
 
         // then
         assertThat(response).isEqualTo(envelopes);
     }
 
-    @SuppressWarnings("checkstyle:RegexpSinglelineJava")
     @DisplayName("패키 추천 음악을 조회한다.")
     @Test
     void getMusics() {

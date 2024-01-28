@@ -6,6 +6,7 @@ import com.dilly.admin.dto.response.ImgResponse;
 import com.dilly.admin.dto.response.MusicResponse;
 import com.dilly.application.YoutubeService;
 import com.dilly.dto.response.StatusResponse;
+import com.dilly.gift.dto.response.EnvelopeListResponse;
 import com.dilly.global.response.DataResponseDto;
 import com.dilly.global.response.SliceResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -53,7 +54,7 @@ public class AdminController {
 
     @Operation(summary = "편지 봉투 디자인 조회")
     @GetMapping("/design/envelopes")
-    public DataResponseDto<List<ImgResponse>> getEnvelopes() {
+    public DataResponseDto<List<EnvelopeListResponse>> getEnvelopes() {
         return DataResponseDto.from(adminService.getEnvelopes());
     }
 

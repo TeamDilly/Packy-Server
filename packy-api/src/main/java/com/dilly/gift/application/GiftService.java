@@ -15,7 +15,7 @@ import com.dilly.gift.domain.PhotoWriter;
 import com.dilly.gift.dto.request.GiftBoxRequest;
 import com.dilly.gift.dto.request.PhotoRequest;
 import com.dilly.gift.dto.request.StickerRequest;
-import com.dilly.gift.dto.response.GiftBoxResponse;
+import com.dilly.gift.dto.response.GiftBoxIdResponse;
 import com.dilly.global.utils.SecurityUtil;
 import com.dilly.member.Member;
 import com.dilly.member.domain.MemberReader;
@@ -38,7 +38,7 @@ public class GiftService {
     private final GiftBoxStickerWriter giftBoxStickerWriter;
     private final MemberReader memberReader;
 
-    public GiftBoxResponse createGiftBox(GiftBoxRequest giftBoxRequest) {
+    public GiftBoxIdResponse createGiftBox(GiftBoxRequest giftBoxRequest) {
         Long memberId = SecurityUtil.getMemberId();
         Member sender = memberReader.findById(memberId);
 
@@ -49,7 +49,8 @@ public class GiftService {
         GiftBox giftBox;
         if (giftBoxRequest.gift() == null) {
             giftBox = giftBoxWriter.save(box, letter, sender,
-                giftBoxRequest.name(), giftBoxRequest.youtubeUrl());
+                giftBoxRequest.name(), giftBoxRequest.youtubeUrl(),
+                giftBoxRequest.senderName(), giftBoxRequest.receiverName());
         } else {
             Gift gift = Gift.builder()
                 .giftType(GiftType.valueOf(giftBoxRequest.gift().type().toUpperCase()))
@@ -57,7 +58,8 @@ public class GiftService {
                 .build();
 
             giftBox = giftBoxWriter.save(box, letter, gift, sender,
-                giftBoxRequest.name(), giftBoxRequest.youtubeUrl());
+                giftBoxRequest.name(), giftBoxRequest.youtubeUrl(),
+                giftBoxRequest.senderName(), giftBoxRequest.receiverName());
         }
 
         for (PhotoRequest photoRequest : giftBoxRequest.photos()) {
@@ -68,7 +70,7 @@ public class GiftService {
             giftBoxStickerWriter.save(giftBox, stickerRequest);
         }
 
-        return GiftBoxResponse.builder()
+        return GiftBoxIdResponse.builder()
             .id(giftBox.getId())
             .uuid(giftBox.getUuid())
             .build();
