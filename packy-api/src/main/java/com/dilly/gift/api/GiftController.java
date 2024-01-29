@@ -3,10 +3,13 @@ package com.dilly.gift.api;
 import com.dilly.gift.application.GiftService;
 import com.dilly.gift.dto.request.GiftBoxRequest;
 import com.dilly.gift.dto.response.GiftBoxIdResponse;
+import com.dilly.gift.dto.response.GiftBoxResponse;
 import com.dilly.global.response.DataResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,5 +32,13 @@ public class GiftController {
         @RequestBody GiftBoxRequest giftBoxRequest
     ) {
         return DataResponseDto.from(giftService.createGiftBox(giftBoxRequest));
+    }
+
+    @Operation(summary = "선물박스 열기")
+    @GetMapping("/{giftBoxId}")
+    public DataResponseDto<GiftBoxResponse> openGiftBox(
+        @PathVariable Long giftBoxId
+    ) {
+        return DataResponseDto.from(giftService.openGiftBox(giftBoxId));
     }
 }
