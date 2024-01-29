@@ -21,8 +21,40 @@ public record GiftBoxRequest(
     @Schema(example = "https://www.youtube.com")
     String youtubeUrl,
     List<PhotoRequest> photos,
-    GiftRequest gift,
-    List<StickerRequest> stickers
+    List<StickerRequest> stickers,
+    GiftRequest gift
 ) {
 
+    public static GiftBoxRequest of(String name, String senderName, String receiverName, Long boxId,
+        Long envelopeId, String letterContent, String youtubeUrl, List<PhotoRequest> photos,
+        List<StickerRequest> stickers, GiftRequest gift) {
+        return GiftBoxRequest.builder()
+            .name(name)
+            .senderName(senderName)
+            .receiverName(receiverName)
+            .boxId(boxId)
+            .envelopeId(envelopeId)
+            .letterContent(letterContent)
+            .youtubeUrl(youtubeUrl)
+            .photos(photos)
+            .stickers(stickers)
+            .gift(gift)
+            .build();
+    }
+
+    public static GiftBoxRequest of(String name, String senderName, String receiverName, Long boxId,
+        Long envelopeId, String letterContent, String youtubeUrl, List<PhotoRequest> photos,
+        List<StickerRequest> stickers) {
+        return GiftBoxRequest.builder()
+            .name(name)
+            .senderName(senderName)
+            .receiverName(receiverName)
+            .boxId(boxId)
+            .envelopeId(envelopeId)
+            .letterContent(letterContent)
+            .youtubeUrl(youtubeUrl)
+            .photos(photos)
+            .stickers(stickers)
+            .build();
+    }
 }

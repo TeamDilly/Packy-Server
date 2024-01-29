@@ -5,6 +5,7 @@ import com.dilly.gift.application.GiftService;
 import com.dilly.gift.dao.BoxRepository;
 import com.dilly.gift.dao.EnvelopeRepository;
 import com.dilly.gift.dao.GiftBoxRepository;
+import com.dilly.gift.dao.GiftBoxStickerRepository;
 import com.dilly.gift.dao.LetterRepository;
 import com.dilly.gift.dao.MusicRepository;
 import com.dilly.gift.dao.PhotoRepository;
@@ -54,6 +55,9 @@ public abstract class IntegrationTestSupport {
 
     @Autowired
     protected PhotoRepository photoRepository;
+
+    @Autowired
+    protected GiftBoxStickerRepository giftBoxStickerRepository;
 
     @Autowired
     protected GiftBoxRepository giftBoxRepository;

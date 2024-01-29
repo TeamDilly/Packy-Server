@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.tuple;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.dilly.gift.GiftBox;
+import com.dilly.gift.GiftBoxSticker;
 import com.dilly.gift.GiftBoxType;
 import com.dilly.gift.Photo;
 import com.dilly.gift.dto.request.GiftBoxRequest;
@@ -17,6 +18,7 @@ import com.dilly.global.WithCustomMockUser;
 import com.dilly.global.utils.SecurityUtil;
 import com.dilly.member.Member;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 import org.junit.jupiter.api.DisplayName;
@@ -33,44 +35,30 @@ class GiftServiceTest extends IntegrationTestSupport {
         Long memberId = SecurityUtil.getMemberId();
         Member member = memberRepository.findById(memberId).orElseThrow();
 
-        List<PhotoRequest> photoRequests = List.of(
-            PhotoRequest.builder()
-                .photoUrl("www.test1.com").description("description1").sequence(1)
-                .build(),
-            PhotoRequest.builder()
-                .photoUrl("www.test2.com").description("description2").sequence(2)
-                .build()
+        List<PhotoRequest> photoRequests = Collections.singletonList(PhotoRequest.of(
+            "www.test.com", "description1", 1));
+
+        List<StickerRequest> stickerRequests = List.of(
+            StickerRequest.of(1L, 1),
+            StickerRequest.of(2L, 2)
         );
-        List<StickerRequest> stickers = List.of(
-            StickerRequest.builder().id(1L).location(1).build(),
-            StickerRequest.builder().id(2L).location(2).build());
 
         return List.of(
             DynamicTest.dynamicTest("선물이 있을 경우", () -> {
                 //given
-                GiftBoxRequest giftBoxRequest = GiftBoxRequest.builder()
-                    .name("test")
-                    .senderName("sender")
-                    .receiverName("receiver")
-                    .boxId(1L)
-                    .envelopeId(1L)
-                    .letterContent("This is letter content.")
-                    .youtubeUrl("www.youtube.com")
-                    .photos(photoRequests)
-                    .stickers(stickers)
-                    .gift(GiftRequest.builder()
-                        .type("photo")
-                        .url("www.naver.com")
-                        .build()
-                    )
-                    .build();
+                GiftBoxRequest giftBoxRequest = GiftBoxRequest.of("test", "sender", "receiver", 1L,
+                    1L, "This is letter content.", "www.youtube.com", photoRequests,
+                    stickerRequests,
+                    GiftRequest.of("photo", "www.test.com"));
 
                 // when
                 GiftBoxIdResponse giftBoxIdResponse = giftService.createGiftBox(giftBoxRequest);
                 GiftBox giftBox = giftBoxRepository.findTopByOrderByIdDesc();
                 List<Photo> photos = photoRepository.findAllByGiftBox(giftBox);
+                List<GiftBoxSticker> stickers = giftBoxStickerRepository.findAllByGiftBox(giftBox);
 
                 // then
+                assertThat(giftBox.getSender()).isEqualTo(member);
                 assertThat(giftBox.getBox().getId()).isEqualTo(giftBoxRequest.boxId());
                 assertThat(giftBox.getName()).isEqualTo(giftBoxRequest.name());
                 assertThat(giftBox.getSenderName()).isEqualTo(giftBoxRequest.senderName());
@@ -83,10 +71,10 @@ class GiftServiceTest extends IntegrationTestSupport {
                 assertThat(giftBox.getGift().getGiftType().name()).isEqualTo(
                     giftBoxRequest.gift().type().toUpperCase());
                 assertThat(giftBox.getGift().getGiftUrl()).isEqualTo(giftBoxRequest.gift().url());
-                assertThat(photos).hasSize(2)
+                assertThat(photos).hasSize(photoRequests.size())
                     .extracting("imgUrl", "description", "sequence")
-                    .contains(tuple("www.test1.com", "description1", 1),
-                        tuple("www.test2.com", "description2", 2));
+                    .contains(tuple("www.test.com", "description1", 1));
+                assertThat(stickers).hasSize(stickers.size());
                 assertThat(giftBox.getGiftBoxType()).isEqualTo(GiftBoxType.PRIVATE);
 
                 assertThat(giftBoxIdResponse.id()).isEqualTo(giftBox.getId());
@@ -94,22 +82,15 @@ class GiftServiceTest extends IntegrationTestSupport {
             }),
             DynamicTest.dynamicTest("선물이 없을 경우", () -> {
                 //given
-                GiftBoxRequest giftBoxRequest = GiftBoxRequest.builder()
-                    .name("test")
-                    .senderName("sender")
-                    .receiverName("receiver")
-                    .boxId(1L)
-                    .envelopeId(1L)
-                    .letterContent("This is letter content.")
-                    .youtubeUrl("www.youtube.com")
-                    .photos(photoRequests)
-                    .stickers(stickers)
-                    .build();
+                GiftBoxRequest giftBoxRequest = GiftBoxRequest.of("test", "sender", "receiver", 1L,
+                    1L, "This is letter content.", "www.youtube.com", photoRequests,
+                    stickerRequests);
 
                 // when
                 GiftBoxIdResponse giftBoxIdResponse = giftService.createGiftBox(giftBoxRequest);
                 GiftBox giftBox = giftBoxRepository.findTopByOrderByIdDesc();
                 List<Photo> photos = photoRepository.findAllByGiftBox(giftBox);
+                List<GiftBoxSticker> stickers = giftBoxStickerRepository.findAllByGiftBox(giftBox);
 
                 // then
                 assertThat(giftBox.getBox().getId()).isEqualTo(giftBoxRequest.boxId());
@@ -122,10 +103,10 @@ class GiftServiceTest extends IntegrationTestSupport {
                     giftBoxRequest.letterContent());
                 assertThat(giftBox.getYoutubeUrl()).isEqualTo(giftBoxRequest.youtubeUrl());
                 assertThat(giftBox.getGift()).isNull();
-                assertThat(photos).hasSize(2)
+                assertThat(photos).hasSize(photoRequests.size())
                     .extracting("imgUrl", "description", "sequence")
-                    .contains(tuple("www.test1.com", "description1", 1),
-                        tuple("www.test2.com", "description2", 2));
+                    .contains(tuple("www.test.com", "description1", 1));
+                assertThat(stickers).hasSize(stickers.size());
                 assertThat(giftBox.getGiftBoxType()).isEqualTo(GiftBoxType.PRIVATE);
 
                 assertThat(giftBoxIdResponse.id()).isEqualTo(giftBox.getId());

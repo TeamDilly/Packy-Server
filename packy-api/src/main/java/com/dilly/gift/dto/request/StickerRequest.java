@@ -11,4 +11,10 @@ public record StickerRequest(
     Integer location
 ) {
 
+    public static StickerRequest of(Long id, Integer location) {
+        return StickerRequest.builder()
+            .id(id)
+            .location(location)
+            .build();
+    }
 }

@@ -69,10 +69,8 @@ public class GiftService {
                 giftBoxRequest.name(), giftBoxRequest.youtubeUrl(),
                 giftBoxRequest.senderName(), giftBoxRequest.receiverName());
         } else {
-            Gift gift = Gift.builder()
-                .giftType(GiftType.valueOf(giftBoxRequest.gift().type().toUpperCase()))
-                .giftUrl(giftBoxRequest.gift().url())
-                .build();
+            Gift gift = Gift.of(GiftType.valueOf(giftBoxRequest.gift().type().toUpperCase()),
+                giftBoxRequest.gift().url());
 
             giftBox = giftBoxWriter.save(box, letter, gift, sender,
                 giftBoxRequest.name(), giftBoxRequest.youtubeUrl(),
@@ -87,10 +85,7 @@ public class GiftService {
             giftBoxStickerWriter.save(giftBox, stickerRequest);
         }
 
-        return GiftBoxIdResponse.builder()
-            .id(giftBox.getId())
-            .uuid(giftBox.getUuid())
-            .build();
+        return GiftBoxIdResponse.of(giftBox.getId(), giftBox.getUuid());
     }
 
     public GiftBoxResponse openGiftBox(Long giftBoxId) {
@@ -105,44 +100,22 @@ public class GiftService {
         }
         receiverWriter.save(receiver, giftBox);
 
-        BoxResponse boxResponse = BoxResponse.builder()
-            .boxFull(giftBox.getBox().getFullImgUrl())
-            .boxPart(giftBox.getBox().getPartImgUrl())
-            .boxBottom(giftBox.getBox().getBottomImgUrl())
-            .build();
-        EnvelopeResponse envelopeResponse = EnvelopeResponse.builder()
-            .imgUrl(giftBox.getLetter().getEnvelope().getImgUrl())
-            .borderColorCode(giftBox.getLetter().getEnvelope().getBorderColorCode())
-            .build();
+        BoxResponse boxResponse = BoxResponse.of(giftBox.getBox());
+        EnvelopeResponse envelopeResponse = EnvelopeResponse.of(giftBox.getLetter().getEnvelope());
         List<PhotoResponse> photos = giftBox.getPhotos().stream()
-            .map(photo -> PhotoResponse.builder()
-                .photoUrl(photo.getImgUrl())
-                .build())
+            .map(PhotoResponse::of)
             .sorted(Comparator.comparingInt(PhotoResponse::sequence))
             .toList();
         List<StickerResponse> stickers = giftBox.getGiftBoxStickers().stream()
-            .map(giftBoxSticker -> StickerResponse.builder()
-                .imgUrl(giftBoxSticker.getSticker().getImgUrl())
-                .location(giftBoxSticker.getLocation())
-                .build())
+            .map(StickerResponse::of)
             .sorted(Comparator.comparingInt(StickerResponse::location))
             .toList();
-        GiftResponse giftResponse = giftBox.getGift() == null ? null : GiftResponse.builder()
-            .type(giftBox.getGift().getGiftType().name())
-            .url(giftBox.getGift().getGiftUrl())
-            .build();
+        GiftResponse giftResponse = null;
+        if (giftBox.getGift() != null) {
+            giftResponse = GiftResponse.of(giftBox.getGift());
+        }
 
-        return GiftBoxResponse.builder()
-            .name(giftBox.getName())
-            .senderName(giftBox.getSenderName())
-            .receiverName(giftBox.getReceiverName())
-            .box(boxResponse)
-            .envelope(envelopeResponse)
-            .letterContent(giftBox.getLetter().getContent())
-            .youtubeUrl(giftBox.getYoutubeUrl())
-            .photos(photos)
-            .stickers(stickers)
-            .gift(giftResponse)
-            .build();
+        return GiftBoxResponse.of(giftBox, boxResponse, envelopeResponse, photos, stickers,
+            giftResponse);
     }
 }

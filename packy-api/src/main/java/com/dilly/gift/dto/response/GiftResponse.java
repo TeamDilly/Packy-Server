@@ -1,5 +1,6 @@
 package com.dilly.gift.dto.response;
 
+import com.dilly.gift.Gift;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 
@@ -11,4 +12,10 @@ public record GiftResponse(
     String url
 ) {
 
+    public static GiftResponse of(Gift gift) {
+        return GiftResponse.builder()
+            .type(String.valueOf(gift.getGiftType()))
+            .url(gift.getGiftUrl())
+            .build();
+    }
 }
