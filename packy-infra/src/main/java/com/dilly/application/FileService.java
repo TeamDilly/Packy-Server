@@ -1,20 +1,21 @@
 package com.dilly.application;
 
-import java.net.URL;
-import java.util.Date;
-import java.util.UUID;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
 import com.amazonaws.HttpMethod;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.Headers;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
+import com.amazonaws.services.s3.model.ResponseHeaderOverrides;
 import com.dilly.dto.request.FileRequest;
-
+import com.dilly.exception.ErrorCode;
+import com.dilly.exception.internalserver.InternalServerException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.Date;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
@@ -39,16 +40,27 @@ public class FileService {
 	}
 
 	private GeneratePresignedUrlRequest getGeneratePresignedUrlRequest(String bucket, String fileName) {
-		GeneratePresignedUrlRequest generatePresignedUrlRequest = new GeneratePresignedUrlRequest(bucket, fileName)
-			.withMethod(HttpMethod.PUT)
-			.withExpiration(getPresignedUrlExpiration());
+		try {
+			ResponseHeaderOverrides headerOverrides = new ResponseHeaderOverrides()
+				.withCacheControl("No-cache")
+				.withContentDisposition(
+					"attachment; filename=" + URLEncoder.encode(fileName, "UTF-8"));
+			GeneratePresignedUrlRequest generatePresignedUrlRequest = new GeneratePresignedUrlRequest(
+				bucket, fileName)
+				.withMethod(HttpMethod.PUT)
+				.withExpiration(getPresignedUrlExpiration())
+				.withResponseHeaders(headerOverrides);
 
-		generatePresignedUrlRequest.addRequestParameter(
-			Headers.S3_CANNED_ACL,
-			CannedAccessControlList.PublicRead.toString()
-		);
+			generatePresignedUrlRequest.addRequestParameter(
+				Headers.S3_CANNED_ACL,
+				CannedAccessControlList.PublicRead.toString()
+			);
 
-		return generatePresignedUrlRequest;
+			return generatePresignedUrlRequest;
+
+		} catch (Exception e) {
+			throw new InternalServerException(ErrorCode.FILE_SERVER_ERROR);
+		}
 	}
 
 	private Date getPresignedUrlExpiration() {

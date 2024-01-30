@@ -31,6 +31,8 @@ public enum ErrorCode {
     APPLE_FAILED_TO_REVOKE_ACCOUNT(HttpStatus.INTERNAL_SERVER_ERROR, "애플 계정을 해지하는데 실패했습니다."),
     // Youtube
     YOUTUBE_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "유튜브 서버 연동에 오류가 발생했습니다."),
+    // File
+    FILE_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "파일 서버 연동에 오류가 발생했습니다."),
 
     // Authorization
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "인증되지 않은 사용자입니다."),
