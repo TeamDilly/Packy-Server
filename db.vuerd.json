@@ -3,8 +3,8 @@
     "version": "2.2.11",
     "width": 2500,
     "height": 2500,
-    "scrollTop": -109.5828,
-    "scrollLeft": -545.3695,
+    "scrollTop": 0,
+    "scrollLeft": -843,
     "zoomLevel": 1,
     "show": {
       "tableComment": true,
@@ -846,13 +846,36 @@
               "widthDataType": 60,
               "widthDefault": 60
             }
+          },
+          {
+            "id": "b94e7ef8-3ba1-473b-b346-3dbd36a15b31",
+            "name": "borderColorCode",
+            "comment": "",
+            "dataType": "VARCHAR",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 95.287841796875,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            }
           }
         ],
         "ui": {
           "active": false,
           "left": 1715.2556,
           "top": 631.6032,
-          "zIndex": 6,
+          "zIndex": 20,
           "widthName": 60,
           "widthComment": 65.6739501953125
         },
@@ -1612,7 +1635,7 @@
           "columnIds": [
             "9d7e1a3b-bf8e-4e38-a95f-658b7957cc82"
           ],
-          "x": 1888.7556,
+          "x": 1906.3995208984375,
           "y": 631.6032,
           "direction": "top"
         },

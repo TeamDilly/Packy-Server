@@ -9,9 +9,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,4 +30,12 @@ public class GiftBoxSticker {
     private Sticker sticker;
 
     private Integer location;
+
+    public static GiftBoxSticker of(GiftBox giftBox, Sticker sticker, Integer location) {
+        return GiftBoxSticker.builder()
+            .giftBox(giftBox)
+            .sticker(sticker)
+            .location(location)
+            .build();
+    }
 }

@@ -31,4 +31,13 @@ public class Photo {
     private String description;
 
     private Integer sequence;
+
+    public static Photo of(GiftBox giftBox, String imgUrl, String description, Integer sequence) {
+        return Photo.builder()
+            .giftBox(giftBox)
+            .imgUrl(imgUrl)
+            .description(description)
+            .sequence(sequence)
+            .build();
+    }
 }

@@ -13,6 +13,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -47,11 +50,18 @@ public class GiftBox extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Letter letter;
 
+    @OneToMany(mappedBy = "giftBox")
+    private List<Photo> photos = new ArrayList<>();
+
+    @OneToMany(mappedBy = "giftBox")
+    private List<GiftBoxSticker> giftBoxStickers = new ArrayList<>();
+
     private String youtubeUrl;
 
     @Embedded
     private Gift gift;
 
     @Enumerated(EnumType.STRING)
-    private GiftBoxType giftBoxType;
+    @Builder.Default
+    private GiftBoxType giftBoxType = GiftBoxType.PRIVATE;
 }

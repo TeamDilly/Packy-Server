@@ -12,4 +12,12 @@ public record PhotoRequest(
 	@Schema(example = "1")
 	Integer sequence
 ) {
+
+    public static PhotoRequest of(String photoUrl, String description, Integer sequence) {
+        return PhotoRequest.builder()
+            .photoUrl(photoUrl)
+            .description(description)
+            .sequence(sequence)
+            .build();
+    }
 }

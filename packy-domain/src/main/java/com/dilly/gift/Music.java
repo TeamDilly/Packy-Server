@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 
@@ -24,5 +25,5 @@ public class Music {
     private Long sequence;
 
 	@OneToMany(mappedBy = "music")
-	private List<MusicHashtag> hashtags;
+	private List<MusicHashtag> hashtags = new ArrayList<>();
 }

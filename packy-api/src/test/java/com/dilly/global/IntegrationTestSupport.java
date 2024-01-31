@@ -1,17 +1,36 @@
 package com.dilly.global;
 
 import com.dilly.admin.application.AdminService;
+import com.dilly.gift.Box;
+import com.dilly.gift.Envelope;
+import com.dilly.gift.Gift;
+import com.dilly.gift.GiftBox;
+import com.dilly.gift.GiftBoxSticker;
+import com.dilly.gift.GiftType;
+import com.dilly.gift.Letter;
+import com.dilly.gift.Photo;
+import com.dilly.gift.Receiver;
+import com.dilly.gift.Sticker;
 import com.dilly.gift.application.GiftService;
 import com.dilly.gift.dao.BoxRepository;
 import com.dilly.gift.dao.EnvelopeRepository;
 import com.dilly.gift.dao.GiftBoxRepository;
+import com.dilly.gift.dao.GiftBoxStickerRepository;
 import com.dilly.gift.dao.LetterRepository;
 import com.dilly.gift.dao.MusicRepository;
 import com.dilly.gift.dao.PhotoRepository;
 import com.dilly.gift.dao.ProfileImageRepository;
+import com.dilly.gift.dao.ReceiverRepository;
+import com.dilly.gift.dao.StickerRepository;
+import com.dilly.gift.domain.GiftBoxWriter;
+import com.dilly.gift.domain.PhotoWriter;
+import com.dilly.gift.domain.ReceiverReader;
+import com.dilly.gift.domain.ReceiverWriter;
+import com.dilly.member.Member;
 import com.dilly.member.MemberRepository;
 import com.dilly.mypage.application.MyPageService;
 import jakarta.transaction.Transactional;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -56,8 +75,76 @@ public abstract class IntegrationTestSupport {
     protected PhotoRepository photoRepository;
 
     @Autowired
+    protected PhotoWriter photoWriter;
+
+    @Autowired
+    protected StickerRepository stickerRepository;
+
+    @Autowired
+    protected GiftBoxStickerRepository giftBoxStickerRepository;
+
+    @Autowired
     protected GiftBoxRepository giftBoxRepository;
 
     @Autowired
+    protected GiftBoxWriter giftBoxWriter;
+
+    @Autowired
+    protected ReceiverWriter receiverWriter;
+
+    @Autowired
+    protected ReceiverRepository receiverRepository;
+
+    @Autowired
+    protected ReceiverReader receiver;
+
+    @Autowired
     protected MemberRepository memberRepository;
+
+    protected GiftBox createMockGiftBoxWithGift(Member member) {
+        Box box = boxRepository.findById(1L).orElseThrow();
+        Envelope envelope = envelopeRepository.findById(1L).orElseThrow();
+        Letter letter = letterRepository.save(Letter.of("test", envelope));
+        Gift gift = Gift.of(GiftType.PHOTO, "www.test.com");
+
+        GiftBox giftBox = giftBoxWriter.save(box, letter, gift, member, "test", "www.youtube.com",
+            "sender", "receiver");
+
+        photoRepository.save(Photo.of(giftBox, "www.test.com", "test", 1));
+        for (long i = 1; i <= 2; i++) {
+            Sticker sticker = stickerRepository.findById(i).orElseThrow();
+            giftBoxStickerRepository.save(GiftBoxSticker.of(giftBox, sticker, (int) i));
+        }
+
+        giftBoxRepository.flush();
+
+        return giftBox;
+    }
+
+    protected GiftBox createMockGiftBoxWithoutGift(Member member) {
+        Box box = boxRepository.findById(1L).orElseThrow();
+        Envelope envelope = envelopeRepository.findById(1L).orElseThrow();
+        Letter letter = letterRepository.save(Letter.of("test", envelope));
+
+        GiftBox giftBox = giftBoxWriter.save(box, letter, member, "test", "www.youtube.com",
+            "sender", "receiver");
+
+        photoRepository.save(Photo.of(giftBox, "www.test.com", "test", 1));
+        for (long i = 1; i <= 2; i++) {
+            Sticker sticker = stickerRepository.findById(i).orElseThrow();
+            giftBoxStickerRepository.save(GiftBoxSticker.of(giftBox, sticker, (int) i));
+        }
+
+        return giftBox;
+    }
+
+    protected void openGiftBox(Member member, GiftBox giftBox) {
+        List<Member> receivers = receiver.findByGiftBox(giftBox).stream()
+            .map(Receiver::getReceiver)
+            .toList();
+
+        if (!receivers.contains(member)) {
+            receiverWriter.save(member, giftBox);
+        }
+    }
 }

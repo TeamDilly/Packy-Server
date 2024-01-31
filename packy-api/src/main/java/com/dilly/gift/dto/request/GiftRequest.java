@@ -11,4 +11,10 @@ public record GiftRequest(
     String url
 ) {
 
+    public static GiftRequest of(String type, String url) {
+        return GiftRequest.builder()
+            .type(type)
+            .url(url)
+            .build();
+    }
 }

@@ -9,8 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Embeddable
-@Builder
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Gift {
@@ -18,4 +18,11 @@ public class Gift {
     @Enumerated(EnumType.STRING)
     private GiftType giftType;
     private String giftUrl;
+
+    public static Gift of(GiftType giftType, String giftUrl) {
+        return Gift.builder()
+            .giftType(giftType)
+            .giftUrl(giftUrl)
+            .build();
+    }
 }
