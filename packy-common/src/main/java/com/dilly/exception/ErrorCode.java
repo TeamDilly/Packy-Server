@@ -45,23 +45,18 @@ public enum ErrorCode {
 
     // Not Found
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "유저를 찾을 수 없습니다."),
-    PROFILE_IMAGE_NOT_FOUND(HttpStatus.NOT_FOUND, "프로필 이미지를 찾을 수 없습니다."),
-    REFRESH_TOKEN_NOT_FOUND(HttpStatus.NOT_FOUND, "Refresh Token을 찾을 수 없습니다."),
     STICKER_NOT_FOUND(HttpStatus.NOT_FOUND, "스티커를 찾을 수 없습니다."),
     GIFTBOX_NOT_FOUND(HttpStatus.NOT_FOUND, "선물박스를 찾을 수 없습니다."),
 
     // Unsupported
     UNSUPPORTED_LOGIN_TYPE(HttpStatus.BAD_REQUEST, "지원하지 않는 로그인 타입입니다."),
-    UNSUPPORTED_GIFT_TYPE(HttpStatus.BAD_REQUEST, "지원하지 않는 선물 타입입니다."),
-    UNSUPPORTED_ENUM_TYPE(HttpStatus.BAD_REQUEST, "지원하지 않는 Enum 타입입니다."),
 
     // Member
     MEMBER_ALREADY_EXIST(HttpStatus.CONFLICT, "이미 가입된 유저입니다."),
 
     // GiftBox
     BOX_NOT_FOUND(HttpStatus.NOT_FOUND, "선물 박스를 찾을 수 없습니다."),
-    MESSAGE_NOT_FOUND(HttpStatus.NOT_FOUND, "메시지를 찾을 수 없습니다."),
-    LETTER_PAPER_NOT_FOUND(HttpStatus.NOT_FOUND, "편지지를 찾을 수 없습니다."),
+    ENVELOPE_NOT_FOUND(HttpStatus.NOT_FOUND, "편지 봉투를 찾을 수 없습니다."),
     GIFTBOX_ALREADY_OPENDED(HttpStatus.CONFLICT, "이미 열린 선물입니다."),
     ;
 
