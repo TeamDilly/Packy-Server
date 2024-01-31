@@ -45,8 +45,6 @@ public enum ErrorCode {
 
     // Not Found
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "유저를 찾을 수 없습니다."),
-    PROFILE_IMAGE_NOT_FOUND(HttpStatus.NOT_FOUND, "프로필 이미지를 찾을 수 없습니다."),
-    REFRESH_TOKEN_NOT_FOUND(HttpStatus.NOT_FOUND, "Refresh Token을 찾을 수 없습니다."),
     STICKER_NOT_FOUND(HttpStatus.NOT_FOUND, "스티커를 찾을 수 없습니다."),
     GIFTBOX_NOT_FOUND(HttpStatus.NOT_FOUND, "선물박스를 찾을 수 없습니다."),
 
