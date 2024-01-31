@@ -74,7 +74,7 @@ public class SwaggerConfig {
 			.map(
 				ec -> {
 					return ExampleHolder.builder()
-						.holder(getSwaggerExample(errorCode.getMessage(), errorCode))
+						.holder(getSwaggerExample(errorCode))
 						.name(errorCode.name())
 						.code(errorCode.getHttpStatus().value())
 						.build();
@@ -84,7 +84,7 @@ public class SwaggerConfig {
 		addExamplesToResponses(responses, statusWithExampleHolders);
 	}
 
-	private Example getSwaggerExample(String value, ErrorCode errorCode) {
+	private Example getSwaggerExample(ErrorCode errorCode) {
 		ErrorResponseDto errorResponseDto = ErrorResponseDto.from(errorCode);
 		Example example = new Example();
 		example.setValue(errorResponseDto);
