@@ -9,18 +9,19 @@ import com.dilly.gift.Gift;
 import com.dilly.gift.GiftBox;
 import com.dilly.gift.GiftType;
 import com.dilly.gift.Letter;
+import com.dilly.gift.Receiver;
 import com.dilly.gift.domain.BoxReader;
 import com.dilly.gift.domain.EnvelopeReader;
 import com.dilly.gift.domain.GiftBoxReader;
+import com.dilly.gift.domain.GiftBoxStickerReader;
 import com.dilly.gift.domain.GiftBoxStickerWriter;
 import com.dilly.gift.domain.GiftBoxWriter;
 import com.dilly.gift.domain.LetterWriter;
+import com.dilly.gift.domain.PhotoReader;
 import com.dilly.gift.domain.PhotoWriter;
 import com.dilly.gift.domain.ReceiverReader;
 import com.dilly.gift.domain.ReceiverWriter;
 import com.dilly.gift.dto.request.GiftBoxRequest;
-import com.dilly.gift.dto.request.PhotoRequest;
-import com.dilly.gift.dto.request.StickerRequest;
 import com.dilly.gift.dto.response.BoxResponse;
 import com.dilly.gift.dto.response.EnvelopeResponse;
 import com.dilly.gift.dto.response.GiftBoxIdResponse;
@@ -49,7 +50,9 @@ public class GiftService {
     private final BoxReader boxReader;
     private final EnvelopeReader envelopeReader;
     private final LetterWriter letterWriter;
+    private final PhotoReader photoReader;
     private final PhotoWriter photoWriter;
+    private final GiftBoxStickerReader giftBoxStickerReader;
     private final GiftBoxStickerWriter giftBoxStickerWriter;
     private final MemberReader memberReader;
     private final ReceiverReader receiverReader;
@@ -77,13 +80,10 @@ public class GiftService {
                 giftBoxRequest.senderName(), giftBoxRequest.receiverName());
         }
 
-        for (PhotoRequest photoRequest : giftBoxRequest.photos()) {
-            photoWriter.save(giftBox, photoRequest);
-        }
-
-        for (StickerRequest stickerRequest : giftBoxRequest.stickers()) {
-            giftBoxStickerWriter.save(giftBox, stickerRequest);
-        }
+        giftBoxRequest.photos()
+            .forEach(photoRequest -> photoWriter.save(giftBox, photoRequest));
+        giftBoxRequest.stickers()
+            .forEach(stickerRequest -> giftBoxStickerWriter.save(giftBox, stickerRequest));
 
         return GiftBoxIdResponse.of(giftBox.getId(), giftBox.getUuid());
     }
@@ -91,25 +91,35 @@ public class GiftService {
     public GiftBoxResponse openGiftBox(Long giftBoxId) {
         Long memberId = SecurityUtil.getMemberId();
         Member receiver = memberReader.findById(memberId);
-
         GiftBox giftBox = giftBoxReader.findById(giftBoxId);
 
-        Boolean hasReceiver = receiverReader.existsByGiftBoxId(giftBox);
-        if (giftBox.getGiftBoxType().equals(PRIVATE) && Boolean.TRUE.equals(hasReceiver)) {
+        List<Long> receivers = receiverReader.findByGiftBox(giftBox).stream()
+            .map(Receiver::getReceiver)
+            .map(Member::getId)
+            .toList();
+
+        // 1명만 열 수 있는 선물박스이고, 이미 열린 선물박스일 경우
+        if (giftBox.getGiftBoxType().equals(PRIVATE)
+            && !receivers.isEmpty()
+            && !receivers.get(0).equals(receiver.getId())) {
             throw new GiftBoxAlreadyOpenedException();
         }
-        receiverWriter.save(receiver, giftBox);
+
+        if (!receivers.contains(receiver.getId())) {
+            receiverWriter.save(receiver, giftBox);
+        }
 
         BoxResponse boxResponse = BoxResponse.of(giftBox.getBox());
         EnvelopeResponse envelopeResponse = EnvelopeResponse.of(giftBox.getLetter().getEnvelope());
-        List<PhotoResponse> photos = giftBox.getPhotos().stream()
+        List<PhotoResponse> photos = photoReader.findAllByGiftBox(giftBox).stream()
             .map(PhotoResponse::of)
             .sorted(Comparator.comparingInt(PhotoResponse::sequence))
             .toList();
-        List<StickerResponse> stickers = giftBox.getGiftBoxStickers().stream()
+        List<StickerResponse> stickers = giftBoxStickerReader.findAllByGiftBox(giftBox).stream()
             .map(StickerResponse::of)
             .sorted(Comparator.comparingInt(StickerResponse::location))
             .toList();
+
         GiftResponse giftResponse = null;
         if (giftBox.getGift() != null) {
             giftResponse = GiftResponse.of(giftBox.getGift());

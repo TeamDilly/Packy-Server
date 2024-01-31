@@ -30,4 +30,12 @@ public class GiftBoxSticker {
     private Sticker sticker;
 
     private Integer location;
+
+    public static GiftBoxSticker of(GiftBox giftBox, Sticker sticker, Integer location) {
+        return GiftBoxSticker.builder()
+            .giftBox(giftBox)
+            .sticker(sticker)
+            .location(location)
+            .build();
+    }
 }

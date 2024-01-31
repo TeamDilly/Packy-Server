@@ -14,7 +14,7 @@ public record GiftResponse(
 
     public static GiftResponse of(Gift gift) {
         return GiftResponse.builder()
-            .type(String.valueOf(gift.getGiftType()))
+            .type(String.valueOf(gift.getGiftType()).toLowerCase())
             .url(gift.getGiftUrl())
             .build();
     }

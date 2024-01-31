@@ -1,6 +1,6 @@
 package com.dilly.gift;
 
-import static jakarta.persistence.GenerationType.*;
+import static jakarta.persistence.GenerationType.IDENTITY;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -27,4 +27,11 @@ public class Letter {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Envelope envelope;
+
+	public static Letter of(String content, Envelope envelope) {
+		return Letter.builder()
+			.content(content)
+			.envelope(envelope)
+			.build();
+	}
 }

@@ -14,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -50,10 +51,10 @@ public class GiftBox extends BaseTimeEntity {
     private Letter letter;
 
     @OneToMany(mappedBy = "giftBox")
-    private List<Photo> photos;
+    private List<Photo> photos = new ArrayList<>();
 
     @OneToMany(mappedBy = "giftBox")
-    private List<GiftBoxSticker> giftBoxStickers;
+    private List<GiftBoxSticker> giftBoxStickers = new ArrayList<>();
 
     private String youtubeUrl;
 
