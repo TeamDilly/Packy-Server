@@ -37,7 +37,7 @@ public class GiftController {
     @Operation(summary = "선물박스 열기")
     @GetMapping("/{giftBoxId}")
     public DataResponseDto<GiftBoxResponse> openGiftBox(
-        @PathVariable Long giftBoxId
+        @PathVariable("giftBoxId") Long giftBoxId
     ) {
         return DataResponseDto.from(giftService.openGiftBox(giftBoxId));
     }
