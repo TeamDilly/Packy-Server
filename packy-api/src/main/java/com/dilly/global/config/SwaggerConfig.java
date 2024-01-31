@@ -1,10 +1,9 @@
 package com.dilly.global.config;
 
-import static java.util.stream.Collectors.groupingBy;
-
 import com.dilly.exception.ErrorCode;
 import com.dilly.global.response.ErrorResponseDto;
 import com.dilly.global.swagger.ApiErrorCodeExample;
+import com.dilly.global.swagger.ApiErrorCodeExamples;
 import com.dilly.global.swagger.ExampleHolder;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -20,6 +19,7 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.customizers.OperationCustomizer;
 import org.springframework.context.annotation.Bean;
@@ -55,33 +55,48 @@ public class SwaggerConfig {
 	@Bean
 	public OperationCustomizer customize() {
 		return (Operation operation, HandlerMethod handlerMethod) -> {
-			ApiErrorCodeExample apiErrorCodeExample = handlerMethod.getMethodAnnotation(
-				ApiErrorCodeExample.class
-			);
+			ApiErrorCodeExamples apiErrorCodeExamples = handlerMethod.getMethodAnnotation(
+				ApiErrorCodeExamples.class);
 
-			if (apiErrorCodeExample != null) {
-				generateErrorCodeResponseExample(operation, apiErrorCodeExample.value());
+			if (apiErrorCodeExamples != null) {
+				generateErrorCodeResponseExample(operation, apiErrorCodeExamples.value());
+			} else {
+				ApiErrorCodeExample apiErrorCodeExample = handlerMethod.getMethodAnnotation(
+					ApiErrorCodeExample.class);
+
+				if (apiErrorCodeExample != null) {
+					generateErrorCodeResponseExample(operation, apiErrorCodeExample.value());
+				}
 			}
+
 			return operation;
 		};
 	}
 
-	private void generateErrorCodeResponseExample(Operation operation, ErrorCode errorCode) {
+	private void generateErrorCodeResponseExample(Operation operation, ErrorCode[] errorCodes) {
 		ApiResponses responses = operation.getResponses();
-		ErrorCode[] errorCodes = errorCode.getDeclaringClass().getEnumConstants();
-		// TODO: ec 변수명 바꾸기
+
 		Map<Integer, List<ExampleHolder>> statusWithExampleHolders = Arrays.stream(errorCodes)
 			.map(
-				ec -> {
-					return ExampleHolder.builder()
-						.holder(getSwaggerExample(errorCode))
-						.name(errorCode.name())
-						.code(errorCode.getHttpStatus().value())
-						.build();
-				}
+				errorCode -> ExampleHolder.builder()
+					.holder(getSwaggerExample(errorCode))
+					.code(errorCode.getHttpStatus().value())
+					.name(errorCode.name())
+					.build()
 			)
-			.collect(groupingBy(ExampleHolder::getCode));
+			.collect(Collectors.groupingBy(ExampleHolder::getCode));
+
 		addExamplesToResponses(responses, statusWithExampleHolders);
+	}
+
+	private void generateErrorCodeResponseExample(Operation operation, ErrorCode errorCode) {
+		ApiResponses responses = operation.getResponses();
+		ExampleHolder exampleHolder = ExampleHolder.builder()
+			.holder(getSwaggerExample(errorCode))
+			.name(errorCode.name())
+			.code(errorCode.getHttpStatus().value())
+			.build();
+		addExamplesToResponses(responses, exampleHolder);
 	}
 
 	private Example getSwaggerExample(ErrorCode errorCode) {
@@ -101,14 +116,27 @@ public class SwaggerConfig {
 				ApiResponse apiResponse = new ApiResponse();
 
 				v.forEach(
-					exampleHolder -> {
-						mediaType.addExamples(exampleHolder.getName(), exampleHolder.getHolder());
-					}
+					exampleHolder -> mediaType.addExamples(
+						exampleHolder.getName(),
+						exampleHolder.getHolder()
+					)
 				);
 				content.addMediaType("application/json", mediaType);
-				apiResponse.content(content);
-				responses.addApiResponse(status.toString(), apiResponse);
+				apiResponse.setContent(content);
+				responses.addApiResponse(String.valueOf(status), apiResponse);
 			}
 		);
 	}
+
+	private void addExamplesToResponses(ApiResponses responses, ExampleHolder exampleHolder) {
+		Content content = new Content();
+		MediaType mediaType = new MediaType();
+		ApiResponse apiResponse = new ApiResponse();
+
+		mediaType.addExamples(exampleHolder.getName(), exampleHolder.getHolder());
+		content.addMediaType("application/json", mediaType);
+		apiResponse.content(content);
+		responses.addApiResponse(String.valueOf(exampleHolder.getCode()), apiResponse);
+	}
+
 }
