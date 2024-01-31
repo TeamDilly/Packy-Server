@@ -4,7 +4,10 @@ import com.dilly.auth.application.AuthService;
 import com.dilly.auth.application.KakaoService;
 import com.dilly.auth.dto.request.SignupRequest;
 import com.dilly.auth.dto.response.SignInResponse;
+import com.dilly.exception.ErrorCode;
 import com.dilly.global.response.DataResponseDto;
+import com.dilly.global.swagger.ApiErrorCodeExample;
+import com.dilly.global.swagger.ApiErrorCodeExamples;
 import com.dilly.jwt.JwtService;
 import com.dilly.jwt.dto.JwtRequest;
 import com.dilly.jwt.dto.JwtResponse;
@@ -32,6 +35,16 @@ public class AuthController {
     private final KakaoService kakaoService;
 
     @Operation(summary = "회원 가입", description = "provider는 kakao 또는 apple")
+    @ApiErrorCodeExamples({
+        ErrorCode.UNSUPPORTED_LOGIN_TYPE,
+        ErrorCode.MEMBER_ALREADY_EXIST,
+        ErrorCode.KAKAO_SERVER_ERROR,
+        ErrorCode.APPLE_FAILED_TO_GET_TOKEN,
+        ErrorCode.APPLE_FAILED_TO_GET_PUBLIC_KEY,
+        ErrorCode.APPLE_FAILED_TO_GET_INFO,
+        ErrorCode.APPLE_FAILED_TO_GET_CLIENT_SECRET,
+        ErrorCode.APPLE_FAILED_TO_REVOKE_ACCOUNT
+    })
     @PostMapping("/sign-up")
     public DataResponseDto<JwtResponse> signUp(
         @RequestHeader("Authorization") @Schema(description = "Bearer prefix 제외해주세요") String providerAccessToken,
@@ -40,6 +53,9 @@ public class AuthController {
     }
 
     @Operation(summary = "로그인", description = "status는 NOT_REGISTERED, REGISTERED, WITHDRAWAL, BLACKLIST")
+    @ApiErrorCodeExamples({
+        ErrorCode.UNSUPPORTED_LOGIN_TYPE
+    })
     @GetMapping("/sign-in/{provider}")
     public DataResponseDto<SignInResponse> signIn(
         @PathVariable(name = "provider") @Schema(description = "kakao 또는 apple") String provider,
@@ -54,6 +70,7 @@ public class AuthController {
     }
 
     @Operation(summary = "JWT 만료 시 재발급")
+    @ApiErrorCodeExample(ErrorCode.INVALID_REFRESH_TOKEN)
     @PostMapping("/reissue")
     public DataResponseDto<JwtResponse> reissue(@RequestBody JwtRequest jwtRequest) {
         return DataResponseDto.from(jwtService.reissueJwt(jwtRequest));

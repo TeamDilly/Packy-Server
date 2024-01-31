@@ -6,9 +6,11 @@ import com.dilly.admin.dto.response.ImgResponse;
 import com.dilly.admin.dto.response.MusicResponse;
 import com.dilly.application.YoutubeService;
 import com.dilly.dto.response.StatusResponse;
+import com.dilly.exception.ErrorCode;
 import com.dilly.gift.dto.response.EnvelopeListResponse;
 import com.dilly.global.response.DataResponseDto;
 import com.dilly.global.response.SliceResponseDto;
+import com.dilly.global.swagger.ApiErrorCodeExample;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -82,6 +84,7 @@ public class AdminController {
     }
 
     @Operation(summary = "유튜브 링크 유효성 검사")
+    @ApiErrorCodeExample(ErrorCode.YOUTUBE_SERVER_ERROR)
     @GetMapping("/youtube")
     public DataResponseDto<StatusResponse> validateYoutubeUrl(
         @Schema(description = "유튜브 링크", type = "string")
