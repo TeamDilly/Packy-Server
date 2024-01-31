@@ -28,7 +28,7 @@ public class EnvelopeReader {
 
 	public Envelope findById(Long id) {
 		return envelopeRepository.findById(id).orElseThrow(
-			() -> new EntityNotFoundException(ErrorCode.LETTER_PAPER_NOT_FOUND)
+			() -> new EntityNotFoundException(ErrorCode.ENVELOPE_NOT_FOUND)
 		);
 	}
 }
