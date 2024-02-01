@@ -29,12 +29,12 @@ public class StickerQueryRepository {
     }
 
     // No-offset
-    private BooleanExpression gtStickerId(Long sticerId) {
-        if (sticerId == null) {
+    private BooleanExpression gtStickerId(Long stickerId) {
+        if (stickerId == null) {
             return null;
         }
 
-        return sticker.id.gt(sticerId);
+        return sticker.id.gt(stickerId);
     }
 
     // 무한 스크롤
