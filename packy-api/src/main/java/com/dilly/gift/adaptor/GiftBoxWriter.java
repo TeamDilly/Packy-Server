@@ -1,4 +1,4 @@
-package com.dilly.gift.domain;
+package com.dilly.gift.adaptor;
 
 import com.dilly.gift.Box;
 import com.dilly.gift.Gift;

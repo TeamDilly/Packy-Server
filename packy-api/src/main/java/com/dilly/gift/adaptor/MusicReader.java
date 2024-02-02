@@ -1,4 +1,4 @@
-package com.dilly.gift.domain;
+package com.dilly.gift.adaptor;
 
 import com.dilly.admin.dto.response.MusicResponse;
 import com.dilly.gift.Music;

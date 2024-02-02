@@ -1,20 +1,18 @@
 package com.dilly.jwt;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.dilly.exception.AuthorizationFailedException;
 import com.dilly.exception.ErrorCode;
-import com.dilly.jwt.domain.JwtReader;
-import com.dilly.jwt.domain.JwtWriter;
+import com.dilly.jwt.adaptor.JwtReader;
+import com.dilly.jwt.adaptor.JwtWriter;
 import com.dilly.jwt.dto.JwtRequest;
 import com.dilly.jwt.dto.JwtResponse;
 import com.dilly.member.Member;
-import com.dilly.member.domain.MemberReader;
-
+import com.dilly.member.adaptor.MemberReader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service

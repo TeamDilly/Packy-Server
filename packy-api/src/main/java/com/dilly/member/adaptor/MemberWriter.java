@@ -1,12 +1,10 @@
-package com.dilly.member.domain;
-
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
+package com.dilly.member.adaptor;
 
 import com.dilly.member.Member;
 import com.dilly.member.MemberRepository;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor

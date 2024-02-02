@@ -1,12 +1,10 @@
-package com.dilly.gift.domain;
-
-import org.springframework.stereotype.Component;
+package com.dilly.gift.adaptor;
 
 import com.dilly.gift.Envelope;
 import com.dilly.gift.Letter;
 import com.dilly.gift.dao.LetterRepository;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor

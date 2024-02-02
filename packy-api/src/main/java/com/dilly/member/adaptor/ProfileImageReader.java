@@ -1,4 +1,4 @@
-package com.dilly.member.domain;
+package com.dilly.member.adaptor;
 
 import com.dilly.admin.dto.response.ImgResponse;
 import com.dilly.gift.dao.ProfileImageRepository;

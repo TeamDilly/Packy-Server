@@ -1,12 +1,10 @@
-package com.dilly.member.domain;
-
-import org.springframework.stereotype.Component;
+package com.dilly.member.adaptor;
 
 import com.dilly.exception.entitynotfound.MemberNotFoundException;
 import com.dilly.member.Member;
 import com.dilly.member.MemberRepository;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor

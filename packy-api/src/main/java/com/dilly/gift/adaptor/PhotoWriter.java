@@ -1,13 +1,11 @@
-package com.dilly.gift.domain;
-
-import org.springframework.stereotype.Component;
+package com.dilly.gift.adaptor;
 
 import com.dilly.gift.GiftBox;
 import com.dilly.gift.Photo;
 import com.dilly.gift.dao.PhotoRepository;
 import com.dilly.gift.dto.request.PhotoRequest;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor

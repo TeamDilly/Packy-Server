@@ -1,11 +1,9 @@
-package com.dilly.auth.domain;
-
-import org.springframework.stereotype.Component;
+package com.dilly.auth.adaptor;
 
 import com.dilly.auth.AppleAccount;
 import com.dilly.auth.AppleAccountRepository;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor

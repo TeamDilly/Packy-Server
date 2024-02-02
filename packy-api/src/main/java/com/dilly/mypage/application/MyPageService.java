@@ -2,7 +2,7 @@ package com.dilly.mypage.application;
 
 import com.dilly.global.utils.SecurityUtil;
 import com.dilly.member.Member;
-import com.dilly.member.domain.MemberReader;
+import com.dilly.member.adaptor.MemberReader;
 import com.dilly.mypage.dto.response.ProfileResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
