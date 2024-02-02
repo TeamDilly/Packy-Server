@@ -4,7 +4,6 @@ import com.dilly.exception.ErrorCode;
 import com.dilly.exception.entitynotfound.EntityNotFoundException;
 import com.dilly.gift.Envelope;
 import com.dilly.gift.dao.EnvelopeRepository;
-import com.dilly.gift.dto.response.EnvelopeListResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -15,15 +14,8 @@ public class EnvelopeReader {
 
 	private final EnvelopeRepository envelopeRepository;
 
-	public List<EnvelopeListResponse> findAll() {
-		return envelopeRepository.findAllByOrderBySequenceAsc().stream()
-			.map(envelope -> EnvelopeListResponse.builder()
-				.id(envelope.getId())
-				.imgUrl(envelope.getImgUrl())
-				.sequence(envelope.getSequence())
-				.borderColorCode(envelope.getBorderColorCode())
-				.build())
-			.toList();
+	public List<Envelope> findAllByOrderBySequenceAsc() {
+		return envelopeRepository.findAllByOrderBySequenceAsc();
 	}
 
 	public Envelope findById(Long id) {

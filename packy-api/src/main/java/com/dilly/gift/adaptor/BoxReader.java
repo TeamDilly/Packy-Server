@@ -1,6 +1,5 @@
 package com.dilly.gift.adaptor;
 
-import com.dilly.admin.dto.response.BoxImgResponse;
 import com.dilly.exception.ErrorCode;
 import com.dilly.exception.entitynotfound.EntityNotFoundException;
 import com.dilly.gift.Box;
@@ -15,17 +14,8 @@ public class BoxReader {
 
 	private final BoxRepository boxRepository;
 
-	public List<BoxImgResponse> findAll() {
-        return boxRepository.findAllByOrderBySequenceAsc().stream()
-			.map(box -> BoxImgResponse.builder()
-				.id(box.getId())
-				.boxFull(box.getFullImgUrl())
-				.boxPart(box.getPartImgUrl())
-				.boxBottom(box.getBottomImgUrl())
-				.sequence(box.getSequence())
-				.build()
-			)
-			.toList();
+	public List<Box> findAllByOrderBySequenceAsc() {
+		return boxRepository.findAllByOrderBySequenceAsc();
 	}
 
 	public Box findById(Long id) {

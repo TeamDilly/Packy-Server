@@ -1,6 +1,5 @@
 package com.dilly.member.adaptor;
 
-import com.dilly.admin.dto.response.ImgResponse;
 import com.dilly.gift.dao.ProfileImageRepository;
 import com.dilly.member.ProfileImage;
 import java.util.List;
@@ -18,14 +17,7 @@ public class ProfileImageReader {
 			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 프로필 이미지입니다."));
 	}
 
-	public List<ImgResponse> findAll() {
-        return profileImageRepository.findAllByOrderBySequenceAsc().stream()
-			.map(profileImage -> ImgResponse.builder()
-				.id(profileImage.getId())
-				.imgUrl(profileImage.getImgUrl())
-				.sequence(profileImage.getSequence())
-				.build()
-			)
-			.toList();
+	public List<ProfileImage> findAllByOrderBySequenceAsc() {
+		return profileImageRepository.findAllByOrderBySequenceAsc();
 	}
 }

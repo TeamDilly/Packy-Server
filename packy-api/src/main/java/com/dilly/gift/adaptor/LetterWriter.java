@@ -13,9 +13,6 @@ public class LetterWriter {
 	private final LetterRepository letterRepository;
 
 	public Letter save(String content, Envelope envelope) {
-		return letterRepository.save(Letter.builder()
-			.content(content)
-			.envelope(envelope)
-			.build());
+		return letterRepository.save(Letter.of(content, envelope));
 	}
 }

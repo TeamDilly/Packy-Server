@@ -77,13 +77,19 @@ public class GiftService {
 
             giftBox = giftBoxWriter.save(box, letter, gift, sender,
                 giftBoxRequest.name(), giftBoxRequest.youtubeUrl(),
-                giftBoxRequest.senderName(), giftBoxRequest.receiverName());
+                giftBoxRequest.senderName(), giftBoxRequest.receiverName()
+            );
         }
 
         giftBoxRequest.photos()
-            .forEach(photoRequest -> photoWriter.save(giftBox, photoRequest));
+            .forEach(
+                photoRequest -> photoWriter.save(giftBox, photoRequest.photoUrl(),
+                    photoRequest.description(), photoRequest.sequence())
+            );
         giftBoxRequest.stickers()
-            .forEach(stickerRequest -> giftBoxStickerWriter.save(giftBox, stickerRequest));
+            .forEach(stickerRequest ->
+                giftBoxStickerWriter.save(giftBox, stickerRequest.id(), stickerRequest.location())
+            );
 
         return GiftBoxIdResponse.of(giftBox.getId(), giftBox.getUuid());
     }

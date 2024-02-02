@@ -1,8 +1,6 @@
 package com.dilly.gift.adaptor;
 
-import com.dilly.admin.dto.response.MusicResponse;
 import com.dilly.gift.Music;
-import com.dilly.gift.MusicHashtag;
 import com.dilly.gift.dao.MusicRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -14,22 +12,8 @@ public class MusicReader {
 
 	private final MusicRepository musicRepository;
 
-	public List<MusicResponse> findAll() {
-        return musicRepository.findAllByOrderBySequenceAsc().stream()
-			.map(music -> MusicResponse.builder()
-				.id(music.getId())
-                .sequence(music.getSequence())
-				.title(music.getTitle())
-				.youtubeUrl(music.getYoutubeUrl())
-				.hashtags(getHashTags(music))
-				.build()
-			)
-			.toList();
+	public List<Music> findAllByOrderBySequenceAsc() {
+		return musicRepository.findAllByOrderBySequenceAsc();
 	}
 
-	private List<String> getHashTags(Music music) {
-		return music.getHashtags().stream()
-			.map(MusicHashtag::getHashtag)
-			.toList();
-	}
 }
