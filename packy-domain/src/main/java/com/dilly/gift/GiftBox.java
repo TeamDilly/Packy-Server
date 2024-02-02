@@ -50,9 +50,11 @@ public class GiftBox extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Letter letter;
 
+    @Builder.Default
     @OneToMany(mappedBy = "giftBox")
     private List<Photo> photos = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "giftBox")
     private List<GiftBoxSticker> giftBoxStickers = new ArrayList<>();
 
