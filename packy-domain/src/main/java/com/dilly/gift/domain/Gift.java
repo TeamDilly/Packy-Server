@@ -1,4 +1,4 @@
-package com.dilly.gift;
+package com.dilly.gift.domain;
 
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;

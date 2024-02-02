@@ -1,7 +1,7 @@
 package com.dilly.auth.adaptor;
 
-import com.dilly.auth.KakaoAccount;
-import com.dilly.auth.KakaoAccountRepository;
+import com.dilly.auth.dao.KakaoAccountRepository;
+import com.dilly.auth.domain.KakaoAccount;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

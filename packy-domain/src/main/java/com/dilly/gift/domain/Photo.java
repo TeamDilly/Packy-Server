@@ -1,4 +1,4 @@
-package com.dilly.gift;
+package com.dilly.gift.domain;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -15,9 +15,9 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class GiftBoxSticker {
+@NoArgsConstructor
+public class Photo {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -26,16 +26,18 @@ public class GiftBoxSticker {
     @ManyToOne(fetch = FetchType.LAZY)
     private GiftBox giftBox;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Sticker sticker;
+    private String imgUrl;
 
-    private Integer location;
+    private String description;
 
-    public static GiftBoxSticker of(GiftBox giftBox, Sticker sticker, Integer location) {
-        return GiftBoxSticker.builder()
+    private Integer sequence;
+
+    public static Photo of(GiftBox giftBox, String imgUrl, String description, Integer sequence) {
+        return Photo.builder()
             .giftBox(giftBox)
-            .sticker(sticker)
-            .location(location)
+            .imgUrl(imgUrl)
+            .description(description)
+            .sequence(sequence)
             .build();
     }
 }

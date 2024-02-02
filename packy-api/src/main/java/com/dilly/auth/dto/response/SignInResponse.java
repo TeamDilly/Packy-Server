@@ -1,8 +1,7 @@
 package com.dilly.auth.dto.response;
 
 import com.dilly.jwt.dto.JwtResponse;
-import com.dilly.member.Status;
-
+import com.dilly.member.domain.Status;
 import lombok.Builder;
 
 @Builder

@@ -2,7 +2,7 @@ package com.dilly.jwt.adaptor;
 
 import com.dilly.jwt.RefreshToken;
 import com.dilly.jwt.RefreshTokenRepository;
-import com.dilly.member.Member;
+import com.dilly.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

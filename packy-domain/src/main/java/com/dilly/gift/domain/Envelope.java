@@ -1,6 +1,6 @@
-package com.dilly.member;
+package com.dilly.gift.domain;
 
-import static jakarta.persistence.GenerationType.*;
+import static jakarta.persistence.GenerationType.IDENTITY;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,13 +9,15 @@ import lombok.Getter;
 
 @Entity
 @Getter
-public class ProfileImage {
+public class Envelope {
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 	private Long id;
 
-	private String imgUrl;
-
 	private Long sequence;
+
+	private String borderColorCode;
+
+	private String imgUrl;
 }

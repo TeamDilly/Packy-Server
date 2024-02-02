@@ -2,8 +2,8 @@ package com.dilly.gift.adaptor;
 
 import com.dilly.exception.ErrorCode;
 import com.dilly.exception.entitynotfound.EntityNotFoundException;
-import com.dilly.gift.GiftBox;
 import com.dilly.gift.dao.GiftBoxRepository;
+import com.dilly.gift.domain.GiftBox;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

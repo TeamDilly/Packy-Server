@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.dilly.global.IntegrationTestSupport;
 import com.dilly.global.WithCustomMockUser;
 import com.dilly.global.utils.SecurityUtil;
-import com.dilly.member.Member;
+import com.dilly.member.domain.Member;
 import com.dilly.mypage.dto.response.ProfileResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,9 +1,9 @@
 package com.dilly.auth.adaptor;
 
-import com.dilly.auth.KakaoAccount;
-import com.dilly.auth.KakaoAccountRepository;
+import com.dilly.auth.dao.KakaoAccountRepository;
+import com.dilly.auth.domain.KakaoAccount;
 import com.dilly.exception.alreadyexist.MemberAlreadyExistException;
-import com.dilly.member.Member;
+import com.dilly.member.domain.Member;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

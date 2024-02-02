@@ -1,8 +1,8 @@
 package com.dilly.gift.adaptor;
 
-import com.dilly.gift.Envelope;
-import com.dilly.gift.Letter;
 import com.dilly.gift.dao.LetterRepository;
+import com.dilly.gift.domain.Envelope;
+import com.dilly.gift.domain.Letter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

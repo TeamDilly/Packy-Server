@@ -1,9 +1,9 @@
-package com.dilly.gift;
+package com.dilly.gift.domain;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 import com.dilly.global.BaseTimeEntity;
-import com.dilly.member.Member;
+import com.dilly.member.domain.Member;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

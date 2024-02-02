@@ -1,6 +1,6 @@
-package com.dilly.gift;
+package com.dilly.gift.domain;
 
-import static jakarta.persistence.GenerationType.*;
+import static jakarta.persistence.GenerationType.IDENTITY;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

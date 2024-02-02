@@ -1,9 +1,7 @@
-package com.dilly.gift;
+package com.dilly.gift.domain;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
-import com.dilly.global.BaseTimeEntity;
-import com.dilly.member.Member;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -19,15 +17,25 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Receiver extends BaseTimeEntity {
+public class GiftBoxSticker {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Member receiver;
+    private GiftBox giftBox;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private GiftBox giftBox;
+    private Sticker sticker;
+
+    private Integer location;
+
+    public static GiftBoxSticker of(GiftBox giftBox, Sticker sticker, Integer location) {
+        return GiftBoxSticker.builder()
+            .giftBox(giftBox)
+            .sticker(sticker)
+            .location(location)
+            .build();
+    }
 }

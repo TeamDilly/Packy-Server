@@ -1,8 +1,8 @@
 package com.dilly.gift.adaptor;
 
-import com.dilly.gift.GiftBox;
-import com.dilly.gift.Photo;
 import com.dilly.gift.dao.PhotoRepository;
+import com.dilly.gift.domain.GiftBox;
+import com.dilly.gift.domain.Photo;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

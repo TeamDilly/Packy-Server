@@ -1,9 +1,9 @@
 package com.dilly.auth.adaptor;
 
-import com.dilly.auth.AppleAccount;
-import com.dilly.auth.AppleAccountRepository;
+import com.dilly.auth.dao.AppleAccountRepository;
+import com.dilly.auth.domain.AppleAccount;
 import com.dilly.exception.alreadyexist.MemberAlreadyExistException;
-import com.dilly.member.Member;
+import com.dilly.member.domain.Member;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

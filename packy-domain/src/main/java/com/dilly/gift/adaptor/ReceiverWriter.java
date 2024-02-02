@@ -1,9 +1,9 @@
 package com.dilly.gift.adaptor;
 
-import com.dilly.gift.GiftBox;
-import com.dilly.gift.Receiver;
 import com.dilly.gift.dao.ReceiverRepository;
-import com.dilly.member.Member;
+import com.dilly.gift.domain.GiftBox;
+import com.dilly.gift.domain.Receiver;
+import com.dilly.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

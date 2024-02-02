@@ -1,7 +1,7 @@
 package com.dilly.admin.dto.response;
 
-import com.dilly.gift.Sticker;
-import com.dilly.member.ProfileImage;
+import com.dilly.gift.domain.Sticker;
+import com.dilly.member.domain.ProfileImage;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 

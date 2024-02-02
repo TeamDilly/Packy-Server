@@ -1,6 +1,6 @@
 package com.dilly.gift.dto.response;
 
-import com.dilly.gift.GiftBoxSticker;
+import com.dilly.gift.domain.GiftBoxSticker;
 import lombok.Builder;
 
 @Builder

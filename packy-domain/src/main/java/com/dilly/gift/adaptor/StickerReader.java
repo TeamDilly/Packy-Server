@@ -2,9 +2,9 @@ package com.dilly.gift.adaptor;
 
 import com.dilly.exception.ErrorCode;
 import com.dilly.exception.entitynotfound.EntityNotFoundException;
-import com.dilly.gift.Sticker;
 import com.dilly.gift.dao.StickerRepository;
 import com.dilly.gift.dao.querydsl.StickerQueryRepository;
+import com.dilly.gift.domain.Sticker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;

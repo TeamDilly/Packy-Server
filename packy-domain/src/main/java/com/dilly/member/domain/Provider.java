@@ -1,4 +1,4 @@
-package com.dilly.member;
+package com.dilly.member.domain;
 
 public enum Provider {
 

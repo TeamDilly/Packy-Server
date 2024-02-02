@@ -1,5 +1,11 @@
 package com.dilly.auth.application;
 
+import com.dilly.auth.domain.KakaoAccount;
+import com.dilly.auth.model.KakaoResource;
+import com.dilly.exception.ErrorCode;
+import com.dilly.exception.internalserver.InternalServerException;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -7,7 +13,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -17,16 +24,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientException;
-
-import com.dilly.auth.KakaoAccount;
-import com.dilly.auth.model.KakaoResource;
-import com.dilly.exception.ErrorCode;
-import com.dilly.exception.internalserver.InternalServerException;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor

@@ -1,4 +1,4 @@
-package com.dilly.gift;
+package com.dilly.gift.domain;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -9,15 +9,13 @@ import lombok.Getter;
 
 @Entity
 @Getter
-public class Envelope {
+public class Sticker {
 
-	@Id
-	@GeneratedValue(strategy = IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    private Long id;
 
-	private Long sequence;
+    private String imgUrl;
 
-	private String borderColorCode;
-
-	private String imgUrl;
+    private Long sequence;
 }

@@ -1,8 +1,8 @@
-package com.dilly.auth;
+package com.dilly.auth.dao;
 
+import com.dilly.auth.domain.KakaoAccount;
+import com.dilly.member.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import com.dilly.member.Member;
 
 public interface KakaoAccountRepository extends JpaRepository<KakaoAccount, String> {
 

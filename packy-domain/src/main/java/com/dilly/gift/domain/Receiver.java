@@ -1,7 +1,9 @@
-package com.dilly.gift;
+package com.dilly.gift.domain;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
+import com.dilly.global.BaseTimeEntity;
+import com.dilly.member.domain.Member;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -15,29 +17,17 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class Photo {
+@AllArgsConstructor
+public class Receiver extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    private Member receiver;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     private GiftBox giftBox;
-
-    private String imgUrl;
-
-    private String description;
-
-    private Integer sequence;
-
-    public static Photo of(GiftBox giftBox, String imgUrl, String description, Integer sequence) {
-        return Photo.builder()
-            .giftBox(giftBox)
-            .imgUrl(imgUrl)
-            .description(description)
-            .sequence(sequence)
-            .build();
-    }
 }

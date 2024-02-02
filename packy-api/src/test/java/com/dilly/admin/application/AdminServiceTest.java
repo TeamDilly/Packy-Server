@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.dilly.admin.dto.response.BoxImgResponse;
 import com.dilly.admin.dto.response.ImgResponse;
 import com.dilly.admin.dto.response.MusicResponse;
-import com.dilly.gift.MusicHashtag;
+import com.dilly.gift.domain.MusicHashtag;
 import com.dilly.gift.dto.response.EnvelopeListResponse;
 import com.dilly.global.IntegrationTestSupport;
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.dilly.member.adaptor;
 
 import com.dilly.gift.dao.ProfileImageRepository;
-import com.dilly.member.ProfileImage;
+import com.dilly.member.domain.ProfileImage;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
