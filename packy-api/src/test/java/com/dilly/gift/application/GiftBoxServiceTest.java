@@ -36,7 +36,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
 
-class GiftServiceTest extends IntegrationTestSupport {
+class GiftBoxServiceTest extends IntegrationTestSupport {
 
     @DisplayName("선물박스 만들기 시나리오")
     @TestFactory
@@ -65,7 +65,7 @@ class GiftServiceTest extends IntegrationTestSupport {
         return List.of(
             DynamicTest.dynamicTest("선물이 있을 경우", () -> {
                 // when
-                GiftBoxIdResponse giftBoxIdResponse = giftService.createGiftBox(
+                GiftBoxIdResponse giftBoxIdResponse = giftBoxService.createGiftBox(
                     giftBoxRequestWithGift);
                 GiftBox giftBox = giftBoxRepository.findTopByOrderByIdDesc();
                 List<Photo> photos = photoRepository.findAllByGiftBox(giftBox);
@@ -99,7 +99,7 @@ class GiftServiceTest extends IntegrationTestSupport {
             }),
             DynamicTest.dynamicTest("선물이 없을 경우", () -> {
                 // when
-                GiftBoxIdResponse giftBoxIdResponse = giftService.createGiftBox(
+                GiftBoxIdResponse giftBoxIdResponse = giftBoxService.createGiftBox(
                     giftBoxRequestWithoutGift);
                 GiftBox giftBox = giftBoxRepository.findTopByOrderByIdDesc();
                 List<Photo> photos = photoRepository.findAllByGiftBox(giftBox);
@@ -177,7 +177,8 @@ class GiftServiceTest extends IntegrationTestSupport {
                 GiftResponse expectedGiftResponse = GiftResponse.of(giftBoxWithGift.getGift());
 
                 // when
-                GiftBoxResponse giftBoxResponse = giftService.openGiftBox(giftBoxWithGift.getId());
+                GiftBoxResponse giftBoxResponse = giftBoxService.openGiftBox(
+                    giftBoxWithGift.getId());
                 Long receiverAfter = receiverRepository.countByGiftBox(giftBoxWithGift);
                 List<Receiver> receivers = receiverRepository.findByGiftBox(giftBoxWithGift);
 
@@ -218,7 +219,7 @@ class GiftServiceTest extends IntegrationTestSupport {
                     .toList();
 
                 // when
-                GiftBoxResponse giftBoxResponse = giftService.openGiftBox(
+                GiftBoxResponse giftBoxResponse = giftBoxService.openGiftBox(
                     giftBoxWithoutGift.getId());
                 Long receiverAfter = receiverRepository.countByGiftBox(giftBoxWithoutGift);
                 List<Receiver> receivers = receiverRepository.findByGiftBox(giftBoxWithoutGift);
@@ -269,7 +270,7 @@ class GiftServiceTest extends IntegrationTestSupport {
                 GiftResponse expectedGiftResponse = GiftResponse.of(giftBox.getGift());
 
                 // when
-                GiftBoxResponse giftBoxResponse = giftService.openGiftBox(giftBox.getId());
+                GiftBoxResponse giftBoxResponse = giftBoxService.openGiftBox(giftBox.getId());
                 List<Receiver> receivers = receiverRepository.findByGiftBox(giftBox);
                 Long receiverAfter = receiverRepository.countByGiftBox(giftBox);
 
@@ -300,7 +301,7 @@ class GiftServiceTest extends IntegrationTestSupport {
                 openGiftBox(member2, giftBox);
 
                 // when // then
-                assertThatThrownBy(() -> giftService.openGiftBox(giftBox.getId()))
+                assertThatThrownBy(() -> giftBoxService.openGiftBox(giftBox.getId()))
                     .isInstanceOf(GiftBoxAlreadyOpenedException.class);
             }
         }

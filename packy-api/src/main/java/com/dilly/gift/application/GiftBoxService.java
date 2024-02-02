@@ -26,16 +26,21 @@ import com.dilly.gift.dto.response.BoxResponse;
 import com.dilly.gift.dto.response.EnvelopeResponse;
 import com.dilly.gift.dto.response.GiftBoxIdResponse;
 import com.dilly.gift.dto.response.GiftBoxResponse;
+import com.dilly.gift.dto.response.GiftBoxesResponse;
 import com.dilly.gift.dto.response.GiftResponse;
 import com.dilly.gift.dto.response.PhotoResponse;
 import com.dilly.gift.dto.response.StickerResponse;
 import com.dilly.global.utils.SecurityUtil;
 import com.dilly.member.adaptor.MemberReader;
 import com.dilly.member.domain.Member;
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,7 +48,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-public class GiftService {
+public class GiftBoxService {
 
     private final GiftBoxReader giftBoxReader;
     private final GiftBoxWriter giftBoxWriter;
@@ -133,5 +138,20 @@ public class GiftService {
 
         return GiftBoxResponse.of(giftBox, boxResponse, envelopeResponse, photos, stickers,
             giftResponse);
+    }
+
+    public Slice<GiftBoxesResponse> getGiftBoxes(LocalDateTime lastGiftBoxDate, String type,
+        Pageable pageable) {
+        Long memberId = SecurityUtil.getMemberId();
+        Member member = memberReader.findById(memberId);
+
+        Slice<GiftBox> giftBoxSlice = giftBoxReader.searchBySlice(member, lastGiftBoxDate, type,
+            pageable);
+
+        List<GiftBoxesResponse> giftBoxesResponses = giftBoxSlice.getContent().stream()
+            .map(giftBox -> GiftBoxesResponse.of(giftBox, type))
+            .toList();
+
+        return new SliceImpl<>(giftBoxesResponses, pageable, giftBoxSlice.hasNext());
     }
 }

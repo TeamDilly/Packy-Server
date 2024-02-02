@@ -32,7 +32,9 @@ import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
 import org.springframework.http.MediaType;
 
-class GiftControllerTest extends ControllerTestSupport {
+class GiftBoxControllerTest extends ControllerTestSupport {
+
+    String giftBoxBaseUrl = baseUrl + "/giftboxes";
 
     @DisplayName("선물박스 만들기 시나리오")
     @TestFactory
@@ -70,11 +72,11 @@ class GiftControllerTest extends ControllerTestSupport {
                     )
                     .build();
 
-                given(giftService.createGiftBox(giftBoxRequest)).willReturn(giftBoxIdResponse);
+                given(giftBoxService.createGiftBox(giftBoxRequest)).willReturn(giftBoxIdResponse);
 
                 // when // then
                 mockMvc.perform(
-                        post(baseUrl + "/giftbox")
+                        post(giftBoxBaseUrl)
                             .with(csrf())
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(objectMapper.writeValueAsString(giftBoxRequest))
@@ -99,11 +101,11 @@ class GiftControllerTest extends ControllerTestSupport {
                     .gift(null)
                     .build();
 
-                given(giftService.createGiftBox(giftBoxRequest)).willReturn(giftBoxIdResponse);
+                given(giftBoxService.createGiftBox(giftBoxRequest)).willReturn(giftBoxIdResponse);
 
                 // when // then
                 mockMvc.perform(
-                        post(baseUrl + "/giftbox")
+                        post(giftBoxBaseUrl)
                             .with(csrf())
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(objectMapper.writeValueAsString(giftBoxRequest))
@@ -158,11 +160,11 @@ class GiftControllerTest extends ControllerTestSupport {
                     .stickers(stickers)
                     .gift(giftResponse)
                     .build();
-                given(giftService.openGiftBox(anyLong())).willReturn(giftBoxResponse);
+                given(giftBoxService.openGiftBox(anyLong())).willReturn(giftBoxResponse);
 
                 // when // then
                 mockMvc.perform(
-                        get(baseUrl + "/giftbox/{giftBoxId}", anyLong())
+                        get(giftBoxBaseUrl + "/{giftBoxId}", anyLong())
                             .with(csrf())
                             .contentType(MediaType.APPLICATION_JSON)
                     )
@@ -205,11 +207,11 @@ class GiftControllerTest extends ControllerTestSupport {
                     .photos(photos)
                     .stickers(stickers)
                     .build();
-                given(giftService.openGiftBox(any())).willReturn(giftBoxResponse);
+                given(giftBoxService.openGiftBox(any())).willReturn(giftBoxResponse);
 
                 // when // then
                 mockMvc.perform(
-                        get(baseUrl + "/giftbox/{giftBoxId}", anyLong())
+                        get(giftBoxBaseUrl + "/{giftBoxId}", anyLong())
                             .with(csrf())
                             .contentType(MediaType.APPLICATION_JSON)
                     )

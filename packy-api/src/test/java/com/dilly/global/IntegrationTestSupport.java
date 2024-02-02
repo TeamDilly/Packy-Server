@@ -5,7 +5,7 @@ import com.dilly.gift.adaptor.GiftBoxWriter;
 import com.dilly.gift.adaptor.PhotoWriter;
 import com.dilly.gift.adaptor.ReceiverReader;
 import com.dilly.gift.adaptor.ReceiverWriter;
-import com.dilly.gift.application.GiftService;
+import com.dilly.gift.application.GiftBoxService;
 import com.dilly.gift.dao.BoxRepository;
 import com.dilly.gift.dao.EnvelopeRepository;
 import com.dilly.gift.dao.GiftBoxRepository;
@@ -51,7 +51,7 @@ public abstract class IntegrationTestSupport {
     protected AdminService adminService;
 
     @Autowired
-    protected GiftService giftService;
+    protected GiftBoxService giftBoxService;
 
     @Autowired
     protected MyPageService myPageService;
