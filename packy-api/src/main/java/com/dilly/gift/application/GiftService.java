@@ -1,26 +1,26 @@
 package com.dilly.gift.application;
 
-import static com.dilly.gift.GiftBoxType.PRIVATE;
+import static com.dilly.gift.domain.GiftBoxType.PRIVATE;
 
 import com.dilly.exception.GiftBoxAlreadyOpenedException;
-import com.dilly.gift.Box;
-import com.dilly.gift.Envelope;
-import com.dilly.gift.Gift;
-import com.dilly.gift.GiftBox;
-import com.dilly.gift.GiftType;
-import com.dilly.gift.Letter;
-import com.dilly.gift.Receiver;
-import com.dilly.gift.domain.BoxReader;
-import com.dilly.gift.domain.EnvelopeReader;
-import com.dilly.gift.domain.GiftBoxReader;
-import com.dilly.gift.domain.GiftBoxStickerReader;
-import com.dilly.gift.domain.GiftBoxStickerWriter;
-import com.dilly.gift.domain.GiftBoxWriter;
-import com.dilly.gift.domain.LetterWriter;
-import com.dilly.gift.domain.PhotoReader;
-import com.dilly.gift.domain.PhotoWriter;
-import com.dilly.gift.domain.ReceiverReader;
-import com.dilly.gift.domain.ReceiverWriter;
+import com.dilly.gift.adaptor.BoxReader;
+import com.dilly.gift.adaptor.EnvelopeReader;
+import com.dilly.gift.adaptor.GiftBoxReader;
+import com.dilly.gift.adaptor.GiftBoxStickerReader;
+import com.dilly.gift.adaptor.GiftBoxStickerWriter;
+import com.dilly.gift.adaptor.GiftBoxWriter;
+import com.dilly.gift.adaptor.LetterWriter;
+import com.dilly.gift.adaptor.PhotoReader;
+import com.dilly.gift.adaptor.PhotoWriter;
+import com.dilly.gift.adaptor.ReceiverReader;
+import com.dilly.gift.adaptor.ReceiverWriter;
+import com.dilly.gift.domain.Box;
+import com.dilly.gift.domain.Envelope;
+import com.dilly.gift.domain.Gift;
+import com.dilly.gift.domain.GiftBox;
+import com.dilly.gift.domain.GiftType;
+import com.dilly.gift.domain.Letter;
+import com.dilly.gift.domain.Receiver;
 import com.dilly.gift.dto.request.GiftBoxRequest;
 import com.dilly.gift.dto.response.BoxResponse;
 import com.dilly.gift.dto.response.EnvelopeResponse;
@@ -30,8 +30,8 @@ import com.dilly.gift.dto.response.GiftResponse;
 import com.dilly.gift.dto.response.PhotoResponse;
 import com.dilly.gift.dto.response.StickerResponse;
 import com.dilly.global.utils.SecurityUtil;
-import com.dilly.member.Member;
-import com.dilly.member.domain.MemberReader;
+import com.dilly.member.adaptor.MemberReader;
+import com.dilly.member.domain.Member;
 import java.util.Comparator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -77,13 +77,19 @@ public class GiftService {
 
             giftBox = giftBoxWriter.save(box, letter, gift, sender,
                 giftBoxRequest.name(), giftBoxRequest.youtubeUrl(),
-                giftBoxRequest.senderName(), giftBoxRequest.receiverName());
+                giftBoxRequest.senderName(), giftBoxRequest.receiverName()
+            );
         }
 
         giftBoxRequest.photos()
-            .forEach(photoRequest -> photoWriter.save(giftBox, photoRequest));
+            .forEach(
+                photoRequest -> photoWriter.save(giftBox, photoRequest.photoUrl(),
+                    photoRequest.description(), photoRequest.sequence())
+            );
         giftBoxRequest.stickers()
-            .forEach(stickerRequest -> giftBoxStickerWriter.save(giftBox, stickerRequest));
+            .forEach(stickerRequest ->
+                giftBoxStickerWriter.save(giftBox, stickerRequest.id(), stickerRequest.location())
+            );
 
         return GiftBoxIdResponse.of(giftBox.getId(), giftBox.getUuid());
     }

@@ -1,5 +1,7 @@
 package com.dilly.admin.dto.response;
 
+import com.dilly.gift.domain.Music;
+import com.dilly.gift.domain.MusicHashtag;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import lombok.Builder;
@@ -16,4 +18,16 @@ public record MusicResponse(
 	Long sequence,
 	List<String> hashtags
 ) {
+
+	public static MusicResponse of(Music music) {
+		return MusicResponse.builder()
+			.id(music.getId())
+			.youtubeUrl(music.getYoutubeUrl())
+			.title(music.getTitle())
+			.sequence(music.getSequence())
+			.hashtags(music.getHashtags().stream()
+				.map(MusicHashtag::getHashtag)
+				.toList())
+			.build();
+	}
 }

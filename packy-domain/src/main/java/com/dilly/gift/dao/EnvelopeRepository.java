@@ -1,6 +1,6 @@
 package com.dilly.gift.dao;
 
-import com.dilly.gift.Envelope;
+import com.dilly.gift.domain.Envelope;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 

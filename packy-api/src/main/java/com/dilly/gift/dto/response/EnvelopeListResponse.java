@@ -1,5 +1,6 @@
 package com.dilly.gift.dto.response;
 
+import com.dilly.gift.domain.Envelope;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 
@@ -15,4 +16,12 @@ public record EnvelopeListResponse(
     String imgUrl
 ) {
 
+    public static EnvelopeListResponse of(Envelope envelope) {
+        return EnvelopeListResponse.builder()
+            .id(envelope.getId())
+            .sequence(envelope.getSequence())
+            .borderColorCode(envelope.getBorderColorCode())
+            .imgUrl(envelope.getImgUrl())
+            .build();
+    }
 }

@@ -3,7 +3,7 @@ package com.dilly.jwt;
 import com.dilly.exception.AuthorizationFailedException;
 import com.dilly.exception.ErrorCode;
 import com.dilly.jwt.dto.JwtResponse;
-import com.dilly.member.Member;
+import com.dilly.member.domain.Member;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;

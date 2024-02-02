@@ -1,7 +1,7 @@
 package com.dilly.gift.dao;
 
-import com.dilly.gift.GiftBox;
-import com.dilly.gift.Photo;
+import com.dilly.gift.domain.GiftBox;
+import com.dilly.gift.domain.Photo;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 

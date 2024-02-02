@@ -1,6 +1,6 @@
 package com.dilly.gift.dto.response;
 
-import com.dilly.gift.Photo;
+import com.dilly.gift.domain.Photo;
 import lombok.Builder;
 
 @Builder

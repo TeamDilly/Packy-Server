@@ -1,5 +1,18 @@
 package com.dilly.auth.application;
 
+import com.dilly.auth.domain.AppleAccount;
+import com.dilly.auth.model.AppleAccountInfo;
+import com.dilly.auth.model.ApplePublicKey;
+import com.dilly.auth.model.ApplePublicKey.Key;
+import com.dilly.auth.model.AppleToken;
+import com.dilly.exception.ErrorCode;
+import com.dilly.exception.internalserver.AppleServerException;
+import com.dilly.exception.internalserver.InternalServerException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import java.io.Reader;
 import java.io.StringReader;
 import java.math.BigInteger;
@@ -14,7 +27,8 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
 import org.bouncycastle.openssl.PEMParser;
 import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
@@ -28,23 +42,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientException;
-
-import com.dilly.auth.AppleAccount;
-import com.dilly.auth.model.AppleAccountInfo;
-import com.dilly.auth.model.ApplePublicKey;
-import com.dilly.auth.model.ApplePublicKey.Key;
-import com.dilly.auth.model.AppleToken;
-import com.dilly.exception.ErrorCode;
-import com.dilly.exception.internalserver.AppleServerException;
-import com.dilly.exception.internalserver.InternalServerException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor

@@ -1,9 +1,8 @@
 package com.dilly.auth.dto.request;
 
-import com.dilly.member.Member;
-import com.dilly.member.ProfileImage;
-import com.dilly.member.Provider;
-
+import com.dilly.member.domain.Member;
+import com.dilly.member.domain.ProfileImage;
+import com.dilly.member.domain.Provider;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public record SignupRequest(
