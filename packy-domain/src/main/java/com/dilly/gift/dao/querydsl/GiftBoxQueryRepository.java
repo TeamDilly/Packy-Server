@@ -1,6 +1,7 @@
 package com.dilly.gift.dao.querydsl;
 
 import static com.dilly.gift.domain.QGiftBox.giftBox;
+import static com.dilly.gift.domain.QReceiver.receiver;
 
 import com.dilly.gift.domain.GiftBox;
 import com.dilly.member.domain.Member;
@@ -25,6 +26,7 @@ public class GiftBoxQueryRepository {
         Pageable pageable) {
         List<GiftBox> results = new ArrayList<>();
 
+        // TODO: switch문으로 리팩토링
         if (type.equals("sent")) {
             results = jpaQueryFactory.selectFrom(giftBox)
                 .limit(pageable.getPageSize() + 1L)
@@ -35,7 +37,15 @@ public class GiftBoxQueryRepository {
                 .limit(pageable.getPageSize() + 1L)
                 .fetch();
         } else if (type.equals("received")) {
-            // TODO: type이 received라면 giftboxDate가 Receiver의 createdAt
+            results = jpaQueryFactory.select(giftBox)
+                .from(receiver)
+                .join(receiver.giftBox, giftBox)
+                .where(
+                    ltGiftBoxDate(lastGiftBoxDate),
+                    receiver.member.eq(member))
+                .orderBy(receiver.createdAt.desc())
+                .limit(pageable.getPageSize() + 1L)
+                .fetch();
         } else if (type.equals("all")) {
             // TODO: type이 없다면 내가 보낸 선물박스랑 내가 받은 선물박스를 합치고 giftboxDate로 정렬
         }

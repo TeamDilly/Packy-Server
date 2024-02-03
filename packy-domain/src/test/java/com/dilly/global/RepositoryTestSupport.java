@@ -70,7 +70,7 @@ public abstract class RepositoryTestSupport {
     @Autowired
     protected ProfileImageRepository profileImageRepository;
 
-    protected void createMockGiftBoxWithGift(Member member) {
+    protected void createMockGiftBox(Member member) {
         Box box = boxRepository.findById(1L).orElseThrow();
         Envelope envelope = envelopeRepository.findById(1L).orElseThrow();
         Letter letter = letterRepository.save(Letter.of("test", envelope));

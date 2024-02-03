@@ -21,15 +21,15 @@ class GiftBoxQueryRepositoryTest extends RepositoryTestSupport {
         member1 = memberRepository.findById(1L).orElseThrow();
 
         for (int i = 0; i < 15; i++) {
-            createMockGiftBoxWithGift(member1);
+            createMockGiftBox(member1);
         }
     }
 
-    @DisplayName("보낸 선물박스를 최신순으로 4개 조회한다.")
+    @DisplayName("보낸 선물박스를 최신순으로 처음 4개 조회한다.")
     @Test
-    void getGiftBoxes() {
+    void getSentGiftBoxes() {
         // given
-        Long latestgiftBoxId = giftBoxRepository.count();
+        Long latestgiftBoxId = giftBoxRepository.findTopByOrderByIdDesc().getId();
 
         // when
         Slice<GiftBox> giftBoxSlice = giftBoxQueryRepository.searchBySlice(member1, null, "sent",
@@ -40,25 +40,34 @@ class GiftBoxQueryRepositoryTest extends RepositoryTestSupport {
         // then
         assertThat(giftBoxSlice.isFirst()).isTrue();
         assertThat(giftBoxSlice.getContent()).hasSize(4);
-        assertThat(giftBoxSlice.getContent().get(0).getId()).isEqualTo(latestgiftBoxId);
-        assertThat(giftBoxSlice.getContent().get(3).getId()).isEqualTo(latestgiftBoxId - 3);
+        assertThat(first).isEqualTo(latestgiftBoxId);
+        assertThat(last).isEqualTo(latestgiftBoxId - 3);
+        for (GiftBox giftBox : giftBoxSlice.getContent()) {
+            assertThat(giftBox.getSender()).isEqualTo(member1);
+        }
     }
 
     @DisplayName("lastGiftBoxDate 이전에 보낸 선물박스 4개를 조회한다.")
     @Test
-    void getGiftBoxesBeforeLastGiftBoxDate() {
+    void getSentGiftBoxesBeforeLastGiftBoxDate() {
         // given
         GiftBox lastGiftBox = giftBoxRepository.findTopByOrderByIdDesc();
-        Long latestgiftBoxId = lastGiftBox.getId() - 8;
-        LocalDateTime lastGiftBoxDate = giftBoxRepository.findById(latestgiftBoxId).orElseThrow().getCreatedAt();
+        Long lastgiftBoxId = lastGiftBox.getId() - 8;
+        LocalDateTime lastGiftBoxDate = giftBoxRepository.findById(lastgiftBoxId).orElseThrow()
+            .getCreatedAt();
 
         // when
         Slice<GiftBox> giftBoxSlice = giftBoxQueryRepository.searchBySlice(member1, lastGiftBoxDate, "sent",
             PageRequest.ofSize(4));
+        Long first = giftBoxSlice.getContent().get(0).getId();
+        Long last = giftBoxSlice.getContent().get(3).getId();
 
         // then
         assertThat(giftBoxSlice.getContent()).hasSize(4);
-        assertThat(giftBoxSlice.getContent().get(0).getId()).isEqualTo(latestgiftBoxId - 1);
-        assertThat(giftBoxSlice.getContent().get(3).getId()).isEqualTo(latestgiftBoxId - 4);
+        assertThat(first).isEqualTo(lastgiftBoxId - 1);
+        assertThat(last).isEqualTo(lastgiftBoxId - 4);
+        for (GiftBox giftBox : giftBoxSlice.getContent()) {
+            assertThat(giftBox.getSender()).isEqualTo(member1);
+        }
     }
 }

@@ -14,9 +14,6 @@ public class ReceiverWriter {
     private final ReceiverRepository receiverRepository;
 
     public void save(Member member, GiftBox giftBox) {
-        receiverRepository.save(Receiver.builder()
-            .receiver(member)
-            .giftBox(giftBox)
-            .build());
+        receiverRepository.save(Receiver.of(member, giftBox));
     }
 }

@@ -50,7 +50,6 @@ public class GiftBoxController {
         return DataResponseDto.from(giftBoxService.createGiftBox(giftBoxRequest));
     }
 
-    // TODO: sequence 순으로 페이징 정렬 변경
     @Operation(summary = "선물박스 열기", description = """
         1. 선물이 없을 경우 응답에서 gift 객체가 제외됩니다.
         2. 이미 열린 선물박스는 다른 사람이 열 수 없습니다.
@@ -66,7 +65,7 @@ public class GiftBoxController {
         return DataResponseDto.from(giftBoxService.openGiftBox(giftBoxId));
     }
 
-    @Operation(summary = "주고받은 선물박스")
+    @Operation(summary = "주고받은 선물박스 조회")
     @Parameter(in = ParameterIn.QUERY
         , description = "한 페이지에 보여줄 선물박스 개수. 기본값은 6개"
         , name = "size"

@@ -105,7 +105,7 @@ public class GiftBoxService {
         GiftBox giftBox = giftBoxReader.findById(giftBoxId);
 
         List<Long> receivers = receiverReader.findByGiftBox(giftBox).stream()
-            .map(Receiver::getReceiver)
+            .map(Receiver::getMember)
             .map(Member::getId)
             .toList();
 
@@ -116,6 +116,7 @@ public class GiftBoxService {
             throw new GiftBoxAlreadyOpenedException();
         }
 
+        // 선물박스를 이전에 열지 않았던 경우
         if (!receivers.contains(receiver.getId())) {
             receiverWriter.save(receiver, giftBox);
         }
@@ -149,7 +150,7 @@ public class GiftBoxService {
             pageable);
 
         List<GiftBoxesResponse> giftBoxesResponses = giftBoxSlice.getContent().stream()
-            .map(giftBox -> GiftBoxesResponse.of(giftBox, type))
+            .map(GiftBoxesResponse::of)
             .toList();
 
         return new SliceImpl<>(giftBoxesResponses, pageable, giftBoxSlice.hasNext());
