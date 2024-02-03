@@ -185,7 +185,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
                 // then
                 assertThat(receiverAfter).isEqualTo(receiverBefore + 1);
                 assertThat(receivers).hasSize(1)
-                    .extracting("receiver.id").contains(member2.getId());
+                    .extracting("member.id").contains(member2.getId());
 
                 assertThat(giftBoxResponse.name()).isEqualTo(giftBoxWithGift.getName());
                 assertThat(giftBoxResponse.senderName()).isEqualTo(giftBoxWithGift.getSenderName());
@@ -227,7 +227,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
                 // then
                 assertThat(receiverAfter).isEqualTo(receiverBefore + 1);
                 assertThat(receivers).hasSize(1)
-                    .extracting("receiver.id").contains(member2.getId());
+                    .extracting("member.id").contains(member2.getId());
                 assertThat(giftBoxResponse.name()).isEqualTo(giftBoxWithoutGift.getName());
                 assertThat(giftBoxResponse.senderName()).isEqualTo(
                     giftBoxWithoutGift.getSenderName());
@@ -277,7 +277,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
                 // then
                 assertThat(receiverAfter).isEqualTo(receiverBefore);
                 assertThat(receivers).hasSize(1)
-                    .extracting("receiver.id").contains(member2.getId());
+                    .extracting("member.id").contains(member2.getId());
                 assertThat(giftBoxResponse.name()).isEqualTo(giftBox.getName());
                 assertThat(giftBoxResponse.senderName()).isEqualTo(
                     giftBox.getSenderName());

@@ -140,7 +140,7 @@ public abstract class IntegrationTestSupport {
 
     protected void openGiftBox(Member member, GiftBox giftBox) {
         List<Member> receivers = receiver.findByGiftBox(giftBox).stream()
-            .map(Receiver::getReceiver)
+            .map(Receiver::getMember)
             .toList();
 
         if (!receivers.contains(member)) {
