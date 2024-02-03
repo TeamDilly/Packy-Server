@@ -105,7 +105,7 @@ public class GiftBoxService {
         GiftBox giftBox = giftBoxReader.findById(giftBoxId);
 
         List<Long> receivers = receiverReader.findByGiftBox(giftBox).stream()
-            .map(Receiver::getReceiver)
+            .map(Receiver::getMember)
             .map(Member::getId)
             .toList();
 

@@ -15,7 +15,7 @@ public class ReceiverWriter {
 
     public void save(Member member, GiftBox giftBox) {
         receiverRepository.save(Receiver.builder()
-            .receiver(member)
+            .member(member)
             .giftBox(giftBox)
             .build());
     }
