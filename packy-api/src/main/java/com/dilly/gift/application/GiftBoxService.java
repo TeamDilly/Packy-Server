@@ -150,7 +150,7 @@ public class GiftBoxService {
             pageable);
 
         List<GiftBoxesResponse> giftBoxesResponses = giftBoxSlice.getContent().stream()
-            .map(giftBox -> GiftBoxesResponse.of(giftBox, type))
+            .map(GiftBoxesResponse::of)
             .toList();
 
         return new SliceImpl<>(giftBoxesResponses, pageable, giftBoxSlice.hasNext());
