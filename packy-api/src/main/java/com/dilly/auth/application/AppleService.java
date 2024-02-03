@@ -84,7 +84,7 @@ public class AppleService {
 				.bodyToMono(AppleToken.class)
 				.block();
 		} catch (Exception e) {
-			log.error("client_secret: {}", getAppleClientSecret());
+			log.error("zoneId: {}, localDateTime: {}", ZoneId.systemDefault(), LocalDateTime.now());
 			throw new AppleServerException(ErrorCode.APPLE_FAILED_TO_GET_TOKEN);
 		}
 	}
