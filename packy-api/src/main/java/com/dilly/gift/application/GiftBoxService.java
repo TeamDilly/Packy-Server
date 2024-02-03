@@ -116,6 +116,7 @@ public class GiftBoxService {
             throw new GiftBoxAlreadyOpenedException();
         }
 
+        // 선물박스를 이전에 열지 않았던 경우
         if (!receivers.contains(receiver.getId())) {
             receiverWriter.save(receiver, giftBox);
         }
