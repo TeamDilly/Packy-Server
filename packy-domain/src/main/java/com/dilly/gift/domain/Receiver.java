@@ -32,4 +32,11 @@ public class Receiver extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private GiftBox giftBox;
+
+    public static Receiver of(Member member, GiftBox giftBox) {
+        return Receiver.builder()
+            .member(member)
+            .giftBox(giftBox)
+            .build();
+    }
 }
