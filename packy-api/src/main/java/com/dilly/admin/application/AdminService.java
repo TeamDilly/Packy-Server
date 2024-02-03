@@ -1,8 +1,11 @@
 package com.dilly.admin.application;
 
+import com.dilly.admin.adaptor.SettingReader;
+import com.dilly.admin.domain.Setting;
 import com.dilly.admin.dto.response.BoxImgResponse;
 import com.dilly.admin.dto.response.ImgResponse;
 import com.dilly.admin.dto.response.MusicResponse;
+import com.dilly.admin.dto.response.SettingResponse;
 import com.dilly.gift.adaptor.BoxReader;
 import com.dilly.gift.adaptor.EnvelopeReader;
 import com.dilly.gift.adaptor.MusicReader;
@@ -34,6 +37,7 @@ public class AdminService {
     private final EnvelopeReader envelopeReader;
     private final MusicReader musicReader;
     private final StickerReader stickerReader;
+    private final SettingReader settingReader;
 
     public List<ImgResponse> getProfiles() {
         List<ProfileImage> profileImages = profileImageReader.findAllByOrderBySequenceAsc();
@@ -66,5 +70,11 @@ public class AdminService {
             .toList();
 
         return new SliceImpl<>(imgResponses, pageable, stickerSlice.hasNext());
+    }
+
+    public List<SettingResponse> getSettingUrls() {
+        List<Setting> settingUrls = settingReader.findAll();
+
+        return settingUrls.stream().map(SettingResponse::from).toList();
     }
 }
