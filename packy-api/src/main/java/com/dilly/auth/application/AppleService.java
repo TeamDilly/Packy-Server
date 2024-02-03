@@ -137,7 +137,7 @@ public class AppleService {
 
 	private String getAppleClientSecret() {
 		Date expirationDate = Date.from(
-			LocalDateTime.now().plusDays(30).atZone(ZoneId.systemDefault()).toInstant()
+			LocalDateTime.now().plusDays(180).atZone(ZoneId.systemDefault()).toInstant()
 		);
 
 		try {
