@@ -1,8 +1,11 @@
 package com.dilly.admin.application;
 
+import com.dilly.admin.adaptor.SettingReader;
+import com.dilly.admin.domain.Setting;
 import com.dilly.admin.dto.response.BoxImgResponse;
 import com.dilly.admin.dto.response.ImgResponse;
 import com.dilly.admin.dto.response.MusicResponse;
+import com.dilly.admin.dto.response.SettingResponse;
 import com.dilly.gift.adaptor.BoxReader;
 import com.dilly.gift.adaptor.EnvelopeReader;
 import com.dilly.gift.adaptor.MusicReader;
@@ -34,37 +37,44 @@ public class AdminService {
     private final EnvelopeReader envelopeReader;
     private final MusicReader musicReader;
     private final StickerReader stickerReader;
+    private final SettingReader settingReader;
 
     public List<ImgResponse> getProfiles() {
         List<ProfileImage> profileImages = profileImageReader.findAllByOrderBySequenceAsc();
 
-        return profileImages.stream().map(ImgResponse::of).toList();
+        return profileImages.stream().map(ImgResponse::from).toList();
     }
 
     public List<BoxImgResponse> getBoxes() {
         List<Box> boxes = boxReader.findAllByOrderBySequenceAsc();
 
-        return boxes.stream().map(BoxImgResponse::of).toList();
+        return boxes.stream().map(BoxImgResponse::from).toList();
     }
 
     public List<EnvelopeListResponse> getEnvelopes() {
         List<Envelope> envelopes = envelopeReader.findAllByOrderBySequenceAsc();
 
-        return envelopes.stream().map(EnvelopeListResponse::of).toList();
+        return envelopes.stream().map(EnvelopeListResponse::from).toList();
     }
 
     public List<MusicResponse> getMusics() {
         List<Music> musics = musicReader.findAllByOrderBySequenceAsc();
 
-        return musics.stream().map(MusicResponse::of).toList();
+        return musics.stream().map(MusicResponse::from).toList();
     }
 
     public Slice<ImgResponse> getStickers(Long lastStickerId, Pageable pageable) {
         Slice<Sticker> stickerSlice = stickerReader.searchBySlice(lastStickerId, pageable);
         List<ImgResponse> imgResponses = stickerSlice.getContent().stream()
-            .map(ImgResponse::of)
+            .map(ImgResponse::from)
             .toList();
 
         return new SliceImpl<>(imgResponses, pageable, stickerSlice.hasNext());
+    }
+
+    public List<SettingResponse> getSettingUrls() {
+        List<Setting> settingUrls = settingReader.findAll();
+
+        return settingUrls.stream().map(SettingResponse::from).toList();
     }
 }

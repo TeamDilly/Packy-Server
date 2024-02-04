@@ -16,7 +16,7 @@ public record EnvelopeListResponse(
     String imgUrl
 ) {
 
-    public static EnvelopeListResponse of(Envelope envelope) {
+    public static EnvelopeListResponse from(Envelope envelope) {
         return EnvelopeListResponse.builder()
             .id(envelope.getId())
             .sequence(envelope.getSequence())

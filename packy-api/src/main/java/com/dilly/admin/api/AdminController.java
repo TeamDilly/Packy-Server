@@ -4,6 +4,7 @@ import com.dilly.admin.application.AdminService;
 import com.dilly.admin.dto.response.BoxImgResponse;
 import com.dilly.admin.dto.response.ImgResponse;
 import com.dilly.admin.dto.response.MusicResponse;
+import com.dilly.admin.dto.response.SettingResponse;
 import com.dilly.application.YoutubeService;
 import com.dilly.dto.response.StatusResponse;
 import com.dilly.exception.ErrorCode;
@@ -92,5 +93,17 @@ public class AdminController {
         @RequestParam(value = "url", required = true)
         String url) {
         return DataResponseDto.from(youtubeService.validateYoutubeUrl(url));
+    }
+
+    @Operation(summary = "설정 링크 조회", description = """
+        패키 공식 SNS: OFFICIAL_SNS <br>
+        1:1 문의하기: INQUIRY <br>
+        패키에게 의견 보내기: SEND_COMMENT <br>
+        이용약관: TERMS_OF_USE <br>
+        개인정보처리방침: PRIVACY_POLICY <br>
+        """)
+    @GetMapping("/settings")
+    public DataResponseDto<List<SettingResponse>> getSettingUrls() {
+        return DataResponseDto.from(adminService.getSettingUrls());
     }
 }

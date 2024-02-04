@@ -15,7 +15,7 @@ public record ImgResponse(
 	String imgUrl
 ) {
 
-	public static ImgResponse of(ProfileImage profileImage) {
+	public static ImgResponse from(ProfileImage profileImage) {
 		return ImgResponse.builder()
 			.id(profileImage.getId())
 			.sequence(profileImage.getSequence())
@@ -23,7 +23,7 @@ public record ImgResponse(
 			.build();
 	}
 
-	public static ImgResponse of(Sticker sticker) {
+	public static ImgResponse from(Sticker sticker) {
 		return ImgResponse.builder()
 			.id(sticker.getId())
 			.sequence(sticker.getSequence())

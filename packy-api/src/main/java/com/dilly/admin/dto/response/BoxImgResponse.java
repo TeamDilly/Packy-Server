@@ -18,7 +18,7 @@ public record BoxImgResponse(
 	String boxBottom
 ) {
 
-    public static BoxImgResponse of(Box box) {
+	public static BoxImgResponse from(Box box) {
         return BoxImgResponse.builder()
             .id(box.getId())
             .sequence(box.getSequence())

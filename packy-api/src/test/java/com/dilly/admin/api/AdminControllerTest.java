@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.dilly.admin.dto.response.BoxImgResponse;
 import com.dilly.admin.dto.response.ImgResponse;
 import com.dilly.admin.dto.response.MusicResponse;
+import com.dilly.admin.dto.response.SettingResponse;
 import com.dilly.gift.dto.response.EnvelopeListResponse;
 import com.dilly.global.ControllerTestSupport;
 import com.dilly.global.WithCustomMockUser;
@@ -143,5 +144,28 @@ class AdminControllerTest extends ControllerTestSupport {
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.data").isArray())
 			.andExpect(jsonPath("$.data", hasSize(2)));
+	}
+
+	@DisplayName("설정 링크를 조회한다.")
+	@Test
+	@WithCustomMockUser
+	void getSettingUrls() throws Exception {
+		// given
+		List<SettingResponse> settingResponses = List.of(
+			SettingResponse.builder().tag("TEST1").url("www.test1.com").build(),
+			SettingResponse.builder().tag("TEST2").url("www.test2.com").build(),
+			SettingResponse.builder().tag("TEST3").url("www.test3.com").build()
+		);
+
+		given(adminService.getSettingUrls()).willReturn(settingResponses);
+
+		// when // then
+		mockMvc.perform(
+				get(baseUrl + "/admin/settings")
+			)
+			.andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.data").isArray())
+			.andExpect(jsonPath("$.data", hasSize(3)));
 	}
 }
