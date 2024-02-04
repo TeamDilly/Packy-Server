@@ -19,7 +19,7 @@ public record MusicResponse(
 	List<String> hashtags
 ) {
 
-	public static MusicResponse of(Music music) {
+	public static MusicResponse from(Music music) {
 		return MusicResponse.builder()
 			.id(music.getId())
 			.youtubeUrl(music.getYoutubeUrl())

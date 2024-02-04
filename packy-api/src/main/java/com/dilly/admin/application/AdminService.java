@@ -42,31 +42,31 @@ public class AdminService {
     public List<ImgResponse> getProfiles() {
         List<ProfileImage> profileImages = profileImageReader.findAllByOrderBySequenceAsc();
 
-        return profileImages.stream().map(ImgResponse::of).toList();
+        return profileImages.stream().map(ImgResponse::from).toList();
     }
 
     public List<BoxImgResponse> getBoxes() {
         List<Box> boxes = boxReader.findAllByOrderBySequenceAsc();
 
-        return boxes.stream().map(BoxImgResponse::of).toList();
+        return boxes.stream().map(BoxImgResponse::from).toList();
     }
 
     public List<EnvelopeListResponse> getEnvelopes() {
         List<Envelope> envelopes = envelopeReader.findAllByOrderBySequenceAsc();
 
-        return envelopes.stream().map(EnvelopeListResponse::of).toList();
+        return envelopes.stream().map(EnvelopeListResponse::from).toList();
     }
 
     public List<MusicResponse> getMusics() {
         List<Music> musics = musicReader.findAllByOrderBySequenceAsc();
 
-        return musics.stream().map(MusicResponse::of).toList();
+        return musics.stream().map(MusicResponse::from).toList();
     }
 
     public Slice<ImgResponse> getStickers(Long lastStickerId, Pageable pageable) {
         Slice<Sticker> stickerSlice = stickerReader.searchBySlice(lastStickerId, pageable);
         List<ImgResponse> imgResponses = stickerSlice.getContent().stream()
-            .map(ImgResponse::of)
+            .map(ImgResponse::from)
             .toList();
 
         return new SliceImpl<>(imgResponses, pageable, stickerSlice.hasNext());
