@@ -1,6 +1,7 @@
 package com.dilly.global;
 
 import com.dilly.admin.application.AdminService;
+import com.dilly.admin.dao.SettingRepository;
 import com.dilly.gift.adaptor.GiftBoxWriter;
 import com.dilly.gift.adaptor.PhotoWriter;
 import com.dilly.gift.adaptor.ReceiverReader;
@@ -101,6 +102,9 @@ public abstract class IntegrationTestSupport {
     @Autowired
     protected MemberRepository memberRepository;
 
+    @Autowired
+    protected SettingRepository settingRepository;
+
     protected GiftBox createMockGiftBoxWithGift(Member member) {
         Box box = boxRepository.findById(1L).orElseThrow();
         Envelope envelope = envelopeRepository.findById(1L).orElseThrow();
@@ -115,8 +119,6 @@ public abstract class IntegrationTestSupport {
             Sticker sticker = stickerRepository.findById(i).orElseThrow();
             giftBoxStickerRepository.save(GiftBoxSticker.of(giftBox, sticker, (int) i));
         }
-
-        giftBoxRepository.flush();
 
         return giftBox;
     }

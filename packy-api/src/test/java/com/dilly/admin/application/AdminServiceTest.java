@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.dilly.admin.dto.response.BoxImgResponse;
 import com.dilly.admin.dto.response.ImgResponse;
 import com.dilly.admin.dto.response.MusicResponse;
+import com.dilly.admin.dto.response.SettingResponse;
 import com.dilly.gift.domain.MusicHashtag;
 import com.dilly.gift.dto.response.EnvelopeListResponse;
 import com.dilly.global.IntegrationTestSupport;
@@ -93,5 +94,20 @@ class AdminServiceTest extends IntegrationTestSupport {
 
         // then
         assertThat(response).isEqualTo(musics);
+    }
+
+    @DisplayName("설정 링크를 조회한다.")
+    @Test
+    void getSettingUrls() {
+        // given
+        List<SettingResponse> settingUrls = settingRepository.findAll()
+            .stream().map(SettingResponse::from)
+            .toList();
+
+        // when
+        List<SettingResponse> response = adminService.getSettingUrls();
+
+        // then
+        assertThat(response).isEqualTo(settingUrls);
     }
 }
