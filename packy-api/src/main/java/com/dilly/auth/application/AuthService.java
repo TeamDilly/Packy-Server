@@ -105,8 +105,9 @@ public class AuthService {
 			}
 
 			case "apple" -> {
-				AppleToken appleToken = appleService.getAppleToken(providerAccessToken);
-				AppleAccountInfo appleAccountInfo = appleService.getAppleAccountInfo(appleToken.idToken());
+				// identityToken을 받아 회원 정보 조회
+				AppleAccountInfo appleAccountInfo = appleService.getAppleAccountInfo(
+					providerAccessToken);
 				member = appleAccountReader.getMemberById(appleAccountInfo.sub());
 			}
 
