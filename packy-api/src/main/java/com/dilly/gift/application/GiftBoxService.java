@@ -146,6 +146,10 @@ public class GiftBoxService {
         Long memberId = SecurityUtil.getMemberId();
         Member member = memberReader.findById(memberId);
 
+        if (type == null) {
+            type = "all";
+        }
+
         Slice<GiftBox> giftBoxSlice = giftBoxReader.searchBySlice(member, lastGiftBoxDate, type,
             pageable);
 
@@ -154,7 +158,7 @@ public class GiftBoxService {
             .map(giftBox -> {
                 Receiver receiver = receiverReader.findByMemberAndGiftBox(member, giftBox);
 
-                return GiftBoxesResponse.of(finalType, giftBox, receiver);
+                return GiftBoxesResponse.of(finalType, giftBox, receiver, member);
             })
             .toList();
 

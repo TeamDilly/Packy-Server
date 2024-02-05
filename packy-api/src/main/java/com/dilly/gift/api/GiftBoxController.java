@@ -75,7 +75,7 @@ public class GiftBoxController {
         @PageableDefault(size = 6)
         @Parameter(hidden = true)
         Pageable pageable,
-        @Schema(description = "마지막 선물박스의 giftBoxDate", type = "timestamp", example = "2024-01-01T00:00:00.000")
+        @Schema(description = "마지막 선물박스의 giftBoxDate", type = "timestamp", example = "2024-12-31T00:00:00.000")
         @RequestParam(value = "lastGiftBoxDate", required = false)
         LocalDateTime lastGiftBoxDate,
         @Schema(description = "선물박스 상태, default는 all", type = "string", allowableValues = {"sent",
