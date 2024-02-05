@@ -50,6 +50,7 @@ public enum ErrorCode {
 
     // Unsupported
     UNSUPPORTED_LOGIN_TYPE(HttpStatus.BAD_REQUEST, "지원하지 않는 로그인 타입입니다."),
+    UNSUPPORTED_GIFTBOX_TYPE(HttpStatus.BAD_REQUEST, "지원하지 않는 선물박스 조회 타입입니다."),
 
     // Member
     MEMBER_ALREADY_EXIST(HttpStatus.CONFLICT, "이미 가입된 유저입니다."),

@@ -149,8 +149,13 @@ public class GiftBoxService {
         Slice<GiftBox> giftBoxSlice = giftBoxReader.searchBySlice(member, lastGiftBoxDate, type,
             pageable);
 
+        String finalType = type;
         List<GiftBoxesResponse> giftBoxesResponses = giftBoxSlice.getContent().stream()
-            .map(GiftBoxesResponse::of)
+            .map(giftBox -> {
+                Receiver receiver = receiverReader.findByMemberAndGiftBox(member, giftBox);
+
+                return GiftBoxesResponse.of(finalType, giftBox, receiver);
+            })
             .toList();
 
         return new SliceImpl<>(giftBoxesResponses, pageable, giftBoxSlice.hasNext());
