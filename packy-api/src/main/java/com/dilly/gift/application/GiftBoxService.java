@@ -115,12 +115,14 @@ public class GiftBoxService {
         // 1명만 열 수 있는 선물박스이고, 이미 열린 선물박스일 경우
         if (giftBox.getGiftBoxType().equals(PRIVATE)
             && !receivers.isEmpty()
-            && !receivers.get(0).equals(receiver.getId())) {
+            && !receivers.get(0).equals(receiver.getId())
+            && !memberId.equals(giftBox.getSender().getId())) {
             throw new GiftBoxAlreadyOpenedException();
         }
 
         // 선물박스를 이전에 열지 않았던 경우
-        if (!receivers.contains(receiver.getId())) {
+        // 선물박스를 보낸 사람은 receiver에 포함하지 않음
+        if (!receivers.contains(receiver.getId()) && !giftBox.getSender().equals(receiver)) {
             receiverWriter.save(receiver, giftBox);
         }
 
