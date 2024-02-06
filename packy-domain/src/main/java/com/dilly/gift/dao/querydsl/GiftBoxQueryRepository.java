@@ -9,6 +9,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -22,35 +23,58 @@ public class GiftBoxQueryRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    public Slice<GiftBox> searchBySlice(Member member, LocalDateTime lastGiftBoxDate, String type,
+    public Slice<GiftBox> searchSentGiftBoxesBySlice(Member member, LocalDateTime lastGiftBoxDate,
         Pageable pageable) {
-        List<GiftBox> results = new ArrayList<>();
-
-        // TODO: switch문으로 리팩토링
-        if (type.equals("sent")) {
-            results = jpaQueryFactory.selectFrom(giftBox)
-                .limit(pageable.getPageSize() + 1L)
-                .where(
-                    ltGiftBoxDate(lastGiftBoxDate),
-                    giftBox.sender.eq(member))
-                .orderBy(giftBox.createdAt.desc())
-                .limit(pageable.getPageSize() + 1L)
-                .fetch();
-        } else if (type.equals("received")) {
-            results = jpaQueryFactory.select(giftBox)
-                .from(receiver)
-                .join(receiver.giftBox, giftBox)
-                .where(
-                    ltGiftBoxDate(lastGiftBoxDate),
-                    receiver.member.eq(member))
-                .orderBy(receiver.createdAt.desc())
-                .limit(pageable.getPageSize() + 1L)
-                .fetch();
-        } else if (type.equals("all")) {
-            // TODO: type이 없다면 내가 보낸 선물박스랑 내가 받은 선물박스를 합치고 giftboxDate로 정렬
-        }
+        List<GiftBox> results = getSentGiftBoxes(member, lastGiftBoxDate, pageable);
 
         return checkLastPage(pageable, results);
+    }
+
+    public Slice<GiftBox> searchReceivedGiftBoxesBySlice(Member member,
+        LocalDateTime lastGiftBoxDate,
+        Pageable pageable) {
+        List<GiftBox> results = getReceivedGiftBoxes(member, lastGiftBoxDate, pageable);
+
+        return checkLastPage(pageable, results);
+    }
+
+    public Slice<GiftBox> searchAllGiftBoxesBySlice(Member member, LocalDateTime lastGiftBoxDate,
+        Comparator<Object> comparator, Pageable pageable) {
+        List<GiftBox> sentGiftBoxes = getSentGiftBoxes(member, lastGiftBoxDate, pageable);
+        List<GiftBox> receivedGiftBoxes = getReceivedGiftBoxes(member, lastGiftBoxDate, pageable);
+
+        List<GiftBox> results = new ArrayList<>();
+        results.addAll(sentGiftBoxes);
+        results.addAll(receivedGiftBoxes);
+        results.sort(comparator.reversed());
+
+        results = results.subList(0, Math.min(results.size(), pageable.getPageSize() + 1));
+
+        return checkLastPage(pageable, results);
+    }
+
+    private List<GiftBox> getSentGiftBoxes(Member member, LocalDateTime lastGiftBoxDate,
+        Pageable pageable) {
+        return jpaQueryFactory.selectFrom(giftBox)
+            .where(
+                ltGiftBoxDate(lastGiftBoxDate),
+                giftBox.sender.eq(member))
+            .orderBy(giftBox.createdAt.desc())
+            .limit(pageable.getPageSize() + 1L)
+            .fetch();
+    }
+
+    private List<GiftBox> getReceivedGiftBoxes(Member member, LocalDateTime lastGiftBoxDate,
+        Pageable pageable) {
+        return jpaQueryFactory.select(giftBox)
+            .from(receiver)
+            .join(receiver.giftBox, giftBox)
+            .where(
+                ltGiftBoxDate(lastGiftBoxDate),
+                receiver.member.eq(member))
+            .orderBy(receiver.createdAt.desc())
+            .limit(pageable.getPageSize() + 1L)
+            .fetch();
     }
 
     private BooleanExpression ltGiftBoxDate(LocalDateTime giftBoxDate) {

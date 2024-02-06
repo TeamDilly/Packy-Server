@@ -2,7 +2,9 @@ package com.dilly.gift.application;
 
 import static com.dilly.gift.domain.GiftBoxType.PRIVATE;
 
+import com.dilly.exception.ErrorCode;
 import com.dilly.exception.GiftBoxAlreadyOpenedException;
+import com.dilly.exception.UnsupportedException;
 import com.dilly.gift.adaptor.BoxReader;
 import com.dilly.gift.adaptor.EnvelopeReader;
 import com.dilly.gift.adaptor.GiftBoxReader;
@@ -34,6 +36,7 @@ import com.dilly.global.utils.SecurityUtil;
 import com.dilly.member.adaptor.MemberReader;
 import com.dilly.member.domain.Member;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -141,18 +144,82 @@ public class GiftBoxService {
             giftResponse);
     }
 
+    // TODO: 성능 개선 필요
     public Slice<GiftBoxesResponse> getGiftBoxes(LocalDateTime lastGiftBoxDate, String type,
         Pageable pageable) {
         Long memberId = SecurityUtil.getMemberId();
         Member member = memberReader.findById(memberId);
 
-        Slice<GiftBox> giftBoxSlice = giftBoxReader.searchBySlice(member, lastGiftBoxDate, type,
-            pageable);
+        if (type == null) {
+            type = "all";
+        }
 
-        List<GiftBoxesResponse> giftBoxesResponses = giftBoxSlice.getContent().stream()
-            .map(GiftBoxesResponse::of)
-            .toList();
+        Slice<GiftBox> giftBoxSlice;
+        List<GiftBoxesResponse> giftBoxesResponses = new ArrayList<>();
+        switch (type) {
+            case "sent" -> {
+                giftBoxSlice = giftBoxReader.searchSentGiftBoxesBySlice(member,
+                    lastGiftBoxDate, pageable);
+                giftBoxesResponses = sliceToDto(giftBoxSlice, type, member);
+            }
+            case "received" -> {
+                giftBoxSlice = giftBoxReader.searchReceivedGiftBoxesBySlice(member,
+                    lastGiftBoxDate, pageable);
+                giftBoxesResponses = sliceToDto(giftBoxSlice, type, member);
+            }
+            case "all" -> {
+                Comparator<Object> comparator = getCreatedAtComparator(member);
+                giftBoxSlice = giftBoxReader.searchAllGiftBoxesBySlice(member,
+                    lastGiftBoxDate, comparator, pageable);
+                giftBoxesResponses = sliceToDto(giftBoxSlice, type, member);
+            }
+            default -> giftBoxSlice = new SliceImpl<>(List.of(), pageable, false);
+        }
 
         return new SliceImpl<>(giftBoxesResponses, pageable, giftBoxSlice.hasNext());
+    }
+
+    private List<GiftBoxesResponse> sliceToDto(Slice<GiftBox> giftBoxSlice, String type,
+        Member member) {
+        switch (type) {
+            case "sent" -> {
+                return giftBoxSlice.getContent().stream()
+                    .map(GiftBoxesResponse::of)
+                    .toList();
+            }
+            case "received" -> {
+                return giftBoxSlice.getContent().stream()
+                    .map(giftBox -> {
+                        Receiver receiver = receiverReader.findByMemberAndGiftBox(member, giftBox);
+                        return GiftBoxesResponse.of(receiver);
+                    })
+                    .toList();
+            }
+            case "all" -> {
+                return giftBoxSlice.getContent().stream()
+                    .map(giftBox -> {
+                        Receiver receiver = receiverReader.findByMemberAndGiftBox(member, giftBox);
+                        return GiftBoxesResponse.of(giftBox, member, receiver);
+                    })
+                    .toList();
+            }
+            default -> throw new UnsupportedException(ErrorCode.UNSUPPORTED_GIFTBOX_TYPE);
+        }
+    }
+
+    private Comparator<Object> getCreatedAtComparator(Member member) {
+        return Comparator.comparing((Object obj) -> {
+            GiftBox giftBox = (GiftBox) obj;
+            LocalDateTime createdAt;
+
+            if (giftBox.getSender().equals(member)) {
+                createdAt = giftBox.getCreatedAt();
+            } else {
+                Receiver receiver = receiverReader.findByMemberAndGiftBox(member, giftBox);
+                createdAt = receiver.getCreatedAt();
+            }
+
+            return createdAt;
+        });
     }
 }
