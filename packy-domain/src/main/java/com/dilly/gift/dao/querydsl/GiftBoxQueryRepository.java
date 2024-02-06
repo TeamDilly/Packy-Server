@@ -3,11 +3,7 @@ package com.dilly.gift.dao.querydsl;
 import static com.dilly.gift.domain.QGiftBox.giftBox;
 import static com.dilly.gift.domain.QReceiver.receiver;
 
-import com.dilly.exception.ErrorCode;
-import com.dilly.exception.UnsupportedException;
-import com.dilly.gift.adaptor.ReceiverReader;
 import com.dilly.gift.domain.GiftBox;
-import com.dilly.gift.domain.Receiver;
 import com.dilly.member.domain.Member;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -26,46 +22,35 @@ import org.springframework.stereotype.Repository;
 public class GiftBoxQueryRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
-    private final ReceiverReader receiverReader;
 
-    public Slice<GiftBox> searchBySlice(Member member, LocalDateTime lastGiftBoxDate, String type,
+    public Slice<GiftBox> searchSentGiftBoxesBySlice(Member member, LocalDateTime lastGiftBoxDate,
         Pageable pageable) {
-        List<GiftBox> results = new ArrayList<>();
-
-        switch (type) {
-            case "sent" -> results = getSentGiftBoxes(member, lastGiftBoxDate, pageable);
-            case "received" -> results = getReceivedGiftBoxes(member, lastGiftBoxDate, pageable);
-            case "all" -> {
-                List<GiftBox> sentGiftBoxes = getSentGiftBoxes(member, lastGiftBoxDate, pageable);
-                List<GiftBox> receivedGiftBoxes = getReceivedGiftBoxes(member, lastGiftBoxDate,
-                    pageable);
-                results.addAll(sentGiftBoxes);
-                results.addAll(receivedGiftBoxes);
-                results.sort(getCreatedAtComparator(member).reversed());
-
-                results = results.subList(0, Math.min(results.size(), pageable.getPageSize() + 1));
-            }
-            default -> throw new UnsupportedException(ErrorCode.UNSUPPORTED_GIFTBOX_TYPE);
-        }
+        List<GiftBox> results = getSentGiftBoxes(member, lastGiftBoxDate, pageable);
 
         return checkLastPage(pageable, results);
     }
 
-    // TODO: Repository간 의존 괜찮은가?
-    private Comparator<Object> getCreatedAtComparator(Member member) {
-        return Comparator.comparing((Object obj) -> {
-            GiftBox giftBox = (GiftBox) obj;
-            LocalDateTime createdAt;
+    public Slice<GiftBox> searchReceivedGiftBoxesBySlice(Member member,
+        LocalDateTime lastGiftBoxDate,
+        Pageable pageable) {
+        List<GiftBox> results = getReceivedGiftBoxes(member, lastGiftBoxDate, pageable);
 
-            if (giftBox.getSender().equals(member)) {
-                createdAt = giftBox.getCreatedAt();
-            } else {
-                Receiver receiver = receiverReader.findByMemberAndGiftBox(member, giftBox);
-                createdAt = receiver.getCreatedAt();
-            }
+        return checkLastPage(pageable, results);
+    }
 
-            return createdAt;
-        });
+    public Slice<GiftBox> searchAllGiftBoxesBySlice(Member member, LocalDateTime lastGiftBoxDate,
+        Comparator<Object> comparator, Pageable pageable) {
+        List<GiftBox> sentGiftBoxes = getSentGiftBoxes(member, lastGiftBoxDate, pageable);
+        List<GiftBox> receivedGiftBoxes = getReceivedGiftBoxes(member, lastGiftBoxDate, pageable);
+
+        List<GiftBox> results = new ArrayList<>();
+        results.addAll(sentGiftBoxes);
+        results.addAll(receivedGiftBoxes);
+        results.sort(comparator.reversed());
+
+        results = results.subList(0, Math.min(results.size(), pageable.getPageSize() + 1));
+
+        return checkLastPage(pageable, results);
     }
 
     private List<GiftBox> getSentGiftBoxes(Member member, LocalDateTime lastGiftBoxDate,

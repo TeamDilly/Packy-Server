@@ -32,7 +32,8 @@ class GiftBoxQueryRepositoryTest extends RepositoryTestSupport {
         Long latestgiftBoxId = giftBoxRepository.findTopByOrderByIdDesc().getId();
 
         // when
-        Slice<GiftBox> giftBoxSlice = giftBoxQueryRepository.searchBySlice(member1, null, "sent",
+        Slice<GiftBox> giftBoxSlice = giftBoxQueryRepository.searchSentGiftBoxesBySlice(member1,
+            null,
             PageRequest.ofSize(4));
         Long first = giftBoxSlice.getContent().get(0).getId();
         Long last = giftBoxSlice.getContent().get(3).getId();
@@ -57,7 +58,8 @@ class GiftBoxQueryRepositoryTest extends RepositoryTestSupport {
             .getCreatedAt();
 
         // when
-        Slice<GiftBox> giftBoxSlice = giftBoxQueryRepository.searchBySlice(member1, lastGiftBoxDate, "sent",
+        Slice<GiftBox> giftBoxSlice = giftBoxQueryRepository.searchSentGiftBoxesBySlice(member1,
+            lastGiftBoxDate,
             PageRequest.ofSize(4));
         Long first = giftBoxSlice.getContent().get(0).getId();
         Long last = giftBoxSlice.getContent().get(3).getId();

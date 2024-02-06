@@ -7,6 +7,7 @@ import com.dilly.gift.dao.querydsl.GiftBoxQueryRepository;
 import com.dilly.gift.domain.GiftBox;
 import com.dilly.member.domain.Member;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -24,9 +25,21 @@ public class GiftBoxReader {
             .orElseThrow(() -> new EntityNotFoundException(ErrorCode.GIFTBOX_NOT_FOUND));
     }
 
-    public Slice<GiftBox> searchBySlice(Member member, LocalDateTime lastGiftBoxDate, String type,
+    public Slice<GiftBox> searchSentGiftBoxesBySlice(Member member, LocalDateTime lastGiftBoxDate,
         Pageable pageable) {
-        return giftBoxQueryRepository.searchBySlice(member, lastGiftBoxDate, type, pageable);
+        return giftBoxQueryRepository.searchSentGiftBoxesBySlice(member, lastGiftBoxDate, pageable);
     }
 
+    public Slice<GiftBox> searchReceivedGiftBoxesBySlice(Member member,
+        LocalDateTime lastGiftBoxDate,
+        Pageable pageable) {
+        return giftBoxQueryRepository.searchReceivedGiftBoxesBySlice(member, lastGiftBoxDate,
+            pageable);
+    }
+
+    public Slice<GiftBox> searchAllGiftBoxesBySlice(Member member, LocalDateTime lastGiftBoxDate,
+        Comparator<Object> comparator, Pageable pageable) {
+        return giftBoxQueryRepository.searchAllGiftBoxesBySlice(member, lastGiftBoxDate, comparator,
+            pageable);
+    }
 }
