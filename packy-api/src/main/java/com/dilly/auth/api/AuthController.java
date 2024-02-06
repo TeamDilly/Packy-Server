@@ -60,8 +60,12 @@ public class AuthController {
     })
     @GetMapping("/sign-in/{provider}")
     public DataResponseDto<SignInResponse> signIn(
-        @PathVariable(name = "provider") @Schema(description = "kakao 또는 apple") String provider,
-        @RequestHeader("Authorization") String providerAccessToken) {
+        @PathVariable(name = "provider")
+        @Schema(allowableValues = {"kakao", "apple"})
+        String provider,
+        @RequestHeader("Authorization")
+        @Schema(description = "kakao는 accessToken, apple은 identityToken을 Bearer prefix 없이 넣어주세요.")
+        String providerAccessToken) {
         return DataResponseDto.from(authService.signIn(provider, providerAccessToken));
     }
 
