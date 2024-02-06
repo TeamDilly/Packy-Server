@@ -22,6 +22,7 @@ class MyPageControllerTest extends ControllerTestSupport {
         ProfileResponse profileResponse = ProfileResponse
             .builder()
             .id(1L)
+            .provider("kakao")
             .nickname("테스트")
             .imgUrl("www.test.com")
             .build();
@@ -35,6 +36,7 @@ class MyPageControllerTest extends ControllerTestSupport {
             .andDo(print())
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.data.id").value(1L))
+            .andExpect(jsonPath("$.data.provider").value("kakao"))
             .andExpect(jsonPath("$.data.nickname").value("테스트"))
             .andExpect(jsonPath("$.data.imgUrl").value("www.test.com"));
     }
