@@ -90,7 +90,7 @@ public class AdminController {
     @GetMapping("/youtube")
     public DataResponseDto<StatusResponse> validateYoutubeUrl(
         @Schema(description = "유튜브 링크", type = "string")
-        @RequestParam(value = "url", required = true)
+        @RequestParam(value = "url")
         String url) {
         return DataResponseDto.from(youtubeService.validateYoutubeUrl(url));
     }
