@@ -1,22 +1,27 @@
 package com.dilly.gift.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Size;
 import java.util.List;
 import lombok.Builder;
 
 @Builder
 public record GiftBoxRequest(
-    @Schema(example = "오늘을 위한 특별한 생일 선물")
+    @Schema(example = "너를 위해 준비했어")
+    @Size(max = 15, message = "선물박스 이름은 15자 이하로 입력해주세요.")
     String name,
-    @Schema(example = "제이(보내는 사람)")
+    @Schema(example = "보내는 사람")
+    @Size(min = 1, max = 6, message = "보내는 사람 이름은 1자 이상 6자 이하로 입력해주세요.")
     String senderName,
-    @Schema(example = "제삼(받는 사람)")
+    @Schema(example = "받는 사람")
+    @Size(min = 1, max = 6, message = "받는 사람 이름은 1자 이상 6자 이하로 입력해주세요.")
     String receiverName,
     @Schema(example = "1")
     Long boxId,
     @Schema(example = "1")
     Long envelopeId,
     @Schema(example = "생일 축하해~")
+    @Size(min = 1, max = 200, message = "편지 내용은 1자 이상 200자 이하로 입력해주세요.")
     String letterContent,
     @Schema(example = "https://www.youtube.com")
     String youtubeUrl,

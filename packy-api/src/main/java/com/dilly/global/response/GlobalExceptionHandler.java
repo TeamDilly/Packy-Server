@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -43,6 +44,14 @@ public class GlobalExceptionHandler {
         return handleExceptionInternal(ErrorCode.QUERY_PARAMETER_REQUIRED);
     }
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    protected ResponseEntity<Object> handleMethodArgumentNotValidException(
+        MethodArgumentNotValidException e) {
+        log.error(e.toString(), e);
+        return handleExceptionInternal(ErrorCode.INVALID_INPUT_VALUE,
+            e.getBindingResult().getFieldErrors().get(0).getDefaultMessage());
+    }
+
     // 그 밖에 발생하는 모든 예외 처리
     @ExceptionHandler(value = {Exception.class, RuntimeException.class, SQLException.class,
         DataIntegrityViolationException.class})
@@ -60,5 +69,10 @@ public class GlobalExceptionHandler {
     private ResponseEntity<Object> handleExceptionInternal(ErrorCode errorCode, Exception e) {
         return ResponseEntity.status(errorCode.getHttpStatus())
             .body(ErrorResponseDto.of(errorCode, e));
+    }
+
+    private ResponseEntity<Object> handleExceptionInternal(ErrorCode errorCode, String message) {
+        return ResponseEntity.status(errorCode.getHttpStatus())
+            .body(ErrorResponseDto.of(errorCode, message));
     }
 }
