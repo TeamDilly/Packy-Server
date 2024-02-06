@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -41,11 +42,12 @@ public class GiftBoxController {
     @ApiErrorCodeExamples({
         ErrorCode.BOX_NOT_FOUND,
         ErrorCode.ENVELOPE_NOT_FOUND,
-        ErrorCode.STICKER_NOT_FOUND
+        ErrorCode.STICKER_NOT_FOUND,
+        ErrorCode.INVALID_INPUT_VALUE
     })
     @PostMapping("")
     public DataResponseDto<GiftBoxIdResponse> createGiftBox(
-        @RequestBody GiftBoxRequest giftBoxRequest
+        @RequestBody @Valid GiftBoxRequest giftBoxRequest
     ) {
         return DataResponseDto.from(giftBoxService.createGiftBox(giftBoxRequest));
     }
