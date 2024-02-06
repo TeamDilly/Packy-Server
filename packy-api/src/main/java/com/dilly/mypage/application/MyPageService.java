@@ -20,10 +20,6 @@ public class MyPageService {
         Long memberId = SecurityUtil.getMemberId();
         Member member = memberReader.findById(memberId);
 
-        return ProfileResponse.builder()
-            .id(member.getId())
-            .nickname(member.getNickname())
-            .imgUrl(member.getProfileImg().getImgUrl())
-            .build();
+        return ProfileResponse.from(member);
     }
 }

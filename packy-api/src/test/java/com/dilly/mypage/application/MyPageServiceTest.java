@@ -25,6 +25,7 @@ class MyPageServiceTest extends IntegrationTestSupport {
 
         // then
         assertThat(response.id()).isEqualTo(member.getId());
+        assertThat(response.provider()).isEqualTo(member.getProvider().toString().toLowerCase());
         assertThat(response.nickname()).isEqualTo(member.getNickname());
         assertThat(response.imgUrl()).isEqualTo(member.getProfileImg().getImgUrl());
     }
