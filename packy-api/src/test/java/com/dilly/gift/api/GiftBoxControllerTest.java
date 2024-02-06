@@ -57,8 +57,8 @@ class GiftBoxControllerTest extends ControllerTestSupport {
                 //given
                 GiftBoxRequest giftBoxRequest = GiftBoxRequest.builder()
                     .name("test")
-                    .senderName("sender")
-                    .receiverName("receiver")
+                    .senderName("보내는사람")
+                    .receiverName("받는사람")
                     .boxId(1L)
                     .envelopeId(1L)
                     .letterContent("This is letter content.")
@@ -90,8 +90,8 @@ class GiftBoxControllerTest extends ControllerTestSupport {
                 //given
                 GiftBoxRequest giftBoxRequest = GiftBoxRequest.builder()
                     .name("test")
-                    .senderName("sender")
-                    .receiverName("receiver")
+                    .senderName("보내는사람")
+                    .receiverName("받는사람")
                     .boxId(1L)
                     .envelopeId(1L)
                     .letterContent("This is letter content.")
