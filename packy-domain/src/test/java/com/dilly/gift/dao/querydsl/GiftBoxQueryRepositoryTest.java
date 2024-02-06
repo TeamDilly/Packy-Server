@@ -53,8 +53,8 @@ class GiftBoxQueryRepositoryTest extends RepositoryTestSupport {
     void getSentGiftBoxesBeforeLastGiftBoxDate() {
         // given
         GiftBox lastGiftBox = giftBoxRepository.findTopByOrderByIdDesc();
-        Long lastgiftBoxId = lastGiftBox.getId() - 8;
-        LocalDateTime lastGiftBoxDate = giftBoxRepository.findById(lastgiftBoxId).orElseThrow()
+        long lastGiftBoxId = lastGiftBox.getId() - 8;
+        LocalDateTime lastGiftBoxDate = giftBoxRepository.findById(lastGiftBoxId).orElseThrow()
             .getCreatedAt();
 
         // when
@@ -66,8 +66,8 @@ class GiftBoxQueryRepositoryTest extends RepositoryTestSupport {
 
         // then
         assertThat(giftBoxSlice.getContent()).hasSize(4);
-        assertThat(first).isEqualTo(lastgiftBoxId - 1);
-        assertThat(last).isEqualTo(lastgiftBoxId - 4);
+        assertThat(first).isEqualTo(lastGiftBoxId - 1);
+        assertThat(last).isEqualTo(lastGiftBoxId - 4);
         for (GiftBox giftBox : giftBoxSlice.getContent()) {
             assertThat(giftBox.getSender()).isEqualTo(member1);
         }
