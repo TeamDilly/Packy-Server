@@ -14,6 +14,7 @@ import com.dilly.jwt.dto.JwtResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,12 +44,13 @@ public class AuthController {
         ErrorCode.APPLE_FAILED_TO_GET_PUBLIC_KEY,
         ErrorCode.APPLE_FAILED_TO_GET_INFO,
         ErrorCode.APPLE_FAILED_TO_GET_CLIENT_SECRET,
-        ErrorCode.APPLE_FAILED_TO_REVOKE_ACCOUNT
+        ErrorCode.APPLE_FAILED_TO_REVOKE_ACCOUNT,
+        ErrorCode.INVALID_INPUT_VALUE
     })
     @PostMapping("/sign-up")
     public DataResponseDto<JwtResponse> signUp(
         @RequestHeader("Authorization") @Schema(description = "Bearer prefix 제외해주세요") String providerAccessToken,
-        @RequestBody SignupRequest signupRequest) {
+        @RequestBody @Valid SignupRequest signupRequest) {
         return DataResponseDto.from(authService.signUp(providerAccessToken, signupRequest));
     }
 
