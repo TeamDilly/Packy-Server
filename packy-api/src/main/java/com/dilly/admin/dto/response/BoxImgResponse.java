@@ -11,20 +11,23 @@ public record BoxImgResponse(
 	@Schema(example = "1")
 	Long sequence,
 	@Schema(example = "www.example.com")
-	String boxFull,
+    String boxNormal,
+    @Schema(example = "www.example.com")
+    String boxSmall,
 	@Schema(example = "www.example.com")
-	String boxPart,
+    String boxSet,
 	@Schema(example = "www.example.com")
-	String boxBottom
+    String boxTop
 ) {
 
 	public static BoxImgResponse from(Box box) {
         return BoxImgResponse.builder()
             .id(box.getId())
             .sequence(box.getSequence())
-            .boxFull(box.getFullImgUrl())
-            .boxPart(box.getPartImgUrl())
-            .boxBottom(box.getBottomImgUrl())
+            .boxNormal(box.getNormalImgUrl())
+            .boxSmall(box.getSmallImgUrl())
+            .boxSet(box.getSetImgUrl())
+            .boxTop(box.getTopImgUrl())
             .build();
     }
 }

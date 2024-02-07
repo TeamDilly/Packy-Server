@@ -12,7 +12,7 @@ public record GiftBoxesResponse(
     String sender,
     String name,
     LocalDateTime giftBoxDate,
-    String boxFull
+    String boxNormal
 ) {
 
     public static GiftBoxesResponse of(GiftBox giftBox) {
@@ -21,7 +21,7 @@ public record GiftBoxesResponse(
             .sender(giftBox.getSenderName())
             .name(giftBox.getName())
             .giftBoxDate(giftBox.getCreatedAt())
-            .boxFull(giftBox.getBox().getFullImgUrl())
+            .boxNormal(giftBox.getBox().getNormalImgUrl())
             .build();
     }
 
@@ -31,7 +31,7 @@ public record GiftBoxesResponse(
             .sender(receiver.getGiftBox().getSenderName())
             .name(receiver.getGiftBox().getName())
             .giftBoxDate(receiver.getCreatedAt())
-            .boxFull(receiver.getGiftBox().getBox().getFullImgUrl())
+            .boxNormal(receiver.getGiftBox().getBox().getNormalImgUrl())
             .build();
     }
 
@@ -48,7 +48,7 @@ public record GiftBoxesResponse(
             .sender(giftBox.getSenderName())
             .name(giftBox.getName())
             .giftBoxDate(giftBoxDate)
-            .boxFull(giftBox.getBox().getFullImgUrl())
+            .boxNormal(giftBox.getBox().getNormalImgUrl())
             .build();
     }
 }

@@ -6,19 +6,16 @@ import lombok.Builder;
 
 @Builder
 public record BoxResponse(
+    @Schema(example = "1")
+    Long id,
     @Schema(example = "www.example.com")
-    String boxFull,
-    @Schema(example = "www.example.com")
-    String boxPart,
-    @Schema(example = "www.example.com")
-    String boxBottom
+    String boxNormal
 ) {
 
     public static BoxResponse of(Box box) {
         return BoxResponse.builder()
-            .boxFull(box.getFullImgUrl())
-            .boxPart(box.getPartImgUrl())
-            .boxBottom(box.getBottomImgUrl())
+            .id(box.getId())
+            .boxNormal(box.getNormalImgUrl())
             .build();
     }
 }

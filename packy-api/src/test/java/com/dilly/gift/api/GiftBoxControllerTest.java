@@ -124,9 +124,8 @@ class GiftBoxControllerTest extends ControllerTestSupport {
     Collection<DynamicTest> openGiftBox() {
         // given
         BoxResponse boxResponse = BoxResponse.builder()
-            .boxFull("www.example.com")
-            .boxPart("www.example.com")
-            .boxBottom("www.example.com")
+            .id(1L)
+            .boxNormal("www.example.com")
             .build();
         EnvelopeResponse envelopeResponse = EnvelopeResponse.builder()
             .imgUrl("www.example.com")
@@ -175,11 +174,9 @@ class GiftBoxControllerTest extends ControllerTestSupport {
                     .andExpect(
                         jsonPath("$.data.receiverName").value(giftBoxResponse.receiverName()))
                     .andExpect(
-                        jsonPath("$.data.box.boxFull").value(giftBoxResponse.box().boxFull()))
+                        jsonPath("$.data.box.id").value(giftBoxResponse.box().id()))
                     .andExpect(
-                        jsonPath("$.data.box.boxPart").value(giftBoxResponse.box().boxPart()))
-                    .andExpect(
-                        jsonPath("$.data.box.boxBottom").value(giftBoxResponse.box().boxBottom()))
+                        jsonPath("$.data.box.boxNormal").value(giftBoxResponse.box().boxNormal()))
                     .andExpect(jsonPath("$.data.envelope.imgUrl").value(
                         giftBoxResponse.envelope().imgUrl()))
                     .andExpect(jsonPath("$.data.envelope.borderColorCode").value(
@@ -222,11 +219,9 @@ class GiftBoxControllerTest extends ControllerTestSupport {
                     .andExpect(
                         jsonPath("$.data.receiverName").value(giftBoxResponse.receiverName()))
                     .andExpect(
-                        jsonPath("$.data.box.boxFull").value(giftBoxResponse.box().boxFull()))
+                        jsonPath("$.data.box.id").value(giftBoxResponse.box().id()))
                     .andExpect(
-                        jsonPath("$.data.box.boxPart").value(giftBoxResponse.box().boxPart()))
-                    .andExpect(
-                        jsonPath("$.data.box.boxBottom").value(giftBoxResponse.box().boxBottom()))
+                        jsonPath("$.data.box.boxNormal").value(giftBoxResponse.box().boxNormal()))
                     .andExpect(jsonPath("$.data.envelope.imgUrl").value(
                         giftBoxResponse.envelope().imgUrl()))
                     .andExpect(jsonPath("$.data.envelope.borderColorCode").value(
