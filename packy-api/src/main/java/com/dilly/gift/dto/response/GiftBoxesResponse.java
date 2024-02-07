@@ -11,6 +11,8 @@ import lombok.Builder;
 public record GiftBoxesResponse(
     @Schema(example = "1")
     Long id,
+    @Schema(example = "sent")
+    String type,
     @Schema(example = "보내는사람")
     String sender,
     @Schema(example = "받는사람")
@@ -26,6 +28,7 @@ public record GiftBoxesResponse(
     public static GiftBoxesResponse of(GiftBox giftBox) {
         return GiftBoxesResponse.builder()
             .id(giftBox.getId())
+            .type("sent")
             .sender(giftBox.getSenderName())
             .receiver(giftBox.getReceiverName())
             .name(giftBox.getName())
@@ -37,6 +40,7 @@ public record GiftBoxesResponse(
     public static GiftBoxesResponse of(Receiver receiver) {
         return GiftBoxesResponse.builder()
             .id(receiver.getGiftBox().getId())
+            .type("received")
             .sender(receiver.getGiftBox().getSenderName())
             .receiver(receiver.getGiftBox().getReceiverName())
             .name(receiver.getGiftBox().getName())
@@ -47,14 +51,18 @@ public record GiftBoxesResponse(
 
     public static GiftBoxesResponse of(GiftBox giftBox, Member member, Receiver receiver) {
         LocalDateTime giftBoxDate;
+        String type;
         if (giftBox.getSender().equals(member)) {
             giftBoxDate = giftBox.getCreatedAt();
+            type = "sent";
         } else {
             giftBoxDate = receiver.getCreatedAt();
+            type = "received";
         }
 
         return GiftBoxesResponse.builder()
             .id(giftBox.getId())
+            .type(type)
             .sender(giftBox.getSenderName())
             .receiver(giftBox.getReceiverName())
             .name(giftBox.getName())
