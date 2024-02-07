@@ -9,13 +9,17 @@ public record BoxResponse(
     @Schema(example = "1")
     Long id,
     @Schema(example = "www.example.com")
-    String boxNormal
+    String boxNormal,
+
+    @Schema(example = "www.example.com")
+    String boxTop
 ) {
 
     public static BoxResponse of(Box box) {
         return BoxResponse.builder()
             .id(box.getId())
             .boxNormal(box.getNormalImgUrl())
+            .boxTop(box.getTopImgUrl())
             .build();
     }
 }
