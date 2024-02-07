@@ -12,6 +12,7 @@ import com.dilly.admin.dto.response.ImgResponse;
 import com.dilly.admin.dto.response.MusicResponse;
 import com.dilly.admin.dto.response.SettingResponse;
 import com.dilly.gift.dto.response.EnvelopeListResponse;
+import com.dilly.gift.dto.response.EnvelopePaperResponse;
 import com.dilly.global.ControllerTestSupport;
 import com.dilly.global.WithCustomMockUser;
 import java.util.List;
@@ -104,13 +105,18 @@ class AdminControllerTest extends ControllerTestSupport {
 	@WithCustomMockUser
 	void getEnvelopes() throws Exception {
 		// given
+		EnvelopePaperResponse envelopePaper = EnvelopePaperResponse.builder()
+			.borderColorCode("ED76A5").opacity(30).build();
+		EnvelopePaperResponse letterPaper = EnvelopePaperResponse.builder()
+			.borderColorCode("ED76A5").opacity(30).build();
+
 		List<EnvelopeListResponse> envelopes = List.of(
 			EnvelopeListResponse.builder().id(1L).imgUrl("www.test1.com").sequence(1L)
-				.borderColorCode("ED76A5").build(),
+				.envelope(envelopePaper).letter(letterPaper).build(),
 			EnvelopeListResponse.builder().id(2L).imgUrl("www.test2.com").sequence(2L)
-				.borderColorCode("ED76A5").build(),
+				.envelope(envelopePaper).letter(letterPaper).build(),
 			EnvelopeListResponse.builder().id(3L).imgUrl("www.test3.com").sequence(3L)
-				.borderColorCode("ED76A5").build()
+				.envelope(envelopePaper).letter(letterPaper).build()
 		);
 
 		given(adminService.getEnvelopes()).willReturn(envelopes);

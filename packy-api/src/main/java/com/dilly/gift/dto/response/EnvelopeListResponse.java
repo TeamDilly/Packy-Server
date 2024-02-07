@@ -10,8 +10,8 @@ public record EnvelopeListResponse(
     Long id,
     @Schema(example = "1")
     Long sequence,
-    @Schema(example = "ED76A5")
-    String borderColorCode,
+    EnvelopePaperResponse envelope,
+    EnvelopePaperResponse letter,
     @Schema(example = "www.example.com")
     String imgUrl
 ) {
@@ -20,7 +20,12 @@ public record EnvelopeListResponse(
         return EnvelopeListResponse.builder()
             .id(envelope.getId())
             .sequence(envelope.getSequence())
-            .borderColorCode(envelope.getBorderColorCode())
+            .envelope(EnvelopePaperResponse.of(
+                envelope.getEnvelopePaper().getEnvelopeBorderColorCode(),
+                envelope.getEnvelopePaper().getEnvelopeOpacity()))
+            .letter(EnvelopePaperResponse.of(
+                envelope.getLetterPaper().getLetterBorderColorCode(),
+                envelope.getLetterPaper().getLetterOpacity()))
             .imgUrl(envelope.getImgUrl())
             .build();
     }
