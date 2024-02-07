@@ -17,9 +17,11 @@ public class Box {
 
 	private Long sequence;
 
-	private String fullImgUrl;
+	private String normalImgUrl;
 
-	private String partImgUrl;
+	private String smallImgUrl;
 
-	private String bottomImgUrl;
+	private String setImgUrl;
+
+	private String topImgUrl;
 }
