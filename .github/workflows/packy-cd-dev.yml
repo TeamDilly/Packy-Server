@@ -1,4 +1,4 @@
-name: packy API Server - CD
+name: packy API Dev Server - CD
 
 on:
   push:
@@ -50,7 +50,7 @@ jobs:
       - name: Generate deployment package
         run: |
           mkdir -p deploy/.platform/nginx/conf.d
-          cp Dockerrun.aws.json deploy/Dockerrun.aws.json
+          cp Dockerrun.aws.dev.json deploy/Dockerrun.aws.json
           cp .platform/nginx/conf.d/proxy.conf deploy/.platform/nginx/conf.d/proxy.conf
           cd deploy && zip -r deploy.zip .
 

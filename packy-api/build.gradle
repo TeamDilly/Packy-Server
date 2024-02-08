@@ -59,7 +59,7 @@ test {
 processResources.dependsOn('copySecret')
 tasks.register('copySecret', Copy) {
     from '../packy-submodule/api'
-    include '*.yml', '*.p8', '*.properties'
+    include '*.yml', '*.p8'
     into './src/main/resources'
 }
 

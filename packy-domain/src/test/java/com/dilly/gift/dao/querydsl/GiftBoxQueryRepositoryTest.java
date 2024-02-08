@@ -53,7 +53,7 @@ class GiftBoxQueryRepositoryTest extends RepositoryTestSupport {
     void getSentGiftBoxesBeforeLastGiftBoxDate() {
         // given
         GiftBox lastGiftBox = giftBoxRepository.findTopByOrderByIdDesc();
-        long lastGiftBoxId = lastGiftBox.getId() - 8;
+        long lastGiftBoxId = lastGiftBox.getId() - 2;
         LocalDateTime lastGiftBoxDate = giftBoxRepository.findById(lastGiftBoxId).orElseThrow()
             .getCreatedAt();
 
