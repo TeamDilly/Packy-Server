@@ -17,8 +17,8 @@ public class StickerReader {
     private final StickerRepository stickerRepository;
     private final StickerQueryRepository stickerQueryRepository;
 
-    public Slice<Sticker> searchBySlice(Long lastStickerId, Pageable pageable) {
-        return stickerQueryRepository.searchBySlice(lastStickerId, pageable);
+    public Slice<Sticker> searchBySlice(Long lastSequence, Pageable pageable) {
+        return stickerQueryRepository.searchBySlice(lastSequence, pageable);
     }
 
     public Sticker findById(Long id) {
