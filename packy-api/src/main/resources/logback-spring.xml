@@ -1,0 +1,103 @@
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <springProfile name="local">
+        <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="dev">
+        <property resource="application-api.yml"/>
+        <springProperty name="SLACK_WEBHOOK_URL" source="logging.slack.webhook-url.dev"/>
+        <springProperty name="SENTRY_DSN_DEV" source="logging.sentry.dsn.dev"/>
+
+        <appender name="SLACK" class="com.github.maricn.logback.SlackAppender">
+            <webhookUri>${SLACK_WEBHOOK_URL}</webhookUri>
+            <channel>패키-서버-에러-dev</channel>
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>%date %-5level - %msg%n</pattern>
+            </layout>
+            <colorCoding>true</colorCoding>
+        </appender>
+
+        <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <Pattern>${CONSOLE_LOG_PATTERN}</Pattern>
+                <charset>utf8</charset>
+            </encoder>
+        </appender>
+
+        <appender name="ASYNC_SLACK" class="ch.qos.logback.classic.AsyncAppender">
+            <appender-ref ref="SLACK"/>
+            <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                <level>ERROR</level>
+            </filter>
+        </appender>
+
+        <appender name="Sentry" class="io.sentry.logback.SentryAppender">
+            <options>
+                <dsn>${SENTRY_DSN_DEV}</dsn>
+            </options>
+            <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                <level>ERROR</level>
+            </filter>
+            <encoder>
+                <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            </encoder>
+        </appender>
+
+        <root level="INFO">
+            <appender-ref ref="Console"/>
+            <appender-ref ref="ASYNC_SLACK"/>
+            <appender-ref ref="Sentry"/>
+        </root>
+    </springProfile>
+    <springProfile name="prod">
+        <property resource="application-api.yml"/>
+        <springProperty name="SLACK_WEBHOOK_URL_PROD" source="logging.slack.webhook-url.prod"/>
+        <springProperty name="SENTRY_DSN_PROD" source="logging.sentry.dsn.prod"/>
+
+        <appender name="SLACK" class="com.github.maricn.logback.SlackAppender">
+            <webhookUri>${SLACK_WEBHOOK_URL_PROD}</webhookUri>
+            <channel>패키-서버-에러-dev</channel>
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>%date %-5level - %msg%n</pattern>
+            </layout>
+            <colorCoding>true</colorCoding>
+        </appender>
+
+        <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <Pattern>${CONSOLE_LOG_PATTERN}</Pattern>
+                <charset>utf8</charset>
+            </encoder>
+        </appender>
+
+        <appender name="ASYNC_SLACK" class="ch.qos.logback.classic.AsyncAppender">
+            <appender-ref ref="SLACK"/>
+            <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                <level>ERROR</level>
+            </filter>
+        </appender>
+
+        <appender name="Sentry" class="io.sentry.logback.SentryAppender">
+            <options>
+                <dsn>${SENTRY_DSN_PROD}</dsn>
+            </options>
+            <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                <level>ERROR</level>
+            </filter>
+            <encoder>
+                <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            </encoder>
+        </appender>
+
+        <root level="INFO">
+            <appender-ref ref="Console"/>
+            <appender-ref ref="ASYNC_SLACK"/>
+            <appender-ref ref="Sentry"/>
+        </root>
+    </springProfile>
+</configuration>
