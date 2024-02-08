@@ -126,6 +126,7 @@ class GiftBoxControllerTest extends ControllerTestSupport {
         BoxResponse boxResponse = BoxResponse.builder()
             .id(1L)
             .boxNormal("www.example.com")
+            .boxTop("www.example.com")
             .build();
         EnvelopeResponse envelopeResponse = EnvelopeResponse.builder()
             .imgUrl("www.example.com")
