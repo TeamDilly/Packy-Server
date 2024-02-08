@@ -1,6 +1,6 @@
 -- Message 테이블 제약 조건 삭제
 alter table gift_box
-drop foreign key `FKfd8botskbwet6u5qadmmb1rs8`;
+drop foreign key `FK1d3khn4oudd7g9ugj5v1a86ya`;
 
 -- Message 테이블 삭제
 drop table if exists message;
