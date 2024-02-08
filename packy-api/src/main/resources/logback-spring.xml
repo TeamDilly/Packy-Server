@@ -11,6 +11,8 @@
     <springProfile name="dev">
         <property resource="application-api.yml"/>
         <springProperty name="SLACK_WEBHOOK_URL" source="logging.slack.webhook-url.dev"/>
+        <springProperty name="SENTRY_DSN_DEV" source="logging.sentry.dsn.dev"/>
+
         <appender name="SLACK" class="com.github.maricn.logback.SlackAppender">
             <webhookUri>${SLACK_WEBHOOK_URL}</webhookUri>
             <channel>패키-서버-에러-dev</channel>
@@ -35,8 +37,6 @@
         </appender>
 
         <appender name="Sentry" class="io.sentry.logback.SentryAppender">
-            <property resource="application-api.yml"/>
-            <springProperty name="SENTRY_DSN_DEV" source="logging.sentry.dsn.dev"/>
             <options>
                 <dsn>${SENTRY_DSN_DEV}</dsn>
             </options>
@@ -57,6 +57,8 @@
     <springProfile name="prod">
         <property resource="application-api.yml"/>
         <springProperty name="SLACK_WEBHOOK_URL_PROD" source="logging.slack.webhook-url.prod"/>
+        <springProperty name="SENTRY_DSN_PROD" source="logging.sentry.dsn.prod"/>
+
         <appender name="SLACK" class="com.github.maricn.logback.SlackAppender">
             <webhookUri>${SLACK_WEBHOOK_URL_PROD}</webhookUri>
             <channel>패키-서버-에러-dev</channel>
@@ -81,8 +83,6 @@
         </appender>
 
         <appender name="Sentry" class="io.sentry.logback.SentryAppender">
-            <property resource="application-api.yml"/>
-            <springProperty name="SENTRY_DSN_PROD" source="logging.sentry.dsn.prod"/>
             <options>
                 <dsn>${SENTRY_DSN_PROD}</dsn>
             </options>

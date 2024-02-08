@@ -45,7 +45,7 @@ dependencies {
     implementation 'com.github.maricn:logback-slack-appender:1.6.1'
 
     // sentry
-    implementation 'io.sentry:sentry-logback:6.26.0'
+    implementation 'io.sentry:sentry-logback:7.3.0'
 
     // apple login
     implementation 'org.bouncycastle:bcprov-jdk15on:1.69'
