@@ -61,7 +61,7 @@
 
         <appender name="SLACK" class="com.github.maricn.logback.SlackAppender">
             <webhookUri>${SLACK_WEBHOOK_URL_PROD}</webhookUri>
-            <channel>패키-서버-에러-dev</channel>
+            <channel>패키-서버-에러-prod</channel>
             <layout class="ch.qos.logback.classic.PatternLayout">
                 <pattern>%date %-5level - %msg%n</pattern>
             </layout>
