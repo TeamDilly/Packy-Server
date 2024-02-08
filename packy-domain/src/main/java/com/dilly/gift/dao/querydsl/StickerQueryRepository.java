@@ -18,9 +18,9 @@ public class StickerQueryRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    public Slice<Sticker> searchBySlice(Long lastStickerId, Pageable pageable) {
+    public Slice<Sticker> searchBySlice(Long lastSequence, Pageable pageable) {
         List<Sticker> results = jpaQueryFactory.selectFrom(sticker)
-            .where(gtStickerId(lastStickerId))
+            .where(gtSequence(lastSequence))
             .orderBy(sticker.sequence.asc())
             .limit(pageable.getPageSize() + 1L)
             .fetch();
@@ -29,12 +29,12 @@ public class StickerQueryRepository {
     }
 
     // No-offset
-    private BooleanExpression gtStickerId(Long stickerId) {
-        if (stickerId == null) {
+    private BooleanExpression gtSequence(Long sequence) {
+        if (sequence == null) {
             return null;
         }
 
-        return sticker.id.gt(stickerId);
+        return sticker.sequence.gt(sequence);
     }
 
     // 무한 스크롤
