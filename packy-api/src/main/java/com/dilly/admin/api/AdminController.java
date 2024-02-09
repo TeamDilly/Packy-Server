@@ -67,7 +67,6 @@ public class AdminController {
         return DataResponseDto.from(adminService.getMusics());
     }
 
-    // TODO: sequence 순으로 페이징
     @Operation(summary = "스티커 조회")
     @Parameter(in = ParameterIn.QUERY
         , description = "한 페이지에 보여줄 스티커 개수. 기본값은 10개"

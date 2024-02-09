@@ -64,7 +64,11 @@ public class AdminService {
     }
 
     public Slice<ImgResponse> getStickers(Long lastStickerId, Pageable pageable) {
-        Slice<Sticker> stickerSlice = stickerReader.searchBySlice(lastStickerId, pageable);
+        Long lastSequence = 0L;
+        if (lastStickerId != null) {
+            lastSequence = stickerReader.findById(lastStickerId).getSequence();
+        }
+        Slice<Sticker> stickerSlice = stickerReader.searchBySlice(lastSequence, pageable);
         List<ImgResponse> imgResponses = stickerSlice.getContent().stream()
             .map(ImgResponse::from)
             .toList();

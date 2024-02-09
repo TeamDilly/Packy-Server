@@ -1,7 +1,5 @@
 package com.dilly.gift.application;
 
-import static com.dilly.gift.domain.GiftBoxType.PRIVATE;
-
 import com.dilly.exception.ErrorCode;
 import com.dilly.exception.GiftBoxAlreadyOpenedException;
 import com.dilly.exception.UnsupportedException;
@@ -102,28 +100,31 @@ public class GiftBoxService {
         return GiftBoxIdResponse.of(giftBox.getId(), giftBox.getUuid());
     }
 
+    boolean canOpenGiftBox(Member member, GiftBox giftBox) {
+        if (giftBox.getSender().equals(member)) {
+            return true;
+        } else {
+            List<Long> receivers = receiverReader.findByGiftBox(giftBox).stream()
+                .map(Receiver::getMember)
+                .map(Member::getId)
+                .toList();
+
+            if (receivers.isEmpty()) {
+                receiverWriter.save(member, giftBox);
+                return true;
+            }
+
+            return receivers.contains(member.getId());
+        }
+    }
+
     public GiftBoxResponse openGiftBox(Long giftBoxId) {
         Long memberId = SecurityUtil.getMemberId();
-        Member receiver = memberReader.findById(memberId);
+        Member member = memberReader.findById(memberId);
         GiftBox giftBox = giftBoxReader.findById(giftBoxId);
 
-        List<Long> receivers = receiverReader.findByGiftBox(giftBox).stream()
-            .map(Receiver::getMember)
-            .map(Member::getId)
-            .toList();
-
-        // 1명만 열 수 있는 선물박스이고, 이미 열린 선물박스일 경우
-        if (giftBox.getGiftBoxType().equals(PRIVATE)
-            && !receivers.isEmpty()
-            && !receivers.get(0).equals(receiver.getId())
-            && !memberId.equals(giftBox.getSender().getId())) {
+        if (!canOpenGiftBox(member, giftBox)) {
             throw new GiftBoxAlreadyOpenedException();
-        }
-
-        // 선물박스를 이전에 열지 않았던 경우
-        // 선물박스를 보낸 사람은 receiver에 포함하지 않음
-        if (!receivers.contains(receiver.getId()) && !giftBox.getSender().equals(receiver)) {
-            receiverWriter.save(receiver, giftBox);
         }
 
         BoxResponse boxResponse = BoxResponse.of(giftBox.getBox());

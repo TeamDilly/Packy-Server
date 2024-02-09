@@ -146,7 +146,6 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
         // given
         Member member1 = memberRepository.findById(1L).orElseThrow();
         Member member2 = memberRepository.findById(2L).orElseThrow();
-        Member member3 = memberRepository.findById(3L).orElseThrow();
 
         GiftBox giftBoxWithGift;
         GiftBox giftBoxWithoutGift;
