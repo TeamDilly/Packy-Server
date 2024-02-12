@@ -17,6 +17,14 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    finalizedBy 'testCodeCoverageReport'
+}
+
+testCodeCoverageReport {
+    reports {
+        html.required = true
+    }
+
 }
 
 bootJar.enabled = false
