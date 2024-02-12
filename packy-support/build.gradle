@@ -1,0 +1,23 @@
+plugins {
+    id 'java'
+    id 'jacoco-report-aggregation'
+}
+
+group = 'com.dilly'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    jacocoAggregation project(':packy-api')
+    jacocoAggregation project(':packy-domain')
+}
+
+test {
+    useJUnitPlatform()
+}
+
+bootJar.enabled = false
+jar.enabled = true
