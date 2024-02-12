@@ -16,7 +16,7 @@ public class PhotoResponseDto {
         Integer sequence
     ) {
 
-        public static PhotoResponse of(Photo photo) {
+        public static PhotoResponse from(Photo photo) {
             return PhotoResponse.builder()
                 .photoUrl(photo.getImgUrl())
                 .description(photo.getDescription())
@@ -33,7 +33,7 @@ public class PhotoResponseDto {
         String description
     ) {
 
-        public static PhotoWithoutSequenceResponse of(Photo photo) {
+        public static PhotoWithoutSequenceResponse from(Photo photo) {
             return PhotoWithoutSequenceResponse.builder()
                 .photoUrl(photo.getImgUrl())
                 .description(photo.getDescription())

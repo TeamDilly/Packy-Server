@@ -130,7 +130,7 @@ public class GiftBoxService {
         BoxResponse boxResponse = BoxResponse.of(giftBox.getBox());
         EnvelopeResponse envelopeResponse = EnvelopeResponse.of(giftBox.getLetter().getEnvelope());
         List<PhotoResponse> photos = photoReader.findAllByGiftBox(giftBox).stream()
-            .map(PhotoResponse::of)
+            .map(PhotoResponse::from)
             .sorted(Comparator.comparingInt(PhotoResponse::sequence))
             .toList();
         List<StickerResponse> stickers = giftBoxStickerReader.findAllByGiftBox(giftBox).stream()

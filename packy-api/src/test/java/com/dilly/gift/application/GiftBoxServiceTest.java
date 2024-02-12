@@ -165,7 +165,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
                 Long receiverBefore = receiverRepository.countByGiftBox(giftBoxWithGift);
                 List<PhotoResponse> expectedPhotoResponses = photoRepository.findAllByGiftBox(
                         giftBoxWithGift).stream()
-                    .map(PhotoResponse::of)
+                    .map(PhotoResponse::from)
                     .sorted(Comparator.comparingInt(PhotoResponse::sequence))
                     .toList();
                 List<StickerResponse> expectedStickerResponses = giftBoxStickerRepository.findAllByGiftBox(
@@ -208,7 +208,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
                 Long receiverBefore = receiverRepository.countByGiftBox(giftBoxWithoutGift);
                 List<PhotoResponse> expectedPhotoResponses = photoRepository.findAllByGiftBox(
                         giftBoxWithoutGift).stream()
-                    .map(PhotoResponse::of)
+                    .map(PhotoResponse::from)
                     .sorted(Comparator.comparingInt(PhotoResponse::sequence))
                     .toList();
                 List<StickerResponse> expectedStickerResponses = giftBoxStickerRepository.findAllByGiftBox(
@@ -258,7 +258,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
                 Long receiverBefore = receiverRepository.countByGiftBox(giftBox);
                 List<PhotoResponse> expectedPhotoResponses = photoRepository.findAllByGiftBox(
                         giftBox).stream()
-                    .map(PhotoResponse::of)
+                    .map(PhotoResponse::from)
                     .sorted(Comparator.comparingInt(PhotoResponse::sequence))
                     .toList();
                 List<StickerResponse> expectedStickerResponses = giftBoxStickerRepository.findAllByGiftBox(
