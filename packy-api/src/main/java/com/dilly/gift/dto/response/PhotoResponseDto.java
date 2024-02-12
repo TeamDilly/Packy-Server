@@ -7,7 +7,7 @@ import lombok.Builder;
 public class PhotoResponseDto {
 
     @Builder
-    public static record PhotoResponse(
+    public record PhotoResponse(
         @Schema(example = "www.example.com")
         String photoUrl,
         @Schema(example = "우리 같이 트리 만든 날 :)")
@@ -26,7 +26,7 @@ public class PhotoResponseDto {
     }
 
     @Builder
-    public static record PhotoWithoutSequenceResponse(
+    public record PhotoWithoutSequenceResponse(
         @Schema(example = "www.example.com")
         String photoUrl,
         @Schema(example = "우리 같이 트리 만든 날 :)")
