@@ -3,8 +3,8 @@
     "version": "2.2.11",
     "width": 2500,
     "height": 2500,
-    "scrollTop": -28,
-    "scrollLeft": -1060,
+    "scrollTop": -179,
+    "scrollLeft": -1056,
     "zoomLevel": 1,
     "show": {
       "tableComment": true,
@@ -609,10 +609,10 @@
             }
           },
           {
-            "id": "c5af32d7-64bc-4f6e-83e7-bae7fb4792bf",
-            "name": "fullImgUrl",
-            "comment": "뚜껑 전체 이미지",
-            "dataType": "TEXT",
+            "id": "b4b7944f-45fb-4f53-9889-e148954e74a7",
+            "name": "sequence",
+            "comment": "",
+            "dataType": "BIGINT",
             "default": "",
             "option": {
               "autoIncrement": false,
@@ -626,15 +626,38 @@
               "fk": false,
               "pfk": false,
               "widthName": 60,
-              "widthComment": 87.55294799804688,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            }
+          },
+          {
+            "id": "c5af32d7-64bc-4f6e-83e7-bae7fb4792bf",
+            "name": "normalImgUrl",
+            "comment": "",
+            "dataType": "TEXT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 76.25587463378906,
+              "widthComment": 60,
               "widthDataType": 60,
               "widthDefault": 60
             }
           },
           {
             "id": "18324062-94ae-40d6-a0dc-0e6e8ee0d0d4",
-            "name": "partImgUrl",
-            "comment": "뚜껑 일부 이미지",
+            "name": "setImgUrl",
+            "comment": "",
             "dataType": "TEXT",
             "default": "",
             "option": {
@@ -648,23 +671,46 @@
               "pk": false,
               "fk": false,
               "pfk": false,
-              "widthName": 60.70790100097656,
-              "widthComment": 87.55294799804688,
+              "widthName": 60,
+              "widthComment": 60,
               "widthDataType": 60,
               "widthDefault": 60
             }
           },
           {
-            "id": "b4b7944f-45fb-4f53-9889-e148954e74a7",
-            "name": "sequence",
+            "id": "ad3240c4-8420-4485-be20-c964d3f408fe",
+            "name": "smallImgUrl",
             "comment": "",
-            "dataType": "BIGINT",
+            "dataType": "TEXT",
             "default": "",
             "option": {
               "autoIncrement": false,
               "primaryKey": false,
               "unique": false,
-              "notNull": true
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 66.19389343261719,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            }
+          },
+          {
+            "id": "28d96503-2232-4717-8448-1cb06112bf72",
+            "name": "topImgUrl",
+            "comment": "",
+            "dataType": "TEXT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
             },
             "ui": {
               "active": false,
@@ -703,9 +749,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 1757.2549,
-          "top": 186.9507,
-          "zIndex": 24,
+          "left": 1784.2549,
+          "top": 191.9507,
+          "zIndex": 56,
           "widthName": 60,
           "widthComment": 60
         },
@@ -787,10 +833,10 @@
           }
         ],
         "ui": {
-          "active": false,
-          "left": 1726.6982,
-          "top": 366.69,
-          "zIndex": 4,
+          "active": true,
+          "left": 1790.6982,
+          "top": 439.69,
+          "zIndex": 59,
           "widthName": 60,
           "widthComment": 60
         },
@@ -896,9 +942,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 1646.3673,
-          "top": 584.9369,
-          "zIndex": 5,
+          "left": 1742.3673,
+          "top": 704.9369,
+          "zIndex": 58,
           "widthName": 60,
           "widthComment": 65.6739501953125
         },
@@ -1282,9 +1328,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 1707.336,
-          "top": 744.0005,
-          "zIndex": 8,
+          "left": 1719.336,
+          "top": 917.0005,
+          "zIndex": 57,
           "widthName": 77.81587219238281,
           "widthComment": 60
         },
@@ -1717,8 +1763,8 @@
           "columnIds": [
             "6d36f191-020b-427f-aa19-fca9b53ea4f1"
           ],
-          "x": 1726.6982,
-          "y": 431.94,
+          "x": 1790.6982,
+          "y": 504.94,
           "direction": "left"
         },
         "end": {
@@ -1743,8 +1789,8 @@
           "columnIds": [
             "9d7e1a3b-bf8e-4e38-a95f-658b7957cc82"
           ],
-          "x": 1837.5112208984374,
-          "y": 584.9369,
+          "x": 1933.5112208984374,
+          "y": 704.9369,
           "direction": "top"
         },
         "end": {
@@ -1752,8 +1798,8 @@
           "columnIds": [
             "151107b9-e942-47df-97dd-8b5de5918ce9"
           ],
-          "x": 1901.3451650268555,
-          "y": 497.19,
+          "x": 1965.3451650268555,
+          "y": 570.19,
           "direction": "bottom"
         },
         "constraintName": "fk_envelope_to_letter",
@@ -1830,8 +1876,8 @@
           "columnIds": [
             "12a053bc-532a-489e-9176-fac838124255"
           ],
-          "x": 1707.336,
-          "y": 809.2505,
+          "x": 1719.336,
+          "y": 982.2505,
           "direction": "left"
         },
         "constraintName": "fk_youtube_to_hashtag",
@@ -1847,8 +1893,8 @@
           "columnIds": [
             "0a823c91-d2cb-4f5f-96ab-558ab77782b2"
           ],
-          "x": 1757.2549,
-          "y": 272.7007,
+          "x": 1784.2549,
+          "y": 298.2007,
           "direction": "left"
         },
         "end": {
