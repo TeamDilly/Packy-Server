@@ -97,7 +97,8 @@ public class GiftBoxService {
                 giftBoxStickerWriter.save(giftBox, stickerRequest.id(), stickerRequest.location())
             );
 
-        return GiftBoxIdResponse.of(giftBox.getId(), giftBox.getUuid());
+        return GiftBoxIdResponse.of(giftBox.getId(), giftBox.getUuid(),
+            giftBox.getBox().getKakaoMessageImgUrl());
     }
 
     boolean canOpenGiftBox(Member member, GiftBox giftBox) {

@@ -31,7 +31,9 @@ public class FileController {
 	public DataResponseDto<FileRequest> getPresignedUrl(
 		@PathVariable(name = "fileName") @Schema(description = "확장자명을 포함해주세요")
 		String fileName) {
+		String activeProfile = System.getProperty("spring.profiles.active");
 
-		return DataResponseDto.from(fileService.getPresignedUrl("images", fileName));
+		return DataResponseDto.from(
+			fileService.getPresignedUrl("images/" + activeProfile, fileName));
 	}
 }
