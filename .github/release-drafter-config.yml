@@ -18,3 +18,14 @@ template: |
   ---
   $CHANGES
 no-changes-template: '변경사항이 없어요'
+version-resolver:
+  major:
+    labels:
+      - '✨ major'
+  minor:
+    labels:
+      - '✨ minor'
+  patch:
+    labels:
+      - '- '✨ patch'
+  default: patch
