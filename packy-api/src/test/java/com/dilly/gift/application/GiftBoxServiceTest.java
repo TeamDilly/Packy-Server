@@ -96,6 +96,8 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
 
                 assertThat(giftBoxIdResponse.id()).isEqualTo(giftBox.getId());
                 assertTrue(isValidUUID(giftBoxIdResponse.uuid()));
+                assertThat(giftBoxIdResponse.kakaoMessageImgUrl()).isEqualTo(
+                    giftBox.getBox().getKakaoMessageImgUrl());
             }),
             DynamicTest.dynamicTest("선물이 없을 경우", () -> {
                 // when
@@ -129,6 +131,8 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
 
                 assertThat(giftBoxIdResponse.id()).isEqualTo(giftBox.getId());
                 assertTrue(isValidUUID(giftBoxIdResponse.uuid()));
+                assertThat(giftBoxIdResponse.kakaoMessageImgUrl()).isEqualTo(
+                    giftBox.getBox().getKakaoMessageImgUrl());
             })
         );
     }
