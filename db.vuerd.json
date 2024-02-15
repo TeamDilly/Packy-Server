@@ -3,9 +3,9 @@
     "version": "2.2.11",
     "width": 2500,
     "height": 2500,
-    "scrollTop": -36,
-    "scrollLeft": -620.0219000000002,
-    "zoomLevel": 0.9,
+    "scrollTop": -28,
+    "scrollLeft": -1060,
+    "zoomLevel": 1,
     "show": {
       "tableComment": true,
       "columnComment": true,
@@ -259,7 +259,7 @@
           "active": false,
           "left": 564.4445,
           "top": 34.4444,
-          "zIndex": 16,
+          "zIndex": 12,
           "widthName": 60,
           "widthComment": 60
         },
@@ -574,7 +574,7 @@
           "active": false,
           "left": 1163.767,
           "top": 20.8357,
-          "zIndex": 11,
+          "zIndex": 10,
           "widthName": 60,
           "widthComment": 60
         },
@@ -676,13 +676,36 @@
               "widthDataType": 60,
               "widthDefault": 60
             }
+          },
+          {
+            "id": "ba18f373-04f3-4fbf-9165-6dea2fcb149f",
+            "name": "kakaoMesageImgUrl",
+            "comment": "",
+            "dataType": "TEXT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 111.0958251953125,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            }
           }
         ],
         "ui": {
           "active": false,
-          "left": 1761.2549,
-          "top": 198.9507,
-          "zIndex": 3,
+          "left": 1757.2549,
+          "top": 186.9507,
+          "zIndex": 24,
           "widthName": 60,
           "widthComment": 60
         },
@@ -1585,7 +1608,7 @@
           "active": false,
           "left": 868.8884,
           "top": 400.0006,
-          "zIndex": 17,
+          "zIndex": 13,
           "widthName": 60,
           "widthComment": 76.30795288085938
         },
@@ -1670,7 +1693,7 @@
           "active": false,
           "left": 736.0442,
           "top": 769.2657,
-          "zIndex": 13,
+          "zIndex": 11,
           "widthName": 60,
           "widthComment": 60
         },
@@ -1824,8 +1847,8 @@
           "columnIds": [
             "0a823c91-d2cb-4f5f-96ab-558ab77782b2"
           ],
-          "x": 1761.2549,
-          "y": 274.4507,
+          "x": 1757.2549,
+          "y": 272.7007,
           "direction": "left"
         },
         "end": {
