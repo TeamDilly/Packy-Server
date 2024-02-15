@@ -1,10 +1,10 @@
-name-template: 'v$NEXT_MINOR_VERSION'
-tag-template: 'v$NEXT_MINOR_VERSION'
+name-template: 'v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
 categories:
   - title: '🎁 새로운 기능이 추가되었어요'
     label: '🎁 feature'
   - title: '🐞 자잘한 버그를 수정했어요'
-    label: '🐞 hotifx'
+    label: '🔨 fix'
   - title: '🐬 코드를 개선했어요'
     label:
       - '📋 docs'
@@ -18,3 +18,14 @@ template: |
   ---
   $CHANGES
 no-changes-template: '변경사항이 없어요'
+version-resolver:
+  major:
+    labels:
+      - '✨ major'
+  minor:
+    labels:
+      - '✨ minor'
+  patch:
+    labels:
+      - '- '✨ patch'
+  default: patch
