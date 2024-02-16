@@ -1,5 +1,6 @@
 package com.dilly.global.utils.validator;
 
+import com.dilly.global.utils.TextUtil;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
@@ -19,8 +20,9 @@ public class CustomSizeValidator implements ConstraintValidator<CustomSize, Char
         if (value == null) {
             return true;
         }
-        int length = value.toString().replace("(\r\n|\r|\n|\n\r)", " ").length();
+        int length = TextUtil.countGraphemeClusters(value.toString());
 
         return length >= min && length <= max;
     }
+
 }

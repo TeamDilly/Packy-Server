@@ -49,32 +49,24 @@ class CustomSizeValidatorTest {
         customSizeValidator.initialize(customSize);
     }
 
-    @DisplayName("개행 문자를 1글자로 센다")
+    @DisplayName("이모지를 1글자로 센다")
     @Test
-    void countNewLineInOneLetter() {
+    void countEmojiInOneLetter() {
         // given
-        String stringWithNewLine = """
-            안녕하세요.
-            반갑습니다.""";
+        String textWithEmoji = "안녕하세요\uD83D\uDC68\u200D\uD83D\uDC69\u200D\uD83D\uDC67\u200D\uD83D\uDC66";
 
         // when
-        boolean result = customSizeValidator.isValid(stringWithNewLine, null);
-        int length = countLength(stringWithNewLine);
+        boolean result = customSizeValidator.isValid(textWithEmoji, null);
 
         // then
         assertThat(result).isTrue();
-        assertThat(length).isEqualTo(13);
-    }
-
-    private int countLength(String stringWithNewLine) {
-        return stringWithNewLine.replace("(\r\n|\r|\n|\n\r)", " ").length();
     }
 
     @DisplayName("200글자를 넘을 경우, false를 반환한다")
     @Test
     void returnFalseOver200Letter() {
         // given
-        String stringOver200Letter = "안녕하세요\n".repeat(35);
+        String stringOver200Letter = "안녕하세요".repeat(41);
 
         // when
         boolean result = customSizeValidator.isValid(stringOver200Letter, null);
