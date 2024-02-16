@@ -25,6 +25,15 @@ testCodeCoverageReport {
         html.required = true
     }
 
+    afterEvaluate {
+        classDirectories.setFrom(
+                files(classDirectories.files.collect {
+                    fileTree(dir: it, excludes: [
+                            'com/dilly/exception/**'
+                    ])
+                })
+        )
+    }
 }
 
 bootJar.enabled = false
