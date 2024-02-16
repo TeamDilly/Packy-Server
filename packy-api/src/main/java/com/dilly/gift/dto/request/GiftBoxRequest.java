@@ -1,5 +1,6 @@
 package com.dilly.gift.dto.request;
 
+import com.dilly.global.utils.validator.CustomSize;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Size;
 import java.util.List;
@@ -21,7 +22,7 @@ public record GiftBoxRequest(
     @Schema(example = "1")
     Long envelopeId,
     @Schema(example = "생일 축하해~")
-    @Size(min = 1, max = 200, message = "편지 내용은 1자 이상 200자 이하로 입력해주세요.")
+    @CustomSize(min = 1, max = 200, message = "편지 내용은 1자 이상 200자 이하로 입력해주세요.")
     String letterContent,
     @Schema(example = "https://www.youtube.com")
     String youtubeUrl,

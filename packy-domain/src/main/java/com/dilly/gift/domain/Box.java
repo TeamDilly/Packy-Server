@@ -24,4 +24,6 @@ public class Box {
 	private String setImgUrl;
 
 	private String topImgUrl;
+
+	private String kakaoMessageImgUrl;
 }
