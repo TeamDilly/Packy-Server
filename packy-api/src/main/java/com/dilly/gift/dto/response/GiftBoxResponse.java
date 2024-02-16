@@ -1,6 +1,7 @@
 package com.dilly.gift.dto.response;
 
 import com.dilly.gift.domain.GiftBox;
+import com.dilly.gift.dto.response.PhotoResponseDto.PhotoResponse;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import io.swagger.v3.oas.annotations.media.Schema;

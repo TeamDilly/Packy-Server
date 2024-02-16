@@ -68,10 +68,10 @@ public class GiftBoxController {
     }
 
     @Operation(summary = "주고받은 선물박스 조회")
-    @Parameter(in = ParameterIn.QUERY
-        , description = "한 페이지에 보여줄 선물박스 개수. 기본값은 6개"
-        , name = "size"
-        , schema = @Schema(type = "integer"))
+    @Parameter(in = ParameterIn.QUERY,
+        description = "한 페이지에 보여줄 선물박스 개수. 기본값은 6개",
+        name = "size",
+        schema = @Schema(type = "integer"))
     @GetMapping("")
     public DataResponseDto<SliceResponseDto<GiftBoxesResponse>> getGiftBoxes(
         @PageableDefault(size = 6)
