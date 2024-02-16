@@ -1,0 +1,49 @@
+plugins {
+    id 'java'
+    id 'jacoco-report-aggregation'
+}
+
+group = 'com.dilly'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    jacocoAggregation project(':packy-api')
+    jacocoAggregation project(':packy-domain')
+}
+
+test {
+    useJUnitPlatform()
+    finalizedBy 'testCodeCoverageReport'
+}
+
+testCodeCoverageReport {
+    reports {
+        html.required = true
+        xml.required = true
+    }
+
+    def Qdomains = []
+    for (qPattern in '**/QA'..'**/QZ') {
+        Qdomains.add(qPattern + '*')
+    }
+
+    afterEvaluate {
+        classDirectories.setFrom(
+                files(classDirectories.files.collect {
+                    fileTree(dir: it, excludes: [
+                            'com/dilly/exception/**',
+                            'com/dilly/**/config/**',
+                            'com/dilly/**/dto/**',
+                            'com/dilly/**/model/**'
+                    ] + Qdomains)
+                })
+        )
+    }
+}
+
+bootJar.enabled = false
+jar.enabled = true
