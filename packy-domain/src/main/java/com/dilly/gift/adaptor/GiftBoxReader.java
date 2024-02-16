@@ -5,6 +5,7 @@ import com.dilly.exception.entitynotfound.EntityNotFoundException;
 import com.dilly.gift.dao.GiftBoxRepository;
 import com.dilly.gift.dao.querydsl.GiftBoxQueryRepository;
 import com.dilly.gift.domain.GiftBox;
+import com.dilly.gift.domain.Letter;
 import com.dilly.member.domain.Member;
 import java.time.LocalDateTime;
 import java.util.Comparator;
@@ -23,6 +24,10 @@ public class GiftBoxReader {
     public GiftBox findById(Long giftBoxId) {
         return giftBoxRepository.findById(giftBoxId)
             .orElseThrow(() -> new EntityNotFoundException(ErrorCode.GIFTBOX_NOT_FOUND));
+    }
+
+    public GiftBox findByLetter(Letter letter) {
+        return giftBoxRepository.findByLetter(letter);
     }
 
     public Slice<GiftBox> searchSentGiftBoxesBySlice(Member member, LocalDateTime lastGiftBoxDate,
