@@ -9,6 +9,7 @@ import com.dilly.gift.domain.Letter;
 import com.dilly.gift.domain.Photo;
 import com.dilly.gift.domain.Receiver;
 import com.dilly.gift.dto.response.LetterResponse;
+import com.dilly.gift.dto.response.MusicResponse;
 import com.dilly.gift.dto.response.PhotoResponseDto.PhotoWithoutSequenceResponse;
 import com.dilly.global.utils.SecurityUtil;
 import com.dilly.member.adaptor.MemberReader;
@@ -75,5 +76,26 @@ public class GiftService {
             .toList();
 
         return new SliceImpl<>(letterResponses, pageable, letterSlice.hasNext());
+    }
+
+    public Slice<MusicResponse> getMusics(Long lastGiftBoxId, Pageable pageable) {
+        Long memberId = SecurityUtil.getMemberId();
+        Member member = memberReader.findById(memberId);
+
+        LocalDateTime lastGiftBoxDate = LocalDateTime.now();
+        if (lastGiftBoxId != null) {
+            GiftBox lastGiftBox = giftBoxReader.findById(lastGiftBoxId);
+            Receiver lastReceiver = receiverReader.findByMemberAndGiftBox(member, lastGiftBox);
+
+            lastGiftBoxDate = lastReceiver.getCreatedAt();
+        }
+        Slice<GiftBox> giftBoxSlice = giftBoxReader.searchReceivedGiftBoxesBySlice(member,
+            lastGiftBoxDate, pageable);
+
+        List<MusicResponse> musicResponses = giftBoxSlice.stream()
+            .map(MusicResponse::from)
+            .toList();
+
+        return new SliceImpl<>(musicResponses, pageable, giftBoxSlice.hasNext());
     }
 }
