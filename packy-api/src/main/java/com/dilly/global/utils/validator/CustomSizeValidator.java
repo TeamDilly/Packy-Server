@@ -19,7 +19,7 @@ public class CustomSizeValidator implements ConstraintValidator<CustomSize, Char
         if (value == null) {
             return true;
         }
-        int length = value.toString().replace("\r\n", "\n").length();
+        int length = value.toString().replace("(\r\n|\r|\n|\n\r)", " ").length();
 
         return length >= min && length <= max;
     }

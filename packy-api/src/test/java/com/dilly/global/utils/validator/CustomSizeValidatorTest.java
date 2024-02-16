@@ -67,7 +67,7 @@ class CustomSizeValidatorTest {
     }
 
     private int countLength(String stringWithNewLine) {
-        return stringWithNewLine.replace("\r\n", "\n").length();
+        return stringWithNewLine.replace("(\r\n|\r|\n|\n\r)", " ").length();
     }
 
     @DisplayName("200글자를 넘을 경우, false를 반환한다")
