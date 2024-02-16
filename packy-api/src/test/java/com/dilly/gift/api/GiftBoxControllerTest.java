@@ -47,10 +47,8 @@ class GiftBoxControllerTest extends ControllerTestSupport {
         List<StickerRequest> stickers = List.of(
             StickerRequest.builder().id(1L).location(1).build(),
             StickerRequest.builder().id(2L).location(2).build());
-        GiftBoxIdResponse giftBoxIdResponse = GiftBoxIdResponse.builder()
-            .id(1L)
-            .uuid("550e8400-e29b-41d4-a716-446655440000")
-            .build();
+        GiftBoxIdResponse giftBoxIdResponse = GiftBoxIdResponse.of(
+            1L, "550e8400-e29b-41d4-a716-446655440000", "www.example.com");
 
         return List.of(
             DynamicTest.dynamicTest("선물이 있을 경우", () -> {

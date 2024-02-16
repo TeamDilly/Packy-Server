@@ -3,4 +3,5 @@ include 'packy-api'
 include 'packy-domain'
 include 'packy-infra'
 include 'packy-common'
+include 'packy-support'
 
