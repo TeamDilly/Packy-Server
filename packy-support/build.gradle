@@ -23,6 +23,7 @@ test {
 testCodeCoverageReport {
     reports {
         html.required = true
+        xml.required = true
     }
 
     def Qdomains = []
