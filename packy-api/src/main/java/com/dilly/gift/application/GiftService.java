@@ -1,11 +1,14 @@
 package com.dilly.gift.application;
 
 import com.dilly.gift.adaptor.GiftBoxReader;
+import com.dilly.gift.adaptor.LetterReader;
 import com.dilly.gift.adaptor.PhotoReader;
 import com.dilly.gift.adaptor.ReceiverReader;
 import com.dilly.gift.domain.GiftBox;
+import com.dilly.gift.domain.Letter;
 import com.dilly.gift.domain.Photo;
 import com.dilly.gift.domain.Receiver;
+import com.dilly.gift.dto.response.LetterResponse;
 import com.dilly.gift.dto.response.PhotoResponseDto.PhotoWithoutSequenceResponse;
 import com.dilly.global.utils.SecurityUtil;
 import com.dilly.member.adaptor.MemberReader;
@@ -27,8 +30,9 @@ import org.springframework.stereotype.Service;
 public class GiftService {
 
     private final MemberReader memberReader;
-    private final PhotoReader photoReader;
     private final GiftBoxReader giftBoxReader;
+    private final PhotoReader photoReader;
+    private final LetterReader letterReader;
     private final ReceiverReader receiverReader;
 
     public Slice<PhotoWithoutSequenceResponse> getPhotos(Long lastPhotoId, Pageable pageable) {
@@ -50,5 +54,26 @@ public class GiftService {
             .toList();
 
         return new SliceImpl<>(photoResponses, pageable, photoSlice.hasNext());
+    }
+
+    public Slice<LetterResponse> getLetters(Long lastLetterId, Pageable pageable) {
+        Long memberId = SecurityUtil.getMemberId();
+        Member member = memberReader.findById(memberId);
+
+        LocalDateTime lastLetterDate = LocalDateTime.now();
+        if (lastLetterId != null) {
+            Letter lastLetter = letterReader.findById(lastLetterId);
+            GiftBox giftBox = giftBoxReader.findByLetter(lastLetter);
+            Receiver lastReceiver = receiverReader.findByMemberAndGiftBox(member, giftBox);
+
+            lastLetterDate = lastReceiver.getCreatedAt();
+        }
+        Slice<Letter> letterSlice = letterReader.searchBySlice(member, lastLetterDate, pageable);
+
+        List<LetterResponse> letterResponses = letterSlice.stream()
+            .map(LetterResponse::from)
+            .toList();
+
+        return new SliceImpl<>(letterResponses, pageable, letterSlice.hasNext());
     }
 }
