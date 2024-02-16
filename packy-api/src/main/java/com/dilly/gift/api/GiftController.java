@@ -2,6 +2,7 @@ package com.dilly.gift.api;
 
 import com.dilly.gift.application.GiftService;
 import com.dilly.gift.dto.response.LetterResponse;
+import com.dilly.gift.dto.response.MusicResponse;
 import com.dilly.gift.dto.response.PhotoResponseDto.PhotoWithoutSequenceResponse;
 import com.dilly.global.response.DataResponseDto;
 import com.dilly.global.response.SliceResponseDto;
@@ -60,5 +61,23 @@ public class GiftController {
     ) {
         return DataResponseDto.from(
             SliceResponseDto.from(giftService.getLetters(lastLetterId, pageable)));
+    }
+
+    @Operation(summary = "음악 모아보기")
+    @Parameter(in = ParameterIn.QUERY,
+        description = "한 페이지에 보여줄 음악 개수. 기본값은 6개",
+        name = "size",
+        schema = @Schema(type = "integer"))
+    @GetMapping("/musics")
+    public DataResponseDto<SliceResponseDto<MusicResponse>> getMusics(
+        @PageableDefault(size = 6)
+        @Parameter(hidden = true)
+        Pageable pageable,
+        @Schema(description = "마지막 음악의 id", type = "integer")
+        @RequestParam(value = "last-giftbox-id", required = false)
+        Long lastGiftBoxId
+    ) {
+        return DataResponseDto.from(
+            SliceResponseDto.from(giftService.getMusics(lastGiftBoxId, pageable)));
     }
 }
