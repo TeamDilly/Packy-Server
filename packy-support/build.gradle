@@ -34,7 +34,10 @@ testCodeCoverageReport {
         classDirectories.setFrom(
                 files(classDirectories.files.collect {
                     fileTree(dir: it, excludes: [
-                            'com/dilly/exception/**'
+                            'com/dilly/exception/**',
+                            'com/dilly/**/config/**',
+                            'com/dilly/**/dto/**',
+                            'com/dilly/**/model/**'
                     ] + Qdomains)
                 })
         )
