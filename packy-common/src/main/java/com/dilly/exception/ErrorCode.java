@@ -52,6 +52,7 @@ public enum ErrorCode {
     STICKER_NOT_FOUND(HttpStatus.NOT_FOUND, "스티커를 찾을 수 없습니다."),
     GIFTBOX_NOT_FOUND(HttpStatus.NOT_FOUND, "선물박스를 찾을 수 없습니다."),
     PHOTO_NOT_FOUND(HttpStatus.NOT_FOUND, "사진을 찾을 수 없습니다."),
+    LETTER_NOT_FOUND(HttpStatus.NOT_FOUND, "편지를 찾을 수 없습니다."),
 
     // Unsupported
     UNSUPPORTED_LOGIN_TYPE(HttpStatus.BAD_REQUEST, "지원하지 않는 로그인 타입입니다."),
