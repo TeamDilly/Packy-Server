@@ -27,6 +27,8 @@ public class PhotoResponseDto {
 
     @Builder
     public record PhotoWithoutSequenceResponse(
+        @Schema(example = "1")
+        Long id,
         @Schema(example = "www.example.com")
         String photoUrl,
         @Schema(example = "우리 같이 트리 만든 날 :)")
@@ -35,6 +37,7 @@ public class PhotoResponseDto {
 
         public static PhotoWithoutSequenceResponse from(Photo photo) {
             return PhotoWithoutSequenceResponse.builder()
+                .id(photo.getId())
                 .photoUrl(photo.getImgUrl())
                 .description(photo.getDescription())
                 .build();
