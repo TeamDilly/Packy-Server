@@ -27,7 +27,7 @@ import com.dilly.gift.dto.response.EnvelopeResponse;
 import com.dilly.gift.dto.response.GiftBoxIdResponse;
 import com.dilly.gift.dto.response.GiftBoxResponse;
 import com.dilly.gift.dto.response.GiftBoxesResponse;
-import com.dilly.gift.dto.response.GiftResponse;
+import com.dilly.gift.dto.response.GiftResponseDto.GiftResponse;
 import com.dilly.gift.dto.response.PhotoResponseDto.PhotoResponse;
 import com.dilly.gift.dto.response.StickerResponse;
 import com.dilly.global.utils.SecurityUtil;
