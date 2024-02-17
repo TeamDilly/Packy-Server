@@ -74,7 +74,7 @@ public class GiftController {
         @PageableDefault(size = 6)
         @Parameter(hidden = true)
         Pageable pageable,
-        @Schema(description = "마지막 음악의 id", type = "integer")
+        @Schema(description = "마지막 음악이 담긴 선물박스의 id", type = "integer")
         @RequestParam(value = "last-giftbox-id", required = false)
         Long lastGiftBoxId
     ) {
@@ -92,7 +92,7 @@ public class GiftController {
         @PageableDefault(size = 6)
         @Parameter(hidden = true)
         Pageable pageable,
-        @Schema(description = "마지막 선물의 id", type = "integer")
+        @Schema(description = "마지막 선물이 담긴 선물박스의 id", type = "integer")
         @RequestParam(value = "last-giftbox-id", required = false)
         Long lastGiftBoxId
     ) {
