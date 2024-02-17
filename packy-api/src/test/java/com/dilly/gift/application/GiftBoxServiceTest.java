@@ -18,7 +18,7 @@ import com.dilly.gift.dto.request.StickerRequest;
 import com.dilly.gift.dto.response.BoxResponse;
 import com.dilly.gift.dto.response.GiftBoxIdResponse;
 import com.dilly.gift.dto.response.GiftBoxResponse;
-import com.dilly.gift.dto.response.GiftResponse;
+import com.dilly.gift.dto.response.GiftResponseDto.GiftResponse;
 import com.dilly.gift.dto.response.PhotoResponseDto.PhotoResponse;
 import com.dilly.gift.dto.response.StickerResponse;
 import com.dilly.global.IntegrationTestSupport;

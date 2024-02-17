@@ -1,6 +1,7 @@
 package com.dilly.gift.api;
 
 import com.dilly.gift.application.GiftService;
+import com.dilly.gift.dto.response.GiftResponseDto.ItemResponse;
 import com.dilly.gift.dto.response.LetterResponse;
 import com.dilly.gift.dto.response.MusicResponse;
 import com.dilly.gift.dto.response.PhotoResponseDto.PhotoWithoutSequenceResponse;
@@ -73,11 +74,30 @@ public class GiftController {
         @PageableDefault(size = 6)
         @Parameter(hidden = true)
         Pageable pageable,
-        @Schema(description = "마지막 음악의 id", type = "integer")
+        @Schema(description = "마지막 음악이 담긴 선물박스의 id", type = "integer")
         @RequestParam(value = "last-giftbox-id", required = false)
         Long lastGiftBoxId
     ) {
         return DataResponseDto.from(
             SliceResponseDto.from(giftService.getMusics(lastGiftBoxId, pageable)));
     }
+
+    @Operation(summary = "선물 모아보기")
+    @Parameter(in = ParameterIn.QUERY,
+        description = "한 페이지에 보여줄 선물 개수. 기본값은 6개",
+        name = "size",
+        schema = @Schema(type = "integer"))
+    @GetMapping("/items")
+    public DataResponseDto<SliceResponseDto<ItemResponse>> getItems(
+        @PageableDefault(size = 6)
+        @Parameter(hidden = true)
+        Pageable pageable,
+        @Schema(description = "마지막 선물이 담긴 선물박스의 id", type = "integer")
+        @RequestParam(value = "last-giftbox-id", required = false)
+        Long lastGiftBoxId
+    ) {
+        return DataResponseDto.from(
+            SliceResponseDto.from(giftService.getItems(lastGiftBoxId, pageable)));
+    }
+
 }

@@ -70,7 +70,7 @@ public class GiftBoxQueryRepository {
             .from(receiver)
             .join(receiver.giftBox, giftBox)
             .where(
-                ltGiftBoxDate(lastGiftBoxDate),
+                ltReceivedDate(lastGiftBoxDate),
                 receiver.member.eq(member))
             .orderBy(receiver.createdAt.desc())
             .limit(pageable.getPageSize() + 1L)
@@ -83,6 +83,14 @@ public class GiftBoxQueryRepository {
         }
 
         return giftBox.createdAt.lt(giftBoxDate);
+    }
+
+    private BooleanExpression ltReceivedDate(LocalDateTime giftBoxDate) {
+        if (giftBoxDate == null) {
+            return null;
+        }
+
+        return receiver.createdAt.lt(giftBoxDate);
     }
 
     private Slice<GiftBox> checkLastPage(Pageable pageable, List<GiftBox> results) {

@@ -44,6 +44,7 @@ public class GlobalExceptionHandler {
         return handleExceptionInternal(ErrorCode.QUERY_PARAMETER_REQUIRED);
     }
 
+    // @Valid 유효성 검증에 실패할 경우
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<Object> handleMethodArgumentNotValidException(
         MethodArgumentNotValidException e) {
