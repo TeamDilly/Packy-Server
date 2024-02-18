@@ -2,20 +2,19 @@ package com.dilly.gift.dto.request;
 
 import com.dilly.global.utils.validator.CustomSize;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Size;
 import java.util.List;
 import lombok.Builder;
 
 @Builder
 public record GiftBoxRequest(
     @Schema(example = "너를 위해 준비했어")
-    @Size(max = 15, message = "선물박스 이름은 15자 이하로 입력해주세요.")
+    @CustomSize(max = 15, message = "선물박스 이름은 15자 이하로 입력해주세요.")
     String name,
     @Schema(example = "보내는 사람")
-    @Size(min = 1, max = 6, message = "보내는 사람 이름은 1자 이상 6자 이하로 입력해주세요.")
+    @CustomSize(min = 1, max = 6, message = "보내는 사람 이름은 1자 이상 6자 이하로 입력해주세요.")
     String senderName,
     @Schema(example = "받는 사람")
-    @Size(min = 1, max = 6, message = "받는 사람 이름은 1자 이상 6자 이하로 입력해주세요.")
+    @CustomSize(min = 1, max = 6, message = "받는 사람 이름은 1자 이상 6자 이하로 입력해주세요.")
     String receiverName,
     @Schema(example = "1")
     Long boxId,
