@@ -53,6 +53,24 @@ public class GiftBoxQueryRepository {
         return checkLastPage(pageable, results);
     }
 
+    public Slice<GiftBox> searchReceivedGiftBoxesWithGiftBySlice(Member member,
+        LocalDateTime lastGiftBoxDate,
+        Pageable pageable) {
+        List<GiftBox> results = jpaQueryFactory.select(giftBox)
+            .from(receiver)
+            .join(receiver.giftBox, giftBox)
+            .where(
+                ltReceivedDate(lastGiftBoxDate),
+                receiver.member.eq(member),
+                giftBox.gift.isNotNull()
+            )
+            .orderBy(receiver.createdAt.desc())
+            .limit(pageable.getPageSize() + 1L)
+            .fetch();
+
+        return checkLastPage(pageable, results);
+    }
+
     private List<GiftBox> getSentGiftBoxes(Member member, LocalDateTime lastGiftBoxDate,
         Pageable pageable) {
         return jpaQueryFactory.selectFrom(giftBox)

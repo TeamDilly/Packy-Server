@@ -15,7 +15,7 @@ public class GiftResponseDto {
         String url
     ) {
 
-        public static GiftResponse of(Gift gift) {
+        public static GiftResponse from(Gift gift) {
             return GiftResponse.builder()
                 .type(String.valueOf(gift.getGiftType()).toLowerCase())
                 .url(gift.getGiftUrl())
@@ -33,7 +33,7 @@ public class GiftResponseDto {
             public static ItemResponse from(GiftBox giftBox) {
                 return ItemResponse.builder()
                     .giftBoxId(giftBox.getId())
-                    .gift(GiftResponse.of(giftBox.getGift()))
+                    .gift(GiftResponse.from(giftBox.getGift()))
                     .build();
             }
     }
