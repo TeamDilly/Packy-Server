@@ -47,4 +47,10 @@ public class GiftBoxReader {
         return giftBoxQueryRepository.searchAllGiftBoxesBySlice(member, lastGiftBoxDate, comparator,
             pageable);
     }
+
+    public Slice<GiftBox> searchReceivedGiftBoxesWithGiftBySlice(Member member,
+        LocalDateTime lastGiftBoxDate, Pageable pageable) {
+        return giftBoxQueryRepository.searchReceivedGiftBoxesWithGiftBySlice(member,
+            lastGiftBoxDate, pageable);
+    }
 }

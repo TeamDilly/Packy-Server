@@ -141,7 +141,7 @@ public class GiftBoxService {
 
         GiftResponse giftResponse = null;
         if (giftBox.getGift() != null) {
-            giftResponse = GiftResponse.of(giftBox.getGift());
+            giftResponse = GiftResponse.from(giftBox.getGift());
         }
 
         return GiftBoxResponse.of(giftBox, boxResponse, envelopeResponse, photos, stickers,
