@@ -177,7 +177,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
                     .map(StickerResponse::of)
                     .sorted(Comparator.comparingInt(StickerResponse::location))
                     .toList();
-                GiftResponse expectedGiftResponse = GiftResponse.of(giftBoxWithGift.getGift());
+                GiftResponse expectedGiftResponse = GiftResponse.from(giftBoxWithGift.getGift());
 
                 // when
                 GiftBoxResponse giftBoxResponse = giftBoxService.openGiftBox(
@@ -270,7 +270,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
                     .map(StickerResponse::of)
                     .sorted(Comparator.comparingInt(StickerResponse::location))
                     .toList();
-                GiftResponse expectedGiftResponse = GiftResponse.of(giftBox.getGift());
+                GiftResponse expectedGiftResponse = GiftResponse.from(giftBox.getGift());
 
                 // when
                 GiftBoxResponse giftBoxResponse = giftBoxService.openGiftBox(giftBox.getId());
