@@ -111,7 +111,7 @@ public class GiftService {
 
             lastGiftBoxDate = lastReceiver.getCreatedAt();
         }
-        Slice<GiftBox> giftBoxSlice = giftBoxReader.searchReceivedGiftBoxesBySlice(member,
+        Slice<GiftBox> giftBoxSlice = giftBoxReader.searchReceivedGiftBoxesWithGiftBySlice(member,
             lastGiftBoxDate, pageable);
 
         List<ItemResponse> itemResponses = giftBoxSlice.stream()
