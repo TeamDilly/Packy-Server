@@ -117,6 +117,7 @@ public class GiftBoxService {
 
             if (receivers.isEmpty() && giftBox.getSenderDeleted().equals(false)) {
                 receiverWriter.save(member, giftBox);
+                return;
             }
 
             if (receivers.contains(member.getId())) {
