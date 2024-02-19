@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -88,5 +89,17 @@ public class GiftBoxController {
         return DataResponseDto.from(
             SliceResponseDto.from(giftBoxService.getGiftBoxes(lastGiftBoxDate, type, pageable))
         );
+    }
+
+    @Operation(summary = "선물박스 삭제")
+    @ApiErrorCodeExamples({
+        ErrorCode.GIFTBOX_NOT_FOUND,
+        ErrorCode.GIFTBOX_ACCESS_DENIED
+    })
+    @DeleteMapping("/{giftBoxId}")
+    public DataResponseDto<String> deleteGiftBox(
+        @PathVariable("giftBoxId") Long giftBoxId
+    ) {
+        return DataResponseDto.from(giftBoxService.deleteGiftBox(giftBoxId));
     }
 }

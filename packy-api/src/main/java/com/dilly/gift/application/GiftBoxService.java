@@ -1,6 +1,7 @@
 package com.dilly.gift.application;
 
 import com.dilly.exception.ErrorCode;
+import com.dilly.exception.GiftBoxAccessDeniedException;
 import com.dilly.exception.GiftBoxAlreadyOpenedException;
 import com.dilly.exception.UnsupportedException;
 import com.dilly.gift.adaptor.BoxReader;
@@ -18,6 +19,7 @@ import com.dilly.gift.domain.Box;
 import com.dilly.gift.domain.Envelope;
 import com.dilly.gift.domain.Gift;
 import com.dilly.gift.domain.GiftBox;
+import com.dilly.gift.domain.GiftBoxRole;
 import com.dilly.gift.domain.GiftType;
 import com.dilly.gift.domain.Letter;
 import com.dilly.gift.domain.Receiver;
@@ -225,5 +227,36 @@ public class GiftBoxService {
 
             return createdAt;
         });
+    }
+
+    public String deleteGiftBox(Long giftBoxId) {
+        Long memberId = SecurityUtil.getMemberId();
+        Member member = memberReader.findById(memberId);
+
+        GiftBox giftBox = giftBoxReader.findById(giftBoxId);
+        GiftBoxRole role = getGiftBoxRole(member, giftBox);
+
+        if (role.equals(GiftBoxRole.SENDER)) {
+            giftBox.delete();
+        } else if (role.equals(GiftBoxRole.RECEIVER)) {
+            Receiver receiver = receiverReader.findByMemberAndGiftBox(member, giftBox);
+            receiver.delete();
+        }
+
+        return "선물박스가 삭제되었습니다";
+    }
+
+    private GiftBoxRole getGiftBoxRole(Member member, GiftBox giftBox) {
+        List<Member> receivers = receiverReader.findByGiftBox(giftBox).stream()
+            .map(Receiver::getMember)
+            .toList();
+
+        if (giftBox.getSender().equals(member)) {
+            return GiftBoxRole.SENDER;
+        } else if (receivers.contains(member)) { // 받은 사람일 경우
+            return GiftBoxRole.RECEIVER;
+        } else {
+            throw new GiftBoxAccessDeniedException();
+        }
     }
 }
