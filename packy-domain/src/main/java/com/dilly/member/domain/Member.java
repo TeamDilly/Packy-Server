@@ -55,4 +55,12 @@ public class Member extends BaseTimeEntity {
 	public void withdraw() {
 		this.status = Status.WITHDRAWAL;
 	}
+
+	public void updateNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
+	public void updateProfileImage(ProfileImage profileImg) {
+		this.profileImg = profileImg;
+	}
 }
