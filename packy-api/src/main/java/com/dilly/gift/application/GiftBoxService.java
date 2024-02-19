@@ -1,6 +1,7 @@
 package com.dilly.gift.application;
 
 import com.dilly.exception.ErrorCode;
+import com.dilly.exception.GiftBoxAccessDeniedException;
 import com.dilly.exception.GiftBoxAlreadyOpenedException;
 import com.dilly.exception.UnsupportedException;
 import com.dilly.gift.adaptor.BoxReader;
@@ -18,9 +19,11 @@ import com.dilly.gift.domain.Box;
 import com.dilly.gift.domain.Envelope;
 import com.dilly.gift.domain.Gift;
 import com.dilly.gift.domain.GiftBox;
+import com.dilly.gift.domain.GiftBoxRole;
 import com.dilly.gift.domain.GiftType;
 import com.dilly.gift.domain.Letter;
 import com.dilly.gift.domain.Receiver;
+import com.dilly.gift.domain.ReceiverStatus;
 import com.dilly.gift.dto.request.GiftBoxRequest;
 import com.dilly.gift.dto.response.BoxResponse;
 import com.dilly.gift.dto.response.EnvelopeResponse;
@@ -101,21 +104,30 @@ public class GiftBoxService {
             giftBox.getBox().getKakaoMessageImgUrl());
     }
 
-    boolean canOpenGiftBox(Member member, GiftBox giftBox) {
+    void checkIfGiftBoxOpenable(Member member, GiftBox giftBox) {
         if (giftBox.getSender().equals(member)) {
-            return true;
+            if (giftBox.getSenderDeleted().equals(true)) {
+                throw new GiftBoxAccessDeniedException();
+            }
         } else {
             List<Long> receivers = receiverReader.findByGiftBox(giftBox).stream()
                 .map(Receiver::getMember)
                 .map(Member::getId)
                 .toList();
 
-            if (receivers.isEmpty()) {
+            if (receivers.isEmpty() && giftBox.getSenderDeleted().equals(false)) {
                 receiverWriter.save(member, giftBox);
-                return true;
+                return;
             }
 
-            return receivers.contains(member.getId());
+            if (receivers.contains(member.getId())) {
+                Receiver receiver = receiverReader.findByMemberAndGiftBox(member, giftBox);
+                if (receiver.getStatus().equals(ReceiverStatus.DELETED)) {
+                    throw new GiftBoxAccessDeniedException();
+                }
+            } else {
+                throw new GiftBoxAlreadyOpenedException();
+            }
         }
     }
 
@@ -124,9 +136,7 @@ public class GiftBoxService {
         Member member = memberReader.findById(memberId);
         GiftBox giftBox = giftBoxReader.findById(giftBoxId);
 
-        if (!canOpenGiftBox(member, giftBox)) {
-            throw new GiftBoxAlreadyOpenedException();
-        }
+        checkIfGiftBoxOpenable(member, giftBox);
 
         BoxResponse boxResponse = BoxResponse.of(giftBox.getBox());
         EnvelopeResponse envelopeResponse = EnvelopeResponse.of(giftBox.getLetter().getEnvelope());
@@ -225,5 +235,36 @@ public class GiftBoxService {
 
             return createdAt;
         });
+    }
+
+    public String deleteGiftBox(Long giftBoxId) {
+        Long memberId = SecurityUtil.getMemberId();
+        Member member = memberReader.findById(memberId);
+
+        GiftBox giftBox = giftBoxReader.findById(giftBoxId);
+        GiftBoxRole role = getGiftBoxRole(member, giftBox);
+
+        if (role.equals(GiftBoxRole.SENDER)) {
+            giftBox.delete();
+        } else if (role.equals(GiftBoxRole.RECEIVER)) {
+            Receiver receiver = receiverReader.findByMemberAndGiftBox(member, giftBox);
+            receiver.delete();
+        }
+
+        return "선물박스가 삭제되었습니다";
+    }
+
+    private GiftBoxRole getGiftBoxRole(Member member, GiftBox giftBox) {
+        List<Member> receivers = receiverReader.findByGiftBox(giftBox).stream()
+            .map(Receiver::getMember)
+            .toList();
+
+        if (giftBox.getSender().equals(member)) {
+            return GiftBoxRole.SENDER;
+        } else if (receivers.contains(member)) { // 받은 사람일 경우
+            return GiftBoxRole.RECEIVER;
+        } else {
+            throw new GiftBoxAccessDeniedException();
+        }
     }
 }
