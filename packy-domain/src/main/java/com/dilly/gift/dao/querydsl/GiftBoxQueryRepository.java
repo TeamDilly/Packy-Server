@@ -4,6 +4,7 @@ import static com.dilly.gift.domain.QGiftBox.giftBox;
 import static com.dilly.gift.domain.QReceiver.receiver;
 
 import com.dilly.gift.domain.GiftBox;
+import com.dilly.gift.domain.ReceiverStatus;
 import com.dilly.member.domain.Member;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -62,6 +63,7 @@ public class GiftBoxQueryRepository {
             .where(
                 ltReceivedDate(lastGiftBoxDate),
                 receiver.member.eq(member),
+                receiver.status.eq(ReceiverStatus.RECEIVED),
                 giftBox.gift.isNotNull()
             )
             .orderBy(receiver.createdAt.desc())
@@ -76,7 +78,8 @@ public class GiftBoxQueryRepository {
         return jpaQueryFactory.selectFrom(giftBox)
             .where(
                 ltGiftBoxDate(lastGiftBoxDate),
-                giftBox.sender.eq(member))
+                giftBox.sender.eq(member),
+                giftBox.senderDeleted.eq(false))
             .orderBy(giftBox.createdAt.desc())
             .limit(pageable.getPageSize() + 1L)
             .fetch();
@@ -89,7 +92,8 @@ public class GiftBoxQueryRepository {
             .join(receiver.giftBox, giftBox)
             .where(
                 ltReceivedDate(lastGiftBoxDate),
-                receiver.member.eq(member))
+                receiver.member.eq(member),
+                receiver.status.eq(ReceiverStatus.RECEIVED))
             .orderBy(receiver.createdAt.desc())
             .limit(pageable.getPageSize() + 1L)
             .fetch();

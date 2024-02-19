@@ -66,4 +66,11 @@ public class GiftBox extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private GiftBoxType giftBoxType = GiftBoxType.PRIVATE;
+
+    @Builder.Default
+    private Boolean senderDeleted = false;
+
+    public void delete() {
+        this.senderDeleted = true;
+    }
 }

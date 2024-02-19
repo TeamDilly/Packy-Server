@@ -5,6 +5,7 @@ import static com.dilly.gift.domain.QPhoto.photo;
 import static com.dilly.gift.domain.QReceiver.receiver;
 
 import com.dilly.gift.domain.Photo;
+import com.dilly.gift.domain.ReceiverStatus;
 import com.dilly.member.domain.Member;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -30,7 +31,8 @@ public class PhotoQueryRepository {
             .join(receiver.giftBox.photos, photo)
             .where(
                 ltPhotoDate(lastPhotoDate),
-                receiver.member.eq(member)
+                receiver.member.eq(member),
+                receiver.status.eq(ReceiverStatus.RECEIVED)
             )
             .orderBy(receiver.createdAt.desc())
             .limit(pageable.getPageSize() + 1L)
