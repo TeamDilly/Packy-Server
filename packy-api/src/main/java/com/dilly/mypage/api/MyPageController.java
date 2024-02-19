@@ -28,7 +28,7 @@ public class MyPageController {
         return DataResponseDto.from(myPageService.getProfile());
     }
 
-    @Operation(summary = "나의 프로필 수정")
+    @Operation(summary = "나의 프로필 수정", description = "수정할 column만 request body에 담아서 요청해주세요.")
     @PatchMapping("/profile")
     public DataResponseDto<ProfileResponse> updateProfile(
         @RequestBody @Valid ProfileRequest profileRequest) {
