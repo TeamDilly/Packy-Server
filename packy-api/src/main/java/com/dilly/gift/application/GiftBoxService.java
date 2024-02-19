@@ -23,6 +23,7 @@ import com.dilly.gift.domain.GiftBoxRole;
 import com.dilly.gift.domain.GiftType;
 import com.dilly.gift.domain.Letter;
 import com.dilly.gift.domain.Receiver;
+import com.dilly.gift.domain.ReceiverStatus;
 import com.dilly.gift.dto.request.GiftBoxRequest;
 import com.dilly.gift.dto.response.BoxResponse;
 import com.dilly.gift.dto.response.EnvelopeResponse;
@@ -103,21 +104,29 @@ public class GiftBoxService {
             giftBox.getBox().getKakaoMessageImgUrl());
     }
 
-    boolean canOpenGiftBox(Member member, GiftBox giftBox) {
+    void checkIfGiftBoxOpenable(Member member, GiftBox giftBox) {
         if (giftBox.getSender().equals(member)) {
-            return true;
+            if (giftBox.getSenderDeleted().equals(true)) {
+                throw new GiftBoxAccessDeniedException();
+            }
         } else {
             List<Long> receivers = receiverReader.findByGiftBox(giftBox).stream()
                 .map(Receiver::getMember)
                 .map(Member::getId)
                 .toList();
 
-            if (receivers.isEmpty()) {
+            if (receivers.isEmpty() && giftBox.getSenderDeleted().equals(false)) {
                 receiverWriter.save(member, giftBox);
-                return true;
             }
 
-            return receivers.contains(member.getId());
+            if (receivers.contains(member.getId())) {
+                Receiver receiver = receiverReader.findByMemberAndGiftBox(member, giftBox);
+                if (receiver.getStatus().equals(ReceiverStatus.DELETED)) {
+                    throw new GiftBoxAccessDeniedException();
+                }
+            } else {
+                throw new GiftBoxAlreadyOpenedException();
+            }
         }
     }
 
@@ -126,9 +135,7 @@ public class GiftBoxService {
         Member member = memberReader.findById(memberId);
         GiftBox giftBox = giftBoxReader.findById(giftBoxId);
 
-        if (!canOpenGiftBox(member, giftBox)) {
-            throw new GiftBoxAlreadyOpenedException();
-        }
+        checkIfGiftBoxOpenable(member, giftBox);
 
         BoxResponse boxResponse = BoxResponse.of(giftBox.getBox());
         EnvelopeResponse envelopeResponse = EnvelopeResponse.of(giftBox.getLetter().getEnvelope());
