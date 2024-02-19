@@ -116,15 +116,12 @@ public class AuthService {
 
 		SignInResponse signInResponse;
 		if (member.isEmpty()) {
-			signInResponse = SignInResponse.builder()
-				.status(Status.NOT_REGISTERED)
-				.tokenInfo(JwtResponse.builder().build())
-				.build();
+			signInResponse = SignInResponse.from(Status.NOT_REGISTERED,
+				JwtResponse.builder().build());
 		} else {
-			signInResponse = SignInResponse.builder()
-				.status(member.get().getStatus())
-				.tokenInfo(jwtService.issueJwt(member.get()))
-				.build();
+			signInResponse = SignInResponse.from(member.get().getStatus(),
+				member.get().getNickname(),
+				jwtService.issueJwt(member.get()));
 		}
 
 		return signInResponse;
