@@ -107,6 +107,10 @@ public class GiftBoxService {
     }
 
     void checkIfGiftBoxOpenable(Member member, GiftBox giftBox) {
+        if (giftBox.getDeliverStatus().equals(DeliverStatus.WAITING)) {
+            throw new GiftBoxAccessDeniedException();
+        }
+
         if (giftBox.getSender().equals(member)) {
             if (giftBox.getSenderDeleted().equals(true)) {
                 throw new GiftBoxAccessDeniedException();

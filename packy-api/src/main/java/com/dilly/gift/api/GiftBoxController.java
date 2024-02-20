@@ -61,7 +61,8 @@ public class GiftBoxController {
         """)
     @ApiErrorCodeExamples({
         ErrorCode.GIFTBOX_NOT_FOUND,
-        ErrorCode.GIFTBOX_ALREADY_OPENDED
+        ErrorCode.GIFTBOX_ALREADY_OPENDED,
+        ErrorCode.GIFTBOX_ACCESS_DENIED
     })
     @GetMapping("/{giftBoxId}")
     public DataResponseDto<GiftBoxResponse> openGiftBox(
