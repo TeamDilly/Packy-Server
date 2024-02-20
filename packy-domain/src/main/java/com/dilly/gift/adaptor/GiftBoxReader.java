@@ -4,11 +4,13 @@ import com.dilly.exception.ErrorCode;
 import com.dilly.exception.entitynotfound.EntityNotFoundException;
 import com.dilly.gift.dao.GiftBoxRepository;
 import com.dilly.gift.dao.querydsl.GiftBoxQueryRepository;
+import com.dilly.gift.domain.giftbox.DeliverStatus;
 import com.dilly.gift.domain.giftbox.GiftBox;
 import com.dilly.gift.domain.letter.Letter;
 import com.dilly.member.domain.Member;
 import java.time.LocalDateTime;
 import java.util.Comparator;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -28,6 +30,14 @@ public class GiftBoxReader {
 
     public GiftBox findByLetter(Letter letter) {
         return giftBoxRepository.findByLetter(letter);
+    }
+
+    public List<GiftBox> findTop6BySenderAndDeliverStatusAndSenderDeletedOrderByCreatedAtDesc(
+        Member member,
+        DeliverStatus deliverStatus) {
+        return giftBoxRepository.findTop6BySenderAndDeliverStatusAndSenderDeletedOrderByCreatedAtDesc(
+            member,
+            deliverStatus, false);
     }
 
     public Slice<GiftBox> searchSentGiftBoxesBySlice(Member member, LocalDateTime lastGiftBoxDate,
