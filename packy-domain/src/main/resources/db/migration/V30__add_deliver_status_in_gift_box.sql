@@ -4,4 +4,5 @@ add column deliver_status enum('WAITING', 'DELIVERED') not null default 'WAITING
 
 -- 기존에 만들어진 박스는 DELIVERED 처리
 update gift_box
-set deliver_status = 'DELIVERED';
+set deliver_status = 'DELIVERED'
+where created_at < NOW();
