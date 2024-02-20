@@ -301,7 +301,7 @@ public class GiftBoxService {
         Long memberId = SecurityUtil.getMemberId();
         Member member = memberReader.findById(memberId);
 
-        return giftBoxReader.findTop6BySenderAndDeliverStatusOrderByCreatedAtDesc(
+        return giftBoxReader.findTop6BySenderAndDeliverStatusAndSenderDeletedOrderByCreatedAtDesc(
                 member, DeliverStatus.WAITING).stream()
             .map(WaitingGiftBoxResponse::from)
             .toList();

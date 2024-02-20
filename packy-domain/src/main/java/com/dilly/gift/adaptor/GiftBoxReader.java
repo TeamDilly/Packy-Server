@@ -32,7 +32,8 @@ public class GiftBoxReader {
         return giftBoxRepository.findByLetter(letter);
     }
 
-    public List<GiftBox> findTop6BySenderAndDeliverStatusOrderByCreatedAtDesc(Member member,
+    public List<GiftBox> findTop6BySenderAndDeliverStatusAndSenderDeletedOrderByCreatedAtDesc(
+        Member member,
         DeliverStatus deliverStatus) {
         return giftBoxRepository.findTop6BySenderAndDeliverStatusAndSenderDeletedOrderByCreatedAtDesc(
             member,
