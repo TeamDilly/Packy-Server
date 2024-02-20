@@ -1,4 +1,4 @@
-package com.dilly.admin.domain;
+package com.dilly.admin.domain.setting;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

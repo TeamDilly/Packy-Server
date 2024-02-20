@@ -1,6 +1,6 @@
 package com.dilly.admin.dto.response;
 
-import com.dilly.admin.domain.Setting;
+import com.dilly.admin.domain.setting.Setting;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 

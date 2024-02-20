@@ -1,7 +1,7 @@
 package com.dilly.admin.application;
 
 import com.dilly.admin.adaptor.SettingReader;
-import com.dilly.admin.domain.Setting;
+import com.dilly.admin.domain.setting.Setting;
 import com.dilly.admin.dto.response.BoxImgResponse;
 import com.dilly.admin.dto.response.ImgResponse;
 import com.dilly.admin.dto.response.MusicResponse;
@@ -11,9 +11,9 @@ import com.dilly.gift.adaptor.EnvelopeReader;
 import com.dilly.gift.adaptor.MusicReader;
 import com.dilly.gift.adaptor.StickerReader;
 import com.dilly.gift.domain.Box;
-import com.dilly.gift.domain.Envelope;
-import com.dilly.gift.domain.Music;
-import com.dilly.gift.domain.Sticker;
+import com.dilly.gift.domain.letter.Envelope;
+import com.dilly.admin.domain.music.Music;
+import com.dilly.gift.domain.sticker.Sticker;
 import com.dilly.gift.dto.response.EnvelopeListResponse;
 import com.dilly.member.adaptor.ProfileImageReader;
 import com.dilly.member.domain.ProfileImage;

@@ -2,6 +2,7 @@ package com.dilly.gift.api;
 
 import com.dilly.exception.ErrorCode;
 import com.dilly.gift.application.GiftBoxService;
+import com.dilly.gift.dto.request.DeliverStatusRequest;
 import com.dilly.gift.dto.request.GiftBoxRequest;
 import com.dilly.gift.dto.response.GiftBoxIdResponse;
 import com.dilly.gift.dto.response.GiftBoxResponse;
@@ -21,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -59,7 +61,8 @@ public class GiftBoxController {
         """)
     @ApiErrorCodeExamples({
         ErrorCode.GIFTBOX_NOT_FOUND,
-        ErrorCode.GIFTBOX_ALREADY_OPENDED
+        ErrorCode.GIFTBOX_ALREADY_OPENDED,
+        ErrorCode.GIFTBOX_ACCESS_DENIED
     })
     @GetMapping("/{giftBoxId}")
     public DataResponseDto<GiftBoxResponse> openGiftBox(
@@ -101,5 +104,23 @@ public class GiftBoxController {
         @PathVariable("giftBoxId") Long giftBoxId
     ) {
         return DataResponseDto.from(giftBoxService.deleteGiftBox(giftBoxId));
+    }
+
+    @Operation(summary = "선물박스 전송 상태 변경", description = """
+        STATUS는 WAITING, DELIVERED 두 가지입니다.
+        선물박스 만들기 API를 호출하면 WAITING 상태로 만들어집니다.
+        카카오톡으로 보내기 버튼을 누를 때 해당 API를 호출하여 전송 상태를 DELIVERED로 변경합니다.
+        """)
+    @ApiErrorCodeExamples({
+        ErrorCode.GIFTBOX_NOT_FOUND,
+        ErrorCode.UNSUPPORTED_DELIVER_TYPE
+    })
+    @PatchMapping("/{giftBoxId}")
+    public DataResponseDto<String> updateDeliverStatus(
+        @PathVariable("giftBoxId") Long giftBoxId,
+        @RequestBody DeliverStatusRequest deliverStatusRequest
+    ) {
+        return DataResponseDto.from(
+            giftBoxService.updateDeliverStatus(giftBoxId, deliverStatusRequest));
     }
 }

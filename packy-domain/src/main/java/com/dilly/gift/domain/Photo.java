@@ -2,6 +2,7 @@ package com.dilly.gift.domain;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
+import com.dilly.gift.domain.giftbox.GiftBox;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;

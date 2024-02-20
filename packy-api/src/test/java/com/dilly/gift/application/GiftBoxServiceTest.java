@@ -6,11 +6,11 @@ import static org.assertj.core.api.Assertions.tuple;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.dilly.exception.GiftBoxAlreadyOpenedException;
-import com.dilly.gift.domain.GiftBox;
-import com.dilly.gift.domain.GiftBoxSticker;
-import com.dilly.gift.domain.GiftBoxType;
+import com.dilly.gift.domain.giftbox.GiftBox;
+import com.dilly.gift.domain.sticker.GiftBoxSticker;
+import com.dilly.gift.domain.giftbox.GiftBoxType;
 import com.dilly.gift.domain.Photo;
-import com.dilly.gift.domain.Receiver;
+import com.dilly.gift.domain.receiver.Receiver;
 import com.dilly.gift.dto.request.GiftBoxRequest;
 import com.dilly.gift.dto.request.GiftRequest;
 import com.dilly.gift.dto.request.PhotoRequest;

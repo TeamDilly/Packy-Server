@@ -1,8 +1,8 @@
 package com.dilly.gift.dao.querydsl;
 
-import static com.dilly.gift.domain.QSticker.sticker;
+import static com.dilly.gift.domain.sticker.QSticker.sticker;
 
-import com.dilly.gift.domain.Sticker;
+import com.dilly.gift.domain.sticker.Sticker;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;

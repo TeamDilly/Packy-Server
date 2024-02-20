@@ -1,4 +1,4 @@
-package com.dilly.gift.domain;
+package com.dilly.gift.domain.letter;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 

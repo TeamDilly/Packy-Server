@@ -2,9 +2,9 @@ package com.dilly.gift.adaptor;
 
 import com.dilly.gift.dao.GiftBoxRepository;
 import com.dilly.gift.domain.Box;
-import com.dilly.gift.domain.Gift;
-import com.dilly.gift.domain.GiftBox;
-import com.dilly.gift.domain.Letter;
+import com.dilly.gift.domain.gift.Gift;
+import com.dilly.gift.domain.giftbox.GiftBox;
+import com.dilly.gift.domain.letter.Letter;
 import com.dilly.member.domain.Member;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
