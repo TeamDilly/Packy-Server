@@ -16,14 +16,16 @@ import com.dilly.gift.adaptor.PhotoWriter;
 import com.dilly.gift.adaptor.ReceiverReader;
 import com.dilly.gift.adaptor.ReceiverWriter;
 import com.dilly.gift.domain.Box;
-import com.dilly.gift.domain.letter.Envelope;
 import com.dilly.gift.domain.gift.Gift;
+import com.dilly.gift.domain.gift.GiftType;
+import com.dilly.gift.domain.giftbox.DeliverStatus;
 import com.dilly.gift.domain.giftbox.GiftBox;
 import com.dilly.gift.domain.giftbox.GiftBoxRole;
-import com.dilly.gift.domain.gift.GiftType;
+import com.dilly.gift.domain.letter.Envelope;
 import com.dilly.gift.domain.letter.Letter;
 import com.dilly.gift.domain.receiver.Receiver;
 import com.dilly.gift.domain.receiver.ReceiverStatus;
+import com.dilly.gift.dto.request.DeliverStatusRequest;
 import com.dilly.gift.dto.request.GiftBoxRequest;
 import com.dilly.gift.dto.response.BoxResponse;
 import com.dilly.gift.dto.response.EnvelopeResponse;
@@ -266,5 +268,27 @@ public class GiftBoxService {
         } else {
             throw new GiftBoxAccessDeniedException();
         }
+    }
+
+    public String updateDeliverStatus(Long giftBoxId, DeliverStatusRequest deliverStatusRequest) {
+        Long memberId = SecurityUtil.getMemberId();
+        Member member = memberReader.findById(memberId);
+
+        GiftBox giftBox = giftBoxReader.findById(giftBoxId);
+
+        if (!giftBox.getSender().equals(member)) {
+            throw new GiftBoxAccessDeniedException();
+        }
+
+        DeliverStatus deliverStatus;
+        try {
+            deliverStatus = DeliverStatus.valueOf(deliverStatusRequest.deliverStatus());
+        } catch (IllegalArgumentException e) {
+            throw new UnsupportedException(ErrorCode.UNSUPPORTED_DELIVER_TYPE);
+        }
+
+        giftBox.updateDeliverStatus(deliverStatus);
+
+        return "선물박스 전송 상태가 변경되었습니다";
     }
 }

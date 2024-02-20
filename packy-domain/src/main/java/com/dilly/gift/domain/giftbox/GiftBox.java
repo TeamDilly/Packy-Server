@@ -75,7 +75,15 @@ public class GiftBox extends BaseTimeEntity {
     @Builder.Default
     private Boolean senderDeleted = false;
 
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private DeliverStatus deliverStatus = DeliverStatus.WAITING;
+
     public void delete() {
         this.senderDeleted = true;
+    }
+
+    public void updateDeliverStatus(DeliverStatus deliverStatus) {
+        this.deliverStatus = deliverStatus;
     }
 }
