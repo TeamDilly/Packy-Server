@@ -1,7 +1,7 @@
 package com.dilly.gift.adaptor;
 
 import com.dilly.gift.dao.MusicRepository;
-import com.dilly.gift.domain.Music;
+import com.dilly.admin.domain.music.Music;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

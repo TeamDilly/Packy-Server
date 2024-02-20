@@ -1,7 +1,7 @@
 package com.dilly.admin.dto.response;
 
-import com.dilly.gift.domain.Music;
-import com.dilly.gift.domain.MusicHashtag;
+import com.dilly.admin.domain.music.Music;
+import com.dilly.admin.domain.music.MusicHashtag;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import lombok.Builder;

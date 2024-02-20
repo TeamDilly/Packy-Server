@@ -1,7 +1,7 @@
 package com.dilly.gift.dto.response;
 
-import com.dilly.gift.domain.GiftBox;
-import com.dilly.gift.domain.Receiver;
+import com.dilly.gift.domain.giftbox.GiftBox;
+import com.dilly.gift.domain.receiver.Receiver;
 import com.dilly.member.domain.Member;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;

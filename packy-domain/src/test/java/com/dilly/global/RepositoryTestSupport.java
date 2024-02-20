@@ -10,14 +10,15 @@ import com.dilly.gift.dao.ProfileImageRepository;
 import com.dilly.gift.dao.StickerRepository;
 import com.dilly.gift.dao.querydsl.GiftBoxQueryRepository;
 import com.dilly.gift.domain.Box;
-import com.dilly.gift.domain.Envelope;
-import com.dilly.gift.domain.Gift;
-import com.dilly.gift.domain.GiftBox;
-import com.dilly.gift.domain.GiftBoxSticker;
-import com.dilly.gift.domain.GiftType;
-import com.dilly.gift.domain.Letter;
 import com.dilly.gift.domain.Photo;
-import com.dilly.gift.domain.Sticker;
+import com.dilly.gift.domain.gift.Gift;
+import com.dilly.gift.domain.gift.GiftType;
+import com.dilly.gift.domain.giftbox.DeliverStatus;
+import com.dilly.gift.domain.giftbox.GiftBox;
+import com.dilly.gift.domain.letter.Envelope;
+import com.dilly.gift.domain.letter.Letter;
+import com.dilly.gift.domain.sticker.GiftBoxSticker;
+import com.dilly.gift.domain.sticker.Sticker;
 import com.dilly.global.config.P6SpyFormatter;
 import com.dilly.global.config.TestQueryDslConfig;
 import com.dilly.member.MemberRepository;
@@ -85,6 +86,7 @@ public abstract class RepositoryTestSupport {
             .senderName("테스트유저")
             .receiverName("테스트유저2")
             .gift(Gift.of(GiftType.PHOTO, "www.test.com"))
+            .deliverStatus(DeliverStatus.DELIVERED)
             .build());
 
         photoRepository.save(Photo.of(giftBox, "www.test.com", "test", 1));

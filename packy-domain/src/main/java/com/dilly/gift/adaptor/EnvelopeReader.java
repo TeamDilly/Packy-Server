@@ -3,7 +3,7 @@ package com.dilly.gift.adaptor;
 import com.dilly.exception.ErrorCode;
 import com.dilly.exception.entitynotfound.EntityNotFoundException;
 import com.dilly.gift.dao.EnvelopeRepository;
-import com.dilly.gift.domain.Envelope;
+import com.dilly.gift.domain.letter.Envelope;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

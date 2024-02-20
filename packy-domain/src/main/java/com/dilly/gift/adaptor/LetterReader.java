@@ -4,7 +4,7 @@ import com.dilly.exception.ErrorCode;
 import com.dilly.exception.entitynotfound.EntityNotFoundException;
 import com.dilly.gift.dao.LetterRepository;
 import com.dilly.gift.dao.querydsl.LetterQueryRepository;
-import com.dilly.gift.domain.Letter;
+import com.dilly.gift.domain.letter.Letter;
 import com.dilly.member.domain.Member;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;

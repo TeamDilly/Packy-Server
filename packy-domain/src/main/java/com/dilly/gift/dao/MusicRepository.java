@@ -1,6 +1,6 @@
 package com.dilly.gift.dao;
 
-import com.dilly.gift.domain.Music;
+import com.dilly.admin.domain.music.Music;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 

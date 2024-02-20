@@ -1,11 +1,11 @@
 package com.dilly.gift.dao.querydsl;
 
-import static com.dilly.gift.domain.QGiftBox.giftBox;
 import static com.dilly.gift.domain.QPhoto.photo;
-import static com.dilly.gift.domain.QReceiver.receiver;
+import static com.dilly.gift.domain.giftbox.QGiftBox.giftBox;
+import static com.dilly.gift.domain.receiver.QReceiver.receiver;
 
 import com.dilly.gift.domain.Photo;
-import com.dilly.gift.domain.ReceiverStatus;
+import com.dilly.gift.domain.receiver.ReceiverStatus;
 import com.dilly.member.domain.Member;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
