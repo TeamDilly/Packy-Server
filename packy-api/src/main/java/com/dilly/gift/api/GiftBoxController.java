@@ -7,6 +7,7 @@ import com.dilly.gift.dto.request.GiftBoxRequest;
 import com.dilly.gift.dto.response.GiftBoxIdResponse;
 import com.dilly.gift.dto.response.GiftBoxResponse;
 import com.dilly.gift.dto.response.GiftBoxesResponse;
+import com.dilly.gift.dto.response.WaitingGiftBoxResponse;
 import com.dilly.global.response.DataResponseDto;
 import com.dilly.global.response.SliceResponseDto;
 import com.dilly.global.swagger.ApiErrorCodeExamples;
@@ -17,6 +18,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -122,5 +124,11 @@ public class GiftBoxController {
     ) {
         return DataResponseDto.from(
             giftBoxService.updateDeliverStatus(giftBoxId, deliverStatusRequest));
+    }
+
+    @Operation(summary = "보내지 않은 선물박스 조회", description = "최신순으로 6개를 조회합니다.")
+    @GetMapping("/waiting")
+    public DataResponseDto<List<WaitingGiftBoxResponse>> getWaitingGiftBoxes() {
+        return DataResponseDto.from(giftBoxService.getWaitingGiftBoxes());
     }
 }
