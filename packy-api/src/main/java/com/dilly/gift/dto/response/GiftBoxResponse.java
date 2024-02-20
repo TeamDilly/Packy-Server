@@ -1,6 +1,6 @@
 package com.dilly.gift.dto.response;
 
-import com.dilly.gift.domain.GiftBox;
+import com.dilly.gift.domain.giftbox.GiftBox;
 import com.dilly.gift.dto.response.GiftResponseDto.GiftResponse;
 import com.dilly.gift.dto.response.PhotoResponseDto.PhotoResponse;
 import com.fasterxml.jackson.annotation.JsonInclude;

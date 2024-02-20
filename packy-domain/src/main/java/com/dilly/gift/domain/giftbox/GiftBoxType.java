@@ -1,4 +1,4 @@
-package com.dilly.gift.domain;
+package com.dilly.gift.domain.giftbox;
 
 public enum GiftBoxType {
     PRIVATE,

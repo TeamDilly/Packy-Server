@@ -2,7 +2,7 @@ package com.dilly.gift.dao.querydsl;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.dilly.gift.domain.GiftBox;
+import com.dilly.gift.domain.giftbox.GiftBox;
 import com.dilly.global.RepositoryTestSupport;
 import com.dilly.member.domain.Member;
 import org.junit.jupiter.api.BeforeEach;

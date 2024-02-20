@@ -1,6 +1,6 @@
 package com.dilly.gift.dto.response;
 
-import com.dilly.gift.domain.Letter;
+import com.dilly.gift.domain.letter.Letter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 

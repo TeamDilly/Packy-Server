@@ -1,4 +1,4 @@
-package com.dilly.admin.domain;
+package com.dilly.admin.domain.setting;
 
 public enum SettingTag {
     OFFICIAL_SNS,

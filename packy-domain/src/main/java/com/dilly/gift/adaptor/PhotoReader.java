@@ -4,7 +4,7 @@ import com.dilly.exception.ErrorCode;
 import com.dilly.exception.entitynotfound.EntityNotFoundException;
 import com.dilly.gift.dao.PhotoRepository;
 import com.dilly.gift.dao.querydsl.PhotoQueryRepository;
-import com.dilly.gift.domain.GiftBox;
+import com.dilly.gift.domain.giftbox.GiftBox;
 import com.dilly.gift.domain.Photo;
 import com.dilly.member.domain.Member;
 import java.time.LocalDateTime;

@@ -1,7 +1,7 @@
 package com.dilly.admin.adaptor;
 
 import com.dilly.admin.dao.SettingRepository;
-import com.dilly.admin.domain.Setting;
+import com.dilly.admin.domain.setting.Setting;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
