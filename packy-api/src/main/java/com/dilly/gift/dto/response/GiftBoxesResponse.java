@@ -19,7 +19,7 @@ public record GiftBoxesResponse(
     String receiver,
     @Schema(example = "최고의선물박스")
     String name,
-    @Schema(example = "2024-01-01T00:00:00")
+    @Schema(example = "2024-01-01T00:00:00.0000")
     LocalDateTime giftBoxDate,
     @Schema(example = "www.example.com")
     String boxNormal

@@ -35,6 +35,7 @@ import com.dilly.gift.dto.response.GiftBoxesResponse;
 import com.dilly.gift.dto.response.GiftResponseDto.GiftResponse;
 import com.dilly.gift.dto.response.PhotoResponseDto.PhotoResponse;
 import com.dilly.gift.dto.response.StickerResponse;
+import com.dilly.gift.dto.response.WaitingGiftBoxResponse;
 import com.dilly.global.utils.SecurityUtil;
 import com.dilly.member.adaptor.MemberReader;
 import com.dilly.member.domain.Member;
@@ -294,5 +295,15 @@ public class GiftBoxService {
         giftBox.updateDeliverStatus(deliverStatus);
 
         return "선물박스 전송 상태가 변경되었습니다";
+    }
+
+    public List<WaitingGiftBoxResponse> getWaitingGiftBoxes() {
+        Long memberId = SecurityUtil.getMemberId();
+        Member member = memberReader.findById(memberId);
+
+        return giftBoxReader.findTop6BySenderAndDeliverStatusAndSenderDeletedOrderByCreatedAtDesc(
+                member, DeliverStatus.WAITING).stream()
+            .map(WaitingGiftBoxResponse::from)
+            .toList();
     }
 }

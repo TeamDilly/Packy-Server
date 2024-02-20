@@ -6,11 +6,12 @@ import static org.assertj.core.api.Assertions.tuple;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.dilly.exception.GiftBoxAlreadyOpenedException;
-import com.dilly.gift.domain.giftbox.GiftBox;
-import com.dilly.gift.domain.sticker.GiftBoxSticker;
-import com.dilly.gift.domain.giftbox.GiftBoxType;
 import com.dilly.gift.domain.Photo;
+import com.dilly.gift.domain.giftbox.DeliverStatus;
+import com.dilly.gift.domain.giftbox.GiftBox;
+import com.dilly.gift.domain.giftbox.GiftBoxType;
 import com.dilly.gift.domain.receiver.Receiver;
+import com.dilly.gift.domain.sticker.GiftBoxSticker;
 import com.dilly.gift.dto.request.GiftBoxRequest;
 import com.dilly.gift.dto.request.GiftRequest;
 import com.dilly.gift.dto.request.PhotoRequest;
@@ -21,6 +22,7 @@ import com.dilly.gift.dto.response.GiftBoxResponse;
 import com.dilly.gift.dto.response.GiftResponseDto.GiftResponse;
 import com.dilly.gift.dto.response.PhotoResponseDto.PhotoResponse;
 import com.dilly.gift.dto.response.StickerResponse;
+import com.dilly.gift.dto.response.WaitingGiftBoxResponse;
 import com.dilly.global.IntegrationTestSupport;
 import com.dilly.global.WithCustomMockUser;
 import com.dilly.global.utils.SecurityUtil;
@@ -165,7 +167,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
             @WithCustomMockUser(id = "2")
             void openGiftBoxWithGift() {
                 // given
-                giftBoxWithGift = createMockGiftBoxWithGift(member1);
+                giftBoxWithGift = createMockGiftBoxWithGift(member1, DeliverStatus.DELIVERED);
                 Long receiverBefore = receiverRepository.countByGiftBox(giftBoxWithGift);
                 List<PhotoResponse> expectedPhotoResponses = photoRepository.findAllByGiftBox(
                         giftBoxWithGift).stream()
@@ -208,7 +210,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
             @WithCustomMockUser(id = "2")
             void openGiftBoxWithoutGift() {
                 // given
-                giftBoxWithoutGift = createMockGiftBoxWithoutGift(member1);
+                giftBoxWithoutGift = createMockGiftBoxWithoutGift(member1, DeliverStatus.DELIVERED);
                 Long receiverBefore = receiverRepository.countByGiftBox(giftBoxWithoutGift);
                 List<PhotoResponse> expectedPhotoResponses = photoRepository.findAllByGiftBox(
                         giftBoxWithoutGift).stream()
@@ -251,7 +253,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
         @DisplayName("이미 열린 선물박스일 경우")
         class ContextWithAlreadyOpenedGiftBox {
 
-            GiftBox giftBox = createMockGiftBoxWithGift(member1);
+            GiftBox giftBox = createMockGiftBoxWithGift(member1, DeliverStatus.DELIVERED);
 
             @Test
             @DisplayName("선물박스를 이전에 받은 사람은 다시 열 수 있다.")
@@ -307,6 +309,26 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
                 assertThatThrownBy(() -> giftBoxService.openGiftBox(giftBox.getId()))
                     .isInstanceOf(GiftBoxAlreadyOpenedException.class);
             }
+        }
+
+        @DisplayName("보내지 않은 선물박스를 최신순으로 6개 조회한다.")
+        @Test
+        @WithCustomMockUser
+        void getWaitingGiftBoxes() {
+            // given
+            Member member = memberRepository.findById(1L).orElseThrow();
+            for (int i = 0; i < 10; i++) {
+                createMockGiftBoxWithGift(member, DeliverStatus.WAITING);
+            }
+            Long lastGiftBoxId = giftBoxRepository.findTopByOrderByIdDesc().getId();
+
+            // when
+            List<WaitingGiftBoxResponse> result = giftBoxService.getWaitingGiftBoxes();
+
+            // then
+            assertThat(result).hasSize(6);
+            assertThat(result.get(0).id()).isEqualTo(lastGiftBoxId);
+            assertThat(result.get(5).id()).isEqualTo(lastGiftBoxId - 5);
         }
     }
 

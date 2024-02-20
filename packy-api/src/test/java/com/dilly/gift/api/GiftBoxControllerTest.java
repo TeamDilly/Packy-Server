@@ -22,13 +22,16 @@ import com.dilly.gift.dto.response.GiftBoxResponse;
 import com.dilly.gift.dto.response.GiftResponseDto.GiftResponse;
 import com.dilly.gift.dto.response.PhotoResponseDto.PhotoResponse;
 import com.dilly.gift.dto.response.StickerResponse;
+import com.dilly.gift.dto.response.WaitingGiftBoxResponse;
 import com.dilly.global.ControllerTestSupport;
 import com.dilly.global.WithCustomMockUser;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DynamicTest;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
 import org.springframework.http.MediaType;
 
@@ -163,8 +166,6 @@ class GiftBoxControllerTest extends ControllerTestSupport {
                 // when // then
                 mockMvc.perform(
                         get(giftBoxBaseUrl + "/{giftBoxId}", anyLong())
-                            .with(csrf())
-                            .contentType(MediaType.APPLICATION_JSON)
                     )
                     .andDo(print())
                     .andExpect(status().isOk())
@@ -208,8 +209,6 @@ class GiftBoxControllerTest extends ControllerTestSupport {
                 // when // then
                 mockMvc.perform(
                         get(giftBoxBaseUrl + "/{giftBoxId}", anyLong())
-                            .with(csrf())
-                            .contentType(MediaType.APPLICATION_JSON)
                     )
                     .andDo(print())
                     .andExpect(status().isOk())
@@ -234,5 +233,36 @@ class GiftBoxControllerTest extends ControllerTestSupport {
                         jsonPath("$.data.stickers", hasSize(giftBoxResponse.stickers().size())));
             })
         );
+    }
+
+    @DisplayName("보내지 않은 선물박스를 최신순으로 6개 조회한다.")
+    @Test
+    @WithCustomMockUser
+    void getWaitingGiftBoxes() throws Exception {
+        // given
+        List<WaitingGiftBoxResponse> waitingGiftBoxResponses = new ArrayList<>();
+
+        for (int i = 1; i <= 6; i++) {
+            waitingGiftBoxResponses.add(WaitingGiftBoxResponse.builder()
+                .id((long) i)
+                .name("test" + i)
+                .receiverName("receiver" + i)
+                .smallImgUrl("www.example.com")
+                .build());
+        }
+
+        given(giftBoxService.getWaitingGiftBoxes()).willReturn(waitingGiftBoxResponses);
+
+        // when // then
+        mockMvc.perform(
+                get(giftBoxBaseUrl + "/waiting")
+            )
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.data").isArray())
+            .andExpect(jsonPath("$.data", hasSize(6)))
+            .andExpect(jsonPath("$.data[0].id").value(waitingGiftBoxResponses.get(0).id()))
+            .andExpect(jsonPath("$.data[5].id").value(waitingGiftBoxResponses.get(5).id()));
+
     }
 }
