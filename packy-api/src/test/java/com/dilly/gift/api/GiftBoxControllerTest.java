@@ -163,8 +163,6 @@ class GiftBoxControllerTest extends ControllerTestSupport {
                 // when // then
                 mockMvc.perform(
                         get(giftBoxBaseUrl + "/{giftBoxId}", anyLong())
-                            .with(csrf())
-                            .contentType(MediaType.APPLICATION_JSON)
                     )
                     .andDo(print())
                     .andExpect(status().isOk())
@@ -208,8 +206,6 @@ class GiftBoxControllerTest extends ControllerTestSupport {
                 // when // then
                 mockMvc.perform(
                         get(giftBoxBaseUrl + "/{giftBoxId}", anyLong())
-                            .with(csrf())
-                            .contentType(MediaType.APPLICATION_JSON)
                     )
                     .andDo(print())
                     .andExpect(status().isOk())
