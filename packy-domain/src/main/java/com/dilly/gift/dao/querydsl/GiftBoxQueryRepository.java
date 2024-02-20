@@ -3,6 +3,7 @@ package com.dilly.gift.dao.querydsl;
 import static com.dilly.gift.domain.giftbox.QGiftBox.giftBox;
 import static com.dilly.gift.domain.receiver.QReceiver.receiver;
 
+import com.dilly.gift.domain.giftbox.DeliverStatus;
 import com.dilly.gift.domain.giftbox.GiftBox;
 import com.dilly.gift.domain.receiver.ReceiverStatus;
 import com.dilly.member.domain.Member;
@@ -79,7 +80,8 @@ public class GiftBoxQueryRepository {
             .where(
                 ltGiftBoxDate(lastGiftBoxDate),
                 giftBox.sender.eq(member),
-                giftBox.senderDeleted.eq(false))
+                giftBox.senderDeleted.eq(false),
+                giftBox.deliverStatus.eq(DeliverStatus.DELIVERED))
             .orderBy(giftBox.createdAt.desc())
             .limit(pageable.getPageSize() + 1L)
             .fetch();
