@@ -18,14 +18,15 @@ import com.dilly.gift.dao.ProfileImageRepository;
 import com.dilly.gift.dao.ReceiverRepository;
 import com.dilly.gift.dao.StickerRepository;
 import com.dilly.gift.domain.Box;
-import com.dilly.gift.domain.letter.Envelope;
-import com.dilly.gift.domain.gift.Gift;
-import com.dilly.gift.domain.giftbox.GiftBox;
-import com.dilly.gift.domain.sticker.GiftBoxSticker;
-import com.dilly.gift.domain.gift.GiftType;
-import com.dilly.gift.domain.letter.Letter;
 import com.dilly.gift.domain.Photo;
+import com.dilly.gift.domain.gift.Gift;
+import com.dilly.gift.domain.gift.GiftType;
+import com.dilly.gift.domain.giftbox.DeliverStatus;
+import com.dilly.gift.domain.giftbox.GiftBox;
+import com.dilly.gift.domain.letter.Envelope;
+import com.dilly.gift.domain.letter.Letter;
 import com.dilly.gift.domain.receiver.Receiver;
+import com.dilly.gift.domain.sticker.GiftBoxSticker;
 import com.dilly.gift.domain.sticker.Sticker;
 import com.dilly.member.MemberRepository;
 import com.dilly.member.domain.Member;
@@ -111,8 +112,17 @@ public abstract class IntegrationTestSupport {
         Letter letter = letterRepository.save(Letter.of("test", envelope));
         Gift gift = Gift.of(GiftType.PHOTO, "www.test.com");
 
-        GiftBox giftBox = giftBoxWriter.save(box, letter, gift, member, "test", "www.youtube.com",
-            "sender", "receiver");
+        GiftBox giftBox = giftBoxRepository.save(GiftBox.builder()
+            .box(box)
+            .letter(letter)
+            .gift(gift)
+            .sender(member)
+            .name("test")
+            .youtubeUrl("www.youtube.com")
+            .senderName("sender")
+            .receiverName("receiver")
+            .deliverStatus(DeliverStatus.DELIVERED)
+            .build());
 
         photoRepository.save(Photo.of(giftBox, "www.test.com", "test", 1));
         for (long i = 1; i <= 2; i++) {
@@ -128,8 +138,16 @@ public abstract class IntegrationTestSupport {
         Envelope envelope = envelopeRepository.findById(1L).orElseThrow();
         Letter letter = letterRepository.save(Letter.of("test", envelope));
 
-        GiftBox giftBox = giftBoxWriter.save(box, letter, member, "test", "www.youtube.com",
-            "sender", "receiver");
+        GiftBox giftBox = giftBoxRepository.save(GiftBox.builder()
+            .box(box)
+            .letter(letter)
+            .sender(member)
+            .name("test")
+            .youtubeUrl("www.youtube.com")
+            .senderName("sender")
+            .receiverName("receiver")
+            .deliverStatus(DeliverStatus.DELIVERED)
+            .build());
 
         photoRepository.save(Photo.of(giftBox, "www.test.com", "test", 1));
         for (long i = 1; i <= 2; i++) {
