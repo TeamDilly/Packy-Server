@@ -106,7 +106,7 @@ public abstract class IntegrationTestSupport {
     @Autowired
     protected SettingRepository settingRepository;
 
-    protected GiftBox createMockGiftBoxWithGift(Member member) {
+    protected GiftBox createMockGiftBoxWithGift(Member member, DeliverStatus deliverStatus) {
         Box box = boxRepository.findById(1L).orElseThrow();
         Envelope envelope = envelopeRepository.findById(1L).orElseThrow();
         Letter letter = letterRepository.save(Letter.of("test", envelope));
@@ -121,7 +121,7 @@ public abstract class IntegrationTestSupport {
             .youtubeUrl("www.youtube.com")
             .senderName("sender")
             .receiverName("receiver")
-            .deliverStatus(DeliverStatus.DELIVERED)
+            .deliverStatus(deliverStatus)
             .build());
 
         photoRepository.save(Photo.of(giftBox, "www.test.com", "test", 1));
@@ -133,7 +133,7 @@ public abstract class IntegrationTestSupport {
         return giftBox;
     }
 
-    protected GiftBox createMockGiftBoxWithoutGift(Member member) {
+    protected GiftBox createMockGiftBoxWithoutGift(Member member, DeliverStatus deliverStatus) {
         Box box = boxRepository.findById(1L).orElseThrow();
         Envelope envelope = envelopeRepository.findById(1L).orElseThrow();
         Letter letter = letterRepository.save(Letter.of("test", envelope));
@@ -146,7 +146,7 @@ public abstract class IntegrationTestSupport {
             .youtubeUrl("www.youtube.com")
             .senderName("sender")
             .receiverName("receiver")
-            .deliverStatus(DeliverStatus.DELIVERED)
+            .deliverStatus(deliverStatus)
             .build());
 
         photoRepository.save(Photo.of(giftBox, "www.test.com", "test", 1));

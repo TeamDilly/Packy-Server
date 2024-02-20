@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.tuple;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.dilly.exception.GiftBoxAlreadyOpenedException;
+import com.dilly.gift.domain.giftbox.DeliverStatus;
 import com.dilly.gift.domain.giftbox.GiftBox;
 import com.dilly.gift.domain.sticker.GiftBoxSticker;
 import com.dilly.gift.domain.giftbox.GiftBoxType;
@@ -165,7 +166,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
             @WithCustomMockUser(id = "2")
             void openGiftBoxWithGift() {
                 // given
-                giftBoxWithGift = createMockGiftBoxWithGift(member1);
+                giftBoxWithGift = createMockGiftBoxWithGift(member1, DeliverStatus.DELIVERED);
                 Long receiverBefore = receiverRepository.countByGiftBox(giftBoxWithGift);
                 List<PhotoResponse> expectedPhotoResponses = photoRepository.findAllByGiftBox(
                         giftBoxWithGift).stream()
@@ -208,7 +209,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
             @WithCustomMockUser(id = "2")
             void openGiftBoxWithoutGift() {
                 // given
-                giftBoxWithoutGift = createMockGiftBoxWithoutGift(member1);
+                giftBoxWithoutGift = createMockGiftBoxWithoutGift(member1, DeliverStatus.DELIVERED);
                 Long receiverBefore = receiverRepository.countByGiftBox(giftBoxWithoutGift);
                 List<PhotoResponse> expectedPhotoResponses = photoRepository.findAllByGiftBox(
                         giftBoxWithoutGift).stream()
@@ -251,7 +252,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
         @DisplayName("이미 열린 선물박스일 경우")
         class ContextWithAlreadyOpenedGiftBox {
 
-            GiftBox giftBox = createMockGiftBoxWithGift(member1);
+            GiftBox giftBox = createMockGiftBoxWithGift(member1, DeliverStatus.DELIVERED);
 
             @Test
             @DisplayName("선물박스를 이전에 받은 사람은 다시 열 수 있다.")
