@@ -102,7 +102,7 @@ public class AdminService {
     public GiftBoxResponse getPackyGiftBox(String screenType) {
         ScreenType type;
         try {
-            type = ScreenType.valueOf(screenType);
+            type = ScreenType.valueOf(screenType.toUpperCase());
         } catch (IllegalArgumentException e) {
             throw new UnsupportedException(ErrorCode.UNSUPPORTED_SCREEN_TYPE);
         }
