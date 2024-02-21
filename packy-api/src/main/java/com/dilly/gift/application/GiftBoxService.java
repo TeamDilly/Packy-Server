@@ -152,7 +152,7 @@ public class GiftBoxService {
             .sorted(Comparator.comparingInt(PhotoResponse::sequence))
             .toList();
         List<StickerResponse> stickers = giftBoxStickerReader.findAllByGiftBox(giftBox).stream()
-            .map(StickerResponse::of)
+            .map(StickerResponse::from)
             .sorted(Comparator.comparingInt(StickerResponse::location))
             .toList();
 

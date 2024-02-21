@@ -17,7 +17,7 @@ public record LetterResponse(
         return LetterResponse.builder()
             .id(letter.getId())
             .letterContent(letter.getContent())
-            .envelope(EnvelopeResponse.of(letter.getEnvelope()))
+            .envelope(EnvelopeResponse.from(letter.getEnvelope()))
             .build();
     }
 }
