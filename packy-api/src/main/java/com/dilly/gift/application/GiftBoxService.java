@@ -145,8 +145,9 @@ public class GiftBoxService {
 
         checkIfGiftBoxOpenable(member, giftBox);
 
-        BoxResponse boxResponse = BoxResponse.of(giftBox.getBox());
-        EnvelopeResponse envelopeResponse = EnvelopeResponse.of(giftBox.getLetter().getEnvelope());
+        BoxResponse boxResponse = BoxResponse.from(giftBox.getBox());
+        EnvelopeResponse envelopeResponse = EnvelopeResponse.from(
+            giftBox.getLetter().getEnvelope());
         List<PhotoResponse> photos = photoReader.findAllByGiftBox(giftBox).stream()
             .map(PhotoResponse::from)
             .sorted(Comparator.comparingInt(PhotoResponse::sequence))
