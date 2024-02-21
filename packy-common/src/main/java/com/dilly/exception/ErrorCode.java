@@ -68,6 +68,7 @@ public enum ErrorCode {
     ENVELOPE_NOT_FOUND(HttpStatus.NOT_FOUND, "편지 봉투를 찾을 수 없습니다."),
     GIFTBOX_ALREADY_OPENDED(HttpStatus.CONFLICT, "이미 열린 선물입니다."),
     GIFTBOX_ACCESS_DENIED(HttpStatus.FORBIDDEN, "선물박스에 접근할 수 없습니다."),
+    GIFTBOX_ALREADY_DELETED(HttpStatus.NOT_FOUND, "이미 삭제된 선물박스입니다."),
     ;
 
     private final HttpStatus httpStatus;

@@ -2,6 +2,7 @@ package com.dilly.gift.application;
 
 import com.dilly.exception.ErrorCode;
 import com.dilly.exception.GiftBoxAccessDeniedException;
+import com.dilly.exception.GiftBoxAlreadyDeletedException;
 import com.dilly.exception.GiftBoxAlreadyOpenedException;
 import com.dilly.exception.UnsupportedException;
 import com.dilly.gift.adaptor.BoxReader;
@@ -111,14 +112,16 @@ public class GiftBoxService {
     // TODO: 가독성 개선하기
     void checkIfGiftBoxOpenable(Member member, GiftBox giftBox) {
         // 카카오톡으로 보내기를 누르지 않은 선물박스
-        if (giftBox.getDeliverStatus().equals(DeliverStatus.WAITING)) {
+        // 만든 유저는 선물박스에 접근 가능
+        if (giftBox.getDeliverStatus().equals(DeliverStatus.WAITING) && (!giftBox.getSender()
+            .equals(member))) {
             throw new GiftBoxAccessDeniedException();
         }
 
         // 선물박스를 만든 유저가 삭제했을 경우, 만든 유저가 선물박스에 접근 불가능
         if (giftBox.getSender().equals(member)) {
             if (giftBox.getSenderDeleted().equals(true)) {
-                throw new GiftBoxAccessDeniedException();
+                throw new GiftBoxAlreadyDeletedException();
             }
         } else {
             List<Long> receivers = receiverReader.findByGiftBox(giftBox).stream()
@@ -126,23 +129,25 @@ public class GiftBoxService {
                 .map(Member::getId)
                 .toList();
 
-            // 선물박스를 받기 전이며 만든 유저가 삭제하지 않았을 경우
-            if (receivers.isEmpty() && giftBox.getSenderDeleted().equals(false)) {
-                receiverWriter.save(member, giftBox);
-                return;
-            }
+            // 선물박스를 받은 사람이 없을 경우
+            if (receivers.isEmpty()) {
+                if (giftBox.getSenderDeleted().equals(false)) {
+                    receiverWriter.save(member, giftBox);
+                }
+            } else { // 선물박스를 받은 사람이 있을 경우
+                // 이전에 선물박스를 받은 유저인 경우
+                if (receivers.contains(member.getId())) {
+                    Receiver receiver = receiverReader.findByMemberAndGiftBox(member, giftBox);
+                    // 받은 사람이 삭제했을 경우
+                    if (receiver.getStatus().equals(ReceiverStatus.DELETED)) {
+                        throw new GiftBoxAlreadyDeletedException();
+                    }
+                } else { // 이전에 선물박스를 받지 않은 유저인 경우
+                    if (giftBox.getGiftBoxType().equals(GiftBoxType.PRIVATE)) {
+                        throw new GiftBoxAlreadyOpenedException();
+                    }
+                }
 
-            // 이전에 선물박스를 받았던 유저인 경우
-            if (receivers.contains(member.getId())) {
-                Receiver receiver = receiverReader.findByMemberAndGiftBox(member, giftBox);
-                // 받은 사람이 삭제했을 경우
-                if (receiver.getStatus().equals(ReceiverStatus.DELETED)) {
-                    throw new GiftBoxAccessDeniedException();
-                }
-            } else { // 이전에 선물박스를 받지 않은 유저인 경우
-                if (giftBox.getGiftBoxType().equals(GiftBoxType.PRIVATE)) {
-                    throw new GiftBoxAlreadyOpenedException();
-                }
             }
         }
     }
