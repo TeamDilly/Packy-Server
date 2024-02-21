@@ -2,6 +2,7 @@ package com.dilly.gift.application;
 
 import com.dilly.exception.ErrorCode;
 import com.dilly.exception.GiftBoxAccessDeniedException;
+import com.dilly.exception.GiftBoxAlreadyDeletedException;
 import com.dilly.exception.GiftBoxAlreadyOpenedException;
 import com.dilly.exception.UnsupportedException;
 import com.dilly.gift.adaptor.BoxReader;
@@ -111,7 +112,9 @@ public class GiftBoxService {
     // TODO: 가독성 개선하기
     void checkIfGiftBoxOpenable(Member member, GiftBox giftBox) {
         // 카카오톡으로 보내기를 누르지 않은 선물박스
-        if (giftBox.getDeliverStatus().equals(DeliverStatus.WAITING)) {
+        // 만든 유저는 선물박스에 접근 가능
+        if (giftBox.getDeliverStatus().equals(DeliverStatus.WAITING) && (!giftBox.getSender()
+            .equals(member))) {
             throw new GiftBoxAccessDeniedException();
         }
 
