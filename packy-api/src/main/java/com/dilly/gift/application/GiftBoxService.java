@@ -21,6 +21,7 @@ import com.dilly.gift.domain.gift.GiftType;
 import com.dilly.gift.domain.giftbox.DeliverStatus;
 import com.dilly.gift.domain.giftbox.GiftBox;
 import com.dilly.gift.domain.giftbox.GiftBoxRole;
+import com.dilly.gift.domain.giftbox.GiftBoxType;
 import com.dilly.gift.domain.letter.Envelope;
 import com.dilly.gift.domain.letter.Letter;
 import com.dilly.gift.domain.receiver.Receiver;
@@ -107,11 +108,14 @@ public class GiftBoxService {
             giftBox.getBox().getKakaoMessageImgUrl());
     }
 
+    // TODO: 가독성 개선하기
     void checkIfGiftBoxOpenable(Member member, GiftBox giftBox) {
+        // 카카오톡으로 보내기를 누르지 않은 선물박스
         if (giftBox.getDeliverStatus().equals(DeliverStatus.WAITING)) {
             throw new GiftBoxAccessDeniedException();
         }
 
+        // 선물박스를 만든 유저가 삭제했을 경우, 만든 유저가 선물박스에 접근 불가능
         if (giftBox.getSender().equals(member)) {
             if (giftBox.getSenderDeleted().equals(true)) {
                 throw new GiftBoxAccessDeniedException();
@@ -122,18 +126,23 @@ public class GiftBoxService {
                 .map(Member::getId)
                 .toList();
 
+            // 선물박스를 받기 전이며 만든 유저가 삭제하지 않았을 경우
             if (receivers.isEmpty() && giftBox.getSenderDeleted().equals(false)) {
                 receiverWriter.save(member, giftBox);
                 return;
             }
 
+            // 이전에 선물박스를 받았던 유저인 경우
             if (receivers.contains(member.getId())) {
                 Receiver receiver = receiverReader.findByMemberAndGiftBox(member, giftBox);
+                // 받은 사람이 삭제했을 경우
                 if (receiver.getStatus().equals(ReceiverStatus.DELETED)) {
                     throw new GiftBoxAccessDeniedException();
                 }
-            } else {
-                throw new GiftBoxAlreadyOpenedException();
+            } else { // 이전에 선물박스를 받지 않은 유저인 경우
+                if (giftBox.getGiftBoxType().equals(GiftBoxType.PRIVATE)) {
+                    throw new GiftBoxAlreadyOpenedException();
+                }
             }
         }
     }
@@ -145,14 +154,15 @@ public class GiftBoxService {
 
         checkIfGiftBoxOpenable(member, giftBox);
 
-        BoxResponse boxResponse = BoxResponse.of(giftBox.getBox());
-        EnvelopeResponse envelopeResponse = EnvelopeResponse.of(giftBox.getLetter().getEnvelope());
+        BoxResponse boxResponse = BoxResponse.from(giftBox.getBox());
+        EnvelopeResponse envelopeResponse = EnvelopeResponse.from(
+            giftBox.getLetter().getEnvelope());
         List<PhotoResponse> photos = photoReader.findAllByGiftBox(giftBox).stream()
             .map(PhotoResponse::from)
             .sorted(Comparator.comparingInt(PhotoResponse::sequence))
             .toList();
         List<StickerResponse> stickers = giftBoxStickerReader.findAllByGiftBox(giftBox).stream()
-            .map(StickerResponse::of)
+            .map(StickerResponse::from)
             .sorted(Comparator.comparingInt(StickerResponse::location))
             .toList();
 

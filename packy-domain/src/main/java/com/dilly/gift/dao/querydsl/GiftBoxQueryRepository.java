@@ -1,13 +1,16 @@
 package com.dilly.gift.dao.querydsl;
 
+import static com.dilly.gift.domain.giftbox.QAdminGiftBox.adminGiftBox;
 import static com.dilly.gift.domain.giftbox.QGiftBox.giftBox;
 import static com.dilly.gift.domain.receiver.QReceiver.receiver;
 
+import com.dilly.admin.domain.giftbox.ScreenType;
 import com.dilly.gift.domain.giftbox.DeliverStatus;
 import com.dilly.gift.domain.giftbox.GiftBox;
 import com.dilly.gift.domain.receiver.ReceiverStatus;
 import com.dilly.member.domain.Member;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -92,11 +95,17 @@ public class GiftBoxQueryRepository {
         return jpaQueryFactory.select(giftBox)
             .from(receiver)
             .join(receiver.giftBox, giftBox)
+            .leftJoin(giftBox.adminGiftBox, adminGiftBox)
             .where(
                 ltReceivedDate(lastGiftBoxDate),
                 receiver.member.eq(member),
                 receiver.status.eq(ReceiverStatus.RECEIVED))
-            .orderBy(receiver.createdAt.desc())
+            .orderBy(
+                new CaseBuilder()
+                    .when(adminGiftBox.screenType.eq(ScreenType.ONBOARDING)).then(1)
+                    .otherwise(0).asc(),
+                receiver.createdAt.desc()
+            )
             .limit(pageable.getPageSize() + 1L)
             .fetch();
     }

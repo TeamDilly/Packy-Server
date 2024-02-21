@@ -14,7 +14,7 @@ public record EnvelopeResponse(
     Integer opacity
 ) {
 
-    public static EnvelopeResponse of(Envelope envelope) {
+    public static EnvelopeResponse from(Envelope envelope) {
         return EnvelopeResponse.builder()
             .imgUrl(envelope.getImgUrl())
             .borderColorCode(envelope.getLetterPaper().getLetterBorderColorCode())

@@ -4,6 +4,8 @@ import static com.dilly.member.domain.Provider.APPLE;
 import static com.dilly.member.domain.Provider.KAKAO;
 import static com.dilly.member.domain.Provider.TEST;
 
+import com.dilly.admin.adaptor.AdminGiftBoxReader;
+import com.dilly.admin.domain.giftbox.ScreenType;
 import com.dilly.auth.adaptor.AppleAccountReader;
 import com.dilly.auth.adaptor.AppleAccountWriter;
 import com.dilly.auth.adaptor.KakaoAccountReader;
@@ -17,6 +19,8 @@ import com.dilly.auth.model.AppleToken;
 import com.dilly.auth.model.KakaoResource;
 import com.dilly.exception.ErrorCode;
 import com.dilly.exception.UnsupportedException;
+import com.dilly.gift.adaptor.ReceiverWriter;
+import com.dilly.gift.domain.giftbox.GiftBox;
 import com.dilly.global.utils.SecurityUtil;
 import com.dilly.jwt.JwtService;
 import com.dilly.jwt.RefreshToken;
@@ -54,6 +58,8 @@ public class AuthService {
 	private final AppleAccountWriter appleAccountWriter;
 	private final JwtReader jwtReader;
 	private final JwtWriter jwtWriter;
+	private final AdminGiftBoxReader adminGiftBoxReader;
+	private final ReceiverWriter receiverWriter;
 
 	public JwtResponse signUp(String providerAccessToken, SignupRequest signupRequest) {
 		Provider provider;
@@ -92,6 +98,10 @@ public class AuthService {
 
 			default -> throw new UnsupportedException(ErrorCode.UNSUPPORTED_LOGIN_TYPE);
 		}
+
+		GiftBox onboardingGiftBox = adminGiftBoxReader.findByScreenType(ScreenType.ONBOARDING)
+			.getGiftBox();
+		receiverWriter.save(member, onboardingGiftBox);
 
 		return jwtService.issueJwt(member);
 	}

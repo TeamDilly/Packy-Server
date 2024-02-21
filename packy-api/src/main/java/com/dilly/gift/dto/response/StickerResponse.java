@@ -9,7 +9,7 @@ public record StickerResponse(
     Integer location
 ) {
 
-    public static StickerResponse of(GiftBoxSticker giftBoxSticker) {
+    public static StickerResponse from(GiftBoxSticker giftBoxSticker) {
         return StickerResponse.builder()
             .imgUrl(giftBoxSticker.getSticker().getImgUrl())
             .location(giftBoxSticker.getLocation())
