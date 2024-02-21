@@ -51,7 +51,7 @@ jobs:
         run: |
           mkdir -p deploy/.platform/nginx/conf.d
           cp Dockerrun.aws.dev.json deploy/Dockerrun.aws.json
-          cp -r .ebextensions deploy/.ebextensions
+          cp -r .ebextensions-dev deploy/.ebextensions
           cp .platform/nginx/conf.d/proxy-dev.conf deploy/.platform/nginx/conf.d/proxy.conf
           cd deploy && zip -r deploy.zip .
 
