@@ -35,6 +35,7 @@ import com.dilly.gift.dto.response.GiftBoxIdResponse;
 import com.dilly.gift.dto.response.GiftBoxResponse;
 import com.dilly.gift.dto.response.GiftBoxesResponse;
 import com.dilly.gift.dto.response.GiftResponseDto.GiftResponse;
+import com.dilly.gift.dto.response.KakaoImgResponse;
 import com.dilly.gift.dto.response.PhotoResponseDto.PhotoResponse;
 import com.dilly.gift.dto.response.StickerResponse;
 import com.dilly.gift.dto.response.WaitingGiftBoxResponse;
@@ -320,5 +321,10 @@ public class GiftBoxService {
                 member, DeliverStatus.WAITING).stream()
             .map(WaitingGiftBoxResponse::from)
             .toList();
+    }
+
+    public KakaoImgResponse getKakaoMessageImgUrl(Long giftBoxId) {
+        GiftBox giftBox = giftBoxReader.findById(giftBoxId);
+        return KakaoImgResponse.from(giftBox.getBox().getKakaoMessageImgUrl());
     }
 }
