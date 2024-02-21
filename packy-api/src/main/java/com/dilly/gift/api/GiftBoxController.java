@@ -7,9 +7,11 @@ import com.dilly.gift.dto.request.GiftBoxRequest;
 import com.dilly.gift.dto.response.GiftBoxIdResponse;
 import com.dilly.gift.dto.response.GiftBoxResponse;
 import com.dilly.gift.dto.response.GiftBoxesResponse;
+import com.dilly.gift.dto.response.KakaoImgResponse;
 import com.dilly.gift.dto.response.WaitingGiftBoxResponse;
 import com.dilly.global.response.DataResponseDto;
 import com.dilly.global.response.SliceResponseDto;
+import com.dilly.global.swagger.ApiErrorCodeExample;
 import com.dilly.global.swagger.ApiErrorCodeExamples;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -131,5 +133,14 @@ public class GiftBoxController {
     @GetMapping("/waiting")
     public DataResponseDto<List<WaitingGiftBoxResponse>> getWaitingGiftBoxes() {
         return DataResponseDto.from(giftBoxService.getWaitingGiftBoxes());
+    }
+
+    @Operation(summary = "선물박스 ID로 카카오톡 메시지 이미지 조회")
+    @ApiErrorCodeExample(ErrorCode.GIFTBOX_NOT_FOUND)
+    @GetMapping("/{giftBoxId}/kakao-image")
+    public DataResponseDto<KakaoImgResponse> getKakaoMessageImgUrl(
+        @PathVariable("giftBoxId") Long giftBoxId
+    ) {
+        return DataResponseDto.from(giftBoxService.getKakaoMessageImgUrl(giftBoxId));
     }
 }
