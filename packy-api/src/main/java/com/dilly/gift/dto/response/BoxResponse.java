@@ -15,7 +15,7 @@ public record BoxResponse(
     String boxTop
 ) {
 
-    public static BoxResponse of(Box box) {
+    public static BoxResponse from(Box box) {
         return BoxResponse.builder()
             .id(box.getId())
             .boxNormal(box.getNormalImgUrl())

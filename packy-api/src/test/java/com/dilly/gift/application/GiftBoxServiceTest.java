@@ -155,7 +155,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
 
         GiftBox giftBoxWithGift;
         GiftBox giftBoxWithoutGift;
-        BoxResponse expectedBoxResponse = BoxResponse.of(
+        BoxResponse expectedBoxResponse = BoxResponse.from(
             boxRepository.findById(1L).orElseThrow());
 
         @Nested
@@ -176,7 +176,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
                     .toList();
                 List<StickerResponse> expectedStickerResponses = giftBoxStickerRepository.findAllByGiftBox(
                         giftBoxWithGift).stream()
-                    .map(StickerResponse::of)
+                    .map(StickerResponse::from)
                     .sorted(Comparator.comparingInt(StickerResponse::location))
                     .toList();
                 GiftResponse expectedGiftResponse = GiftResponse.from(giftBoxWithGift.getGift());
@@ -219,7 +219,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
                     .toList();
                 List<StickerResponse> expectedStickerResponses = giftBoxStickerRepository.findAllByGiftBox(
                         giftBoxWithoutGift).stream()
-                    .map(StickerResponse::of)
+                    .map(StickerResponse::from)
                     .sorted(Comparator.comparingInt(StickerResponse::location))
                     .toList();
 
@@ -269,7 +269,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
                     .toList();
                 List<StickerResponse> expectedStickerResponses = giftBoxStickerRepository.findAllByGiftBox(
                         giftBox).stream()
-                    .map(StickerResponse::of)
+                    .map(StickerResponse::from)
                     .sorted(Comparator.comparingInt(StickerResponse::location))
                     .toList();
                 GiftResponse expectedGiftResponse = GiftResponse.from(giftBox.getGift());
