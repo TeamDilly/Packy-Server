@@ -5,6 +5,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 import com.dilly.gift.domain.Box;
 import com.dilly.gift.domain.Photo;
 import com.dilly.gift.domain.gift.Gift;
+import com.dilly.gift.domain.giftbox.admin.AdminGiftBox;
 import com.dilly.gift.domain.letter.Letter;
 import com.dilly.gift.domain.sticker.GiftBoxSticker;
 import com.dilly.global.BaseTimeEntity;

@@ -5,7 +5,6 @@ import static com.dilly.member.domain.Provider.KAKAO;
 import static com.dilly.member.domain.Provider.TEST;
 
 import com.dilly.admin.adaptor.AdminGiftBoxReader;
-import com.dilly.admin.domain.giftbox.ScreenType;
 import com.dilly.auth.adaptor.AppleAccountReader;
 import com.dilly.auth.adaptor.AppleAccountWriter;
 import com.dilly.auth.adaptor.KakaoAccountReader;
@@ -21,6 +20,7 @@ import com.dilly.exception.ErrorCode;
 import com.dilly.exception.UnsupportedException;
 import com.dilly.gift.adaptor.ReceiverWriter;
 import com.dilly.gift.domain.giftbox.GiftBox;
+import com.dilly.gift.domain.giftbox.admin.AdminType;
 import com.dilly.global.utils.SecurityUtil;
 import com.dilly.jwt.JwtService;
 import com.dilly.jwt.RefreshToken;
@@ -99,7 +99,7 @@ public class AuthService {
 			default -> throw new UnsupportedException(ErrorCode.UNSUPPORTED_LOGIN_TYPE);
 		}
 
-		GiftBox onboardingGiftBox = adminGiftBoxReader.findByScreenType(ScreenType.ONBOARDING)
+		GiftBox onboardingGiftBox = adminGiftBoxReader.findByAdminType(AdminType.ONBOARDING)
 			.getGiftBox();
 		receiverWriter.save(member, onboardingGiftBox);
 
