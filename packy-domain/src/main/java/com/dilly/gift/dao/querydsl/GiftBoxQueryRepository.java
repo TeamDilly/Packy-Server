@@ -1,6 +1,5 @@
 package com.dilly.gift.dao.querydsl;
 
-//import static com.dilly.gift.domain.giftbox.QAdminGiftBox.adminGiftBox;
 import static com.dilly.gift.domain.giftbox.QGiftBox.giftBox;
 import static com.dilly.gift.domain.giftbox.admin.QAdminGiftBox.adminGiftBox;
 import static com.dilly.gift.domain.receiver.QReceiver.receiver;
