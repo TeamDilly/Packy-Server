@@ -8,6 +8,7 @@ import com.dilly.gift.dto.response.GiftBoxIdResponse;
 import com.dilly.gift.dto.response.GiftBoxResponse;
 import com.dilly.gift.dto.response.GiftBoxesResponse;
 import com.dilly.gift.dto.response.KakaoImgResponse;
+import com.dilly.gift.dto.response.MainGiftBoxResponse;
 import com.dilly.gift.dto.response.WaitingGiftBoxResponse;
 import com.dilly.global.response.DataResponseDto;
 import com.dilly.global.response.SliceResponseDto;
@@ -142,5 +143,11 @@ public class GiftBoxController {
         @PathVariable("giftBoxId") Long giftBoxId
     ) {
         return DataResponseDto.from(giftBoxService.getKakaoMessageImgUrl(giftBoxId));
+    }
+
+    @Operation(summary = "메인화면에 띄울 선물박스 조회")
+    @GetMapping("/main")
+    public DataResponseDto<MainGiftBoxResponse> getMainGiftBox() {
+        return DataResponseDto.from(giftBoxService.getMainGiftBox());
     }
 }
