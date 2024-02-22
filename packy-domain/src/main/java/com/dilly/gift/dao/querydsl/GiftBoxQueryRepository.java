@@ -1,12 +1,12 @@
 package com.dilly.gift.dao.querydsl;
 
-import static com.dilly.gift.domain.giftbox.QAdminGiftBox.adminGiftBox;
 import static com.dilly.gift.domain.giftbox.QGiftBox.giftBox;
+import static com.dilly.gift.domain.giftbox.admin.QAdminGiftBox.adminGiftBox;
 import static com.dilly.gift.domain.receiver.QReceiver.receiver;
 
-import com.dilly.admin.domain.giftbox.ScreenType;
 import com.dilly.gift.domain.giftbox.DeliverStatus;
 import com.dilly.gift.domain.giftbox.GiftBox;
+import com.dilly.gift.domain.giftbox.admin.AdminType;
 import com.dilly.gift.domain.receiver.ReceiverStatus;
 import com.dilly.member.domain.Member;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -102,7 +102,7 @@ public class GiftBoxQueryRepository {
                 receiver.status.eq(ReceiverStatus.RECEIVED))
             .orderBy(
                 new CaseBuilder()
-                    .when(adminGiftBox.screenType.eq(ScreenType.ONBOARDING)).then(1)
+                    .when(adminGiftBox.adminType.eq(AdminType.ONBOARDING)).then(1)
                     .otherwise(0).asc(),
                 receiver.createdAt.desc()
             )
