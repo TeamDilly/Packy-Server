@@ -9,7 +9,6 @@ import com.dilly.application.YoutubeService;
 import com.dilly.dto.response.StatusResponse;
 import com.dilly.exception.ErrorCode;
 import com.dilly.gift.dto.response.EnvelopeListResponse;
-import com.dilly.gift.dto.response.GiftBoxResponse;
 import com.dilly.global.response.DataResponseDto;
 import com.dilly.global.response.SliceResponseDto;
 import com.dilly.global.swagger.ApiErrorCodeExample;
@@ -23,7 +22,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -106,15 +104,5 @@ public class AdminController {
     @GetMapping("/settings")
     public DataResponseDto<List<SettingResponse>> getSettingUrls() {
         return DataResponseDto.from(adminService.getSettingUrls());
-    }
-
-    @Operation(summary = "패키의 선물박스 조회")
-    @GetMapping("/giftboxes/{screenType}")
-    public DataResponseDto<GiftBoxResponse> getPackyGiftBox(
-        @PathVariable("screenType")
-        @Schema(description = "사용하는 화면", type = "string", allowableValues = {"onboarding"})
-        String screenType
-    ) {
-        return DataResponseDto.from(adminService.getPackyGiftBox(screenType));
     }
 }

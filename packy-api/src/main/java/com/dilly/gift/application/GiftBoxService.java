@@ -1,5 +1,6 @@
 package com.dilly.gift.application;
 
+import com.dilly.admin.adaptor.AdminGiftBoxReader;
 import com.dilly.exception.ErrorCode;
 import com.dilly.exception.GiftBoxAccessDeniedException;
 import com.dilly.exception.GiftBoxAlreadyDeletedException;
@@ -23,6 +24,7 @@ import com.dilly.gift.domain.giftbox.DeliverStatus;
 import com.dilly.gift.domain.giftbox.GiftBox;
 import com.dilly.gift.domain.giftbox.GiftBoxRole;
 import com.dilly.gift.domain.giftbox.GiftBoxType;
+import com.dilly.gift.domain.giftbox.admin.AdminType;
 import com.dilly.gift.domain.letter.Envelope;
 import com.dilly.gift.domain.letter.Letter;
 import com.dilly.gift.domain.receiver.Receiver;
@@ -36,10 +38,12 @@ import com.dilly.gift.dto.response.GiftBoxResponse;
 import com.dilly.gift.dto.response.GiftBoxesResponse;
 import com.dilly.gift.dto.response.GiftResponseDto.GiftResponse;
 import com.dilly.gift.dto.response.KakaoImgResponse;
+import com.dilly.gift.dto.response.MainGiftBoxResponse;
 import com.dilly.gift.dto.response.PhotoResponseDto.PhotoResponse;
 import com.dilly.gift.dto.response.StickerResponse;
 import com.dilly.gift.dto.response.WaitingGiftBoxResponse;
 import com.dilly.global.utils.SecurityUtil;
+import com.dilly.global.utils.generator.RandomBooleanGenerator;
 import com.dilly.member.adaptor.MemberReader;
 import com.dilly.member.domain.Member;
 import java.time.LocalDateTime;
@@ -72,6 +76,7 @@ public class GiftBoxService {
     private final MemberReader memberReader;
     private final ReceiverReader receiverReader;
     private final ReceiverWriter receiverWriter;
+    private final AdminGiftBoxReader adminGiftBoxReader;
 
     public GiftBoxIdResponse createGiftBox(GiftBoxRequest giftBoxRequest) {
         Long memberId = SecurityUtil.getMemberId();
@@ -326,5 +331,19 @@ public class GiftBoxService {
     public KakaoImgResponse getKakaoMessageImgUrl(Long giftBoxId) {
         GiftBox giftBox = giftBoxReader.findById(giftBoxId);
         return KakaoImgResponse.from(giftBox.getBox().getKakaoMessageImgUrl());
+    }
+
+    public MainGiftBoxResponse getMainGiftBox() {
+        GiftBox giftBox = adminGiftBoxReader.findByAdminType(AdminType.ONBOARDING).getGiftBox();
+
+        boolean randomBoolean = RandomBooleanGenerator.generate();
+
+        // 메인화면에 띄울 선물박스가 없을 경우 테스트 용도
+        // TODO: 클라이언트 QA를 마친 이후 삭제
+        if (Boolean.TRUE.equals(randomBoolean)) {
+            return MainGiftBoxResponse.from(giftBox);
+        } else {
+            return MainGiftBoxResponse.builder().build();
+        }
     }
 }

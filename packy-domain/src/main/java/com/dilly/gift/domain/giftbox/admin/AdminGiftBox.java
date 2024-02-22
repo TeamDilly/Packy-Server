@@ -1,8 +1,9 @@
-package com.dilly.gift.domain.giftbox;
+package com.dilly.gift.domain.giftbox.admin;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
-import com.dilly.admin.domain.giftbox.ScreenType;
+import com.dilly.gift.domain.giftbox.GiftBox;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -21,7 +22,8 @@ public class AdminGiftBox {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private ScreenType screenType;
+    @Column(name = "type")
+    private AdminType adminType;
 
     @OneToOne
     @JoinColumn(name = "gift_box_id")
