@@ -4,7 +4,10 @@ import com.dilly.exception.ErrorCode;
 import com.dilly.exception.internalserver.InternalServerException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RandomBooleanGenerator {
 
     private static final SecureRandom random;
