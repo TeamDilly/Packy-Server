@@ -145,7 +145,7 @@ public class GiftBoxController {
         return DataResponseDto.from(giftBoxService.getKakaoMessageImgUrl(giftBoxId));
     }
 
-    @Operation(summary = "메인화면에 띄울 선물박스 조회")
+    @Operation(summary = "홈 화면에 띄울 선물박스 조회")
     @GetMapping("/main")
     public DataResponseDto<MainGiftBoxResponse> getMainGiftBox() {
         return DataResponseDto.from(giftBoxService.getMainGiftBox());
