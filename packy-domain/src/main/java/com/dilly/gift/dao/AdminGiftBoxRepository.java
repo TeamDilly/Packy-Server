@@ -1,10 +1,11 @@
 package com.dilly.gift.dao;
 
-import com.dilly.admin.domain.giftbox.ScreenType;
-import com.dilly.gift.domain.giftbox.AdminGiftBox;
+import com.dilly.gift.domain.giftbox.admin.AdminGiftBox;
+import com.dilly.gift.domain.giftbox.admin.AdminType;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AdminGiftBoxRepository extends JpaRepository<AdminGiftBox, Long> {
 
-    AdminGiftBox findByScreenType(ScreenType screenType);
+    Optional<AdminGiftBox> findByAdminType(AdminType adminType);
 }
