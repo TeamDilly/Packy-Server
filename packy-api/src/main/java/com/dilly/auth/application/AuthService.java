@@ -20,6 +20,7 @@ import com.dilly.exception.ErrorCode;
 import com.dilly.exception.UnsupportedException;
 import com.dilly.gift.adaptor.ReceiverWriter;
 import com.dilly.gift.domain.giftbox.GiftBox;
+import com.dilly.gift.domain.giftbox.admin.AdminGiftBox;
 import com.dilly.gift.domain.giftbox.admin.AdminType;
 import com.dilly.global.utils.SecurityUtil;
 import com.dilly.jwt.JwtService;
@@ -99,9 +100,12 @@ public class AuthService {
 			default -> throw new UnsupportedException(ErrorCode.UNSUPPORTED_LOGIN_TYPE);
 		}
 
-		GiftBox onboardingGiftBox = adminGiftBoxReader.findByAdminType(AdminType.ONBOARDING)
-			.getGiftBox();
-		receiverWriter.save(member, onboardingGiftBox);
+		Optional<AdminGiftBox> adminGiftBox = adminGiftBoxReader.findByAdminType(
+			AdminType.ONBOARDING);
+		if (adminGiftBox.isPresent()) {
+			GiftBox onboardingGiftBox = adminGiftBox.get().getGiftBox();
+			receiverWriter.save(member, onboardingGiftBox);
+		}
 
 		return jwtService.issueJwt(member);
 	}
