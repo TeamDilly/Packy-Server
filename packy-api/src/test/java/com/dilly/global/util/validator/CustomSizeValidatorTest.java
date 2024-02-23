@@ -1,4 +1,4 @@
-package com.dilly.global.utils.validator;
+package com.dilly.global.util.validator;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

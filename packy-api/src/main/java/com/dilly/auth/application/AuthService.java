@@ -22,7 +22,7 @@ import com.dilly.gift.adaptor.ReceiverWriter;
 import com.dilly.gift.domain.giftbox.GiftBox;
 import com.dilly.gift.domain.giftbox.admin.AdminGiftBox;
 import com.dilly.gift.domain.giftbox.admin.AdminType;
-import com.dilly.global.utils.SecurityUtil;
+import com.dilly.global.util.SecurityUtil;
 import com.dilly.jwt.JwtService;
 import com.dilly.jwt.RefreshToken;
 import com.dilly.jwt.adaptor.JwtReader;

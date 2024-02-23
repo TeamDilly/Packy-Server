@@ -1,6 +1,6 @@
 package com.dilly.mypage.application;
 
-import com.dilly.global.utils.SecurityUtil;
+import com.dilly.global.util.SecurityUtil;
 import com.dilly.member.adaptor.MemberReader;
 import com.dilly.member.adaptor.ProfileImageReader;
 import com.dilly.member.domain.Member;

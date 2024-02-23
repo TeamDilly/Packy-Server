@@ -1,6 +1,6 @@
 package com.dilly.mypage.dto.request;
 
-import com.dilly.global.utils.validator.CustomSize;
+import com.dilly.global.util.validator.CustomSize;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;

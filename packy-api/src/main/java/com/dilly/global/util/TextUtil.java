@@ -1,4 +1,4 @@
-package com.dilly.global.utils;
+package com.dilly.global.util;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

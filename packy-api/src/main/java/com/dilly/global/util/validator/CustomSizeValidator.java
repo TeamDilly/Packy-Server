@@ -1,6 +1,6 @@
-package com.dilly.global.utils.validator;
+package com.dilly.global.util.validator;
 
-import com.dilly.global.utils.TextUtil;
+import com.dilly.global.util.TextUtil;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
