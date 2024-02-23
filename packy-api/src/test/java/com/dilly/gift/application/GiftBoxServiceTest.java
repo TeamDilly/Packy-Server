@@ -25,7 +25,7 @@ import com.dilly.gift.dto.response.StickerResponse;
 import com.dilly.gift.dto.response.WaitingGiftBoxResponse;
 import com.dilly.global.IntegrationTestSupport;
 import com.dilly.global.WithCustomMockUser;
-import com.dilly.global.utils.SecurityUtil;
+import com.dilly.global.util.SecurityUtil;
 import com.dilly.member.domain.Member;
 import java.util.Collection;
 import java.util.Collections;

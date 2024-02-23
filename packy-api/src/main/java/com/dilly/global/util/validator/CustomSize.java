@@ -1,4 +1,4 @@
-package com.dilly.global.utils.validator;
+package com.dilly.global.util.validator;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

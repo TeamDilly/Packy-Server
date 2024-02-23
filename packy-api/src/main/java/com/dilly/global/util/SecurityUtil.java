@@ -1,12 +1,10 @@
-package com.dilly.global.utils;
-
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+package com.dilly.global.util;
 
 import com.dilly.exception.AuthorizationFailedException;
 import com.dilly.exception.ErrorCode;
-
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @Slf4j
 public class SecurityUtil {

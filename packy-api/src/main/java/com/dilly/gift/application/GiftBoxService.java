@@ -43,7 +43,7 @@ import com.dilly.gift.dto.response.MainGiftBoxResponse;
 import com.dilly.gift.dto.response.PhotoResponseDto.PhotoResponse;
 import com.dilly.gift.dto.response.StickerResponse;
 import com.dilly.gift.dto.response.WaitingGiftBoxResponse;
-import com.dilly.global.utils.SecurityUtil;
+import com.dilly.global.util.SecurityUtil;
 import com.dilly.member.adaptor.MemberReader;
 import com.dilly.member.domain.Member;
 import java.time.LocalDateTime;
