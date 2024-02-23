@@ -28,7 +28,7 @@ import com.dilly.gift.domain.giftbox.GiftBoxRole;
 import com.dilly.gift.domain.giftbox.GiftBoxType;
 import com.dilly.gift.domain.giftbox.admin.AdminGiftBox;
 import com.dilly.gift.domain.giftbox.admin.AdminType;
-import com.dilly.gift.domain.giftbox.admin.LastViewdAdminType;
+import com.dilly.gift.domain.giftbox.admin.LastViewedAdminType;
 import com.dilly.gift.domain.letter.Envelope;
 import com.dilly.gift.domain.letter.Letter;
 import com.dilly.gift.domain.receiver.Receiver;
@@ -343,7 +343,7 @@ public class GiftBoxService {
         Long memberId = SecurityUtil.getMemberId();
         Member member = memberReader.findById(memberId);
 
-        Optional<LastViewdAdminType> lastViewdAdminType = lastViewedAdminTypeReader.findByMember(
+        Optional<LastViewedAdminType> lastViewedAdminType = lastViewedAdminTypeReader.findByMember(
             member);
 
         Optional<AdminGiftBox> adminGiftBox = adminGiftBoxReader.findByAdminType(
@@ -351,8 +351,8 @@ public class GiftBoxService {
 
         MainGiftBoxResponse mainGiftBoxResponse = MainGiftBoxResponse.builder().build();
 
-        if (lastViewdAdminType.isEmpty()) {
-            lastViewedAdminTypeWriter.save(LastViewdAdminType.of(member, AdminType.ONBOARDING));
+        if (lastViewedAdminType.isEmpty()) {
+            lastViewedAdminTypeWriter.save(LastViewedAdminType.of(member, AdminType.ONBOARDING));
 
             if (adminGiftBox.isPresent()) {
                 mainGiftBoxResponse = MainGiftBoxResponse.from(adminGiftBox.get().getGiftBox());

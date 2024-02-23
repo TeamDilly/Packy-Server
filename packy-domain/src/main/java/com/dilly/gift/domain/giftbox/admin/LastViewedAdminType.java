@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LastViewdAdminType {
+public class LastViewedAdminType {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -30,8 +30,8 @@ public class LastViewdAdminType {
 
     private AdminType adminType;
 
-    public static LastViewdAdminType of(Member member, AdminType adminType) {
-        return LastViewdAdminType.builder()
+    public static LastViewedAdminType of(Member member, AdminType adminType) {
+        return LastViewedAdminType.builder()
             .member(member)
             .adminType(adminType)
             .build();
