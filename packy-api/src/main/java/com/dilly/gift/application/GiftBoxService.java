@@ -24,6 +24,7 @@ import com.dilly.gift.domain.giftbox.DeliverStatus;
 import com.dilly.gift.domain.giftbox.GiftBox;
 import com.dilly.gift.domain.giftbox.GiftBoxRole;
 import com.dilly.gift.domain.giftbox.GiftBoxType;
+import com.dilly.gift.domain.giftbox.admin.AdminGiftBox;
 import com.dilly.gift.domain.giftbox.admin.AdminType;
 import com.dilly.gift.domain.letter.Envelope;
 import com.dilly.gift.domain.letter.Letter;
@@ -43,13 +44,13 @@ import com.dilly.gift.dto.response.PhotoResponseDto.PhotoResponse;
 import com.dilly.gift.dto.response.StickerResponse;
 import com.dilly.gift.dto.response.WaitingGiftBoxResponse;
 import com.dilly.global.utils.SecurityUtil;
-import com.dilly.global.utils.generator.RandomBooleanGenerator;
 import com.dilly.member.adaptor.MemberReader;
 import com.dilly.member.domain.Member;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -334,14 +335,11 @@ public class GiftBoxService {
     }
 
     public MainGiftBoxResponse getMainGiftBox() {
-        GiftBox giftBox = adminGiftBoxReader.findByAdminType(AdminType.ONBOARDING).getGiftBox();
+        Optional<AdminGiftBox> adminGiftBox = adminGiftBoxReader.findByAdminType(
+            AdminType.ONBOARDING);
 
-        boolean randomBoolean = RandomBooleanGenerator.generate();
-
-        // 메인화면에 띄울 선물박스가 없을 경우 테스트 용도
-        // TODO: 클라이언트 QA를 마친 이후 삭제
-        if (Boolean.TRUE.equals(randomBoolean)) {
-            return MainGiftBoxResponse.from(giftBox);
+        if (adminGiftBox.isPresent()) {
+            return MainGiftBoxResponse.from(adminGiftBox.get().getGiftBox());
         } else {
             return MainGiftBoxResponse.builder().build();
         }
