@@ -338,10 +338,12 @@ public class GiftBoxService {
         Optional<AdminGiftBox> adminGiftBox = adminGiftBoxReader.findByAdminType(
             AdminType.ONBOARDING);
 
-        if (adminGiftBox.isPresent()) {
-            return MainGiftBoxResponse.from(adminGiftBox.get().getGiftBox());
-        } else {
-            return MainGiftBoxResponse.builder().build();
-        }
+//        if (adminGiftBox.isPresent()) {
+//            return MainGiftBoxResponse.from(adminGiftBox.get().getGiftBox());
+//        } else {
+//            return MainGiftBoxResponse.builder().build();
+//        }
+
+        return MainGiftBoxResponse.builder().build();
     }
 }
