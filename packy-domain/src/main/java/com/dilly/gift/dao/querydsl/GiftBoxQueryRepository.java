@@ -82,7 +82,7 @@ public class GiftBoxQueryRepository {
                 giftBox.sender.eq(member),
                 giftBox.senderDeleted.eq(false),
                 giftBox.deliverStatus.eq(DeliverStatus.DELIVERED))
-            .orderBy(giftBox.createdAt.desc())
+            .orderBy(giftBox.updatedAt.desc())
             .limit(pageable.getPageSize() + 1L)
             .fetch();
     }
@@ -108,7 +108,7 @@ public class GiftBoxQueryRepository {
             return null;
         }
 
-        return giftBox.createdAt.lt(giftBoxDate);
+        return giftBox.updatedAt.lt(giftBoxDate);
     }
 
     private BooleanExpression ltReceivedDate(LocalDateTime giftBoxDate) {
