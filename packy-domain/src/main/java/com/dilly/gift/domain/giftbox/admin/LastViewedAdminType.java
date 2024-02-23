@@ -4,6 +4,8 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 
 import com.dilly.member.domain.Member;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -28,6 +30,7 @@ public class LastViewedAdminType {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @Enumerated(EnumType.STRING)
     private AdminType adminType;
 
     public static LastViewedAdminType of(Member member, AdminType adminType) {
