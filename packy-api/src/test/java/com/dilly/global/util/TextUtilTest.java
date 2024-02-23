@@ -1,4 +1,4 @@
-package com.dilly.global.utils;
+package com.dilly.global.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

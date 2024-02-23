@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.dilly.global.IntegrationTestSupport;
 import com.dilly.global.WithCustomMockUser;
-import com.dilly.global.utils.SecurityUtil;
+import com.dilly.global.util.SecurityUtil;
 import com.dilly.member.domain.Member;
 import com.dilly.mypage.dto.request.ProfileRequest;
 import com.dilly.mypage.dto.response.ProfileResponse;

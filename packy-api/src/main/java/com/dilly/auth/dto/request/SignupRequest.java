@@ -1,6 +1,6 @@
 package com.dilly.auth.dto.request;
 
-import com.dilly.global.utils.validator.CustomSize;
+import com.dilly.global.util.validator.CustomSize;
 import com.dilly.member.domain.Member;
 import com.dilly.member.domain.ProfileImage;
 import com.dilly.member.domain.Provider;

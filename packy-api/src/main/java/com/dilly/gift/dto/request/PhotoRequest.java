@@ -1,6 +1,6 @@
 package com.dilly.gift.dto.request;
 
-import com.dilly.global.utils.validator.CustomSize;
+import com.dilly.global.util.validator.CustomSize;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 
