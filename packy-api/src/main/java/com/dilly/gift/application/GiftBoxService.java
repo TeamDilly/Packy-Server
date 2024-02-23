@@ -12,6 +12,8 @@ import com.dilly.gift.adaptor.GiftBoxReader;
 import com.dilly.gift.adaptor.GiftBoxStickerReader;
 import com.dilly.gift.adaptor.GiftBoxStickerWriter;
 import com.dilly.gift.adaptor.GiftBoxWriter;
+import com.dilly.gift.adaptor.LastViewedAdminTypeReader;
+import com.dilly.gift.adaptor.LastViewedAdminTypeWriter;
 import com.dilly.gift.adaptor.LetterWriter;
 import com.dilly.gift.adaptor.PhotoReader;
 import com.dilly.gift.adaptor.PhotoWriter;
@@ -26,6 +28,7 @@ import com.dilly.gift.domain.giftbox.GiftBoxRole;
 import com.dilly.gift.domain.giftbox.GiftBoxType;
 import com.dilly.gift.domain.giftbox.admin.AdminGiftBox;
 import com.dilly.gift.domain.giftbox.admin.AdminType;
+import com.dilly.gift.domain.giftbox.admin.LastViewdAdminType;
 import com.dilly.gift.domain.letter.Envelope;
 import com.dilly.gift.domain.letter.Letter;
 import com.dilly.gift.domain.receiver.Receiver;
@@ -78,6 +81,8 @@ public class GiftBoxService {
     private final ReceiverReader receiverReader;
     private final ReceiverWriter receiverWriter;
     private final AdminGiftBoxReader adminGiftBoxReader;
+    private final LastViewedAdminTypeReader lastViewedAdminTypeReader;
+    private final LastViewedAdminTypeWriter lastViewedAdminTypeWriter;
 
     public GiftBoxIdResponse createGiftBox(GiftBoxRequest giftBoxRequest) {
         Long memberId = SecurityUtil.getMemberId();
@@ -335,15 +340,25 @@ public class GiftBoxService {
     }
 
     public MainGiftBoxResponse getMainGiftBox() {
+        Long memberId = SecurityUtil.getMemberId();
+        Member member = memberReader.findById(memberId);
+
+        Optional<LastViewdAdminType> lastViewdAdminType = lastViewedAdminTypeReader.findByMember(
+            member);
+
         Optional<AdminGiftBox> adminGiftBox = adminGiftBoxReader.findByAdminType(
             AdminType.ONBOARDING);
 
-//        if (adminGiftBox.isPresent()) {
-//            return MainGiftBoxResponse.from(adminGiftBox.get().getGiftBox());
-//        } else {
-//            return MainGiftBoxResponse.builder().build();
-//        }
+        MainGiftBoxResponse mainGiftBoxResponse = MainGiftBoxResponse.builder().build();
 
-        return MainGiftBoxResponse.builder().build();
+        if (lastViewdAdminType.isEmpty()) {
+            lastViewedAdminTypeWriter.save(LastViewdAdminType.of(member, AdminType.ONBOARDING));
+
+            if (adminGiftBox.isPresent()) {
+                mainGiftBoxResponse = MainGiftBoxResponse.from(adminGiftBox.get().getGiftBox());
+            }
+        }
+
+        return mainGiftBoxResponse;
     }
 }
