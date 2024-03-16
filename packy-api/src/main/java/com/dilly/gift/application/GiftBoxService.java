@@ -1,6 +1,7 @@
 package com.dilly.gift.application;
 
 import com.dilly.admin.adaptor.AdminGiftBoxReader;
+import com.dilly.application.FileService;
 import com.dilly.exception.ErrorCode;
 import com.dilly.exception.GiftBoxAccessDeniedException;
 import com.dilly.exception.GiftBoxAlreadyDeletedException;
@@ -68,6 +69,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 public class GiftBoxService {
 
+    private final FileService fileService;
     private final GiftBoxReader giftBoxReader;
     private final GiftBoxWriter giftBoxWriter;
     private final BoxReader boxReader;
@@ -279,7 +281,19 @@ public class GiftBoxService {
         GiftBoxRole role = getGiftBoxRole(member, giftBox);
 
         if (role.equals(GiftBoxRole.SENDER)) {
-            giftBox.delete();
+            if (giftBox.getDeliverStatus().equals(DeliverStatus.DELIVERED)) {
+                giftBox.delete();
+            } else if (giftBox.getDeliverStatus().equals(DeliverStatus.WAITING)) {
+                letterWriter.delete(giftBox.getLetter());
+                giftBox.getPhotos().forEach(photo -> {
+                    fileService.deleteFile(photo.getImgUrl());
+                    photoWriter.delete(photo);
+                });
+                giftBox.getGiftBoxStickers().forEach(giftBoxStickerWriter::delete);
+                giftBox.getReceivers().forEach(Receiver::delete);
+
+                giftBoxWriter.delete(giftBox);
+            }
         } else if (role.equals(GiftBoxRole.RECEIVER)) {
             Receiver receiver = receiverReader.findByMemberAndGiftBox(member, giftBox);
             receiver.delete();

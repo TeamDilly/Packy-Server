@@ -24,6 +24,9 @@ public class FileService {
 	@Value("${cloud.s3.bucket}")
 	private String bucket;
 
+	@Value("${cloud.aws.region}")
+	private String region;
+
 	private final AmazonS3 amazonS3;
 
 	public FileRequest getPresignedUrl(String prefix, String fileName) {
@@ -37,6 +40,20 @@ public class FileService {
 		return FileRequest.builder()
 			.url(url.toString())
 			.build();
+	}
+
+	public void deleteFile(String imgUrl) {
+		try {
+			String prefix = "https://" + bucket + ".s3." + region + ".amazonaws.com/";
+			String keyName = imgUrl.replace(prefix, "");
+			boolean isObjectExist = amazonS3.doesObjectExist(bucket, keyName);
+
+			if (isObjectExist) {
+				amazonS3.deleteObject(bucket, keyName);
+			}
+		} catch (Exception e) {
+			throw new InternalServerException(ErrorCode.FILE_DELETE_ERROR);
+		}
 	}
 
 	private GeneratePresignedUrlRequest getGeneratePresignedUrlRequest(String bucket, String fileName) {

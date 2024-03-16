@@ -44,4 +44,8 @@ public class GiftBoxWriter {
 			.receiverName(receiverName)
 			.build());
 	}
+
+	public void delete(GiftBox giftBox) {
+		giftBoxRepository.delete(giftBox);
+	}
 }

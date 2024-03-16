@@ -103,7 +103,8 @@ public class GiftBoxController {
     @Operation(summary = "선물박스 삭제")
     @ApiErrorCodeExamples({
         ErrorCode.GIFTBOX_NOT_FOUND,
-        ErrorCode.GIFTBOX_ACCESS_DENIED
+        ErrorCode.GIFTBOX_ACCESS_DENIED,
+        ErrorCode.FILE_DELETE_ERROR
     })
     @DeleteMapping("/{giftBoxId}")
     public DataResponseDto<String> deleteGiftBox(

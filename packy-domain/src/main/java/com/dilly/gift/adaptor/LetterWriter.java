@@ -15,4 +15,8 @@ public class LetterWriter {
 	public Letter save(String content, Envelope envelope) {
 		return letterRepository.save(Letter.of(content, envelope));
 	}
+
+	public void delete(Letter letter) {
+		letterRepository.delete(letter);
+	}
 }
