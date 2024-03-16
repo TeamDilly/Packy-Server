@@ -18,4 +18,8 @@ public class GiftBoxStickerWriter {
         Sticker sticker = stickerReader.findById(stickerId);
         giftBoxStickerRepository.save(GiftBoxSticker.of(giftBox, sticker, stickerLocation));
     }
+
+    public void delete(GiftBoxSticker giftBoxSticker) {
+        giftBoxStickerRepository.delete(giftBoxSticker);
+    }
 }

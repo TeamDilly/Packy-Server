@@ -6,6 +6,7 @@ import com.dilly.gift.domain.Box;
 import com.dilly.gift.domain.Photo;
 import com.dilly.gift.domain.gift.Gift;
 import com.dilly.gift.domain.letter.Letter;
+import com.dilly.gift.domain.receiver.Receiver;
 import com.dilly.gift.domain.sticker.GiftBoxSticker;
 import com.dilly.global.BaseTimeEntity;
 import com.dilly.member.domain.Member;
@@ -78,6 +79,10 @@ public class GiftBox extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private DeliverStatus deliverStatus = DeliverStatus.WAITING;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "giftBox")
+    private List<Receiver> receivers = new ArrayList<>();
 
     public void delete() {
         this.senderDeleted = true;

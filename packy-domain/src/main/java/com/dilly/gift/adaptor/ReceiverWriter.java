@@ -16,4 +16,8 @@ public class ReceiverWriter {
     public void save(Member member, GiftBox giftBox) {
         receiverRepository.save(Receiver.of(member, giftBox));
     }
+
+    public void delete(Receiver receiver) {
+        receiverRepository.delete(receiver);
+    }
 }
