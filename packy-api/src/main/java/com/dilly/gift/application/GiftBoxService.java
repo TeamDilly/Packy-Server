@@ -289,9 +289,10 @@ public class GiftBoxService {
                     fileService.deleteFile(photo.getImgUrl());
                     photoWriter.delete(photo);
                 });
+                if (giftBox.getGift().getGiftType().equals(GiftType.PHOTO)) {
+                    fileService.deleteFile(giftBox.getGift().getGiftUrl());
+                }
                 giftBox.getGiftBoxStickers().forEach(giftBoxStickerWriter::delete);
-                giftBox.getReceivers().forEach(Receiver::delete);
-
                 giftBoxWriter.delete(giftBox);
             }
         } else if (role.equals(GiftBoxRole.RECEIVER)) {
