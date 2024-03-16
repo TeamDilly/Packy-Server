@@ -1,11 +1,11 @@
-package com.dilly.mypage.application;
+package com.dilly.member.application;
 
 import com.dilly.global.util.SecurityUtil;
 import com.dilly.member.adaptor.MemberReader;
 import com.dilly.member.adaptor.ProfileImageReader;
 import com.dilly.member.domain.Member;
-import com.dilly.mypage.dto.request.ProfileRequest;
-import com.dilly.mypage.dto.response.ProfileResponse;
+import com.dilly.member.dto.request.ProfileRequest;
+import com.dilly.member.dto.response.ProfileResponse;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
