@@ -63,6 +63,7 @@ public class TokenProvider {
 			.compact();
 
 		return JwtResponse.builder()
+			.id(member.getId())
 			.grantType(BEARER_TYPE)
 			.accessToken(accessToken)
 			.refreshToken(refreshToken)
