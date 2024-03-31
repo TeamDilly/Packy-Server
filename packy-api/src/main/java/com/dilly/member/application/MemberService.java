@@ -1,6 +1,6 @@
 package com.dilly.member.application;
 
-import static com.dilly.global.Constants.LATEST_VERSION;
+import static com.dilly.global.Constants.LATEST_MAJOR_VERSION;
 
 import com.dilly.global.util.SecurityUtil;
 import com.dilly.member.adaptor.MemberReader;
@@ -21,7 +21,7 @@ public class MemberService {
 
     private final MemberReader memberReader;
 
-    public StatusResponse getStatus(String appVersion) {
+    public StatusResponse getStatus(Integer memberMajorVersion) {
         Long memberId = SecurityUtil.getMemberId();
         Member member = memberReader.findById(memberId);
 
@@ -31,23 +31,10 @@ public class MemberService {
         }
 
         // 유저 버전 확인
-        Integer latestMajorVersion = getMajorVersion(LATEST_VERSION);
-        Integer memberMajorVersion = getMajorVersion(appVersion);
-        log.info("latestMajorVersion: {}, userMajorVersion: {}", latestMajorVersion, memberMajorVersion);
-
-        if (memberMajorVersion < latestMajorVersion) {
+        if (memberMajorVersion < LATEST_MAJOR_VERSION) {
             return StatusResponse.from(false, Reason.NEED_UPDATE);
         }
 
         return StatusResponse.from(true);
-    }
-
-    private Integer getMajorVersion(String version) {
-        String[] parts = version.split("\\.");
-        if (parts.length > 0) {
-            return Integer.parseInt(parts[0]);
-        } else {
-            return 0;
-        }
     }
 }

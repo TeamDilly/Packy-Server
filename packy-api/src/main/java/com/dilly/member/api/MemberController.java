@@ -24,8 +24,8 @@ public class MemberController {
         , description = "reason: NEED_UPDATE(업데이트 필요), INVALID_STATUS(탈퇴, 정지 등 올바르지 않은 유저 상태)")
     @GetMapping("/status")
     public DataResponseDto<StatusResponse> getStatus(
-        @RequestParam("app-version") @Schema(example = "1.0.0") String appVersion
+        @RequestParam("app-version") @Schema(example = "1") Integer memberMajorVersion
     ) {
-        return DataResponseDto.from(memberService.getStatus(appVersion));
+        return DataResponseDto.from(memberService.getStatus(memberMajorVersion));
     }
 }
