@@ -1,4 +1,4 @@
-package com.dilly.mypage.dto.response;
+package com.dilly.member.dto.response;
 
 import com.dilly.member.domain.Member;
 import io.swagger.v3.oas.annotations.media.Schema;

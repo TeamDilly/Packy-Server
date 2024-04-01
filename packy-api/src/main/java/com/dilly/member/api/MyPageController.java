@@ -1,9 +1,9 @@
-package com.dilly.mypage.api;
+package com.dilly.member.api;
 
 import com.dilly.global.response.DataResponseDto;
-import com.dilly.mypage.application.MyPageService;
-import com.dilly.mypage.dto.request.ProfileRequest;
-import com.dilly.mypage.dto.response.ProfileResponse;
+import com.dilly.member.application.MyPageService;
+import com.dilly.member.dto.request.ProfileRequest;
+import com.dilly.member.dto.response.ProfileResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

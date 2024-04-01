@@ -37,6 +37,7 @@ public enum ErrorCode {
 
     // File
     FILE_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "파일 서버 연동에 오류가 발생했습니다."),
+    FILE_DELETE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "파일 삭제에 실패했습니다."),
 
     // Authorization
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "인증되지 않은 사용자입니다."),

@@ -10,8 +10,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.dilly.global.ControllerTestSupport;
 import com.dilly.global.WithCustomMockUser;
-import com.dilly.mypage.dto.request.ProfileRequest;
-import com.dilly.mypage.dto.response.ProfileResponse;
+import com.dilly.member.dto.request.ProfileRequest;
+import com.dilly.member.dto.response.ProfileResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

@@ -32,7 +32,7 @@ public record GiftBoxesResponse(
             .sender(giftBox.getSenderName())
             .receiver(giftBox.getReceiverName())
             .name(giftBox.getName())
-            .giftBoxDate(giftBox.getCreatedAt())
+            .giftBoxDate(giftBox.getUpdatedAt())
             .boxNormal(giftBox.getBox().getNormalImgUrl())
             .build();
     }

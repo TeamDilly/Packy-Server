@@ -1,4 +1,4 @@
-package com.dilly.mypage.dto.request;
+package com.dilly.member.dto.request;
 
 import com.dilly.global.util.validator.CustomSize;
 import com.fasterxml.jackson.annotation.JsonInclude;
