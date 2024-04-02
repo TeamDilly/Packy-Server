@@ -8,6 +8,9 @@ import lombok.Builder;
 @Builder
 @JsonInclude(Include.NON_NULL)
 public record StatusResponse(
+    @Schema(example = "1")
+    Long id,
+
     @Schema(example = "true")
     Boolean isAvailable,
 
@@ -15,14 +18,16 @@ public record StatusResponse(
     Reason reason
 ) {
 
-    public static StatusResponse from(Boolean isAvailable) {
+    public static StatusResponse from(Long id, Boolean isAvailable) {
         return StatusResponse.builder()
+            .id(id)
             .isAvailable(isAvailable)
             .build();
     }
 
-    public static StatusResponse from(Boolean isAvailable, Reason reason) {
+    public static StatusResponse from(Long id, Boolean isAvailable, Reason reason) {
         return StatusResponse.builder()
+            .id(id)
             .isAvailable(isAvailable)
             .reason(reason)
             .build();

@@ -1,7 +1,10 @@
 package com.dilly.member.application;
 
-import static com.dilly.global.Constants.LATEST_VERSION;
+import static com.dilly.global.Constants.MINIMUM_REQUIRED_VERSION;
 
+import com.dilly.exception.BadRequestException;
+import com.dilly.exception.ErrorCode;
+import com.dilly.exception.internalserver.InternalServerException;
 import com.dilly.global.util.SecurityUtil;
 import com.dilly.member.adaptor.MemberReader;
 import com.dilly.member.domain.Member;
@@ -27,27 +30,50 @@ public class MemberService {
 
         // 유저 계정 상태 확인
         if (!member.getStatus().equals(Status.REGISTERED)) {
-            return StatusResponse.from(false, Reason.INVALID_STATUS);
+            return StatusResponse.from(memberId, false, Reason.INVALID_STATUS);
         }
 
         // 유저 버전 확인
-        Integer latestMajorVersion = getMajorVersion(LATEST_VERSION);
-        Integer memberMajorVersion = getMajorVersion(appVersion);
-        log.info("latestMajorVersion: {}, userMajorVersion: {}", latestMajorVersion, memberMajorVersion);
+        Integer minimumRequiredMajorVersion = extractMajorVersion(MINIMUM_REQUIRED_VERSION);
+        Integer minimumRequiredMinorVersion = extractMinorVersion(MINIMUM_REQUIRED_VERSION);
 
-        if (memberMajorVersion < latestMajorVersion) {
-            return StatusResponse.from(false, Reason.NEED_UPDATE);
+        Integer memberMajorVersion = extractMajorVersion(appVersion);
+        Integer memberMinorVersion = extractMinorVersion(appVersion);
+        
+        if (minimumRequiredMajorVersion == null || minimumRequiredMinorVersion == null) {
+            throw new InternalServerException(ErrorCode.INVALID_LATEST_VERSION);
         }
 
-        return StatusResponse.from(true);
+        if (memberMajorVersion == null || memberMinorVersion == null) {
+            throw new BadRequestException(ErrorCode.FAILED_TO_EXTRACT_VERSION);
+        }
+
+        if (memberMajorVersion < minimumRequiredMajorVersion) {
+            return StatusResponse.from(memberId, false, Reason.NEED_UPDATE);
+        }
+
+        if (memberMinorVersion < minimumRequiredMinorVersion) {
+            return StatusResponse.from(memberId, false, Reason.NEED_UPDATE);
+        }
+
+        return StatusResponse.from(memberId, true);
     }
 
-    private Integer getMajorVersion(String version) {
+    private Integer extractMajorVersion(String version) {
         String[] parts = version.split("\\.");
         if (parts.length > 0) {
             return Integer.parseInt(parts[0]);
+        }
+
+        return null;
+    }
+
+    private Integer extractMinorVersion(String version) {
+        String[] parts = version.split("\\.");
+        if (parts.length > 1) {
+            return Integer.parseInt(parts[1]);
         } else {
-            return 0;
+            return null;
         }
     }
 }
