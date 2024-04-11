@@ -16,10 +16,9 @@ public record SignInResponse(
 	JwtResponse tokenInfo
 ) {
 
-	public static SignInResponse from(Status status, JwtResponse tokenInfo) {
+	public static SignInResponse from(Status status) {
 		return SignInResponse.builder()
 			.status(status)
-			.tokenInfo(tokenInfo)
 			.build();
 	}
 
