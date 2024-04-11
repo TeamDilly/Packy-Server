@@ -130,8 +130,7 @@ public class AuthService {
 
 		SignInResponse signInResponse;
 		if (member.isEmpty()) {
-			signInResponse = SignInResponse.from(Status.NOT_REGISTERED,
-				JwtResponse.builder().build());
+			signInResponse = SignInResponse.from(Status.NOT_REGISTERED);
 		} else {
 			signInResponse = SignInResponse.from(member.get().getStatus(),
 				member.get().getNickname(),
