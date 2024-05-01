@@ -173,25 +173,10 @@ public class GiftBoxService {
 
         checkIfGiftBoxOpenable(member, giftBox);
 
-        BoxResponse boxResponse = BoxResponse.from(giftBox.getBox());
-        EnvelopeResponse envelopeResponse = EnvelopeResponse.from(
-            giftBox.getLetter().getEnvelope());
-        List<PhotoResponse> photos = photoReader.findAllByGiftBox(giftBox).stream()
-            .map(PhotoResponse::from)
-            .sorted(Comparator.comparingInt(PhotoResponse::sequence))
-            .toList();
-        List<StickerResponse> stickers = giftBoxStickerReader.findAllByGiftBox(giftBox).stream()
-            .map(StickerResponse::from)
-            .sorted(Comparator.comparingInt(StickerResponse::location))
-            .toList();
+        return toGiftBoxResponse(giftBox);
+    }
 
-        GiftResponse giftResponse = null;
-        if (giftBox.getGift() != null) {
-            giftResponse = GiftResponse.from(giftBox.getGift());
-        }
 
-        return GiftBoxResponse.of(giftBox, boxResponse, envelopeResponse, photos, stickers,
-            giftResponse);
     }
 
     // TODO: 성능 개선 필요
@@ -375,5 +360,27 @@ public class GiftBoxService {
         }
 
         return mainGiftBoxResponse;
+    }
+
+    public GiftBoxResponse toGiftBoxResponse(GiftBox giftBox) {
+        BoxResponse boxResponse = BoxResponse.from(giftBox.getBox());
+        EnvelopeResponse envelopeResponse = EnvelopeResponse.from(
+            giftBox.getLetter().getEnvelope());
+        List<PhotoResponse> photos = photoReader.findAllByGiftBox(giftBox).stream()
+            .map(PhotoResponse::from)
+            .sorted(Comparator.comparingInt(PhotoResponse::sequence))
+            .toList();
+        List<StickerResponse> stickers = giftBoxStickerReader.findAllByGiftBox(giftBox).stream()
+            .map(StickerResponse::from)
+            .sorted(Comparator.comparingInt(StickerResponse::location))
+            .toList();
+
+        GiftResponse giftResponse = null;
+        if (giftBox.getGift() != null) {
+            giftResponse = GiftResponse.from(giftBox.getGift());
+        }
+
+        return GiftBoxResponse.of(giftBox, boxResponse, envelopeResponse, photos, stickers,
+            giftResponse);
     }
 }
