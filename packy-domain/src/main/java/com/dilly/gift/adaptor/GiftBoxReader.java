@@ -28,6 +28,11 @@ public class GiftBoxReader {
             .orElseThrow(() -> new EntityNotFoundException(ErrorCode.GIFTBOX_NOT_FOUND));
     }
 
+    public GiftBox findByUuid(String uuid) {
+        return giftBoxRepository.findByUuid(uuid)
+            .orElseThrow(() -> new EntityNotFoundException(ErrorCode.GIFTBOX_NOT_FOUND));
+    }
+
     public GiftBox findByLetter(Letter letter) {
         return giftBoxRepository.findByLetter(letter);
     }

@@ -70,6 +70,7 @@ public enum ErrorCode {
     GIFTBOX_ALREADY_OPENDED(HttpStatus.CONFLICT, "이미 열린 선물입니다."),
     GIFTBOX_ACCESS_DENIED(HttpStatus.FORBIDDEN, "선물박스에 접근할 수 없습니다."),
     GIFTBOX_ALREADY_DELETED(HttpStatus.NOT_FOUND, "이미 삭제된 선물박스입니다."),
+    GIFTBOX_URL_EXPIRED(HttpStatus.BAD_REQUEST, "URL이 만료되었습니다."),
 
     // Version
     FAILED_TO_EXTRACT_VERSION(HttpStatus.BAD_REQUEST, "사용자 버전을 추출하는데 실패했습니다."),

@@ -77,6 +77,22 @@ public class GiftBoxController {
         return DataResponseDto.from(giftBoxService.openGiftBox(giftBoxId));
     }
 
+    @Operation(summary = "(WEB) 선물박스 열기", description = """
+        선물이 없을 경우 응답에서 gift 객체가 제외됩니다. <br>
+        00한 후 7일이 경과되면 예외 처리 <br>
+        """)
+    @ApiErrorCodeExamples({
+        ErrorCode.GIFTBOX_NOT_FOUND,
+        ErrorCode.GIFTBOX_ALREADY_DELETED,
+        ErrorCode.GIFTBOX_URL_EXPIRED
+    })
+    @GetMapping("/web/{giftBoxUuid}")
+    public DataResponseDto<GiftBoxResponse> openGiftBoxForWeb(
+        @PathVariable("giftBoxUuid") String giftBoxUuid
+    ) {
+        return DataResponseDto.from(giftBoxService.openGiftBoxForWeb(giftBoxUuid));
+    }
+
     @Operation(summary = "주고받은 선물박스 조회")
     @Parameter(in = ParameterIn.QUERY,
         description = "한 페이지에 보여줄 선물박스 개수. 기본값은 6개",
