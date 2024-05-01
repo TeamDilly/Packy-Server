@@ -56,6 +56,7 @@ public class TokenProvider {
 
 		// Refresh Token 생성
 		String refreshToken = Jwts.builder()
+			.setSubject(member.getId().toString())
 			.signWith(key, SignatureAlgorithm.HS512)
 			.compact();
 
