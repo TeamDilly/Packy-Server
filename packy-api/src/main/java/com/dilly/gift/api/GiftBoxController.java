@@ -79,7 +79,7 @@ public class GiftBoxController {
 
     @Operation(summary = "(WEB) 선물박스 열기", description = """
         선물이 없을 경우 응답에서 gift 객체가 제외됩니다. <br>
-        00한 후 7일이 경과되면 예외 처리 <br>
+        선물박스를 보낸 뒤 7일이 지나면 선물박스를 열 수 없습니다. <br>
         """)
     @ApiErrorCodeExamples({
         ErrorCode.GIFTBOX_NOT_FOUND,
