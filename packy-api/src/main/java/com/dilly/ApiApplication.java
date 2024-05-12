@@ -1,13 +1,11 @@
 package com.dilly;
 
-import java.util.TimeZone;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.servers.Server;
 import jakarta.annotation.PostConstruct;
+import java.util.TimeZone;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @OpenAPIDefinition(servers = {
 	@Server(url = "http://localhost:8081", description = "Local Server URL"),
@@ -22,7 +20,8 @@ public class ApiApplication {
 	}
 
 	public static void main(String[] args) {
-		System.setProperty("spring.config.name", "application-api, application-domain, application-infra");
+		System.setProperty("spring.config.name",
+			"application-api, application-domain, application-infra, application-support");
 		SpringApplication.run(ApiApplication.class, args);
 	}
 }

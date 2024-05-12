@@ -11,6 +11,13 @@ repositories {
 }
 
 dependencies {
+    // multi module
+    implementation project(':packy-domain')
+
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+    implementation 'com.slack.api:slack-api-client:1.39.0'
+
+    // jacoco
     jacocoAggregation project(':packy-api')
     jacocoAggregation project(':packy-domain')
 }
@@ -18,6 +25,13 @@ dependencies {
 test {
     useJUnitPlatform()
     finalizedBy 'testCodeCoverageReport'
+}
+
+processResources.dependsOn('copySecret')
+tasks.register('copySecret', Copy) {
+    from '../packy-submodule/support'
+    include '*.yml'
+    into './src/main/resources'
 }
 
 testCodeCoverageReport {

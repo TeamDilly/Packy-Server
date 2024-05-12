@@ -45,6 +45,7 @@ packy-api/src/test/resources/*.sql
 packy-domain/src/main/resources/*.yml
 packy-domain/src/main/resources/*.sql
 packy-infra/src/main/resources/*.yml
+packy-support/src/main/resources/*.yml
 
 ### QueryDsl QClass ###
 packy-domain/src/main/generated
