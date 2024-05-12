@@ -5,9 +5,8 @@ import com.slack.api.model.Attachment;
 import com.slack.api.model.Field;
 import com.slack.api.webhook.Payload;
 import java.awt.Color;
-import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +16,7 @@ public class SlackService {
 
     private final Slack slackClient = Slack.getInstance();
 
-    public void sendMessage(String url, String title, HashMap<String, String> data) {
+    public void sendMessage(String url, String title, Map<String, String> data) {
         try {
             slackClient.send(url, Payload.builder()
                     .text(title)
@@ -27,7 +26,7 @@ public class SlackService {
                             .fields(data.keySet()
                                 .stream()
                                 .map(key -> generateSlackField(key, data.get(key)))
-                                .collect(Collectors.toList())
+                                .toList()
                             )
                             .build()
                     ))
