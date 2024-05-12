@@ -15,6 +15,7 @@ dependencies {
     implementation project(':packy-common')
     implementation project(':packy-domain')
     implementation project(':packy-infra')
+    implementation project(':packy-support')
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
