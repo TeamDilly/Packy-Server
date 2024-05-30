@@ -10,9 +10,10 @@ public record BoxResponse(
     Long id,
     @Schema(example = "www.example.com")
     String boxNormal,
-
     @Schema(example = "www.example.com")
-    String boxTop
+    String boxTop,
+    @Schema(example = "www.example.com")
+    String boxLottie
 ) {
 
     public static BoxResponse from(Box box) {
@@ -20,6 +21,7 @@ public record BoxResponse(
             .id(box.getId())
             .boxNormal(box.getNormalImgUrl())
             .boxTop(box.getTopImgUrl())
+            .boxLottie(box.getLottieArrivedUrl())
             .build();
     }
 }
