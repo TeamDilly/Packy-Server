@@ -26,4 +26,8 @@ public class Box {
 	private String topImgUrl;
 
 	private String kakaoMessageImgUrl;
+
+	private String lottieMakeUrl;
+
+	private String lottieArrivedUrl;
 }

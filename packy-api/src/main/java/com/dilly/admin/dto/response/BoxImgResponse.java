@@ -17,7 +17,9 @@ public record BoxImgResponse(
 	@Schema(example = "www.example.com")
     String boxSet,
 	@Schema(example = "www.example.com")
-    String boxTop
+	String boxTop,
+	@Schema(example = "www.example.com")
+	String boxLottie
 ) {
 
 	public static BoxImgResponse from(Box box) {
@@ -28,6 +30,7 @@ public record BoxImgResponse(
             .boxSmall(box.getSmallImgUrl())
             .boxSet(box.getSetImgUrl())
             .boxTop(box.getTopImgUrl())
+			.boxLottie(box.getLottieMakeUrl())
             .build();
     }
 }
