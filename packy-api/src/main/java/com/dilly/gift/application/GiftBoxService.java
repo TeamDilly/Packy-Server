@@ -179,12 +179,12 @@ public class GiftBoxService {
     public GiftBoxResponse openGiftBoxForWeb(String giftBoxUuid) {
         GiftBox giftBox = giftBoxReader.findByUuid(giftBoxUuid);
 
-        LocalDateTime sentDate = giftBox.getUpdatedAt();
-        LocalDateTime now = LocalDateTime.now();
+//        LocalDateTime sentDate = giftBox.getUpdatedAt();
+//        LocalDateTime now = LocalDateTime.now();
 
-        if (now.minusDays(7).isAfter(sentDate)) {
-            throw new UnsupportedException(ErrorCode.GIFTBOX_URL_EXPIRED);
-        }
+//        if (now.minusDays(7).isAfter(sentDate)) {
+//            throw new UnsupportedException(ErrorCode.GIFTBOX_URL_EXPIRED);
+//        }
         
         return toGiftBoxResponse(giftBox);
     }
