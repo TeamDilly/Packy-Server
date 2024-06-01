@@ -1,7 +1,10 @@
 package com.dilly.global.util.validator;
 
 import java.util.regex.Pattern;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UuidValidator {
 
     public static boolean isValidUUID(String value) {
