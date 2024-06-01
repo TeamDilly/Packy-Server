@@ -48,6 +48,7 @@ import com.dilly.gift.dto.response.PhotoResponseDto.PhotoResponse;
 import com.dilly.gift.dto.response.StickerResponse;
 import com.dilly.gift.dto.response.WaitingGiftBoxResponse;
 import com.dilly.global.util.SecurityUtil;
+import com.dilly.global.util.validator.UuidValidator;
 import com.dilly.member.adaptor.MemberReader;
 import com.dilly.member.domain.Member;
 import java.time.LocalDateTime;
@@ -176,8 +177,18 @@ public class GiftBoxService {
         return toGiftBoxResponse(giftBox);
     }
 
-    public GiftBoxResponse openGiftBoxForWeb(String giftBoxUuid) {
-        GiftBox giftBox = giftBoxReader.findByUuid(giftBoxUuid);
+    public GiftBoxResponse openGiftBoxForWeb(String giftBoxId) {
+        GiftBox giftBox;
+
+        if (UuidValidator.isValidUUID(giftBoxId)) {
+            giftBox = giftBoxReader.findByUuid(giftBoxId);
+        } else {
+            try {
+                giftBox = giftBoxReader.findById(Long.parseLong(giftBoxId));
+            } catch (NumberFormatException e) {
+                throw new UnsupportedException(ErrorCode.INVALID_INPUT_VALUE);
+            }
+        }
 
 //        LocalDateTime sentDate = giftBox.getUpdatedAt();
 //        LocalDateTime now = LocalDateTime.now();

@@ -84,13 +84,14 @@ public class GiftBoxController {
     @ApiErrorCodeExamples({
         ErrorCode.GIFTBOX_NOT_FOUND,
         ErrorCode.GIFTBOX_ALREADY_DELETED,
-        ErrorCode.GIFTBOX_URL_EXPIRED
+        ErrorCode.GIFTBOX_URL_EXPIRED,
+        ErrorCode.INVALID_INPUT_VALUE
     })
-    @GetMapping("/web/{giftBoxUuid}")
+    @GetMapping("/web/{giftBoxId}")
     public DataResponseDto<GiftBoxResponse> openGiftBoxForWeb(
-        @PathVariable("giftBoxUuid") String giftBoxUuid
+        @PathVariable("giftBoxId") String giftBoxId
     ) {
-        return DataResponseDto.from(giftBoxService.openGiftBoxForWeb(giftBoxUuid));
+        return DataResponseDto.from(giftBoxService.openGiftBoxForWeb(giftBoxId));
     }
 
     @Operation(summary = "주고받은 선물박스 조회")
