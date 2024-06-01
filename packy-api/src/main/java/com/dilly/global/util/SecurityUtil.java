@@ -2,11 +2,14 @@ package com.dilly.global.util;
 
 import com.dilly.exception.AuthorizationFailedException;
 import com.dilly.exception.ErrorCode;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 @Slf4j
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class SecurityUtil {
 
 	public static Long getMemberId() {

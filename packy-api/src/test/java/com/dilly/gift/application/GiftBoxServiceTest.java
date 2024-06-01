@@ -26,12 +26,12 @@ import com.dilly.gift.dto.response.WaitingGiftBoxResponse;
 import com.dilly.global.IntegrationTestSupport;
 import com.dilly.global.WithCustomMockUser;
 import com.dilly.global.util.SecurityUtil;
+import com.dilly.global.util.validator.UuidValidator;
 import com.dilly.member.domain.Member;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.regex.Pattern;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Nested;
@@ -97,7 +97,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
                 assertThat(giftBox.getGiftBoxType()).isEqualTo(GiftBoxType.PRIVATE);
 
                 assertThat(giftBoxIdResponse.id()).isEqualTo(giftBox.getId());
-                assertTrue(isValidUUID(giftBoxIdResponse.uuid()));
+                assertTrue(UuidValidator.isValidUUID(giftBoxIdResponse.uuid()));
                 assertThat(giftBoxIdResponse.kakaoMessageImgUrl()).isEqualTo(
                     giftBox.getBox().getKakaoMessageImgUrl());
             }),
@@ -132,7 +132,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
                 assertThat(giftBox.getGiftBoxType()).isEqualTo(GiftBoxType.PRIVATE);
 
                 assertThat(giftBoxIdResponse.id()).isEqualTo(giftBox.getId());
-                assertTrue(isValidUUID(giftBoxIdResponse.uuid()));
+                assertTrue(UuidValidator.isValidUUID(giftBoxIdResponse.uuid()));
                 assertThat(giftBoxIdResponse.kakaoMessageImgUrl()).isEqualTo(
                     giftBox.getBox().getKakaoMessageImgUrl());
             })
@@ -330,12 +330,5 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
             assertThat(result.get(0).id()).isEqualTo(lastGiftBoxId);
             assertThat(result.get(5).id()).isEqualTo(lastGiftBoxId - 5);
         }
-    }
-
-    private boolean isValidUUID(String value) {
-        final Pattern uuidPattern =
-            Pattern.compile(
-                "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$");
-        return value != null && uuidPattern.matcher(value).matches();
     }
 }
