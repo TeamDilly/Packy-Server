@@ -2,11 +2,11 @@ package com.dilly.global.util;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class TextUtil {
-
-    private TextUtil() {
-    }
     
     private static final Pattern graphemePattern = Pattern.compile("\\X");
 
