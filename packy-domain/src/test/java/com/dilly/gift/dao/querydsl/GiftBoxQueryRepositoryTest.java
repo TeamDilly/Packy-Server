@@ -1,15 +1,8 @@
 package com.dilly.gift.dao.querydsl;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import com.dilly.gift.domain.giftbox.GiftBox;
 import com.dilly.global.RepositoryTestSupport;
 import com.dilly.member.domain.Member;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Slice;
 
 class GiftBoxQueryRepositoryTest extends RepositoryTestSupport {
 
@@ -48,4 +41,4 @@ class GiftBoxQueryRepositoryTest extends RepositoryTestSupport {
 //            assertThat(giftBox.getSender()).isEqualTo(member1);
 //        }
 //    }
-//}
+}
