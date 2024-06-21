@@ -11,4 +11,4 @@ ALTER TABLE gift_box MODIFY COLUMN id BIGINT NOT NULL;
 ALTER TABLE admin_gift_box ADD CONSTRAINT FKrqscgkmmi1tdameg7ecnogr35 FOREIGN KEY (gift_box_id) REFERENCES gift_box(id);
 ALTER TABLE gift_box_sticker ADD CONSTRAINT FK454wobqqtgwjl6so84qkwfbu6 FOREIGN KEY (gift_box_id) REFERENCES gift_box(id);
 ALTER TABLE photo ADD CONSTRAINT FKe18pcn71jkuf5jhque1cpj41f FOREIGN KEY (gift_box_id) REFERENCES gift_box(id);
-ALTER TABLE receiver ADD CONSTRAINT FKm8lwiysco4e9tma0bfdx7ootn FOREIGN KEY (gift_box_id) REFERENCES gift_box(id);´
+ALTER TABLE receiver ADD CONSTRAINT FKm8lwiysco4e9tma0bfdx7ootn FOREIGN KEY (gift_box_id) REFERENCES gift_box(id);
