@@ -139,7 +139,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
         @DisplayName("선물박스가 없는 경우")
         class GiftBoxWithoutGift {
 
-            @DisplayName("Gift는 Null이다.")
+            @DisplayName("Gift는 Null로 저장된다.")
             @Test
             void giftIsNull() {
                 // given
