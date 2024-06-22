@@ -1,5 +1,7 @@
 package com.dilly.gift.application;
 
+import static com.dilly.MemberEnumFixture.NORMAL_MEMBER_RECEIVER;
+import static com.dilly.MemberEnumFixture.NORMAL_MEMBER_SENDER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.tuple;
@@ -24,29 +26,49 @@ import com.dilly.gift.dto.response.PhotoResponseDto.PhotoResponse;
 import com.dilly.gift.dto.response.StickerResponse;
 import com.dilly.global.IntegrationTestSupport;
 import com.dilly.global.WithCustomMockUser;
-import com.dilly.global.util.SecurityUtil;
 import com.dilly.global.util.validator.UuidValidator;
 import com.dilly.member.domain.Member;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestFactory;
 
 class GiftBoxServiceTest extends IntegrationTestSupport {
 
-    @DisplayName("선물박스 만들기 시나리오")
-    @TestFactory
-    @WithCustomMockUser
-    Collection<DynamicTest> createGiftBox() {
-        // given
-        Long memberId = SecurityUtil.getMemberId();
-        Member member = memberRepository.findById(memberId).orElseThrow();
+    private Member MEMBER_SENDER;
+    private Member MEMBER_RECEIVER;
+    private Member MEMBER_STRANGER;
 
+    private final String SENDER_ID = "1";
+    private final String RECEIVER_ID = "2";
+    private final String STRANGER_ID = "3";
+
+    @BeforeEach
+    void setUp() {
+        Long senderId = Long.parseLong(SENDER_ID);
+        Long receiverId = Long.parseLong(RECEIVER_ID);
+        Long strangerId = Long.parseLong(STRANGER_ID);
+
+        MEMBER_SENDER = memberRepository.save(NORMAL_MEMBER_SENDER.createMember(senderId));
+        MEMBER_RECEIVER = memberRepository.save(NORMAL_MEMBER_RECEIVER.createMember(receiverId));
+        MEMBER_STRANGER = memberRepository.save(NORMAL_MEMBER_SENDER.createMember(strangerId));
+    }
+
+    @AfterEach
+    void tearDown() {
+        memberRepository.deleteAll();
+    }
+
+    @Nested
+    @DisplayName("선물박스를 만들 때")
+    @WithCustomMockUser(id = SENDER_ID)
+    class CreateGiftBox {
+
+        // given
         List<PhotoRequest> photoRequests = Collections.singletonList(PhotoRequest.of(
             "www.test.com", "description1", 1));
 
@@ -54,27 +76,28 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
             StickerRequest.of(1L, 1),
             StickerRequest.of(2L, 2)
         );
-        GiftBoxRequest giftBoxRequestWithGift = GiftBoxRequest.of("test", "sender", "receiver", 1L,
-            1L, "This is letter content.", "www.youtube.com", photoRequests,
-            stickerRequests,
-            GiftRequest.of("photo", "www.test.com"));
-        GiftBoxRequest giftBoxRequestWithoutGift = GiftBoxRequest.of("test", "sender", "receiver",
-            1L,
-            1L, "This is letter content.", "www.youtube.com", photoRequests,
-            stickerRequests);
 
-        return List.of(
-            DynamicTest.dynamicTest("선물이 있을 경우", () -> {
+        @Nested
+        @DisplayName("선물박스가 있는 경우")
+        class GiftBoxWithGift {
+
+            // given
+            GiftBoxRequest giftBoxRequestWithGift = GiftBoxRequest.of("test", "sender", "receiver",
+                1L, 1L, "This is letter content.", "www.youtube.com", photoRequests,
+                stickerRequests, GiftRequest.of("photo", "www.test.com"));
+
+            @DisplayName("요청한 정보가 정상적으로 저장된다")
+            @Test
+            void saveGiftBoxInfo() {
                 // when
-                GiftBoxIdResponse giftBoxIdResponse = giftBoxService.createGiftBox(
-                    giftBoxRequestWithGift);
+                giftBoxService.createGiftBox(giftBoxRequestWithGift);
                 GiftBox giftBox = giftBoxRepository.findTopByOrderByIdDesc();
                 List<Photo> photos = photoRepository.findAllByGiftBox(giftBox);
                 List<GiftBoxSticker> giftBoxStickers = giftBoxStickerRepository
                     .findAllByGiftBox(giftBox);
 
                 // then
-                assertThat(giftBox.getSender()).isEqualTo(member);
+                assertThat(giftBox.getSender()).isEqualTo(MEMBER_SENDER);
                 assertThat(giftBox.getBox().getId()).isEqualTo(giftBoxRequestWithGift.boxId());
                 assertThat(giftBox.getName()).isEqualTo(giftBoxRequestWithGift.name());
                 assertThat(giftBox.getSenderName()).isEqualTo(giftBoxRequestWithGift.senderName());
@@ -94,48 +117,44 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
                     .contains(tuple("www.test.com", "description1", 1));
                 assertThat(giftBoxStickers).hasSize(stickerRequests.size());
                 assertThat(giftBox.getGiftBoxType()).isEqualTo(GiftBoxType.PRIVATE);
+            }
 
-                assertThat(giftBoxIdResponse.id()).isEqualTo(giftBox.getId());
-                assertTrue(UuidValidator.isValidUUID(giftBoxIdResponse.uuid()));
-                assertThat(giftBoxIdResponse.kakaoMessageImgUrl()).isEqualTo(
-                    giftBox.getBox().getKakaoMessageImgUrl());
-            }),
-            DynamicTest.dynamicTest("선물이 없을 경우", () -> {
+            @DisplayName("저장된 선물박스의 정보를 반환한다")
+            @Test
+            void returnGiftBoxInfo() {
                 // when
                 GiftBoxIdResponse giftBoxIdResponse = giftBoxService.createGiftBox(
-                    giftBoxRequestWithoutGift);
+                    giftBoxRequestWithGift);
                 GiftBox giftBox = giftBoxRepository.findTopByOrderByIdDesc();
-                List<Photo> photos = photoRepository.findAllByGiftBox(giftBox);
-                List<GiftBoxSticker> giftBoxStickers = giftBoxStickerRepository
-                    .findAllByGiftBox(giftBox);
 
                 // then
-                assertThat(giftBox.getSender()).isEqualTo(member);
-                assertThat(giftBox.getBox().getId()).isEqualTo(giftBoxRequestWithoutGift.boxId());
-                assertThat(giftBox.getName()).isEqualTo(giftBoxRequestWithoutGift.name());
-                assertThat(giftBox.getSenderName()).isEqualTo(
-                    giftBoxRequestWithoutGift.senderName());
-                assertThat(giftBox.getReceiverName()).isEqualTo(
-                    giftBoxRequestWithoutGift.receiverName());
-                assertThat(giftBox.getLetter().getEnvelope().getId()).isEqualTo(
-                    giftBoxRequestWithoutGift.envelopeId());
-                assertThat(giftBox.getLetter().getContent()).isEqualTo(
-                    giftBoxRequestWithoutGift.letterContent());
-                assertThat(giftBox.getYoutubeUrl()).isEqualTo(
-                    giftBoxRequestWithoutGift.youtubeUrl());
-                assertThat(giftBox.getGift()).isNull();
-                assertThat(photos).hasSize(photoRequests.size())
-                    .extracting("imgUrl", "description", "sequence")
-                    .contains(tuple("www.test.com", "description1", 1));
-                assertThat(giftBoxStickers).hasSize(stickerRequests.size());
-                assertThat(giftBox.getGiftBoxType()).isEqualTo(GiftBoxType.PRIVATE);
-
                 assertThat(giftBoxIdResponse.id()).isEqualTo(giftBox.getId());
                 assertTrue(UuidValidator.isValidUUID(giftBoxIdResponse.uuid()));
                 assertThat(giftBoxIdResponse.kakaoMessageImgUrl()).isEqualTo(
                     giftBox.getBox().getKakaoMessageImgUrl());
-            })
-        );
+            }
+        }
+
+        @Nested
+        @DisplayName("선물박스가 없는 경우")
+        class GiftBoxWithoutGift {
+
+            @DisplayName("Gift는 Null이다.")
+            @Test
+            void giftIsNull() {
+                // given
+                GiftBoxRequest giftBoxRequestWithoutGift = GiftBoxRequest.of("test", "sender",
+                    "receiver", 1L, 1L, "This is letter content.", "www.youtube.com", photoRequests,
+                    stickerRequests);
+
+                // when
+                giftBoxService.createGiftBox(giftBoxRequestWithoutGift);
+                GiftBox giftBox = giftBoxRepository.findTopByOrderByIdDesc();
+
+                // then
+                assertThat(giftBox.getGift()).isNull();
+            }
+        }
     }
 
     // 1번 유저가 선물 박스를 만든다
@@ -163,7 +182,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
 
             @Test
             @DisplayName("선물이 있을 경우")
-            @WithCustomMockUser(id = "2")
+            @WithCustomMockUser(id = RECEIVER_ID)
             void openGiftBoxWithGift() {
                 // given
                 giftBoxWithGift = createMockGiftBoxWithGift(member1, DeliverStatus.DELIVERED);
@@ -206,7 +225,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
 
             @Test
             @DisplayName("선물이 없을 경우")
-            @WithCustomMockUser(id = "2")
+            @WithCustomMockUser(id = RECEIVER_ID)
             void openGiftBoxWithoutGift() {
                 // given
                 giftBoxWithoutGift = createMockGiftBoxWithoutGift(member1, DeliverStatus.DELIVERED);
@@ -256,7 +275,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
 
             @Test
             @DisplayName("선물박스를 이전에 받은 사람은 다시 열 수 있다.")
-            @WithCustomMockUser(id = "2")
+            @WithCustomMockUser(id = RECEIVER_ID)
             void shouldAllowRecipientToReopenGiftBox() {
                 // given
                 openGiftBox(member2, giftBox);
@@ -299,7 +318,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
 
             @Test
             @DisplayName("선물박스를 받지 않은 사람은 열 수 없다.")
-            @WithCustomMockUser(id = "3")
+            @WithCustomMockUser(id = STRANGER_ID)
             void shouldNotAllowRecipientToReopenGiftBox() {
                 // given
                 openGiftBox(member2, giftBox);
