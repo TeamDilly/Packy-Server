@@ -45,7 +45,15 @@ public class GiftBoxWriter {
 			.build());
 	}
 
+	public GiftBox save(GiftBox giftBox) {
+		return giftBoxRepository.save(giftBox);
+	}
+
 	public void delete(GiftBox giftBox) {
 		giftBoxRepository.delete(giftBox);
+	}
+
+	public GiftBox findTopByOrderByIdDesc() {
+		return giftBoxRepository.findTopByOrderByIdDesc();
 	}
 }

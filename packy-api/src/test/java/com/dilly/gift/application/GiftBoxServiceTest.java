@@ -53,14 +53,14 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
         Long receiverId = Long.parseLong(RECEIVER_ID);
         Long strangerId = Long.parseLong(STRANGER_ID);
 
-        MEMBER_SENDER = memberRepository.save(NORMAL_MEMBER_SENDER.createMember(senderId));
-        MEMBER_RECEIVER = memberRepository.save(NORMAL_MEMBER_RECEIVER.createMember(receiverId));
-        MEMBER_STRANGER = memberRepository.save(NORMAL_MEMBER_SENDER.createMember(strangerId));
+        MEMBER_SENDER = memberWriter.save(NORMAL_MEMBER_SENDER.createMember(senderId));
+        MEMBER_RECEIVER = memberWriter.save(NORMAL_MEMBER_RECEIVER.createMember(receiverId));
+        MEMBER_STRANGER = memberWriter.save(NORMAL_MEMBER_SENDER.createMember(strangerId));
     }
 
     @AfterEach
     void tearDown() {
-        memberRepository.deleteAll();
+        memberWriter.deleteAll();
     }
 
     @Nested
@@ -91,9 +91,9 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
             void saveGiftBoxInfo() {
                 // when
                 giftBoxService.createGiftBox(giftBoxRequestWithGift);
-                GiftBox giftBox = giftBoxRepository.findTopByOrderByIdDesc();
-                List<Photo> photos = photoRepository.findAllByGiftBox(giftBox);
-                List<GiftBoxSticker> giftBoxStickers = giftBoxStickerRepository
+                GiftBox giftBox = giftBoxWriter.findTopByOrderByIdDesc();
+                List<Photo> photos = photoReader.findAllByGiftBox(giftBox);
+                List<GiftBoxSticker> giftBoxStickers = giftBoxStickerReader
                     .findAllByGiftBox(giftBox);
 
                 // then
@@ -125,7 +125,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
                 // when
                 GiftBoxIdResponse giftBoxIdResponse = giftBoxService.createGiftBox(
                     giftBoxRequestWithGift);
-                GiftBox giftBox = giftBoxRepository.findTopByOrderByIdDesc();
+                GiftBox giftBox = giftBoxReader.findTopByOrderByIdDesc();
 
                 // then
                 assertThat(giftBoxIdResponse.id()).isEqualTo(giftBox.getId());
@@ -149,7 +149,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
 
                 // when
                 giftBoxService.createGiftBox(giftBoxRequestWithoutGift);
-                GiftBox giftBox = giftBoxRepository.findTopByOrderByIdDesc();
+                GiftBox giftBox = giftBoxReader.findTopByOrderByIdDesc();
 
                 // then
                 assertThat(giftBox.getGift()).isNull();

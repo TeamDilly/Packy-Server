@@ -2,7 +2,11 @@ package com.dilly.global;
 
 import com.dilly.admin.application.AdminService;
 import com.dilly.admin.dao.SettingRepository;
+import com.dilly.gift.adaptor.BoxReader;
+import com.dilly.gift.adaptor.GiftBoxReader;
+import com.dilly.gift.adaptor.GiftBoxStickerReader;
 import com.dilly.gift.adaptor.GiftBoxWriter;
+import com.dilly.gift.adaptor.PhotoReader;
 import com.dilly.gift.adaptor.PhotoWriter;
 import com.dilly.gift.adaptor.ReceiverReader;
 import com.dilly.gift.adaptor.ReceiverWriter;
@@ -29,6 +33,8 @@ import com.dilly.gift.domain.receiver.Receiver;
 import com.dilly.gift.domain.sticker.GiftBoxSticker;
 import com.dilly.gift.domain.sticker.Sticker;
 import com.dilly.member.MemberRepository;
+import com.dilly.member.adaptor.MemberReader;
+import com.dilly.member.adaptor.MemberWriter;
 import com.dilly.member.application.MyPageService;
 import com.dilly.member.domain.Member;
 import jakarta.transaction.Transactional;
@@ -58,11 +64,16 @@ public abstract class IntegrationTestSupport {
     @Autowired
     protected MyPageService myPageService;
 
+    // TODO: Repository 대신 Reader, Writer 사용
+
     @Autowired
     protected ProfileImageRepository profileImageRepository;
 
     @Autowired
     protected BoxRepository boxRepository;
+
+    @Autowired
+    protected BoxReader boxReader;
 
     @Autowired
     protected EnvelopeRepository envelopeRepository;
@@ -80,10 +91,16 @@ public abstract class IntegrationTestSupport {
     protected PhotoWriter photoWriter;
 
     @Autowired
+    protected PhotoReader photoReader;
+
+    @Autowired
     protected StickerRepository stickerRepository;
 
     @Autowired
     protected GiftBoxStickerRepository giftBoxStickerRepository;
+
+    @Autowired
+    protected GiftBoxStickerReader giftBoxStickerReader;
 
     @Autowired
     protected GiftBoxRepository giftBoxRepository;
@@ -92,7 +109,13 @@ public abstract class IntegrationTestSupport {
     protected GiftBoxWriter giftBoxWriter;
 
     @Autowired
+    protected GiftBoxReader giftBoxReader;
+
+    @Autowired
     protected ReceiverWriter receiverWriter;
+
+    @Autowired
+    protected ReceiverReader receiverReader;
 
     @Autowired
     protected ReceiverRepository receiverRepository;
@@ -105,6 +128,10 @@ public abstract class IntegrationTestSupport {
 
     @Autowired
     protected SettingRepository settingRepository;
+    protected MemberReader memberReader;
+
+    @Autowired
+    protected MemberWriter memberWriter;
 
     protected GiftBox createMockGiftBoxWithGift(Member member, DeliverStatus deliverStatus) {
         Box box = boxRepository.findById(1L).orElseThrow();
@@ -167,4 +194,6 @@ public abstract class IntegrationTestSupport {
             receiverWriter.save(member, giftBox);
         }
     }
+    @Autowired
+    protected SettingRepository settingRepository;
 }
