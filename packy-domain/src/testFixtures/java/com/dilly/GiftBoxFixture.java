@@ -13,7 +13,7 @@ import com.dilly.member.domain.Member;
 
 public class GiftBoxFixture {
 
-    public static GiftBox createGiftBoxFixtureWithGift(Member member) {
+    public static GiftBox sendGiftBoxFixtureWithGift(Member member) {
         return GiftBox.builder()
             .box(createBox())
             .letter(createLetter())
@@ -23,11 +23,11 @@ public class GiftBoxFixture {
             .youtubeUrl("www.youtube.com")
             .senderName("보내는 사람")
             .receiverName("받는 사람")
-            .deliverStatus(DeliverStatus.WAITING)
+            .deliverStatus(DeliverStatus.DELIVERED)
             .build();
     }
 
-    public static GiftBox createGiftBoxFixtureWithoutGift(Member member) {
+    public static GiftBox sendGiftBoxFixtureWithoutGift(Member member) {
         return GiftBox.builder()
             .box(createBox())
             .letter(createLetter())
@@ -36,21 +36,22 @@ public class GiftBoxFixture {
             .youtubeUrl("www.youtube.com")
             .senderName("보내는 사람")
             .receiverName("받는 사람")
-            .deliverStatus(DeliverStatus.WAITING)
+            .deliverStatus(DeliverStatus.DELIVERED)
             .build();
     }
 
+    // TODO: data.sql 의존성 제거 후 www.test.com으로 변경
     private static Box createBox() {
         return Box.builder()
             .id(1L)
             .sequence(1L)
-            .normalImgUrl("www.test.com")
-            .smallImgUrl("www.test.com")
-            .setImgUrl("www.test.com")
-            .topImgUrl("www.test.com")
-            .kakaoMessageImgUrl("www.test.com")
-            .lottieMakeUrl("www.test.com")
-            .lottieArrivedUrl("www.test.com")
+            .normalImgUrl("www.example.com")
+            .smallImgUrl("www.example.com")
+            .setImgUrl("www.example.com")
+            .topImgUrl("www.example.com")
+            .kakaoMessageImgUrl("www.example.com")
+            .lottieMakeUrl("www.example.com")
+            .lottieArrivedUrl("www.example.com")
             .build();
     }
 

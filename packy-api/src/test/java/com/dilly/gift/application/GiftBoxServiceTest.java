@@ -1,5 +1,7 @@
 package com.dilly.gift.application;
 
+import static com.dilly.GiftBoxFixture.sendGiftBoxFixtureWithGift;
+import static com.dilly.GiftBoxFixture.sendGiftBoxFixtureWithoutGift;
 import static com.dilly.MemberEnumFixture.NORMAL_MEMBER_RECEIVER;
 import static com.dilly.MemberEnumFixture.NORMAL_MEMBER_SENDER;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -9,7 +11,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.dilly.exception.GiftBoxAlreadyOpenedException;
 import com.dilly.gift.domain.Photo;
-import com.dilly.gift.domain.giftbox.DeliverStatus;
 import com.dilly.gift.domain.giftbox.GiftBox;
 import com.dilly.gift.domain.giftbox.GiftBoxType;
 import com.dilly.gift.domain.receiver.Receiver;
@@ -156,43 +157,32 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
             }
         }
     }
-
-    // 1번 유저가 선물 박스를 만든다
-    // 2번 유저가 선물 박스를 연다
-    // receiver에 2번 유저가 들어갔는지 check
-    // 선물박스 정보가 다 담겼는지 check
-
-    // 2번 유저가 선물 박스를 열고, 3번 유저가 또 열었을 때 열리지 않아야 한다.
+    
     @Nested
     @DisplayName("선물박스를 열 때")
     class OpenGiftBox {
 
-        // given
-        Member member1 = memberRepository.findById(1L).orElseThrow();
-        Member member2 = memberRepository.findById(2L).orElseThrow();
-
-        GiftBox giftBoxWithGift;
-        GiftBox giftBoxWithoutGift;
-        BoxResponse expectedBoxResponse = BoxResponse.from(
-            boxRepository.findById(1L).orElseThrow());
-
         @Nested
         @DisplayName("열린 적 없는 선물박스일 경우")
-        class ContextWithGift {
+        @WithCustomMockUser(id = RECEIVER_ID)
+        class NotOpenedGiftBox {
 
             @Test
-            @DisplayName("선물이 있을 경우")
-            @WithCustomMockUser(id = RECEIVER_ID)
+            @DisplayName("선물박스의 정보를 확인할 수 있다.")
             void openGiftBoxWithGift() {
                 // given
-                giftBoxWithGift = createMockGiftBoxWithGift(member1, DeliverStatus.DELIVERED);
-                Long receiverBefore = receiverRepository.countByGiftBox(giftBoxWithGift);
-                List<PhotoResponse> expectedPhotoResponses = photoRepository.findAllByGiftBox(
+                GiftBox giftBoxWithGift = sendGiftBoxFixtureWithGift(MEMBER_SENDER);
+                giftBoxWriter.save(giftBoxWithGift);
+
+                // TODO: data.sql에 의존하지 않도록 수정해야 함
+                BoxResponse expectedBoxResponse = BoxResponse.from(
+                    boxReader.findById(1L));
+                List<PhotoResponse> expectedPhotoResponses = photoReader.findAllByGiftBox(
                         giftBoxWithGift).stream()
                     .map(PhotoResponse::from)
                     .sorted(Comparator.comparingInt(PhotoResponse::sequence))
                     .toList();
-                List<StickerResponse> expectedStickerResponses = giftBoxStickerRepository.findAllByGiftBox(
+                List<StickerResponse> expectedStickerResponses = giftBoxStickerReader.findAllByGiftBox(
                         giftBoxWithGift).stream()
                     .map(StickerResponse::from)
                     .sorted(Comparator.comparingInt(StickerResponse::location))
@@ -202,14 +192,8 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
                 // when
                 GiftBoxResponse giftBoxResponse = giftBoxService.openGiftBox(
                     giftBoxWithGift.getId());
-                Long receiverAfter = receiverRepository.countByGiftBox(giftBoxWithGift);
-                List<Receiver> receivers = receiverRepository.findByGiftBox(giftBoxWithGift);
 
                 // then
-                assertThat(receiverAfter).isEqualTo(receiverBefore + 1);
-                assertThat(receivers).hasSize(1)
-                    .extracting("member.id").contains(member2.getId());
-
                 assertThat(giftBoxResponse.name()).isEqualTo(giftBoxWithGift.getName());
                 assertThat(giftBoxResponse.senderName()).isEqualTo(giftBoxWithGift.getSenderName());
                 assertThat(giftBoxResponse.receiverName()).isEqualTo(
@@ -224,105 +208,118 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
             }
 
             @Test
-            @DisplayName("선물이 없을 경우")
-            @WithCustomMockUser(id = RECEIVER_ID)
+            @DisplayName("선물이 없을 경우, Gift는 Null이다.")
             void openGiftBoxWithoutGift() {
                 // given
-                giftBoxWithoutGift = createMockGiftBoxWithoutGift(member1, DeliverStatus.DELIVERED);
-                Long receiverBefore = receiverRepository.countByGiftBox(giftBoxWithoutGift);
-                List<PhotoResponse> expectedPhotoResponses = photoRepository.findAllByGiftBox(
-                        giftBoxWithoutGift).stream()
-                    .map(PhotoResponse::from)
-                    .sorted(Comparator.comparingInt(PhotoResponse::sequence))
-                    .toList();
-                List<StickerResponse> expectedStickerResponses = giftBoxStickerRepository.findAllByGiftBox(
-                        giftBoxWithoutGift).stream()
-                    .map(StickerResponse::from)
-                    .sorted(Comparator.comparingInt(StickerResponse::location))
-                    .toList();
+                GiftBox giftBoxWithoutGift = sendGiftBoxFixtureWithoutGift(MEMBER_SENDER);
+                giftBoxWriter.save(giftBoxWithoutGift);
 
                 // when
                 GiftBoxResponse giftBoxResponse = giftBoxService.openGiftBox(
                     giftBoxWithoutGift.getId());
-                Long receiverAfter = receiverRepository.countByGiftBox(giftBoxWithoutGift);
-                List<Receiver> receivers = receiverRepository.findByGiftBox(giftBoxWithoutGift);
+
+                // then
+                assertThat(giftBoxResponse.gift()).isNull();
+            }
+
+            @DisplayName("Receiver 정보가 저장된다.")
+            @Test
+            void saveReceiverData() {
+                // given
+                GiftBox giftBoxWithGift = sendGiftBoxFixtureWithGift(MEMBER_SENDER);
+                giftBoxWriter.save(giftBoxWithGift);
+
+                Long receiverBefore = receiverReader.countByGiftBox(giftBoxWithGift);
+
+                // when
+                giftBoxService.openGiftBox(giftBoxWithGift.getId());
+                Long receiverAfter = receiverReader.countByGiftBox(giftBoxWithGift);
+                List<Receiver> receivers = receiverReader.findByGiftBox(giftBoxWithGift);
 
                 // then
                 assertThat(receiverAfter).isEqualTo(receiverBefore + 1);
                 assertThat(receivers).hasSize(1)
-                    .extracting("member.id").contains(member2.getId());
-                assertThat(giftBoxResponse.name()).isEqualTo(giftBoxWithoutGift.getName());
-                assertThat(giftBoxResponse.senderName()).isEqualTo(
-                    giftBoxWithoutGift.getSenderName());
-                assertThat(giftBoxResponse.receiverName()).isEqualTo(
-                    giftBoxWithoutGift.getReceiverName());
-                assertThat(giftBoxResponse.box()).isEqualTo(expectedBoxResponse);
-                assertThat(giftBoxResponse.letterContent()).isEqualTo(
-                    giftBoxWithoutGift.getLetter().getContent());
-                assertThat(giftBoxResponse.youtubeUrl()).isEqualTo(
-                    giftBoxWithoutGift.getYoutubeUrl());
-                assertThat(giftBoxResponse.photos()).isEqualTo(expectedPhotoResponses);
-                assertThat(giftBoxResponse.stickers()).isEqualTo(expectedStickerResponses);
-                assertThat(giftBoxResponse.gift()).isNull();
+                    .extracting("member.id").contains(Long.parseLong(RECEIVER_ID));
             }
         }
 
+        // TODO: 선물박스를 여는 작업을 분리할 방법 찾아보기
         @Nested
         @DisplayName("이미 열린 선물박스일 경우")
-        class ContextWithAlreadyOpenedGiftBox {
+        class AlreadyOpenedGiftBox {
 
-            GiftBox giftBox = createMockGiftBoxWithGift(member1, DeliverStatus.DELIVERED);
+            GiftBox giftBox;
 
-            @Test
-            @DisplayName("선물박스를 이전에 받은 사람은 다시 열 수 있다.")
+            @BeforeEach
+            void setUp() {
+                giftBox = giftBoxWriter.save(sendGiftBoxFixtureWithGift(MEMBER_SENDER));
+                openGiftBox(MEMBER_RECEIVER, giftBox);
+            }
+
+            @Nested
+            @DisplayName("받은 사람이 선물박스를 다시 여는 경우")
             @WithCustomMockUser(id = RECEIVER_ID)
-            void shouldAllowRecipientToReopenGiftBox() {
-                // given
-                openGiftBox(member2, giftBox);
-                Long receiverBefore = receiverRepository.countByGiftBox(giftBox);
-                List<PhotoResponse> expectedPhotoResponses = photoRepository.findAllByGiftBox(
-                        giftBox).stream()
-                    .map(PhotoResponse::from)
-                    .sorted(Comparator.comparingInt(PhotoResponse::sequence))
-                    .toList();
-                List<StickerResponse> expectedStickerResponses = giftBoxStickerRepository.findAllByGiftBox(
-                        giftBox).stream()
-                    .map(StickerResponse::from)
-                    .sorted(Comparator.comparingInt(StickerResponse::location))
-                    .toList();
-                GiftResponse expectedGiftResponse = GiftResponse.from(giftBox.getGift());
+            class ReceiverReOpenGiftBox {
 
-                // when
-                GiftBoxResponse giftBoxResponse = giftBoxService.openGiftBox(giftBox.getId());
-                List<Receiver> receivers = receiverRepository.findByGiftBox(giftBox);
-                Long receiverAfter = receiverRepository.countByGiftBox(giftBox);
+                @DisplayName("선물박스의 정보를 확인할 수 있다.")
+                @Test
+                void canopenGiftBox() {
+                    // given
+                    // TODO: data.sql에 의존하지 않도록 수정해야 함
+                    BoxResponse expectedBoxResponse = BoxResponse.from(
+                        boxReader.findById(1L));
+                    List<PhotoResponse> expectedPhotoResponses = photoReader.findAllByGiftBox(
+                            giftBox).stream()
+                        .map(PhotoResponse::from)
+                        .sorted(Comparator.comparingInt(PhotoResponse::sequence))
+                        .toList();
+                    List<StickerResponse> expectedStickerResponses = giftBoxStickerReader.findAllByGiftBox(
+                            giftBox).stream()
+                        .map(StickerResponse::from)
+                        .sorted(Comparator.comparingInt(StickerResponse::location))
+                        .toList();
+                    GiftResponse expectedGiftResponse = GiftResponse.from(giftBox.getGift());
 
-                // then
-                assertThat(receiverAfter).isEqualTo(receiverBefore);
-                assertThat(receivers).hasSize(1)
-                    .extracting("member.id").contains(member2.getId());
-                assertThat(giftBoxResponse.name()).isEqualTo(giftBox.getName());
-                assertThat(giftBoxResponse.senderName()).isEqualTo(
-                    giftBox.getSenderName());
-                assertThat(giftBoxResponse.receiverName()).isEqualTo(
-                    giftBox.getReceiverName());
-                assertThat(giftBoxResponse.box()).isEqualTo(expectedBoxResponse);
-                assertThat(giftBoxResponse.letterContent()).isEqualTo(
-                    giftBox.getLetter().getContent());
-                assertThat(giftBoxResponse.youtubeUrl()).isEqualTo(
-                    giftBox.getYoutubeUrl());
-                assertThat(giftBoxResponse.photos()).isEqualTo(expectedPhotoResponses);
-                assertThat(giftBoxResponse.stickers()).isEqualTo(expectedStickerResponses);
-                assertThat(giftBoxResponse.gift()).isEqualTo(expectedGiftResponse);
+                    // when
+                    GiftBoxResponse giftBoxResponse = giftBoxService.openGiftBox(giftBox.getId());
+
+                    // then
+                    assertThat(giftBoxResponse.name()).isEqualTo(giftBox.getName());
+                    assertThat(giftBoxResponse.senderName()).isEqualTo(
+                        giftBox.getSenderName());
+                    assertThat(giftBoxResponse.receiverName()).isEqualTo(
+                        giftBox.getReceiverName());
+                    assertThat(giftBoxResponse.box()).isEqualTo(expectedBoxResponse);
+                    assertThat(giftBoxResponse.letterContent()).isEqualTo(
+                        giftBox.getLetter().getContent());
+                    assertThat(giftBoxResponse.youtubeUrl()).isEqualTo(
+                        giftBox.getYoutubeUrl());
+                    assertThat(giftBoxResponse.photos()).isEqualTo(expectedPhotoResponses);
+                    assertThat(giftBoxResponse.stickers()).isEqualTo(expectedStickerResponses);
+                    assertThat(giftBoxResponse.gift()).isEqualTo(expectedGiftResponse);
+                }
+
+                @DisplayName("Receiver 정보는 변하지 않는다.")
+                @Test
+                void receiverDataNotChange() {
+                    // given
+                    Long receiverBefore = receiverReader.countByGiftBox(giftBox);
+
+                    // when
+                    List<Receiver> receivers = receiverReader.findByGiftBox(giftBox);
+                    Long receiverAfter = receiverReader.countByGiftBox(giftBox);
+
+                    // then
+                    assertThat(receiverAfter).isEqualTo(receiverBefore);
+                    assertThat(receivers).hasSize(1)
+                        .extracting("member.id").contains(MEMBER_RECEIVER.getId());
+                }
             }
 
             @Test
             @DisplayName("선물박스를 받지 않은 사람은 열 수 없다.")
             @WithCustomMockUser(id = STRANGER_ID)
             void shouldNotAllowRecipientToReopenGiftBox() {
-                // given
-                openGiftBox(member2, giftBox);
-
                 // when // then
                 assertThatThrownBy(() -> giftBoxService.openGiftBox(giftBox.getId()))
                     .isInstanceOf(GiftBoxAlreadyOpenedException.class);
