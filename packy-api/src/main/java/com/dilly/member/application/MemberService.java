@@ -9,8 +9,8 @@ import com.dilly.global.util.SecurityUtil;
 import com.dilly.member.adaptor.MemberReader;
 import com.dilly.member.domain.Member;
 import com.dilly.member.domain.Status;
+import com.dilly.member.dto.response.AppStatusResponse;
 import com.dilly.member.dto.response.Reason;
-import com.dilly.member.dto.response.StatusResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,13 +24,13 @@ public class MemberService {
 
     private final MemberReader memberReader;
 
-    public StatusResponse getStatus(String appVersion) {
+    public AppStatusResponse getStatus(String appVersion) {
         Long memberId = SecurityUtil.getMemberId();
         Member member = memberReader.findById(memberId);
 
         // 유저 계정 상태 확인
         if (!member.getStatus().equals(Status.REGISTERED)) {
-            return StatusResponse.from(memberId, false, Reason.INVALID_STATUS);
+            return AppStatusResponse.from(memberId, false, Reason.INVALID_STATUS);
         }
 
         // 유저 버전 확인
@@ -49,14 +49,14 @@ public class MemberService {
         }
 
         if (memberMajorVersion < minimumRequiredMajorVersion) {
-            return StatusResponse.from(memberId, false, Reason.NEED_UPDATE);
+            return AppStatusResponse.from(memberId, false, Reason.NEED_UPDATE);
         }
 
         if (memberMinorVersion < minimumRequiredMinorVersion) {
-            return StatusResponse.from(memberId, false, Reason.NEED_UPDATE);
+            return AppStatusResponse.from(memberId, false, Reason.NEED_UPDATE);
         }
 
-        return StatusResponse.from(memberId, true);
+        return AppStatusResponse.from(memberId, true);
     }
 
     private Integer extractMajorVersion(String version) {

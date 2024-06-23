@@ -7,7 +7,7 @@ import lombok.Builder;
 
 @Builder
 @JsonInclude(Include.NON_NULL)
-public record StatusResponse(
+public record AppStatusResponse(
     @Schema(example = "1")
     Long id,
 
@@ -18,15 +18,15 @@ public record StatusResponse(
     Reason reason
 ) {
 
-    public static StatusResponse from(Long id, Boolean isAvailable) {
-        return StatusResponse.builder()
+    public static AppStatusResponse from(Long id, Boolean isAvailable) {
+        return AppStatusResponse.builder()
             .id(id)
             .isAvailable(isAvailable)
             .build();
     }
 
-    public static StatusResponse from(Long id, Boolean isAvailable, Reason reason) {
-        return StatusResponse.builder()
+    public static AppStatusResponse from(Long id, Boolean isAvailable, Reason reason) {
+        return AppStatusResponse.builder()
             .id(id)
             .isAvailable(isAvailable)
             .reason(reason)

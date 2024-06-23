@@ -2,7 +2,7 @@ package com.dilly.member.api;
 
 import com.dilly.global.response.DataResponseDto;
 import com.dilly.member.application.MemberService;
-import com.dilly.member.dto.response.StatusResponse;
+import com.dilly.member.dto.response.AppStatusResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,7 +23,7 @@ public class MemberController {
     @Operation(summary = "앱 사용 가능 상태 확인"
         , description = "reason: NEED_UPDATE(업데이트 필요), INVALID_STATUS(탈퇴, 정지 등 올바르지 않은 유저 상태)")
     @GetMapping("/status")
-    public DataResponseDto<StatusResponse> getStatus(
+    public DataResponseDto<AppStatusResponse> getStatus(
         @RequestParam("app-version") @Schema(example = "1.0.0") String appVersion
     ) {
         return DataResponseDto.from(memberService.getStatus(appVersion));
