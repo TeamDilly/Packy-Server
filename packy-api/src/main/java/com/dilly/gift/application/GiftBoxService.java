@@ -284,12 +284,19 @@ public class GiftBoxService {
         Member member = memberReader.findById(memberId);
 
         GiftBox giftBox = giftBoxReader.findById(giftBoxId);
-        MemberRole memberRole = getGiftBoxRole(member, giftBox);
+        MemberRole memberRole = getMemberRole(member, giftBox);
 
-        if (memberRole.equals(GiftBoxRole.SENDER)) {
+        if (memberRole.equals(MemberRole.STRANGER)) {
+            throw new GiftBoxAccessDeniedException();
+        }
+
+        // 선물박스를 보낸 사람
+        if (memberRole.equals(MemberRole.SENDER)) {
+            // 이미 카카오톡을 보냈다면 senderDeleted만 true로 변경
             if (giftBox.getDeliverStatus().equals(DeliverStatus.DELIVERED)) {
                 giftBox.delete();
             } else if (giftBox.getDeliverStatus().equals(DeliverStatus.WAITING)) {
+                // 아직 카카오톡으로 보내지 않았다면 선물박스 내부 요소와 S3에 저장된 이미지 삭제
                 letterWriter.delete(giftBox.getLetter());
                 giftBox.getPhotos().forEach(photo -> {
                     fileService.deleteFile(photo.getImgUrl());
@@ -301,7 +308,8 @@ public class GiftBoxService {
                 giftBox.getGiftBoxStickers().forEach(giftBoxStickerWriter::delete);
                 giftBoxWriter.delete(giftBox);
             }
-        } else if (memberRole.equals(GiftBoxRole.RECEIVER)) {
+        } else if (memberRole.equals(MemberRole.RECEIVER)) { // 선물박스를 받은 사람
+            // 받았다는 정보를 soft delete
             Receiver receiver = receiverReader.findByMemberAndGiftBox(member, giftBox);
             receiver.delete();
         }
@@ -309,17 +317,17 @@ public class GiftBoxService {
         return "선물박스가 삭제되었습니다";
     }
 
-    private GiftBoxRole getGiftBoxRole(Member member, GiftBox giftBox) {
+    private MemberRole getMemberRole(Member member, GiftBox giftBox) {
         List<Member> receivers = receiverReader.findByGiftBox(giftBox).stream()
             .map(Receiver::getMember)
             .toList();
 
         if (giftBox.getSender().equals(member)) {
-            return GiftBoxRole.SENDER;
+            return MemberRole.SENDER;
         } else if (receivers.contains(member)) { // 받은 사람일 경우
-            return GiftBoxRole.RECEIVER;
+            return MemberRole.RECEIVER;
         } else {
-            throw new GiftBoxAccessDeniedException();
+            return MemberRole.STRANGER;
         }
     }
 
