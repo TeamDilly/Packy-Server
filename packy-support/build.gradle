@@ -55,7 +55,8 @@ testCodeCoverageReport {
                             'com/dilly/**/model/**',
                             'com/dilly/global/constant/**',
                             'com/dilly/global/domain/**',
-                            'com/dilly/global/formatter/**'
+                            'com/dilly/global/formatter/**',
+                            'com/dilly/logging/**'
                     ] + Qdomains)
                 })
         )
