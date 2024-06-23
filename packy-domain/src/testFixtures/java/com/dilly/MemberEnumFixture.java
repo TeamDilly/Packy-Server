@@ -6,8 +6,10 @@ import com.dilly.member.domain.Provider;
 
 public enum MemberEnumFixture {
 
+    NORMAL_MEMBER("테스트"),
     NORMAL_MEMBER_SENDER("보내는 사람"),
     NORMAL_MEMBER_RECEIVER("받는 사람"),
+    NORMAL_MEMBER_STRANGER("외부인")
     ;
 
     private final String nickname;
