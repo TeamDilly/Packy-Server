@@ -15,28 +15,40 @@ import com.dilly.gift.dto.response.EnvelopeListResponse;
 import com.dilly.gift.dto.response.EnvelopePaperResponse;
 import com.dilly.global.ControllerTestSupport;
 import com.dilly.global.WithCustomMockUser;
+import com.dilly.global.fixture.BoxDtoFixture;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+import org.junitpioneer.jupiter.RestoreSystemProperties;
 
 class AdminControllerTest extends ControllerTestSupport {
 
+	private final String MEMBER_ID = "1";
+
 	@DisplayName("서버 상태를 확인한다.")
-	@Test
-	@WithCustomMockUser
-	void healthCheck() throws Exception {
-		// given // when // then
-		// TODO: active profile이 null로 뜸
+	@ParameterizedTest
+	@ValueSource(strings = {"local", "dev", "prod"})
+	@RestoreSystemProperties
+	@WithCustomMockUser(id = MEMBER_ID)
+	void healthCheck(String profile) throws Exception {
+		// given
+		System.setProperty("spring.profiles.active", profile);
+		String expectedData = "This is " + profile + " server!";
+
+		// when // then
 		mockMvc.perform(
 				get(baseUrl + "/admin/health")
 			)
 			.andDo(print())
-			.andExpect(status().isOk());
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.data").value(expectedData));
 	}
 
 	@DisplayName("프로필 이미지를 조회한다.")
 	@Test
-	@WithCustomMockUser
+	@WithCustomMockUser(id = MEMBER_ID)
 	void getProfiles() throws Exception {
 		// given
 		List<ImgResponse> profiles = List.of(
@@ -58,35 +70,13 @@ class AdminControllerTest extends ControllerTestSupport {
 
 	@DisplayName("박스 디자인을 조회한다.")
 	@Test
-	@WithCustomMockUser
+	@WithCustomMockUser(id = MEMBER_ID)
 	void getBoxes() throws Exception {
 		// given
-		List<BoxImgResponse> boxes = List.of(
-			BoxImgResponse.builder()
-				.id(1L)
-				.sequence(1L)
-                .boxNormal("www.test1.com")
-                .boxSmall("www.test1.com")
-                .boxSet("www.test1.com")
-                .boxTop("www.test1.com")
-				.build(),
-			BoxImgResponse.builder()
-				.id(2L)
-				.sequence(2L)
-                .boxNormal("www.test2.com")
-                .boxSmall("www.test2.com")
-                .boxSet("www.test2.com")
-                .boxTop("www.test2.com")
-				.build(),
-			BoxImgResponse.builder()
-				.id(3L)
-				.sequence(3L)
-                .boxNormal("www.test3.com")
-                .boxSmall("www.test3.com")
-                .boxSet("www.test3.com")
-                .boxTop("www.test3.com")
-				.build()
-		);
+		BoxImgResponse box1 = BoxDtoFixture.createBoxImgResponse(1L, 1L);
+		BoxImgResponse box2 = BoxDtoFixture.createBoxImgResponse(2L, 2L);
+		BoxImgResponse box3 = BoxDtoFixture.createBoxImgResponse(3L, 3L);
+		List<BoxImgResponse> boxes = List.of(box1, box2, box3);
 
 		given(adminService.getBoxes()).willReturn(boxes);
 
@@ -102,7 +92,7 @@ class AdminControllerTest extends ControllerTestSupport {
 
 	@DisplayName("편지 봉투 디자인을 조회한다.")
 	@Test
-	@WithCustomMockUser
+	@WithCustomMockUser(id = MEMBER_ID)
 	void getEnvelopes() throws Exception {
 		// given
 		EnvelopePaperResponse envelopePaper = EnvelopePaperResponse.builder()
@@ -133,7 +123,7 @@ class AdminControllerTest extends ControllerTestSupport {
 
 	@DisplayName("패키 추천 음악을 조회한다.")
 	@Test
-	@WithCustomMockUser
+	@WithCustomMockUser(id = MEMBER_ID)
 	void getMusics() throws Exception {
 		// given
 		List<String> hashtags = List.of("#테스트1", "#테스트2");
@@ -157,7 +147,7 @@ class AdminControllerTest extends ControllerTestSupport {
 
 	@DisplayName("설정 링크를 조회한다.")
 	@Test
-	@WithCustomMockUser
+	@WithCustomMockUser(id = MEMBER_ID)
 	void getSettingUrls() throws Exception {
 		// given
 		List<SettingResponse> settingResponses = List.of(

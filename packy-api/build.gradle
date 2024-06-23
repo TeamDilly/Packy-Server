@@ -53,6 +53,9 @@ dependencies {
     // apple login
     implementation 'org.bouncycastle:bcprov-jdk15on:1.69'
     implementation 'org.bouncycastle:bcpkix-jdk14:1.72'
+
+    // test code
+    testImplementation('org.junit-pioneer:junit-pioneer:2.2.0')
 }
 
 test {
