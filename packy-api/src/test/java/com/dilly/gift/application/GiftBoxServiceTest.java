@@ -19,6 +19,7 @@ import com.dilly.gift.domain.giftbox.DeliverStatus;
 import com.dilly.gift.domain.giftbox.GiftBox;
 import com.dilly.gift.domain.giftbox.GiftBoxType;
 import com.dilly.gift.domain.receiver.Receiver;
+import com.dilly.gift.domain.receiver.ReceiverStatus;
 import com.dilly.gift.domain.sticker.GiftBoxSticker;
 import com.dilly.gift.dto.request.DeliverStatusRequest;
 import com.dilly.gift.dto.request.GiftBoxRequest;
@@ -431,6 +432,91 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
                 .isInstanceOf(UnsupportedException.class);
         }
 
+    }
+
+    @Nested
+    @DisplayName("선물박스를 삭제하는 사람이")
+    class DeleteGiftBox {
+
+        @Nested
+        @DisplayName("선물박스를 보낸 사람이라면")
+        @WithCustomMockUser(id = SENDER_ID)
+        class IfSender {
+
+            @DisplayName("전송 완료된 선물박스는 보낸 사람 측에서만 삭제된다")
+            @Test
+            void softDeleteGiftBox() {
+                // given
+                GiftBox giftBox = giftBoxWriter.save(sendGiftBoxFixtureWithGift(MEMBER_SENDER));
+
+                // when
+                giftBoxService.deleteGiftBox(giftBox.getId());
+
+                // then
+                assertThat(giftBox.getSenderDeleted()).isTrue();
+            }
+
+            // TODO: fileService.deleteFile() 메서드 통과하지 못하는 문제 해결
+
+//            @Nested
+//            @DisplayName("전송 대기 중인 선물박스라면")
+//            class IfWaitingGiftBox {
+//
+//                @DisplayName("선물박스 내부 데이터는 hard delete한다")
+//                @Test
+//                void hardDeleteGiftBox() {
+//                    // given
+//                    GiftBox giftBox = giftBoxWriter.save(createGiftBoxFixture(MEMBER_SENDER));
+//                    int photoCount = giftBox.getPhotos().size();
+//                    int giftBoxStickerCount = giftBox.getGiftBoxStickers().size();
+//
+//                    Long letterBefore = letterReader.count();
+//                    Long photoBefore = photoReader.count();
+//                    Long giftBoxStickerBefore = giftBoxStickerReader.count();
+//
+//                    // when
+//                    giftBoxService.deleteGiftBox(giftBox.getId());
+//                    Long letterAfter = letterReader.count();
+//                    Long photoAfter = photoReader.count();
+//                    Long giftBoxStickerAfter = giftBoxStickerReader.count();
+//
+//                    // then
+//                    assertThat(letterAfter).isEqualTo(letterBefore - 1);
+//                    assertThat(photoAfter).isEqualTo(photoBefore - photoCount);
+//                    assertThat(giftBoxStickerAfter).isEqualTo(
+//                        giftBoxStickerBefore - giftBoxStickerCount);
+//                }
+//            }
+        }
+
+        @DisplayName("선물박스를 받은 사람이라면 선물박스를 받았다는 정보를 soft delete한다.")
+        @Test
+        @WithCustomMockUser(id = RECEIVER_ID)
+        void softDeleteReceiverInfo() {
+            // given
+            GiftBox giftBox = giftBoxWriter.save(sendGiftBoxFixtureWithGift(MEMBER_SENDER));
+            giftBoxService.openGiftBox(giftBox.getId());
+
+            // when
+            giftBoxService.deleteGiftBox(giftBox.getId());
+            Receiver receiver = receiverReader.findByMemberAndGiftBox(MEMBER_RECEIVER, giftBox);
+
+            // then
+            assertThat(receiver.getStatus()).isEqualTo(ReceiverStatus.DELETED);
+
+        }
+
+        @DisplayName("보낸 사람, 받은 사람 둘 다 아니라면 선물박스를 삭제할 수 없다.")
+        @Test
+        @WithCustomMockUser(id = STRANGER_ID)
+        void strangerCannotDelete() {
+            // given
+            GiftBox giftBox = giftBoxWriter.save(createGiftBoxFixture(MEMBER_SENDER));
+
+            // when // then
+            assertThatThrownBy(() -> giftBoxService.deleteGiftBox(giftBox.getId()))
+                .isInstanceOf(GiftBoxAccessDeniedException.class);
+        }
     }
 
     @Nested

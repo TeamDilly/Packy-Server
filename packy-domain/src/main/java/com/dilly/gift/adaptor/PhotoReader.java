@@ -4,8 +4,8 @@ import com.dilly.exception.ErrorCode;
 import com.dilly.exception.entitynotfound.EntityNotFoundException;
 import com.dilly.gift.dao.PhotoRepository;
 import com.dilly.gift.dao.querydsl.PhotoQueryRepository;
-import com.dilly.gift.domain.giftbox.GiftBox;
 import com.dilly.gift.domain.Photo;
+import com.dilly.gift.domain.giftbox.GiftBox;
 import com.dilly.member.domain.Member;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -34,5 +34,9 @@ public class PhotoReader {
     public Slice<Photo> searchBySlice(Member member, LocalDateTime lastPhotoDate,
         Pageable pageable) {
         return photoQueryRepository.searchBySlice(member, lastPhotoDate, pageable);
+    }
+
+    public Long count() {
+        return photoRepository.count();
     }
 }

@@ -2,10 +2,12 @@ package com.dilly.global;
 
 import com.dilly.admin.application.AdminService;
 import com.dilly.admin.dao.SettingRepository;
+import com.dilly.application.FileService;
 import com.dilly.gift.adaptor.BoxReader;
 import com.dilly.gift.adaptor.GiftBoxReader;
 import com.dilly.gift.adaptor.GiftBoxStickerReader;
 import com.dilly.gift.adaptor.GiftBoxWriter;
+import com.dilly.gift.adaptor.LetterReader;
 import com.dilly.gift.adaptor.PhotoReader;
 import com.dilly.gift.adaptor.PhotoWriter;
 import com.dilly.gift.adaptor.ReceiverReader;
@@ -67,6 +69,9 @@ public abstract class IntegrationTestSupport {
 
     @Autowired
     protected LetterRepository letterRepository;
+
+    @Autowired
+    protected LetterReader letterReader;
 
     @Autowired
     protected MusicRepository musicRepository;

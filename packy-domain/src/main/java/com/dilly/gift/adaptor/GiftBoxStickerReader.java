@@ -16,4 +16,8 @@ public class GiftBoxStickerReader {
     public List<GiftBoxSticker> findAllByGiftBox(GiftBox giftBox) {
         return giftBoxStickerRepository.findAllByGiftBox(giftBox);
     }
+
+    public Long count() {
+        return giftBoxStickerRepository.count();
+    }
 }
