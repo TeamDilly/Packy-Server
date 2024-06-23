@@ -128,8 +128,8 @@ public class GiftBoxService {
     void checkIfGiftBoxOpenable(Member member, GiftBox giftBox) {
         // 카카오톡으로 보내기를 누르지 않은 선물박스
         // 만든 유저는 선물박스에 접근 가능
-        if (giftBox.getDeliverStatus().equals(DeliverStatus.WAITING) && (!giftBox.getSender()
-            .equals(member))) {
+        if (giftBox.getDeliverStatus().equals(DeliverStatus.WAITING) &&
+            (!giftBox.getSender().equals(member))) {
             throw new GiftBoxAccessDeniedException();
         }
 
