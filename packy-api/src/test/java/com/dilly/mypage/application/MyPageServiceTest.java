@@ -20,7 +20,7 @@ class MyPageServiceTest extends IntegrationTestSupport {
     void getProfile() {
         // given
         Long memberId = SecurityUtil.getMemberId();
-        Member member = memberRepository.findById(memberId).orElseThrow();
+        Member member = memberReader.findById(memberId);
 
         // when
         ProfileResponse response = myPageService.getProfile();
