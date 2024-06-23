@@ -4,6 +4,7 @@ import static com.dilly.GiftBoxFixture.sendGiftBoxFixtureWithGift;
 import static com.dilly.GiftBoxFixture.sendGiftBoxFixtureWithoutGift;
 import static com.dilly.MemberEnumFixture.NORMAL_MEMBER_RECEIVER;
 import static com.dilly.MemberEnumFixture.NORMAL_MEMBER_SENDER;
+import static com.dilly.MemberEnumFixture.NORMAL_MEMBER_STRANGER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.tuple;
@@ -42,7 +43,6 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
 
     private Member MEMBER_SENDER;
     private Member MEMBER_RECEIVER;
-    private Member MEMBER_STRANGER;
 
     private final String SENDER_ID = "1";
     private final String RECEIVER_ID = "2";
@@ -56,7 +56,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
 
         MEMBER_SENDER = memberWriter.save(NORMAL_MEMBER_SENDER.createMember(senderId));
         MEMBER_RECEIVER = memberWriter.save(NORMAL_MEMBER_RECEIVER.createMember(receiverId));
-        MEMBER_STRANGER = memberWriter.save(NORMAL_MEMBER_SENDER.createMember(strangerId));
+        memberWriter.save(NORMAL_MEMBER_STRANGER.createMember(strangerId));
     }
 
     @AfterEach
