@@ -52,7 +52,10 @@ testCodeCoverageReport {
                             'com/dilly/exception/**',
                             'com/dilly/**/config/**',
                             'com/dilly/**/dto/**',
-                            'com/dilly/**/model/**'
+                            'com/dilly/**/model/**',
+                            'com/dilly/global/constant/**',
+                            'com/dilly/global/domain/**',
+                            'com/dilly/global/formatter/**'
                     ] + Qdomains)
                 })
         )

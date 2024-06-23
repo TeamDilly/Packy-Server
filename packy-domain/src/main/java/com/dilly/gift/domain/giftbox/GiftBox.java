@@ -6,7 +6,7 @@ import com.dilly.gift.domain.gift.Gift;
 import com.dilly.gift.domain.letter.Letter;
 import com.dilly.gift.domain.receiver.Receiver;
 import com.dilly.gift.domain.sticker.GiftBoxSticker;
-import com.dilly.global.BaseTimeEntity;
+import com.dilly.global.domain.BaseTimeEntity;
 import com.dilly.member.domain.Member;
 import io.hypersistence.utils.hibernate.id.Tsid;
 import jakarta.persistence.Embedded;

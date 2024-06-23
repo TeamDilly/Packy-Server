@@ -1,4 +1,4 @@
-package com.dilly.global;
+package com.dilly.global.domain;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
