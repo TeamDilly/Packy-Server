@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.dilly.exception.GiftBoxAccessDeniedException;
 import com.dilly.exception.GiftBoxAlreadyOpenedException;
+import com.dilly.exception.UnsupportedException;
 import com.dilly.gift.domain.Photo;
 import com.dilly.gift.domain.giftbox.DeliverStatus;
 import com.dilly.gift.domain.giftbox.GiftBox;
@@ -349,6 +350,87 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
 //            assertThat(result.get(0).id()).isEqualTo(lastGiftBoxId);
 //            assertThat(result.get(5).id()).isEqualTo(lastGiftBoxId - 5);
 //        }
+    }
+
+    @Nested
+    @DisplayName("선물박스를 웹에서 열 때")
+    class OpenGiftBoxForWeb {
+
+        GiftBox giftBox;
+        BoxResponse expectedBoxResponse;
+        List<PhotoResponse> expectedPhotoResponses;
+        List<StickerResponse> expectedStickerResponses;
+        GiftResponse expectedGiftResponse;
+
+        @BeforeEach
+        void setUp() {
+            giftBox = giftBoxWriter.save(sendGiftBoxFixtureWithGift(MEMBER_SENDER));
+
+            // TODO: 중복되는 코드 리팩토링
+            expectedBoxResponse = BoxResponse.from(
+                boxReader.findById(1L));
+            expectedPhotoResponses = photoReader.findAllByGiftBox(
+                    giftBox).stream()
+                .map(PhotoResponse::from)
+                .sorted(Comparator.comparingInt(PhotoResponse::sequence))
+                .toList();
+            expectedStickerResponses = giftBoxStickerReader.findAllByGiftBox(
+                    giftBox).stream()
+                .map(StickerResponse::from)
+                .sorted(Comparator.comparingInt(StickerResponse::location))
+                .toList();
+            expectedGiftResponse = GiftResponse.from(giftBox.getGift());
+        }
+
+        @DisplayName("UUID로 선물박스를 연다.")
+        @Test
+        void openGiftBoxByUuid() {
+            // when
+            GiftBoxResponse giftBoxResponse = giftBoxService.openGiftBoxForWeb(giftBox.getUuid());
+
+            // then
+            assertThat(giftBoxResponse.name()).isEqualTo(giftBox.getName());
+            assertThat(giftBoxResponse.senderName()).isEqualTo(giftBox.getSenderName());
+            assertThat(giftBoxResponse.receiverName()).isEqualTo(
+                giftBox.getReceiverName());
+            assertThat(giftBoxResponse.box()).isEqualTo(expectedBoxResponse);
+            assertThat(giftBoxResponse.letterContent()).isEqualTo(
+                giftBox.getLetter().getContent());
+            assertThat(giftBoxResponse.youtubeUrl()).isEqualTo(giftBox.getYoutubeUrl());
+            assertThat(giftBoxResponse.photos()).isEqualTo(expectedPhotoResponses);
+            assertThat(giftBoxResponse.stickers()).isEqualTo(expectedStickerResponses);
+            assertThat(giftBoxResponse.gift()).isEqualTo(expectedGiftResponse);
+        }
+
+        @DisplayName("선물박스 ID로 선물박스를 연다.")
+        @Test
+        void openGiftBoxById() {
+            // when
+            String giftBoxId = Long.toString(giftBox.getId());
+            GiftBoxResponse giftBoxResponse = giftBoxService.openGiftBoxForWeb(giftBoxId);
+
+            // then
+            assertThat(giftBoxResponse.name()).isEqualTo(giftBox.getName());
+            assertThat(giftBoxResponse.senderName()).isEqualTo(giftBox.getSenderName());
+            assertThat(giftBoxResponse.receiverName()).isEqualTo(
+                giftBox.getReceiverName());
+            assertThat(giftBoxResponse.box()).isEqualTo(expectedBoxResponse);
+            assertThat(giftBoxResponse.letterContent()).isEqualTo(
+                giftBox.getLetter().getContent());
+            assertThat(giftBoxResponse.youtubeUrl()).isEqualTo(giftBox.getYoutubeUrl());
+            assertThat(giftBoxResponse.photos()).isEqualTo(expectedPhotoResponses);
+            assertThat(giftBoxResponse.stickers()).isEqualTo(expectedStickerResponses);
+            assertThat(giftBoxResponse.gift()).isEqualTo(expectedGiftResponse);
+        }
+
+        @DisplayName("UUID와 ID가 아닌 값으로 선물박스를 열 수 없다.")
+        @Test
+        void cannotOpenGiftBox() {
+            // when // then
+            assertThatThrownBy(() -> giftBoxService.openGiftBoxForWeb("test"))
+                .isInstanceOf(UnsupportedException.class);
+        }
+
     }
 
     @Nested

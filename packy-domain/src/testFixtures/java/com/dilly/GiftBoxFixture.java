@@ -10,11 +10,13 @@ import com.dilly.gift.domain.letter.EnvelopePaper;
 import com.dilly.gift.domain.letter.Letter;
 import com.dilly.gift.domain.letter.LetterPaper;
 import com.dilly.member.domain.Member;
+import java.util.UUID;
 
 public class GiftBoxFixture {
 
     public static GiftBox createGiftBoxFixture(Member member) {
         return GiftBox.builder()
+            .uuid(UUID.randomUUID().toString())
             .box(createBox())
             .letter(createLetter())
             .gift(createGift())
@@ -28,6 +30,7 @@ public class GiftBoxFixture {
 
     public static GiftBox sendGiftBoxFixtureWithGift(Member member) {
         return GiftBox.builder()
+            .uuid(UUID.randomUUID().toString())
             .box(createBox())
             .letter(createLetter())
             .gift(createGift())
@@ -42,6 +45,7 @@ public class GiftBoxFixture {
 
     public static GiftBox sendGiftBoxFixtureWithoutGift(Member member) {
         return GiftBox.builder()
+            .uuid(UUID.randomUUID().toString())
             .box(createBox())
             .letter(createLetter())
             .sender(member)
