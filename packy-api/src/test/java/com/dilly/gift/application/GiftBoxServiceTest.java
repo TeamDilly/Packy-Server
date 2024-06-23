@@ -1,5 +1,6 @@
 package com.dilly.gift.application;
 
+import static com.dilly.GiftBoxFixture.createGiftBoxFixture;
 import static com.dilly.GiftBoxFixture.sendGiftBoxFixtureWithGift;
 import static com.dilly.GiftBoxFixture.sendGiftBoxFixtureWithoutGift;
 import static com.dilly.MemberEnumFixture.NORMAL_MEMBER_RECEIVER;
@@ -10,12 +11,15 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.dilly.exception.GiftBoxAccessDeniedException;
 import com.dilly.exception.GiftBoxAlreadyOpenedException;
 import com.dilly.gift.domain.Photo;
+import com.dilly.gift.domain.giftbox.DeliverStatus;
 import com.dilly.gift.domain.giftbox.GiftBox;
 import com.dilly.gift.domain.giftbox.GiftBoxType;
 import com.dilly.gift.domain.receiver.Receiver;
 import com.dilly.gift.domain.sticker.GiftBoxSticker;
+import com.dilly.gift.dto.request.DeliverStatusRequest;
 import com.dilly.gift.dto.request.GiftBoxRequest;
 import com.dilly.gift.dto.request.GiftRequest;
 import com.dilly.gift.dto.request.PhotoRequest;
@@ -24,6 +28,7 @@ import com.dilly.gift.dto.response.BoxResponse;
 import com.dilly.gift.dto.response.GiftBoxIdResponse;
 import com.dilly.gift.dto.response.GiftBoxResponse;
 import com.dilly.gift.dto.response.GiftResponseDto.GiftResponse;
+import com.dilly.gift.dto.response.KakaoImgResponse;
 import com.dilly.gift.dto.response.PhotoResponseDto.PhotoResponse;
 import com.dilly.gift.dto.response.StickerResponse;
 import com.dilly.global.IntegrationTestSupport;
@@ -48,6 +53,17 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
     private final String RECEIVER_ID = "2";
     private final String STRANGER_ID = "3";
 
+    private List<PhotoRequest> photoRequests = Collections.singletonList(PhotoRequest.of(
+        "www.test.com", "description1", 1));
+
+    private List<StickerRequest> stickerRequests = List.of(
+        StickerRequest.of(1L, 1),
+        StickerRequest.of(2L, 2)
+    );
+    private GiftBoxRequest giftBoxRequestWithGift = GiftBoxRequest.of("test", "sender", "receiver",
+        1L, 1L, "This is letter content.", "www.youtube.com", photoRequests,
+        stickerRequests, GiftRequest.of("photo", "www.test.com"));
+
     @BeforeEach
     void setUp() {
         Long senderId = Long.parseLong(SENDER_ID);
@@ -69,23 +85,9 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
     @WithCustomMockUser(id = SENDER_ID)
     class CreateGiftBox {
 
-        // given
-        List<PhotoRequest> photoRequests = Collections.singletonList(PhotoRequest.of(
-            "www.test.com", "description1", 1));
-
-        List<StickerRequest> stickerRequests = List.of(
-            StickerRequest.of(1L, 1),
-            StickerRequest.of(2L, 2)
-        );
-
         @Nested
         @DisplayName("선물박스가 있는 경우")
         class GiftBoxWithGift {
-
-            // given
-            GiftBoxRequest giftBoxRequestWithGift = GiftBoxRequest.of("test", "sender", "receiver",
-                1L, 1L, "This is letter content.", "www.youtube.com", photoRequests,
-                stickerRequests, GiftRequest.of("photo", "www.test.com"));
 
             @DisplayName("요청한 정보가 정상적으로 저장된다")
             @Test
@@ -349,6 +351,42 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
 //        }
     }
 
+    @Nested
+    @DisplayName("선물박스 전송 상태를")
+    class UpdateDeliverStatus {
+
+        private final DeliverStatusRequest deliverStatusRequest = DeliverStatusRequest.builder()
+            .deliverStatus("DELIVERED")
+            .build();
+
+        @DisplayName("보내는 사람은 변경할 수 있다.")
+        @Test
+        @WithCustomMockUser(id = SENDER_ID)
+        void updateDeliverStatusBySender() {
+            // given
+            GiftBox giftBox = giftBoxWriter.save(createGiftBoxFixture(MEMBER_SENDER));
+
+            // when
+            giftBoxService.updateDeliverStatus(giftBox.getId(), deliverStatusRequest);
+
+            // then
+            assertThat(giftBox.getDeliverStatus()).isEqualTo(DeliverStatus.DELIVERED);
+        }
+
+        @DisplayName("보내는 사람이 아니면 변경할 수 없다.")
+        @Test
+        @WithCustomMockUser(id = STRANGER_ID)
+        void updateDeliverStatusByStranger() {
+            // given
+            GiftBox giftBox = giftBoxWriter.save(createGiftBoxFixture(MEMBER_SENDER));
+
+            // when // then
+            assertThatThrownBy(
+                () -> giftBoxService.updateDeliverStatus(giftBox.getId(), deliverStatusRequest))
+                .isInstanceOf(GiftBoxAccessDeniedException.class);
+        }
+    }
+
     @DisplayName("선물박스 ID로 카카오 메시지 이미지 URL을 조회한다")
     @Test
     @WithCustomMockUser(id = SENDER_ID)
@@ -363,6 +401,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
         assertThat(kakaoImgResponse.kakaoMessageImgUrl()).isEqualTo(
             giftBox.getBox().getKakaoMessageImgUrl());
     }
+
     // TODO: GiftBoxService.checkIfGiftBoxOpenable() 리팩토링 후 메서드를 Service 클래스로 옮기기
     private void openGiftBox(Member member, GiftBox giftBox) {
         List<Member> receivers = receiver.findByGiftBox(giftBox).stream()

@@ -13,6 +13,19 @@ import com.dilly.member.domain.Member;
 
 public class GiftBoxFixture {
 
+    public static GiftBox createGiftBoxFixture(Member member) {
+        return GiftBox.builder()
+            .box(createBox())
+            .letter(createLetter())
+            .gift(createGift())
+            .sender(member)
+            .name("선물박스 이름")
+            .youtubeUrl("www.youtube.com")
+            .senderName("보내는 사람")
+            .receiverName("받는 사람")
+            .build();
+    }
+
     public static GiftBox sendGiftBoxFixtureWithGift(Member member) {
         return GiftBox.builder()
             .box(createBox())
