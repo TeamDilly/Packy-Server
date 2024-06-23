@@ -83,10 +83,7 @@ public abstract class IntegrationTestSupport {
 
     @Autowired
     protected ReceiverReader receiverReader;
-
-    @Autowired
-    protected ReceiverReader receiver;
-
+    
     @Autowired
     protected MemberReader memberReader;
 
