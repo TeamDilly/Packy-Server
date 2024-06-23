@@ -349,6 +349,20 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
 //        }
     }
 
+    @DisplayName("선물박스 ID로 카카오 메시지 이미지 URL을 조회한다")
+    @Test
+    @WithCustomMockUser(id = SENDER_ID)
+    void getKakaoMessageImgUrl() {
+        // given
+        GiftBox giftBox = giftBoxWriter.save(sendGiftBoxFixtureWithGift(MEMBER_SENDER));
+
+        // when
+        KakaoImgResponse kakaoImgResponse = giftBoxService.getKakaoMessageImgUrl(giftBox.getId());
+
+        // then
+        assertThat(kakaoImgResponse.kakaoMessageImgUrl()).isEqualTo(
+            giftBox.getBox().getKakaoMessageImgUrl());
+    }
     // TODO: GiftBoxService.checkIfGiftBoxOpenable() 리팩토링 후 메서드를 Service 클래스로 옮기기
     private void openGiftBox(Member member, GiftBox giftBox) {
         List<Member> receivers = receiver.findByGiftBox(giftBox).stream()
