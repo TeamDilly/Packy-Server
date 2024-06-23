@@ -1,6 +1,7 @@
 package com.dilly.gift.domain.giftbox;
 
-public enum GiftBoxRole {
+public enum MemberRole {
     SENDER,
-    RECEIVER
+    RECEIVER,
+    STRANGER
 }

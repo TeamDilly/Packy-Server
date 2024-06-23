@@ -25,8 +25,8 @@ import com.dilly.gift.domain.gift.Gift;
 import com.dilly.gift.domain.gift.GiftType;
 import com.dilly.gift.domain.giftbox.DeliverStatus;
 import com.dilly.gift.domain.giftbox.GiftBox;
-import com.dilly.gift.domain.giftbox.GiftBoxRole;
 import com.dilly.gift.domain.giftbox.GiftBoxType;
+import com.dilly.gift.domain.giftbox.MemberRole;
 import com.dilly.gift.domain.giftbox.admin.AdminGiftBox;
 import com.dilly.gift.domain.giftbox.admin.AdminType;
 import com.dilly.gift.domain.giftbox.admin.LastViewedAdminType;
@@ -284,7 +284,7 @@ public class GiftBoxService {
         Member member = memberReader.findById(memberId);
 
         GiftBox giftBox = giftBoxReader.findById(giftBoxId);
-        GiftBoxRole memberRole = getGiftBoxRole(member, giftBox);
+        MemberRole memberRole = getGiftBoxRole(member, giftBox);
 
         if (memberRole.equals(GiftBoxRole.SENDER)) {
             if (giftBox.getDeliverStatus().equals(DeliverStatus.DELIVERED)) {
