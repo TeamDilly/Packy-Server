@@ -31,13 +31,11 @@ import org.springframework.data.domain.SliceImpl;
 
 class AdminControllerTest extends ControllerTestSupport {
 
-	private final String MEMBER_ID = "1";
-
 	@DisplayName("서버 상태를 확인한다.")
 	@ParameterizedTest
 	@ValueSource(strings = {"local", "dev", "prod"})
 	@RestoreSystemProperties
-	@WithCustomMockUser(id = MEMBER_ID)
+	@WithCustomMockUser
 	void healthCheck(String profile) throws Exception {
 		// given
 		System.setProperty("spring.profiles.active", profile);
@@ -54,7 +52,7 @@ class AdminControllerTest extends ControllerTestSupport {
 
 	@DisplayName("프로필 이미지를 조회한다.")
 	@Test
-	@WithCustomMockUser(id = MEMBER_ID)
+	@WithCustomMockUser
 	void getProfiles() throws Exception {
 		// given
 		List<ImgResponse> profiles = List.of(
@@ -76,7 +74,7 @@ class AdminControllerTest extends ControllerTestSupport {
 
 	@DisplayName("박스 디자인을 조회한다.")
 	@Test
-	@WithCustomMockUser(id = MEMBER_ID)
+	@WithCustomMockUser
 	void getBoxes() throws Exception {
 		// given
 		BoxImgResponse box1 = DtoFixture.boxImgResponse(1L, 1L);
@@ -98,7 +96,7 @@ class AdminControllerTest extends ControllerTestSupport {
 
 	@DisplayName("편지 봉투 디자인을 조회한다.")
 	@Test
-	@WithCustomMockUser(id = MEMBER_ID)
+	@WithCustomMockUser
 	void getEnvelopes() throws Exception {
 		// given
 		EnvelopePaperResponse envelopePaper = EnvelopePaperResponse.builder()
@@ -129,7 +127,7 @@ class AdminControllerTest extends ControllerTestSupport {
 
 	@DisplayName("패키 추천 음악을 조회한다.")
 	@Test
-	@WithCustomMockUser(id = MEMBER_ID)
+	@WithCustomMockUser
 	void getMusics() throws Exception {
 		// given
 		List<String> hashtags = List.of("#테스트1", "#테스트2");
@@ -154,7 +152,7 @@ class AdminControllerTest extends ControllerTestSupport {
 	// TODO: size와 lastStickerId에 따라 다른 결과를 반환하는지 확인은 Controller? Service?
 	@DisplayName("페이지네이션으로 스티커를 조회한다.")
 	@Test
-	@WithCustomMockUser(id = MEMBER_ID)
+	@WithCustomMockUser
 	void getFirst10() throws Exception {
 		// given
 		// TODO: 테스트 코드에서 for문을 사용해도 되는가?
@@ -184,7 +182,7 @@ class AdminControllerTest extends ControllerTestSupport {
 
 	@DisplayName("유튜브 링크 유효성 검사 결과를 반환한다.")
 	@Test
-	@WithCustomMockUser(id = MEMBER_ID)
+	@WithCustomMockUser
 	void validateYoutubeUrl() throws Exception {
 		// given
 		String url = "https://www.youtube.com/watch?v=1234";
@@ -205,7 +203,7 @@ class AdminControllerTest extends ControllerTestSupport {
 
 	@DisplayName("설정 링크를 조회한다.")
 	@Test
-	@WithCustomMockUser(id = MEMBER_ID)
+	@WithCustomMockUser
 	void getSettingUrls() throws Exception {
 		// given
 		List<SettingResponse> settingResponses = List.of(
