@@ -15,7 +15,7 @@ import com.dilly.gift.dto.response.EnvelopeListResponse;
 import com.dilly.gift.dto.response.EnvelopePaperResponse;
 import com.dilly.global.ControllerTestSupport;
 import com.dilly.global.WithCustomMockUser;
-import com.dilly.global.fixture.BoxDtoFixture;
+import com.dilly.global.fixture.DtoFixture;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -52,8 +52,8 @@ class AdminControllerTest extends ControllerTestSupport {
 	void getProfiles() throws Exception {
 		// given
 		List<ImgResponse> profiles = List.of(
-			ImgResponse.builder().id(1L).imgUrl("www.test1.com").sequence(1L).build(),
-			ImgResponse.builder().id(2L).imgUrl("www.test2.com").sequence(2L).build()
+			DtoFixture.imgResponse(1L, 1L),
+			DtoFixture.imgResponse(2L, 2L)
 		);
 
 		given(adminService.getProfiles()).willReturn(profiles);
@@ -73,9 +73,9 @@ class AdminControllerTest extends ControllerTestSupport {
 	@WithCustomMockUser(id = MEMBER_ID)
 	void getBoxes() throws Exception {
 		// given
-		BoxImgResponse box1 = BoxDtoFixture.createBoxImgResponse(1L, 1L);
-		BoxImgResponse box2 = BoxDtoFixture.createBoxImgResponse(2L, 2L);
-		BoxImgResponse box3 = BoxDtoFixture.createBoxImgResponse(3L, 3L);
+		BoxImgResponse box1 = DtoFixture.boxImgResponse(1L, 1L);
+		BoxImgResponse box2 = DtoFixture.boxImgResponse(2L, 2L);
+		BoxImgResponse box3 = DtoFixture.boxImgResponse(3L, 3L);
 		List<BoxImgResponse> boxes = List.of(box1, box2, box3);
 
 		given(adminService.getBoxes()).willReturn(boxes);
