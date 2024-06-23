@@ -284,9 +284,9 @@ public class GiftBoxService {
         Member member = memberReader.findById(memberId);
 
         GiftBox giftBox = giftBoxReader.findById(giftBoxId);
-        GiftBoxRole role = getGiftBoxRole(member, giftBox);
+        GiftBoxRole memberRole = getGiftBoxRole(member, giftBox);
 
-        if (role.equals(GiftBoxRole.SENDER)) {
+        if (memberRole.equals(GiftBoxRole.SENDER)) {
             if (giftBox.getDeliverStatus().equals(DeliverStatus.DELIVERED)) {
                 giftBox.delete();
             } else if (giftBox.getDeliverStatus().equals(DeliverStatus.WAITING)) {
@@ -301,7 +301,7 @@ public class GiftBoxService {
                 giftBox.getGiftBoxStickers().forEach(giftBoxStickerWriter::delete);
                 giftBoxWriter.delete(giftBox);
             }
-        } else if (role.equals(GiftBoxRole.RECEIVER)) {
+        } else if (memberRole.equals(GiftBoxRole.RECEIVER)) {
             Receiver receiver = receiverReader.findByMemberAndGiftBox(member, giftBox);
             receiver.delete();
         }
