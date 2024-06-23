@@ -5,11 +5,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 import jakarta.validation.Payload;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class CustomSizeValidatorTest {
 
     CustomSizeValidator customSizeValidator;
+
+    private final int minSize = 1;
+    private final int maxSize = 200;
 
     @BeforeEach
     void setUp() {
@@ -37,12 +41,12 @@ class CustomSizeValidatorTest {
 
             @Override
             public int min() {
-                return 1;
+                return minSize;
             }
 
             @Override
             public int max() {
-                return 200;
+                return maxSize;
             }
         };
 
@@ -62,16 +66,48 @@ class CustomSizeValidatorTest {
         assertThat(result).isTrue();
     }
 
-    @DisplayName("200글자를 넘을 경우, false를 반환한다")
-    @Test
-    void returnFalseOver200Letter() {
-        // given
-        String stringOver200Letter = "안녕하세요".repeat(41);
+    @Nested
+    @DisplayName("글자 수에 따라")
+    class Temp {
 
-        // when
-        boolean result = customSizeValidator.isValid(stringOver200Letter, null);
+        @DisplayName("min을 넘을 경우, true를 반환한다")
+        @Test
+        void returnFalseUnderMin() {
+            // given
+            String stringUnderValue = "얍".repeat(minSize - 1);
 
-        // then
-        assertThat(result).isFalse();
+            // when
+            boolean result = customSizeValidator.isValid(stringUnderValue, null);
+
+            // then
+            assertThat(result).isFalse();
+        }
+
+        @DisplayName("max를 넘을 경우, false를 반환한다")
+        @Test
+        void returnFalseOverMax() {
+            // given
+            String stringOverValue = "얍".repeat(maxSize + 1);
+
+            // when
+            boolean result = customSizeValidator.isValid(stringOverValue, null);
+
+            // then
+            assertThat(result).isFalse();
+        }
+
+        @DisplayName("min과 max 사이의 길이일 경우, true를 반환한다")
+        @Test
+        void returnTrueBetweenMinAndMax() {
+            // given
+            int betweenSize = (minSize + maxSize) / 2;
+            String stringBetweenValue = "얍".repeat(betweenSize);
+
+            // when
+            boolean result = customSizeValidator.isValid(stringBetweenValue, null);
+
+            // then
+            assertThat(result).isTrue();
+        }
     }
 }

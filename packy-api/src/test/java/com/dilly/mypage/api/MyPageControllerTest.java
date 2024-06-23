@@ -71,7 +71,7 @@ class MyPageControllerTest extends ControllerTestSupport {
 
             // when // then
             mockMvc.perform(
-                    patch("/api/v1/my-page/profile")
+                    patch(baseUrl + "/my-page/profile")
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(profileRequest))
@@ -100,7 +100,7 @@ class MyPageControllerTest extends ControllerTestSupport {
 
             // when // then
             mockMvc.perform(
-                    patch("/api/v1/my-page/profile")
+                    patch(baseUrl + "/my-page/profile")
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(profileRequest))
@@ -129,7 +129,7 @@ class MyPageControllerTest extends ControllerTestSupport {
 
             // when // then
             mockMvc.perform(
-                    patch("/api/v1/my-page/profile")
+                    patch(baseUrl + "/my-page/profile")
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(profileRequest))

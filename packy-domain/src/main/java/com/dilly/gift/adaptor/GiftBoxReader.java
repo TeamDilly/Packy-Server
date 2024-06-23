@@ -68,4 +68,8 @@ public class GiftBoxReader {
         return giftBoxQueryRepository.searchReceivedGiftBoxesWithGiftBySlice(member,
             lastGiftBoxDate, pageable);
     }
+
+    public GiftBox findTopByOrderByIdDesc() {
+        return giftBoxRepository.findTopByOrderByIdDesc();
+    }
 }

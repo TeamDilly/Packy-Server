@@ -2,10 +2,12 @@ package com.dilly.admin.application;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.dilly.BoxFixture;
 import com.dilly.admin.dto.response.BoxImgResponse;
 import com.dilly.admin.dto.response.ImgResponse;
 import com.dilly.admin.dto.response.MusicResponse;
 import com.dilly.admin.dto.response.SettingResponse;
+import com.dilly.gift.domain.Box;
 import com.dilly.gift.dto.response.EnvelopeListResponse;
 import com.dilly.global.IntegrationTestSupport;
 import java.util.List;
@@ -32,14 +34,20 @@ class AdminServiceTest extends IntegrationTestSupport {
     @Test
     void getBoxes() {
         // given
-        List<BoxImgResponse> boxes = boxRepository.findAll()
+        Box box1 = BoxFixture.createBox(1L, 1L);
+        Box box2 = BoxFixture.createBox(2L, 2L);
+        Box box3 = BoxFixture.createBox(3L, 3L);
+        List<Box> boxes = List.of(box1, box2, box3);
+        boxRepository.saveAll(boxes);
+
+        List<BoxImgResponse> boxImgResponses = boxRepository.findAll()
             .stream().map(BoxImgResponse::from).toList();
 
         // when
         List<BoxImgResponse> response = adminService.getBoxes();
 
         // then
-        assertThat(response).isEqualTo(boxes);
+        assertThat(response).isEqualTo(boxImgResponses);
     }
 
     @DisplayName("편지 봉투 디자인을 조회한다.")
