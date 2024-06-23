@@ -7,7 +7,9 @@ import com.dilly.gift.api.GiftBoxController;
 import com.dilly.gift.api.GiftController;
 import com.dilly.gift.application.GiftBoxService;
 import com.dilly.gift.application.GiftService;
+import com.dilly.member.api.MemberController;
 import com.dilly.member.api.MyPageController;
+import com.dilly.member.application.MemberService;
 import com.dilly.member.application.MyPageService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +22,8 @@ import org.springframework.test.web.servlet.MockMvc;
 		AdminController.class,
 		GiftBoxController.class,
 		GiftController.class,
-        MyPageController.class
+		MyPageController.class,
+		MemberController.class
 	}
 )
 public abstract class ControllerTestSupport {
@@ -50,4 +53,7 @@ public abstract class ControllerTestSupport {
 
 	@MockBean
 	protected GiftService giftService;
+
+	@MockBean
+	protected MemberService memberService;
 }
