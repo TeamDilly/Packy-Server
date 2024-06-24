@@ -2,7 +2,11 @@ package com.dilly.global;
 
 import com.dilly.admin.application.AdminService;
 import com.dilly.admin.dao.SettingRepository;
+import com.dilly.gift.adaptor.BoxReader;
+import com.dilly.gift.adaptor.GiftBoxReader;
+import com.dilly.gift.adaptor.GiftBoxStickerReader;
 import com.dilly.gift.adaptor.GiftBoxWriter;
+import com.dilly.gift.adaptor.PhotoReader;
 import com.dilly.gift.adaptor.PhotoWriter;
 import com.dilly.gift.adaptor.ReceiverReader;
 import com.dilly.gift.adaptor.ReceiverWriter;
@@ -17,22 +21,11 @@ import com.dilly.gift.dao.PhotoRepository;
 import com.dilly.gift.dao.ProfileImageRepository;
 import com.dilly.gift.dao.ReceiverRepository;
 import com.dilly.gift.dao.StickerRepository;
-import com.dilly.gift.domain.Box;
-import com.dilly.gift.domain.Photo;
-import com.dilly.gift.domain.gift.Gift;
-import com.dilly.gift.domain.gift.GiftType;
-import com.dilly.gift.domain.giftbox.DeliverStatus;
-import com.dilly.gift.domain.giftbox.GiftBox;
-import com.dilly.gift.domain.letter.Envelope;
-import com.dilly.gift.domain.letter.Letter;
-import com.dilly.gift.domain.receiver.Receiver;
-import com.dilly.gift.domain.sticker.GiftBoxSticker;
-import com.dilly.gift.domain.sticker.Sticker;
 import com.dilly.member.MemberRepository;
+import com.dilly.member.adaptor.MemberReader;
+import com.dilly.member.adaptor.MemberWriter;
 import com.dilly.member.application.MyPageService;
-import com.dilly.member.domain.Member;
 import jakarta.transaction.Transactional;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -58,11 +51,16 @@ public abstract class IntegrationTestSupport {
     @Autowired
     protected MyPageService myPageService;
 
+    // TODO: Repository 대신 Reader, Writer 사용
+
     @Autowired
     protected ProfileImageRepository profileImageRepository;
 
     @Autowired
     protected BoxRepository boxRepository;
+
+    @Autowired
+    protected BoxReader boxReader;
 
     @Autowired
     protected EnvelopeRepository envelopeRepository;
@@ -80,10 +78,16 @@ public abstract class IntegrationTestSupport {
     protected PhotoWriter photoWriter;
 
     @Autowired
+    protected PhotoReader photoReader;
+
+    @Autowired
     protected StickerRepository stickerRepository;
 
     @Autowired
     protected GiftBoxStickerRepository giftBoxStickerRepository;
+
+    @Autowired
+    protected GiftBoxStickerReader giftBoxStickerReader;
 
     @Autowired
     protected GiftBoxRepository giftBoxRepository;
@@ -92,7 +96,13 @@ public abstract class IntegrationTestSupport {
     protected GiftBoxWriter giftBoxWriter;
 
     @Autowired
+    protected GiftBoxReader giftBoxReader;
+
+    @Autowired
     protected ReceiverWriter receiverWriter;
+
+    @Autowired
+    protected ReceiverReader receiverReader;
 
     @Autowired
     protected ReceiverRepository receiverRepository;
@@ -104,67 +114,11 @@ public abstract class IntegrationTestSupport {
     protected MemberRepository memberRepository;
 
     @Autowired
+    protected MemberReader memberReader;
+
+    @Autowired
+    protected MemberWriter memberWriter;
+
+    @Autowired
     protected SettingRepository settingRepository;
-
-    protected GiftBox createMockGiftBoxWithGift(Member member, DeliverStatus deliverStatus) {
-        Box box = boxRepository.findById(1L).orElseThrow();
-        Envelope envelope = envelopeRepository.findById(1L).orElseThrow();
-        Letter letter = letterRepository.save(Letter.of("test", envelope));
-        Gift gift = Gift.of(GiftType.PHOTO, "www.test.com");
-
-        GiftBox giftBox = giftBoxRepository.save(GiftBox.builder()
-            .box(box)
-            .letter(letter)
-            .gift(gift)
-            .sender(member)
-            .name("test")
-            .youtubeUrl("www.youtube.com")
-            .senderName("sender")
-            .receiverName("receiver")
-            .deliverStatus(deliverStatus)
-            .build());
-
-        photoRepository.save(Photo.of(giftBox, "www.test.com", "test", 1));
-        for (long i = 1; i <= 2; i++) {
-            Sticker sticker = stickerRepository.findById(i).orElseThrow();
-            giftBoxStickerRepository.save(GiftBoxSticker.of(giftBox, sticker, (int) i));
-        }
-
-        return giftBox;
-    }
-
-    protected GiftBox createMockGiftBoxWithoutGift(Member member, DeliverStatus deliverStatus) {
-        Box box = boxRepository.findById(1L).orElseThrow();
-        Envelope envelope = envelopeRepository.findById(1L).orElseThrow();
-        Letter letter = letterRepository.save(Letter.of("test", envelope));
-
-        GiftBox giftBox = giftBoxRepository.save(GiftBox.builder()
-            .box(box)
-            .letter(letter)
-            .sender(member)
-            .name("test")
-            .youtubeUrl("www.youtube.com")
-            .senderName("sender")
-            .receiverName("receiver")
-            .deliverStatus(deliverStatus)
-            .build());
-
-        photoRepository.save(Photo.of(giftBox, "www.test.com", "test", 1));
-        for (long i = 1; i <= 2; i++) {
-            Sticker sticker = stickerRepository.findById(i).orElseThrow();
-            giftBoxStickerRepository.save(GiftBoxSticker.of(giftBox, sticker, (int) i));
-        }
-
-        return giftBox;
-    }
-
-    protected void openGiftBox(Member member, GiftBox giftBox) {
-        List<Member> receivers = receiver.findByGiftBox(giftBox).stream()
-            .map(Receiver::getMember)
-            .toList();
-
-        if (!receivers.contains(member)) {
-            receiverWriter.save(member, giftBox);
-        }
-    }
 }

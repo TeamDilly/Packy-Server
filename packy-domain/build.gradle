@@ -1,5 +1,8 @@
 plugins {
     id 'java'
+    id 'java-library'
+    id 'java-test-fixtures'
+    id 'maven-publish'
 }
 
 group = 'com.dilly'
@@ -34,6 +37,9 @@ dependencies {
     annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
     annotationProcessor "jakarta.annotation:jakarta.annotation-api"
     annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
+    // tsid
+    implementation 'io.hypersistence:hypersistence-utils-hibernate-63:3.7.6'
 }
 
 test {

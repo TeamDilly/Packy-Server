@@ -17,6 +17,8 @@ dependencies {
     implementation project(':packy-infra')
     implementation project(':packy-support')
 
+    testImplementation(testFixtures(project(':packy-domain')))
+
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
@@ -51,6 +53,9 @@ dependencies {
     // apple login
     implementation 'org.bouncycastle:bcprov-jdk15on:1.69'
     implementation 'org.bouncycastle:bcpkix-jdk14:1.72'
+
+    // test code
+    testImplementation('org.junit-pioneer:junit-pioneer:2.2.0')
 }
 
 test {

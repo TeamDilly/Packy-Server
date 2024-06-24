@@ -1,7 +1,5 @@
 package com.dilly.gift.domain.giftbox;
 
-import static jakarta.persistence.GenerationType.IDENTITY;
-
 import com.dilly.gift.domain.Box;
 import com.dilly.gift.domain.Photo;
 import com.dilly.gift.domain.gift.Gift;
@@ -10,12 +8,12 @@ import com.dilly.gift.domain.receiver.Receiver;
 import com.dilly.gift.domain.sticker.GiftBoxSticker;
 import com.dilly.global.BaseTimeEntity;
 import com.dilly.member.domain.Member;
+import io.hypersistence.utils.hibernate.id.Tsid;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -35,7 +33,7 @@ import lombok.NoArgsConstructor;
 public class GiftBox extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @Tsid
     private Long id;
 
     private String uuid;
