@@ -55,14 +55,15 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
     private final String RECEIVER_ID = "2";
     private final String STRANGER_ID = "3";
 
-    private List<PhotoRequest> photoRequests = Collections.singletonList(PhotoRequest.of(
+    private final List<PhotoRequest> photoRequests = Collections.singletonList(PhotoRequest.of(
         "www.test.com", "description1", 1));
 
-    private List<StickerRequest> stickerRequests = List.of(
+    private final List<StickerRequest> stickerRequests = List.of(
         StickerRequest.of(1L, 1),
         StickerRequest.of(2L, 2)
     );
-    private GiftBoxRequest giftBoxRequestWithGift = GiftBoxRequest.of("test", "sender", "receiver",
+    private final GiftBoxRequest giftBoxRequestWithGift = GiftBoxRequest.of("test", "sender",
+        "receiver",
         1L, 1L, "This is letter content.", "www.youtube.com", photoRequests,
         stickerRequests, GiftRequest.of("photo", "www.test.com"));
 
@@ -324,8 +325,10 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
             @DisplayName("선물박스를 받지 않은 사람은 열 수 없다.")
             @WithCustomMockUser(id = STRANGER_ID)
             void shouldNotAllowRecipientToReopenGiftBox() {
+                // given
+                Long giftBoxId = giftBox.getId();
                 // when // then
-                assertThatThrownBy(() -> giftBoxService.openGiftBox(giftBox.getId()))
+                assertThatThrownBy(() -> giftBoxService.openGiftBox(giftBoxId))
                     .isInstanceOf(GiftBoxAlreadyOpenedException.class);
             }
         }
@@ -512,9 +515,9 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
         void strangerCannotDelete() {
             // given
             GiftBox giftBox = giftBoxWriter.save(createGiftBoxFixture(MEMBER_SENDER));
-
+            Long giftBoxId = giftBox.getId();
             // when // then
-            assertThatThrownBy(() -> giftBoxService.deleteGiftBox(giftBox.getId()))
+            assertThatThrownBy(() -> giftBoxService.deleteGiftBox(giftBoxId))
                 .isInstanceOf(GiftBoxAccessDeniedException.class);
         }
     }
@@ -547,10 +550,11 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
         void updateDeliverStatusByStranger() {
             // given
             GiftBox giftBox = giftBoxWriter.save(createGiftBoxFixture(MEMBER_SENDER));
+            Long giftBoxId = giftBox.getId();
 
             // when // then
             assertThatThrownBy(
-                () -> giftBoxService.updateDeliverStatus(giftBox.getId(), deliverStatusRequest))
+                () -> giftBoxService.updateDeliverStatus(giftBoxId, deliverStatusRequest))
                 .isInstanceOf(GiftBoxAccessDeniedException.class);
         }
     }
