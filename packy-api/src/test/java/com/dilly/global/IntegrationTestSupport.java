@@ -23,6 +23,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest(
@@ -92,4 +94,14 @@ public abstract class IntegrationTestSupport {
 
     @Autowired
     protected SettingReader settingReader;
+
+    @Autowired
+    protected WithCustomMockUserSecurityContextFactory withCustomMockUserSecurityContextFactory;
+
+    // Dynamic test에서 MockUser 다르게 설정할 때 사용
+    protected void createSecurityContextWithMockUser(String memberId) {
+        SecurityContext securityContext = withCustomMockUserSecurityContextFactory.createSecurityContext(
+            memberId);
+        SecurityContextHolder.setContext(securityContext);
+    }
 }
