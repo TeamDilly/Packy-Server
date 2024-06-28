@@ -3,8 +3,6 @@ package com.dilly.gift.application;
 import com.dilly.admin.adaptor.AdminGiftBoxReader;
 import com.dilly.exception.ErrorCode;
 import com.dilly.exception.GiftBoxAccessDeniedException;
-import com.dilly.exception.GiftBoxAlreadyDeletedException;
-import com.dilly.exception.GiftBoxAlreadyOpenedException;
 import com.dilly.exception.UnsupportedException;
 import com.dilly.gift.adaptor.BoxReader;
 import com.dilly.gift.adaptor.EnvelopeReader;
@@ -26,7 +24,6 @@ import com.dilly.gift.domain.gift.Gift;
 import com.dilly.gift.domain.gift.GiftType;
 import com.dilly.gift.domain.giftbox.DeliverStatus;
 import com.dilly.gift.domain.giftbox.GiftBox;
-import com.dilly.gift.domain.giftbox.GiftBoxType;
 import com.dilly.gift.domain.giftbox.MemberRole;
 import com.dilly.gift.domain.giftbox.admin.AdminGiftBox;
 import com.dilly.gift.domain.giftbox.admin.AdminType;
@@ -34,7 +31,6 @@ import com.dilly.gift.domain.giftbox.admin.LastViewedAdminType;
 import com.dilly.gift.domain.letter.Envelope;
 import com.dilly.gift.domain.letter.Letter;
 import com.dilly.gift.domain.receiver.Receiver;
-import com.dilly.gift.domain.receiver.ReceiverStatus;
 import com.dilly.gift.dto.request.DeliverStatusRequest;
 import com.dilly.gift.dto.request.GiftBoxRequest;
 import com.dilly.gift.dto.response.BoxResponse;
@@ -126,55 +122,14 @@ public class GiftBoxService {
             giftBox.getBox().getKakaoMessageImgUrl());
     }
 
-    // TODO: 가독성 개선하기
-    void checkIfGiftBoxOpenable(Member member, GiftBox giftBox) {
-        // 카카오톡으로 보내기를 누르지 않은 선물박스
-        // 만든 유저는 선물박스에 접근 가능
-        if (giftBox.getDeliverStatus().equals(DeliverStatus.WAITING) &&
-            (!giftBox.getSender().equals(member))) {
-            throw new GiftBoxAccessDeniedException();
-        }
-
-        // 선물박스를 만든 유저가 삭제했을 경우, 만든 유저가 선물박스에 접근 불가능
-        if (giftBox.getSender().equals(member)) {
-            if (giftBox.getSenderDeleted().equals(true)) {
-                throw new GiftBoxAlreadyDeletedException();
-            }
-        } else {
-            List<Long> receivers = receiverReader.findByGiftBox(giftBox).stream()
-                .map(Receiver::getMember)
-                .map(Member::getId)
-                .toList();
-
-            // 선물박스를 받은 사람이 없을 경우
-            if (receivers.isEmpty()) {
-                if (giftBox.getSenderDeleted().equals(false)) {
-                    receiverWriter.save(member, giftBox);
-                }
-            } else { // 선물박스를 받은 사람이 있을 경우
-                // 이전에 선물박스를 받은 유저인 경우
-                if (receivers.contains(member.getId())) {
-                    Receiver receiver = receiverReader.findByMemberAndGiftBox(member, giftBox);
-                    // 받은 사람이 삭제했을 경우
-                    if (receiver.getStatus().equals(ReceiverStatus.DELETED)) {
-                        throw new GiftBoxAlreadyDeletedException();
-                    }
-                } else { // 이전에 선물박스를 받지 않은 유저인 경우
-                    if (giftBox.getGiftBoxType().equals(GiftBoxType.PRIVATE)) {
-                        throw new GiftBoxAlreadyOpenedException();
-                    }
-                }
-
-            }
-        }
-    }
-
     public GiftBoxResponse openGiftBox(Long giftBoxId) {
         Long memberId = SecurityUtil.getMemberId();
         Member member = memberReader.findById(memberId);
         GiftBox giftBox = giftBoxReader.findById(giftBoxId);
 
-        checkIfGiftBoxOpenable(member, giftBox);
+        MemberRole memberRole = getMemberRole(member, giftBox);
+        final GiftBoxStrategy giftBoxStrategy = giftBoxActionProvider.getStrategy(memberRole);
+        giftBoxStrategy.open(member, giftBox);
 
         return toGiftBoxResponse(giftBox);
     }
@@ -289,10 +244,6 @@ public class GiftBoxService {
         GiftBox giftBox = giftBoxReader.findById(giftBoxId);
         MemberRole memberRole = getMemberRole(member, giftBox);
 
-        if (memberRole.equals(MemberRole.STRANGER)) {
-            throw new GiftBoxAccessDeniedException();
-        }
-
         final GiftBoxStrategy giftBoxStrategy = giftBoxActionProvider.getStrategy(memberRole);
         giftBoxStrategy.delete(member, giftBox);
 
@@ -306,11 +257,15 @@ public class GiftBoxService {
 
         if (giftBox.getSender().equals(member)) {
             return MemberRole.SENDER;
-        } else if (receivers.contains(member)) { // 받은 사람일 경우
-            return MemberRole.RECEIVER;
-        } else {
-            return MemberRole.STRANGER;
         }
+        if (receivers.isEmpty()) {
+            return MemberRole.POTENTIAL_RECEIVER;
+        }
+        if (receivers.contains(member)) {
+            return MemberRole.RECEIVER;
+        }
+
+        return MemberRole.STRANGER;
     }
 
     public String updateDeliverStatus(Long giftBoxId, DeliverStatusRequest deliverStatusRequest) {

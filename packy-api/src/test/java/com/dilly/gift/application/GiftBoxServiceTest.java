@@ -547,7 +547,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
 
                     // when // then
                     assertThatThrownBy(() -> giftBoxService.openGiftBox(giftBoxId))
-                        .isInstanceOf(GiftBoxAccessDeniedException.class);
+                        .isInstanceOf(GiftBoxAlreadyDeletedException.class);
                 }),
                 DynamicTest.dynamicTest("보낸 사람은 선물박스에 다시 접근할 수 있다.", () -> {
                     // given

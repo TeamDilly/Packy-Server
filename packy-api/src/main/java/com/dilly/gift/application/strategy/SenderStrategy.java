@@ -1,6 +1,7 @@
 package com.dilly.gift.application.strategy;
 
 import com.dilly.application.FileService;
+import com.dilly.exception.GiftBoxAlreadyDeletedException;
 import com.dilly.gift.adaptor.GiftBoxStickerWriter;
 import com.dilly.gift.adaptor.GiftBoxWriter;
 import com.dilly.gift.adaptor.LetterWriter;
@@ -21,6 +22,13 @@ public class SenderStrategy implements GiftBoxStrategy {
     private final LetterWriter letterWriter;
     private final PhotoWriter photoWriter;
     private final GiftBoxStickerWriter giftBoxStickerWriter;
+
+    @Override
+    public void open(Member member, GiftBox giftBox) {
+        if (Boolean.TRUE.equals(giftBox.getSenderDeleted())) {
+            throw new GiftBoxAlreadyDeletedException();
+        }
+    }
 
     @Override
     public void delete(Member member, GiftBox giftBox) {
