@@ -34,9 +34,9 @@ class AdminServiceTest extends IntegrationTestSupport {
     @Test
     void getBoxes() {
         // given
-        Box box1 = BoxFixture.createBox(1L, 1L);
-        Box box2 = BoxFixture.createBox(2L, 2L);
-        Box box3 = BoxFixture.createBox(3L, 3L);
+        Box box1 = BoxFixture.createBoxFixture(1L, 1L);
+        Box box2 = BoxFixture.createBoxFixture(2L, 2L);
+        Box box3 = BoxFixture.createBoxFixture(3L, 3L);
         List<Box> boxes = List.of(box1, box2, box3);
         boxWriter.saveAll(boxes);
 
