@@ -6,6 +6,7 @@ import static com.dilly.gift.domain.receiver.QReceiver.receiver;
 import com.dilly.gift.domain.giftbox.DeliverStatus;
 import com.dilly.gift.domain.giftbox.GiftBox;
 import com.dilly.gift.domain.receiver.ReceiverStatus;
+import com.dilly.global.util.SliceUtil;
 import com.dilly.member.domain.Member;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -16,7 +17,6 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
-import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -29,7 +29,7 @@ public class GiftBoxQueryRepository {
         Pageable pageable) {
         List<GiftBox> results = getSentGiftBoxes(member, lastGiftBoxDate, pageable);
 
-        return checkLastPage(pageable, results);
+        return SliceUtil.checkLastPage(pageable, results);
     }
 
     public Slice<GiftBox> searchReceivedGiftBoxesBySlice(Member member,
@@ -37,7 +37,7 @@ public class GiftBoxQueryRepository {
         Pageable pageable) {
         List<GiftBox> results = getReceivedGiftBoxes(member, lastGiftBoxDate, pageable);
 
-        return checkLastPage(pageable, results);
+        return SliceUtil.checkLastPage(pageable, results);
     }
 
     public Slice<GiftBox> searchAllGiftBoxesBySlice(Member member, LocalDateTime lastGiftBoxDate,
@@ -52,7 +52,7 @@ public class GiftBoxQueryRepository {
 
         results = results.subList(0, Math.min(results.size(), pageable.getPageSize() + 1));
 
-        return checkLastPage(pageable, results);
+        return SliceUtil.checkLastPage(pageable, results);
     }
 
     public Slice<GiftBox> searchReceivedGiftBoxesWithGiftBySlice(Member member,
@@ -71,7 +71,7 @@ public class GiftBoxQueryRepository {
             .limit(pageable.getPageSize() + 1L)
             .fetch();
 
-        return checkLastPage(pageable, results);
+        return SliceUtil.checkLastPage(pageable, results);
     }
 
     private List<GiftBox> getSentGiftBoxes(Member member, LocalDateTime lastGiftBoxDate,
@@ -117,16 +117,5 @@ public class GiftBoxQueryRepository {
         }
 
         return receiver.createdAt.lt(giftBoxDate);
-    }
-
-    private Slice<GiftBox> checkLastPage(Pageable pageable, List<GiftBox> results) {
-        boolean hasNext = false;
-
-        if (results.size() > pageable.getPageSize()) {
-            results.remove(results.size() - 1);
-            hasNext = true;
-        }
-
-        return new SliceImpl<>(results, pageable, hasNext);
     }
 }
