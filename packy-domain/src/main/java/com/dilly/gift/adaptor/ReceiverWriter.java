@@ -13,8 +13,8 @@ public class ReceiverWriter {
 
     private final ReceiverRepository receiverRepository;
 
-    public void save(Member member, GiftBox giftBox) {
-        receiverRepository.save(Receiver.of(member, giftBox));
+    public Receiver save(Member member, GiftBox giftBox) {
+        return receiverRepository.save(Receiver.of(member, giftBox));
     }
 
     public void delete(Receiver receiver) {

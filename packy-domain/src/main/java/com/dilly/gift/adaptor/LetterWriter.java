@@ -16,6 +16,10 @@ public class LetterWriter {
 		return letterRepository.save(Letter.of(content, envelope));
 	}
 
+	public Letter save(Letter letter) {
+		return letterRepository.save(letter);
+	}
+
 	public void delete(Letter letter) {
 		letterRepository.delete(letter);
 	}

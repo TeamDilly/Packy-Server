@@ -3,6 +3,7 @@ package com.dilly.gift.application;
 import static com.dilly.GiftBoxFixture.createGiftBoxFixture;
 import static com.dilly.GiftBoxFixture.sendGiftBoxFixtureWithGift;
 import static com.dilly.GiftBoxFixture.sendGiftBoxFixtureWithoutGift;
+import static com.dilly.LetterFixture.createLetterFixture;
 import static com.dilly.MemberEnumFixture.NORMAL_MEMBER_RECEIVER;
 import static com.dilly.MemberEnumFixture.NORMAL_MEMBER_SENDER;
 import static com.dilly.MemberEnumFixture.NORMAL_MEMBER_STRANGER;
@@ -10,14 +11,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
 
 import com.dilly.exception.GiftBoxAccessDeniedException;
+import com.dilly.exception.GiftBoxAlreadyDeletedException;
 import com.dilly.exception.GiftBoxAlreadyOpenedException;
 import com.dilly.exception.UnsupportedException;
+import com.dilly.exception.entitynotfound.EntityNotFoundException;
 import com.dilly.gift.domain.Photo;
 import com.dilly.gift.domain.giftbox.DeliverStatus;
 import com.dilly.gift.domain.giftbox.GiftBox;
 import com.dilly.gift.domain.giftbox.GiftBoxType;
+import com.dilly.gift.domain.letter.Letter;
 import com.dilly.gift.domain.receiver.Receiver;
 import com.dilly.gift.domain.receiver.ReceiverStatus;
 import com.dilly.gift.domain.sticker.GiftBoxSticker;
@@ -37,14 +43,17 @@ import com.dilly.global.IntegrationTestSupport;
 import com.dilly.global.WithCustomMockUser;
 import com.dilly.global.util.validator.UuidValidator;
 import com.dilly.member.domain.Member;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestFactory;
 
 class GiftBoxServiceTest extends IntegrationTestSupport {
 
@@ -54,6 +63,8 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
     private final String SENDER_ID = "1";
     private final String RECEIVER_ID = "2";
     private final String STRANGER_ID = "3";
+
+    private Letter letter;
 
     private final List<PhotoRequest> photoRequests = Collections.singletonList(PhotoRequest.of(
         "www.test.com", "description1", 1));
@@ -76,6 +87,8 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
         MEMBER_SENDER = memberWriter.save(NORMAL_MEMBER_SENDER.createMember(senderId));
         MEMBER_RECEIVER = memberWriter.save(NORMAL_MEMBER_RECEIVER.createMember(receiverId));
         memberWriter.save(NORMAL_MEMBER_STRANGER.createMember(strangerId));
+
+        letter = letterWriter.save(createLetterFixture());
     }
 
     @AfterEach
@@ -176,7 +189,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
             @DisplayName("선물박스의 정보를 확인할 수 있다.")
             void openGiftBoxWithGift() {
                 // given
-                GiftBox giftBoxWithGift = sendGiftBoxFixtureWithGift(MEMBER_SENDER);
+                GiftBox giftBoxWithGift = sendGiftBoxFixtureWithGift(MEMBER_SENDER, letter);
                 giftBoxWriter.save(giftBoxWithGift);
 
                 // TODO: data.sql에 의존하지 않도록 수정해야 함
@@ -216,7 +229,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
             @DisplayName("선물이 없을 경우, Gift는 Null이다.")
             void openGiftBoxWithoutGift() {
                 // given
-                GiftBox giftBoxWithoutGift = sendGiftBoxFixtureWithoutGift(MEMBER_SENDER);
+                GiftBox giftBoxWithoutGift = sendGiftBoxFixtureWithoutGift(MEMBER_SENDER, letter);
                 giftBoxWriter.save(giftBoxWithoutGift);
 
                 // when
@@ -231,7 +244,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
             @Test
             void saveReceiverData() {
                 // given
-                GiftBox giftBoxWithGift = sendGiftBoxFixtureWithGift(MEMBER_SENDER);
+                GiftBox giftBoxWithGift = sendGiftBoxFixtureWithGift(MEMBER_SENDER, letter);
                 giftBoxWriter.save(giftBoxWithGift);
 
                 Long receiverBefore = receiverReader.countByGiftBox(giftBoxWithGift);
@@ -257,7 +270,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
 
             @BeforeEach
             void setUp() {
-                giftBox = giftBoxWriter.save(sendGiftBoxFixtureWithGift(MEMBER_SENDER));
+                giftBox = giftBoxWriter.save(sendGiftBoxFixtureWithGift(MEMBER_SENDER, letter));
                 openGiftBox(MEMBER_RECEIVER, giftBox);
             }
 
@@ -332,28 +345,6 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
                     .isInstanceOf(GiftBoxAlreadyOpenedException.class);
             }
         }
-
-// TODO: TSID 적용에 따라 수정 필요
-
-//        @DisplayName("보내지 않은 선물박스를 최신순으로 6개 조회한다.")
-//        @Test
-//        @WithCustomMockUser
-//        void getWaitingGiftBoxes() {
-//            // given
-//            Member member = memberRepository.findById(1L).orElseThrow();
-//            for (int i = 0; i < 10; i++) {
-//                createMockGiftBoxWithGift(member, DeliverStatus.WAITING);
-//            }
-//            Long lastGiftBoxId = giftBoxRepository.findTopByOrderByIdDesc().getId();
-//
-//            // when
-//            List<WaitingGiftBoxResponse> result = giftBoxService.getWaitingGiftBoxes();
-//
-//            // then
-//            assertThat(result).hasSize(6);
-//            assertThat(result.get(0).id()).isEqualTo(lastGiftBoxId);
-//            assertThat(result.get(5).id()).isEqualTo(lastGiftBoxId - 5);
-//        }
     }
 
     @Nested
@@ -368,7 +359,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
 
         @BeforeEach
         void setUp() {
-            giftBox = giftBoxWriter.save(sendGiftBoxFixtureWithGift(MEMBER_SENDER));
+            giftBox = giftBoxWriter.save(sendGiftBoxFixtureWithGift(MEMBER_SENDER, letter));
 
             // TODO: 중복되는 코드 리팩토링
             expectedBoxResponse = BoxResponse.from(
@@ -443,53 +434,129 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
 
         @Nested
         @DisplayName("선물박스를 보낸 사람이라면")
-        @WithCustomMockUser(id = SENDER_ID)
         class IfSender {
 
-            @DisplayName("전송 완료된 선물박스는 보낸 사람 측에서만 삭제된다")
-            @Test
-            void softDeleteGiftBox() {
+            @DisplayName("전송 완료된 선물 박스는")
+            @TestFactory
+            Collection<DynamicTest> deliveredGiftBox() {
                 // given
-                GiftBox giftBox = giftBoxWriter.save(sendGiftBoxFixtureWithGift(MEMBER_SENDER));
+                GiftBox giftBox = giftBoxWriter.save(
+                    sendGiftBoxFixtureWithGift(MEMBER_SENDER, letter));
+                Long giftBoxId = giftBox.getId();
 
-                // when
-                giftBoxService.deleteGiftBox(giftBox.getId());
+                return List.of(
+                    DynamicTest.dynamicTest("보낸 사람 측면에서 soft delete된다.", () -> {
+                        // given
+                        createSecurityContextWithMockUser(SENDER_ID);
 
-                // then
-                assertThat(giftBox.getSenderDeleted()).isTrue();
+                        // when
+                        giftBoxService.deleteGiftBox(giftBoxId);
+
+                        // then
+                        assertThat(giftBox.getSenderDeleted()).isTrue();
+                    }),
+                    DynamicTest.dynamicTest("받은 사람은 선물박스에 다시 접근할 수 있다.", () -> {
+                        // given
+                        createSecurityContextWithMockUser(RECEIVER_ID);
+                        // when // then
+                        assertThat(giftBoxService.openGiftBox(giftBoxId)).isNotNull();
+                    }),
+                    DynamicTest.dynamicTest("보낸 사람은 선물박스에 다시 접근할 수 없다.", () -> {
+                        // given
+                        createSecurityContextWithMockUser(SENDER_ID);
+
+                        // when // then
+                        assertThatThrownBy(() -> giftBoxService.openGiftBox(giftBoxId))
+                            .isInstanceOf(GiftBoxAlreadyDeletedException.class);
+                    })
+                );
             }
 
-            // TODO: fileService.deleteFile() 메서드 통과하지 못하는 문제 해결
+            @DisplayName("전송 대기 중인 선물박스라면")
+            @TestFactory
+            Collection<DynamicTest> waitingGiftBox() {
+                // given
+                GiftBox giftBox = giftBoxWriter.save(createGiftBoxFixture(MEMBER_SENDER, letter));
+                Long giftBoxId = giftBox.getId();
 
-//            @Nested
-//            @DisplayName("전송 대기 중인 선물박스라면")
-//            class IfWaitingGiftBox {
-//
-//                @DisplayName("선물박스 내부 데이터는 hard delete한다")
-//                @Test
-//                void hardDeleteGiftBox() {
-//                    // given
-//                    GiftBox giftBox = giftBoxWriter.save(createGiftBoxFixture(MEMBER_SENDER));
-//                    int photoCount = giftBox.getPhotos().size();
-//                    int giftBoxStickerCount = giftBox.getGiftBoxStickers().size();
-//
-//                    Long letterBefore = letterReader.count();
-//                    Long photoBefore = photoReader.count();
-//                    Long giftBoxStickerBefore = giftBoxStickerReader.count();
-//
-//                    // when
-//                    giftBoxService.deleteGiftBox(giftBox.getId());
-//                    Long letterAfter = letterReader.count();
-//                    Long photoAfter = photoReader.count();
-//                    Long giftBoxStickerAfter = giftBoxStickerReader.count();
-//
-//                    // then
-//                    assertThat(letterAfter).isEqualTo(letterBefore - 1);
-//                    assertThat(photoAfter).isEqualTo(photoBefore - photoCount);
-//                    assertThat(giftBoxStickerAfter).isEqualTo(
-//                        giftBoxStickerBefore - giftBoxStickerCount);
-//                }
-//            }
+                // when
+                doNothing().when(fileService).deleteFile(anyString());
+
+                return List.of(
+                    DynamicTest.dynamicTest("선물박스 내부 데이터는 hard delete된다.", () -> {
+                        // given
+                        createSecurityContextWithMockUser(SENDER_ID);
+
+                        int photoCount = giftBox.getPhotos().size();
+                        int giftBoxStickerCount = giftBox.getGiftBoxStickers().size();
+
+                        Long letterBefore = letterReader.count();
+                        Long photoBefore = photoReader.count();
+                        Long giftBoxStickerBefore = giftBoxStickerReader.count();
+
+                        // when
+                        giftBoxService.deleteGiftBox(giftBox.getId());
+                        Long letterAfter = letterReader.count();
+                        Long photoAfter = photoReader.count();
+                        Long giftBoxStickerAfter = giftBoxStickerReader.count();
+
+                        // then
+                        assertThat(letterAfter).isEqualTo(letterBefore - 1);
+                        assertThat(photoAfter).isEqualTo(photoBefore - photoCount);
+                        assertThat(giftBoxStickerAfter).isEqualTo(
+                            giftBoxStickerBefore - giftBoxStickerCount);
+                    }),
+                    DynamicTest.dynamicTest("선물박스 삭제 후 엔티티가 삭제된다", () -> {
+                        // given
+                        createSecurityContextWithMockUser(SENDER_ID);
+
+                        // when // then
+                        assertThatThrownBy(() -> giftBoxService.openGiftBox(giftBoxId))
+                            .isInstanceOf(EntityNotFoundException.class);
+                    })
+                );
+            }
+        }
+
+        // 선물박스를 받았다는 정보를 soft delete한다.
+        // 받은 사람은 선물박스에 다시 접근할 수 없다
+        // 보낸 사람은 선물박스에  다시 접근할 수 있다
+        @DisplayName("선물박스를 받은 사람이라면")
+        @TestFactory
+        Collection<DynamicTest> ifReceiver() {
+            // given
+            GiftBox giftBox = giftBoxWriter.save(createGiftBoxFixture(MEMBER_SENDER, letter));
+            Receiver receiver = receiverWriter.save(MEMBER_RECEIVER, giftBox);
+
+            Long giftBoxId = giftBox.getId();
+
+            return List.of(
+                DynamicTest.dynamicTest("선물박스를 받았다는 정보를 soft delete한다.", () -> {
+                    // given
+                    createSecurityContextWithMockUser(RECEIVER_ID);
+
+                    // when
+                    giftBoxService.deleteGiftBox(giftBoxId);
+
+                    // then
+                    assertThat(receiver.getStatus()).isEqualTo(ReceiverStatus.DELETED);
+                }),
+                DynamicTest.dynamicTest("받은 사람은 선물박스에 다시 접근할 수 없다.", () -> {
+                    // given
+                    createSecurityContextWithMockUser(RECEIVER_ID);
+
+                    // when // then
+                    assertThatThrownBy(() -> giftBoxService.openGiftBox(giftBoxId))
+                        .isInstanceOf(GiftBoxAccessDeniedException.class);
+                }),
+                DynamicTest.dynamicTest("보낸 사람은 선물박스에 다시 접근할 수 있다.", () -> {
+                    // given
+                    createSecurityContextWithMockUser(SENDER_ID);
+
+                    // when // then
+                    assertThat(giftBoxService.openGiftBox(giftBoxId)).isNotNull();
+                })
+            );
         }
 
         @DisplayName("선물박스를 받은 사람이라면 선물박스를 받았다는 정보를 soft delete한다.")
@@ -497,7 +564,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
         @WithCustomMockUser(id = RECEIVER_ID)
         void softDeleteReceiverInfo() {
             // given
-            GiftBox giftBox = giftBoxWriter.save(sendGiftBoxFixtureWithGift(MEMBER_SENDER));
+            GiftBox giftBox = giftBoxWriter.save(sendGiftBoxFixtureWithGift(MEMBER_SENDER, letter));
             giftBoxService.openGiftBox(giftBox.getId());
 
             // when
@@ -506,7 +573,6 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
 
             // then
             assertThat(receiver.getStatus()).isEqualTo(ReceiverStatus.DELETED);
-
         }
 
         @DisplayName("보낸 사람, 받은 사람 둘 다 아니라면 선물박스를 삭제할 수 없다.")
@@ -514,7 +580,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
         @WithCustomMockUser(id = STRANGER_ID)
         void strangerCannotDelete() {
             // given
-            GiftBox giftBox = giftBoxWriter.save(createGiftBoxFixture(MEMBER_SENDER));
+            GiftBox giftBox = giftBoxWriter.save(createGiftBoxFixture(MEMBER_SENDER, letter));
             Long giftBoxId = giftBox.getId();
             // when // then
             assertThatThrownBy(() -> giftBoxService.deleteGiftBox(giftBoxId))
@@ -535,7 +601,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
         @WithCustomMockUser(id = SENDER_ID)
         void updateDeliverStatusBySender() {
             // given
-            GiftBox giftBox = giftBoxWriter.save(createGiftBoxFixture(MEMBER_SENDER));
+            GiftBox giftBox = giftBoxWriter.save(createGiftBoxFixture(MEMBER_SENDER, letter));
 
             // when
             giftBoxService.updateDeliverStatus(giftBox.getId(), deliverStatusRequest);
@@ -549,7 +615,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
         @WithCustomMockUser(id = STRANGER_ID)
         void updateDeliverStatusByStranger() {
             // given
-            GiftBox giftBox = giftBoxWriter.save(createGiftBoxFixture(MEMBER_SENDER));
+            GiftBox giftBox = giftBoxWriter.save(createGiftBoxFixture(MEMBER_SENDER, letter));
             Long giftBoxId = giftBox.getId();
 
             // when // then
@@ -564,7 +630,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
     @WithCustomMockUser(id = SENDER_ID)
     void getKakaoMessageImgUrl() {
         // given
-        GiftBox giftBox = giftBoxWriter.save(sendGiftBoxFixtureWithGift(MEMBER_SENDER));
+        GiftBox giftBox = giftBoxWriter.save(sendGiftBoxFixtureWithGift(MEMBER_SENDER, letter));
 
         // when
         KakaoImgResponse kakaoImgResponse = giftBoxService.getKakaoMessageImgUrl(giftBox.getId());

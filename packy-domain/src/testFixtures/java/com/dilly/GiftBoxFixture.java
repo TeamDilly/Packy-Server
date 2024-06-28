@@ -5,20 +5,17 @@ import com.dilly.gift.domain.gift.Gift;
 import com.dilly.gift.domain.gift.GiftType;
 import com.dilly.gift.domain.giftbox.DeliverStatus;
 import com.dilly.gift.domain.giftbox.GiftBox;
-import com.dilly.gift.domain.letter.Envelope;
-import com.dilly.gift.domain.letter.EnvelopePaper;
 import com.dilly.gift.domain.letter.Letter;
-import com.dilly.gift.domain.letter.LetterPaper;
 import com.dilly.member.domain.Member;
 import java.util.UUID;
 
 public class GiftBoxFixture {
 
-    public static GiftBox createGiftBoxFixture(Member member) {
+    public static GiftBox createGiftBoxFixture(Member member, Letter letter) {
         return GiftBox.builder()
             .uuid(UUID.randomUUID().toString())
             .box(createBox())
-            .letter(createLetter())
+            .letter(letter)
             .gift(createGift())
             .sender(member)
             .name("선물박스 이름")
@@ -28,11 +25,11 @@ public class GiftBoxFixture {
             .build();
     }
 
-    public static GiftBox sendGiftBoxFixtureWithGift(Member member) {
+    public static GiftBox sendGiftBoxFixtureWithGift(Member member, Letter letter) {
         return GiftBox.builder()
             .uuid(UUID.randomUUID().toString())
             .box(createBox())
-            .letter(createLetter())
+            .letter(letter)
             .gift(createGift())
             .sender(member)
             .name("선물박스 이름")
@@ -43,11 +40,11 @@ public class GiftBoxFixture {
             .build();
     }
 
-    public static GiftBox sendGiftBoxFixtureWithoutGift(Member member) {
+    public static GiftBox sendGiftBoxFixtureWithoutGift(Member member, Letter letter) {
         return GiftBox.builder()
             .uuid(UUID.randomUUID().toString())
             .box(createBox())
-            .letter(createLetter())
+            .letter(letter)
             .sender(member)
             .name("선물박스 이름")
             .youtubeUrl("www.youtube.com")
@@ -69,24 +66,6 @@ public class GiftBoxFixture {
             .kakaoMessageImgUrl("www.example.com")
             .lottieMakeUrl("www.example.com")
             .lottieArrivedUrl("www.example.com")
-            .build();
-    }
-
-    private static Letter createLetter() {
-        return Letter.builder()
-            .id(1L)
-            .content("test")
-            .envelope(createEnvelope())
-            .build();
-    }
-
-    private static Envelope createEnvelope() {
-        return Envelope.builder()
-            .id(1L)
-            .sequence(1L)
-            .envelopePaper(EnvelopePaper.of("AAAAA", 100))
-            .letterPaper(LetterPaper.of("BBBBB", 100))
-            .imgUrl("www.test.com")
             .build();
     }
 
