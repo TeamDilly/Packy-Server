@@ -18,7 +18,7 @@ public record SignupRequest(
 	Boolean marketingAgreement
 ) {
 
-	public Member toEntity(Provider provider, ProfileImage profileImage) {
+	public Member toMember(Provider provider, ProfileImage profileImage) {
 		return Member.builder()
 			.provider(provider)
 			.nickname(nickname)
