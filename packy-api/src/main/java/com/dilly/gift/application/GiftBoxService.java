@@ -16,7 +16,6 @@ import com.dilly.gift.adaptor.LetterWriter;
 import com.dilly.gift.adaptor.PhotoReader;
 import com.dilly.gift.adaptor.PhotoWriter;
 import com.dilly.gift.adaptor.ReceiverReader;
-import com.dilly.gift.adaptor.ReceiverWriter;
 import com.dilly.gift.application.strategy.GiftBoxActionProvider;
 import com.dilly.gift.application.strategy.GiftBoxStrategy;
 import com.dilly.gift.domain.Box;
@@ -80,7 +79,6 @@ public class GiftBoxService {
     private final GiftBoxStickerWriter giftBoxStickerWriter;
     private final MemberReader memberReader;
     private final ReceiverReader receiverReader;
-    private final ReceiverWriter receiverWriter;
     private final AdminGiftBoxReader adminGiftBoxReader;
     private final LastViewedAdminTypeReader lastViewedAdminTypeReader;
     private final LastViewedAdminTypeWriter lastViewedAdminTypeWriter;
