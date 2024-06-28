@@ -1,7 +1,6 @@
 package com.dilly.gift.application;
 
 import com.dilly.admin.adaptor.AdminGiftBoxReader;
-import com.dilly.application.FileService;
 import com.dilly.exception.ErrorCode;
 import com.dilly.exception.GiftBoxAccessDeniedException;
 import com.dilly.exception.GiftBoxAlreadyDeletedException;
@@ -20,6 +19,8 @@ import com.dilly.gift.adaptor.PhotoReader;
 import com.dilly.gift.adaptor.PhotoWriter;
 import com.dilly.gift.adaptor.ReceiverReader;
 import com.dilly.gift.adaptor.ReceiverWriter;
+import com.dilly.gift.application.strategy.GiftBoxActionProvider;
+import com.dilly.gift.application.strategy.GiftBoxStrategy;
 import com.dilly.gift.domain.Box;
 import com.dilly.gift.domain.gift.Gift;
 import com.dilly.gift.domain.gift.GiftType;
@@ -70,7 +71,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 public class GiftBoxService {
 
-    private final FileService fileService;
+    private final GiftBoxActionProvider giftBoxActionProvider;
+
     private final GiftBoxReader giftBoxReader;
     private final GiftBoxWriter giftBoxWriter;
     private final BoxReader boxReader;
@@ -177,6 +179,7 @@ public class GiftBoxService {
         return toGiftBoxResponse(giftBox);
     }
 
+    // TODO: 삭제된 선물박스, 이미 열린 선물박스 등 로직 구체화
     public GiftBoxResponse openGiftBoxForWeb(String giftBoxId) {
         GiftBox giftBox;
 
@@ -290,29 +293,8 @@ public class GiftBoxService {
             throw new GiftBoxAccessDeniedException();
         }
 
-        // 선물박스를 보낸 사람
-        if (memberRole.equals(MemberRole.SENDER)) {
-            // 이미 카카오톡을 보냈다면 senderDeleted만 true로 변경
-            if (giftBox.getDeliverStatus().equals(DeliverStatus.DELIVERED)) {
-                giftBox.delete();
-            } else if (giftBox.getDeliverStatus().equals(DeliverStatus.WAITING)) {
-                // 아직 카카오톡으로 보내지 않았다면 선물박스 내부 요소와 S3에 저장된 이미지 삭제
-                letterWriter.delete(giftBox.getLetter());
-                giftBox.getPhotos().forEach(photo -> {
-                    fileService.deleteFile(photo.getImgUrl());
-                    photoWriter.delete(photo);
-                });
-                if (giftBox.getGift().getGiftType().equals(GiftType.PHOTO)) {
-                    fileService.deleteFile(giftBox.getGift().getGiftUrl());
-                }
-                giftBox.getGiftBoxStickers().forEach(giftBoxStickerWriter::delete);
-                giftBoxWriter.delete(giftBox);
-            }
-        } else if (memberRole.equals(MemberRole.RECEIVER)) { // 선물박스를 받은 사람
-            // 받았다는 정보를 soft delete
-            Receiver receiver = receiverReader.findByMemberAndGiftBox(member, giftBox);
-            receiver.delete();
-        }
+        final GiftBoxStrategy giftBoxStrategy = giftBoxActionProvider.getStrategy(memberRole);
+        giftBoxStrategy.delete(member, giftBox);
 
         return "선물박스가 삭제되었습니다";
     }
