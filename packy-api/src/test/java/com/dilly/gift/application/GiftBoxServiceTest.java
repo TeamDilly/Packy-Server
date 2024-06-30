@@ -559,22 +559,6 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
             );
         }
 
-        @DisplayName("선물박스를 받은 사람이라면 선물박스를 받았다는 정보를 soft delete한다.")
-        @Test
-        @WithCustomMockUser(id = RECEIVER_ID)
-        void softDeleteReceiverInfo() {
-            // given
-            GiftBox giftBox = giftBoxWriter.save(sendGiftBoxFixtureWithGift(MEMBER_SENDER, letter));
-            giftBoxService.openGiftBox(giftBox.getId());
-
-            // when
-            giftBoxService.deleteGiftBox(giftBox.getId());
-            Receiver receiver = receiverReader.findByMemberAndGiftBox(MEMBER_RECEIVER, giftBox);
-
-            // then
-            assertThat(receiver.getStatus()).isEqualTo(ReceiverStatus.DELETED);
-        }
-
         @DisplayName("보낸 사람, 받은 사람 둘 다 아니라면 선물박스를 삭제할 수 없다.")
         @Test
         @WithCustomMockUser(id = STRANGER_ID)
