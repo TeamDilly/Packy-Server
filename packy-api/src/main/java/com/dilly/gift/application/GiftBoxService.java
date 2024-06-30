@@ -3,6 +3,7 @@ package com.dilly.gift.application;
 import com.dilly.admin.adaptor.AdminGiftBoxReader;
 import com.dilly.exception.ErrorCode;
 import com.dilly.exception.GiftBoxAccessDeniedException;
+import com.dilly.exception.GiftBoxAlreadyOpenedException;
 import com.dilly.exception.UnsupportedException;
 import com.dilly.gift.adaptor.BoxReader;
 import com.dilly.gift.adaptor.EnvelopeReader;
