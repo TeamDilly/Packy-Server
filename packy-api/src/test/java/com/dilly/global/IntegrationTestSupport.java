@@ -1,8 +1,10 @@
 package com.dilly.global;
 
+import com.dilly.admin.adaptor.AdminGiftBoxReader;
 import com.dilly.admin.adaptor.SettingReader;
 import com.dilly.admin.application.AdminService;
 import com.dilly.application.FileService;
+import com.dilly.auth.application.AuthService;
 import com.dilly.gift.adaptor.BoxReader;
 import com.dilly.gift.adaptor.BoxWriter;
 import com.dilly.gift.adaptor.EnvelopeReader;
@@ -17,6 +19,7 @@ import com.dilly.gift.adaptor.PhotoWriter;
 import com.dilly.gift.adaptor.ReceiverReader;
 import com.dilly.gift.adaptor.ReceiverWriter;
 import com.dilly.gift.application.GiftBoxService;
+import com.dilly.jwt.adaptor.JwtReader;
 import com.dilly.member.adaptor.MemberReader;
 import com.dilly.member.adaptor.MemberWriter;
 import com.dilly.member.adaptor.ProfileImageReader;
@@ -46,6 +49,9 @@ public abstract class IntegrationTestSupport {
 
     @Autowired
     protected AdminService adminService;
+
+    @Autowired
+    protected AuthService authService;
 
     @Autowired
     protected GiftBoxService giftBoxService;
@@ -103,6 +109,12 @@ public abstract class IntegrationTestSupport {
 
     @Autowired
     protected SettingReader settingReader;
+
+    @Autowired
+    protected AdminGiftBoxReader adminGiftBoxReader;
+
+    @Autowired
+    protected JwtReader jwtReader;
 
     @Autowired
     protected WithCustomMockUserSecurityContextFactory withCustomMockUserSecurityContextFactory;

@@ -7,8 +7,10 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ReceiverRepository extends JpaRepository<Receiver, Long> {
-    
+
     Long countByGiftBox(GiftBox giftBox);
+
+    Long countByMember(Member member);
 
     List<Receiver> findByGiftBox(GiftBox giftBox);
 
