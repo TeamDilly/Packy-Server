@@ -66,7 +66,7 @@ public class GiftBoxController {
         """)
     @ApiErrorCodeExamples({
         ErrorCode.GIFTBOX_NOT_FOUND,
-        ErrorCode.GIFTBOX_ALREADY_OPENDED,
+        ErrorCode.GIFTBOX_ALREADY_OPENED,
         ErrorCode.GIFTBOX_ACCESS_DENIED,
         ErrorCode.GIFTBOX_ALREADY_DELETED
     })
