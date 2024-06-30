@@ -337,9 +337,10 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
             @Test
             @DisplayName("선물박스를 받지 않은 사람은 열 수 없다.")
             @WithCustomMockUser(id = STRANGER_ID)
-            void shouldNotAllowRecipientToReopenGiftBox() {
+            void shouldNotAllowStrangerOpenGiftBox() {
                 // given
                 Long giftBoxId = giftBox.getId();
+
                 // when // then
                 assertThatThrownBy(() -> giftBoxService.openGiftBox(giftBoxId))
                     .isInstanceOf(GiftBoxAlreadyOpenedException.class);
