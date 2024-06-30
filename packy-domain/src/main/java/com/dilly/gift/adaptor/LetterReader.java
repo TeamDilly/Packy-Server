@@ -27,4 +27,8 @@ public class LetterReader {
     public Slice<Letter> searchBySlice(Member member, LocalDateTime lastLetterDate, Pageable pageable) {
         return letterQueryRepository.searchBySlice(member, lastLetterDate, pageable);
     }
+
+    public Long count() {
+        return letterRepository.count();
+    }
 }

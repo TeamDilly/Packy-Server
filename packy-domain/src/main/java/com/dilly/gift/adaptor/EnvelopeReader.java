@@ -14,6 +14,10 @@ public class EnvelopeReader {
 
 	private final EnvelopeRepository envelopeRepository;
 
+	public List<Envelope> findAll() {
+		return envelopeRepository.findAll();
+	}
+
 	public List<Envelope> findAllByOrderBySequenceAsc() {
 		return envelopeRepository.findAllByOrderBySequenceAsc();
 	}

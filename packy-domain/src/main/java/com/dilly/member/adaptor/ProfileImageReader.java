@@ -17,6 +17,10 @@ public class ProfileImageReader {
 			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 프로필 이미지입니다."));
 	}
 
+	public List<ProfileImage> findAll() {
+		return profileImageRepository.findAll();
+	}
+
 	public List<ProfileImage> findAllByOrderBySequenceAsc() {
 		return profileImageRepository.findAllByOrderBySequenceAsc();
 	}

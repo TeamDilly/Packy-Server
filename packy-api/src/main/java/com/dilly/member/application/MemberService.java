@@ -1,6 +1,6 @@
 package com.dilly.member.application;
 
-import static com.dilly.global.Constants.MINIMUM_REQUIRED_VERSION;
+import static com.dilly.global.constant.Constants.MINIMUM_REQUIRED_VERSION;
 
 import com.dilly.exception.BadRequestException;
 import com.dilly.exception.ErrorCode;

@@ -6,6 +6,7 @@ import static com.dilly.gift.domain.receiver.QReceiver.receiver;
 
 import com.dilly.gift.domain.Photo;
 import com.dilly.gift.domain.receiver.ReceiverStatus;
+import com.dilly.global.util.SliceUtil;
 import com.dilly.member.domain.Member;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -14,7 +15,6 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
-import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -38,7 +38,7 @@ public class PhotoQueryRepository {
             .limit(pageable.getPageSize() + 1L)
             .fetch();
 
-        return checkLastPage(pageable, results);
+        return SliceUtil.checkLastPage(pageable, results);
     }
 
     private BooleanExpression ltPhotoDate(LocalDateTime lastPhotoDate) {
@@ -47,16 +47,5 @@ public class PhotoQueryRepository {
         }
 
         return receiver.createdAt.lt(lastPhotoDate);
-    }
-
-    private Slice<Photo> checkLastPage(Pageable pageable, List<Photo> results) {
-        boolean hasNext = false;
-
-        if (results.size() > pageable.getPageSize()) {
-            results.remove(results.size() - 1);
-            hasNext = true;
-        }
-
-        return new SliceImpl<>(results, pageable, hasNext);
     }
 }

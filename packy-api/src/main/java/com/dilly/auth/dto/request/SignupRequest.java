@@ -5,7 +5,9 @@ import com.dilly.member.domain.Member;
 import com.dilly.member.domain.ProfileImage;
 import com.dilly.member.domain.Provider;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 
+@Builder
 public record SignupRequest(
 	@Schema(example = "kakao")
 	String provider,
@@ -18,7 +20,7 @@ public record SignupRequest(
 	Boolean marketingAgreement
 ) {
 
-	public Member toEntity(Provider provider, ProfileImage profileImage) {
+	public Member toMember(Provider provider, ProfileImage profileImage) {
 		return Member.builder()
 			.provider(provider)
 			.nickname(nickname)

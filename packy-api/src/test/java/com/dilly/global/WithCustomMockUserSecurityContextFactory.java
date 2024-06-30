@@ -19,8 +19,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.test.context.support.WithSecurityContextFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.test.context.ActiveProfiles;
 
+@Component
 @ActiveProfiles("test")
 public class WithCustomMockUserSecurityContextFactory implements WithSecurityContextFactory<WithCustomMockUser> {
 
@@ -29,6 +31,10 @@ public class WithCustomMockUserSecurityContextFactory implements WithSecurityCon
 
 	@Override
 	public SecurityContext createSecurityContext(WithCustomMockUser annotation) {
+		return createSecurityContext(annotation.id());
+	}
+
+	public SecurityContext createSecurityContext(String memberId) {
 		final SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
 
 		Claims claims;
@@ -43,8 +49,8 @@ public class WithCustomMockUserSecurityContextFactory implements WithSecurityCon
 		Key key = Keys.hmacShaKeyFor(keyBytes);
 
 		String accessToken = Jwts.builder()
-			.setSubject(annotation.id())
-			.claim("provider", "KAKAO")
+			.setSubject(memberId)
+			.claim("provider", "TEST")
 			.claim("nickname", "테스트")
 			.claim("auth", Role.ROLE_USER)
 			.setExpiration(accessTokenExpiresIn) // 토큰 만료 시간 설정
@@ -65,7 +71,7 @@ public class WithCustomMockUserSecurityContextFactory implements WithSecurityCon
 			principal, "", authorities
 		);
 		securityContext.setAuthentication(authenticationToken);
-		return securityContext;
 
+		return securityContext;
 	}
 }

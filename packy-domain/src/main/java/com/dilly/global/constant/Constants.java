@@ -1,4 +1,4 @@
-package com.dilly.global;
+package com.dilly.global.constant;
 
 public class Constants {
     private Constants() {}
