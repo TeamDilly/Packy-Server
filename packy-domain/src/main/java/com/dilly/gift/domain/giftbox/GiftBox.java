@@ -64,6 +64,7 @@ public class GiftBox extends BaseTimeEntity {
 
     private String youtubeUrl;
 
+    // TODO: Optional로 수정
     @Embedded
     private Gift gift;
 
