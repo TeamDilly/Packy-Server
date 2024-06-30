@@ -22,7 +22,6 @@ public class KakaoStrategy implements AuthStrategy {
 
     private final MemberWriter memberWriter;
     private final KakaoAccountReader kakaoAccountReader;
-    private final KakaoAccountWriter KakaoAccountWriter;
     private final KakaoAccountWriter kakaoAccountWriter;
 
     @Override
@@ -32,7 +31,7 @@ public class KakaoStrategy implements AuthStrategy {
         kakaoAccountReader.isKakaoAccountPresent(kakaoResource.getId());
 
         Member member = memberWriter.save(signupRequest.toMember(Provider.KAKAO, profileImage));
-        KakaoAccountWriter.save(kakaoResource.toMember(member));
+        kakaoAccountWriter.save(kakaoResource.toMember(member));
 
         return member;
     }
