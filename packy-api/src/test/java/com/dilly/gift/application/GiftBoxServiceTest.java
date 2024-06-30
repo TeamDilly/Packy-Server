@@ -566,7 +566,10 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
         void strangerCannotDelete() {
             // given
             GiftBox giftBox = giftBoxWriter.save(createGiftBoxFixture(MEMBER_SENDER, letter));
+            openGiftBox(MEMBER_RECEIVER, giftBox);
+
             Long giftBoxId = giftBox.getId();
+
             // when // then
             assertThatThrownBy(() -> giftBoxService.deleteGiftBox(giftBoxId))
                 .isInstanceOf(GiftBoxAccessDeniedException.class);
