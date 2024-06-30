@@ -302,7 +302,8 @@ public class GiftBoxService {
                     fileService.deleteFile(photo.getImgUrl());
                     photoWriter.delete(photo);
                 });
-                if (giftBox.getGift().getGiftType().equals(GiftType.PHOTO)) {
+                if (giftBox.getGift() != null && giftBox.getGift().getGiftType()
+                    .equals(GiftType.PHOTO)) {
                     fileService.deleteFile(giftBox.getGift().getGiftUrl());
                 }
                 giftBox.getGiftBoxStickers().forEach(giftBoxStickerWriter::delete);
