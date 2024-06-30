@@ -37,13 +37,17 @@ public class SenderStrategy implements GiftBoxStrategy {
         } else if (giftBox.getDeliverStatus().equals(DeliverStatus.WAITING)) {
             // 아직 카카오톡으로 보내지 않았다면 선물박스 내부 요소와 S3에 저장된 이미지 삭제
             letterWriter.delete(giftBox.getLetter());
+
             giftBox.getPhotos().forEach(photo -> {
                 fileService.deleteFile(photo.getImgUrl());
                 photoWriter.delete(photo);
             });
-            if (giftBox.getGift().getGiftType().equals(GiftType.PHOTO)) {
+
+            if (giftBox.getGift() != null && giftBox.getGift().getGiftType()
+                .equals(GiftType.PHOTO)) {
                 fileService.deleteFile(giftBox.getGift().getGiftUrl());
             }
+            
             giftBox.getGiftBoxStickers().forEach(giftBoxStickerWriter::delete);
             giftBoxWriter.delete(giftBox);
         }
