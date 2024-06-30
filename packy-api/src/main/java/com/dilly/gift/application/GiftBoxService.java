@@ -185,6 +185,13 @@ public class GiftBoxService {
         } else {
             try {
                 giftBox = giftBoxReader.findById(Long.parseLong(giftBoxId));
+
+                List<Receiver> receiver = receiverReader.findByGiftBox(giftBox);
+
+                boolean hasReceiver = !receiver.isEmpty();
+                if (hasReceiver) {
+                    throw new GiftBoxAlreadyOpenedException();
+                }
             } catch (NumberFormatException e) {
                 throw new UnsupportedException(ErrorCode.INVALID_INPUT_VALUE);
             }

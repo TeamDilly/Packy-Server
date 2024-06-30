@@ -31,6 +31,7 @@ public class Member extends BaseTimeEntity {
 	private Provider provider;
 
 	@Enumerated(EnumType.STRING)
+	@Builder.Default
 	private Role role = Role.ROLE_USER;
 
 	private String nickname;
@@ -43,6 +44,7 @@ public class Member extends BaseTimeEntity {
 	Boolean marketingAgreement;
 
 	@Enumerated(EnumType.STRING)
+	@Builder.Default
 	Status status = Status.REGISTERED;
 
 	@Builder

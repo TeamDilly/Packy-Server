@@ -66,7 +66,7 @@ public class GiftBoxController {
         """)
     @ApiErrorCodeExamples({
         ErrorCode.GIFTBOX_NOT_FOUND,
-        ErrorCode.GIFTBOX_ALREADY_OPENDED,
+        ErrorCode.GIFTBOX_ALREADY_OPENED,
         ErrorCode.GIFTBOX_ACCESS_DENIED,
         ErrorCode.GIFTBOX_ALREADY_DELETED
     })
@@ -79,10 +79,10 @@ public class GiftBoxController {
 
     @Operation(summary = "(WEB) 선물박스 열기", description = """
         선물이 없을 경우 응답에서 gift 객체가 제외됩니다. <br>
-        선물박스를 보낸 뒤 7일이 지나면 선물박스를 열 수 없습니다. <br>
         """)
     @ApiErrorCodeExamples({
         ErrorCode.GIFTBOX_NOT_FOUND,
+        ErrorCode.GIFTBOX_ALREADY_OPENED,
         ErrorCode.GIFTBOX_ALREADY_DELETED,
         ErrorCode.GIFTBOX_URL_EXPIRED,
         ErrorCode.INVALID_INPUT_VALUE
