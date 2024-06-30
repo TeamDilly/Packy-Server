@@ -625,7 +625,6 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
             giftBox.getBox().getKakaoMessageImgUrl());
     }
 
-    // TODO: GiftBoxService.checkIfGiftBoxOpenable() 리팩토링 후 메서드를 Service 클래스로 옮기기
     private void openGiftBox(Member member, GiftBox giftBox) {
         List<Member> receivers = receiverReader.findByGiftBox(giftBox).stream()
             .map(Receiver::getMember)
