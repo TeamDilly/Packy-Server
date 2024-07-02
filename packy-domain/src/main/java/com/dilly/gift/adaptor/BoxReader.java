@@ -14,6 +14,10 @@ public class BoxReader {
 
 	private final BoxRepository boxRepository;
 
+	public List<Box> findAll() {
+		return boxRepository.findAll();
+	}
+
 	public List<Box> findAllByOrderBySequenceAsc() {
 		return boxRepository.findAllByOrderBySequenceAsc();
 	}

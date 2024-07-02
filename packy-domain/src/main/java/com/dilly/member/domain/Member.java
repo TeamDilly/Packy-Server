@@ -3,7 +3,7 @@ package com.dilly.member.domain;
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
-import com.dilly.global.BaseTimeEntity;
+import com.dilly.global.domain.BaseTimeEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -31,6 +31,7 @@ public class Member extends BaseTimeEntity {
 	private Provider provider;
 
 	@Enumerated(EnumType.STRING)
+	@Builder.Default
 	private Role role = Role.ROLE_USER;
 
 	private String nickname;
@@ -43,6 +44,7 @@ public class Member extends BaseTimeEntity {
 	Boolean marketingAgreement;
 
 	@Enumerated(EnumType.STRING)
+	@Builder.Default
 	Status status = Status.REGISTERED;
 
 	@Builder

@@ -2,7 +2,7 @@ package com.dilly.jwt;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
-import com.dilly.global.BaseTimeEntity;
+import com.dilly.global.domain.BaseTimeEntity;
 import com.dilly.member.domain.Member;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

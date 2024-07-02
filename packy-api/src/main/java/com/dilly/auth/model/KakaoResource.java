@@ -13,7 +13,7 @@ public class KakaoResource {
 	private String id;
 	private KakaoAccount kakao_account;
 
-    public com.dilly.auth.domain.KakaoAccount toEntity(Member member) {
+    public com.dilly.auth.domain.KakaoAccount toMember(Member member) {
         return com.dilly.auth.domain.KakaoAccount.builder()
 			.id(id)
 			.member(member)

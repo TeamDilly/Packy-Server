@@ -20,7 +20,7 @@ class AdminServiceTest extends IntegrationTestSupport {
     @Test
     void getProfiles() {
         // given
-        List<ImgResponse> profiles = profileImageRepository.findAll()
+        List<ImgResponse> profiles = profileImageReader.findAll()
             .stream().map(ImgResponse::from).toList();
 
         // when
@@ -34,13 +34,13 @@ class AdminServiceTest extends IntegrationTestSupport {
     @Test
     void getBoxes() {
         // given
-        Box box1 = BoxFixture.createBox(1L, 1L);
-        Box box2 = BoxFixture.createBox(2L, 2L);
-        Box box3 = BoxFixture.createBox(3L, 3L);
+        Box box1 = BoxFixture.createBoxFixture(1L, 1L);
+        Box box2 = BoxFixture.createBoxFixture(2L, 2L);
+        Box box3 = BoxFixture.createBoxFixture(3L, 3L);
         List<Box> boxes = List.of(box1, box2, box3);
-        boxRepository.saveAll(boxes);
+        boxWriter.saveAll(boxes);
 
-        List<BoxImgResponse> boxImgResponses = boxRepository.findAll()
+        List<BoxImgResponse> boxImgResponses = boxReader.findAll()
             .stream().map(BoxImgResponse::from).toList();
 
         // when
@@ -54,7 +54,7 @@ class AdminServiceTest extends IntegrationTestSupport {
     @Test
     void getEnvelopes() {
         // given
-        List<EnvelopeListResponse> envelopes = envelopeRepository.findAll()
+        List<EnvelopeListResponse> envelopes = envelopeReader.findAll()
             .stream().map(EnvelopeListResponse::from).toList();
 
         // when
@@ -68,7 +68,7 @@ class AdminServiceTest extends IntegrationTestSupport {
     @Test
     void getMusics() {
         // given
-        List<MusicResponse> musics = musicRepository.findAll()
+        List<MusicResponse> musics = musicReader.findAll()
             .stream().map(MusicResponse::from)
             .toList();
 
@@ -83,7 +83,7 @@ class AdminServiceTest extends IntegrationTestSupport {
     @Test
     void getSettingUrls() {
         // given
-        List<SettingResponse> settingUrls = settingRepository.findAll()
+        List<SettingResponse> settingUrls = settingReader.findAll()
             .stream().map(SettingResponse::from)
             .toList();
 

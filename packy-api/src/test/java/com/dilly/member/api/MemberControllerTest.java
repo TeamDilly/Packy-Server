@@ -6,9 +6,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.dilly.global.Constants;
 import com.dilly.global.ControllerTestSupport;
 import com.dilly.global.WithCustomMockUser;
+import com.dilly.global.constant.Constants;
 import com.dilly.member.dto.response.AppStatusResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -4,7 +4,7 @@ import com.dilly.gift.domain.Box;
 
 public class BoxFixture {
 
-    public static Box createBox(Long id, Long sequence) {
+    public static Box createBoxFixture(Long id, Long sequence) {
         return Box.builder()
             .id(id)
             .sequence(sequence)

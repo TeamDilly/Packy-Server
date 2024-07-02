@@ -25,4 +25,8 @@ public class ReceiverReader {
     public Long countByGiftBox(GiftBox giftBox) {
         return receiverRepository.countByGiftBox(giftBox);
     }
+
+    public Long countByMember(Member member) {
+        return receiverRepository.countByMember(member);
+    }
 }

@@ -3,7 +3,7 @@ package com.dilly.gift.domain.receiver;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 import com.dilly.gift.domain.giftbox.GiftBox;
-import com.dilly.global.BaseTimeEntity;
+import com.dilly.global.domain.BaseTimeEntity;
 import com.dilly.member.domain.Member;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

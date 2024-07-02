@@ -1756,7 +1756,7 @@
       {
         "id": "d6d41908-171e-4016-883a-8d62102243b0",
         "identification": false,
-        "relationshipType": "OneN",
+        "relationshipType": "OneOnly",
         "startRelationshipType": "Dash",
         "start": {
           "tableId": "67c2763b-46ef-4967-821e-206a52e3c32c",
