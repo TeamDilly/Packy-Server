@@ -1,8 +1,7 @@
-package com.dilly.auth.model;
+package com.dilly.model;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
-import com.dilly.member.domain.Member;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 
@@ -11,17 +10,10 @@ import lombok.Getter;
 public class KakaoResource {
 
 	private String id;
-	private KakaoAccount kakao_account;
-
-    public com.dilly.auth.domain.KakaoAccount toMember(Member member) {
-        return com.dilly.auth.domain.KakaoAccount.builder()
-			.id(id)
-			.member(member)
-			.build();
-	}
+	private KakaoAccountInfo kakao_account;
 
 	@JsonInclude(NON_NULL)
-	public static class KakaoAccount {
+	public static class KakaoAccountInfo {
 
 		private Profile profile;
 		private String email;

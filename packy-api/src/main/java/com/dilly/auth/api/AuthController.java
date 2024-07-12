@@ -1,7 +1,7 @@
 package com.dilly.auth.api;
 
+import com.dilly.application.KakaoService;
 import com.dilly.auth.application.AuthService;
-import com.dilly.auth.application.KakaoService;
 import com.dilly.auth.dto.request.SignupRequest;
 import com.dilly.auth.dto.response.SignInResponse;
 import com.dilly.exception.ErrorCode;

@@ -1,9 +1,8 @@
-package com.dilly.auth.application;
+package com.dilly.application;
 
-import com.dilly.auth.domain.KakaoAccount;
-import com.dilly.auth.model.KakaoResource;
 import com.dilly.exception.ErrorCode;
 import com.dilly.exception.internalserver.InternalServerException;
+import com.dilly.model.KakaoResource;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.io.BufferedReader;
@@ -97,7 +96,7 @@ public class KakaoService {
 		return access_Token;
 	}
 
-	public void unlinkKakaoAccount(KakaoAccount kakaoAccount) {
+    public void unlinkKakaoAccount(String kakaoAccountId) {
 		WebClient webClient = WebClient.builder()
 			.baseUrl(kakaoUnlinkUri)
 			.defaultHeader(HttpHeaders.AUTHORIZATION, "KakaoAK " + kakaoAdminKey)
@@ -106,7 +105,7 @@ public class KakaoService {
 
 		MultiValueMap<String, String> bodyData = new LinkedMultiValueMap<>();
 		bodyData.add("target_id_type", "user_id");
-		bodyData.add("target_id", kakaoAccount.getId());
+        bodyData.add("target_id", kakaoAccountId);
 
 		try {
 			webClient.post()

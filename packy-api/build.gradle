@@ -38,9 +38,6 @@ dependencies {
     implementation group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
     implementation group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
 
-    // webflux (for WebClient)
-    implementation 'org.springframework.boot:spring-boot-starter-webflux'
-
     // json parser
     implementation 'com.google.code.gson:gson:2.8.9'
 
@@ -49,10 +46,6 @@ dependencies {
 
     // sentry
     implementation 'io.sentry:sentry-logback:7.3.0'
-
-    // apple login
-    implementation 'org.bouncycastle:bcprov-jdk15on:1.69'
-    implementation 'org.bouncycastle:bcpkix-jdk14:1.72'
 
     // junit
     testImplementation('org.junit-pioneer:junit-pioneer:2.2.0')
@@ -70,9 +63,9 @@ tasks.register('copySecret', Copy) {
 }
 
 if (project.hasProperty('dev')) {
-    apply from: project.file('profile-dev.gradle');
+    apply from: project.file('profile-dev.gradle')
 } else if (project.hasProperty('prod')) {
-    apply from: project.file('profile-prod.gradle');
+    apply from: project.file('profile-prod.gradle')
 }
 
 bootJar.enabled = true
