@@ -1,5 +1,7 @@
 package com.dilly.global;
 
+import static org.mockito.BDDMockito.given;
+
 import com.dilly.admin.adaptor.AdminGiftBoxReader;
 import com.dilly.admin.adaptor.SettingReader;
 import com.dilly.admin.application.AdminService;
@@ -19,7 +21,7 @@ import com.dilly.gift.adaptor.PhotoWriter;
 import com.dilly.gift.adaptor.ReceiverReader;
 import com.dilly.gift.adaptor.ReceiverWriter;
 import com.dilly.gift.application.GiftBoxService;
-import com.dilly.jwt.adaptor.JwtReader;
+import com.dilly.jwt.TokenProvider;
 import com.dilly.member.adaptor.MemberReader;
 import com.dilly.member.adaptor.MemberWriter;
 import com.dilly.member.adaptor.ProfileImageReader;
@@ -65,6 +67,9 @@ public abstract class IntegrationTestSupport {
 
     @Autowired
     protected MyPageService myPageService;
+
+    @Autowired
+    protected TokenProvider tokenProvider;
 
     @Autowired
     protected ProfileImageReader profileImageReader;
@@ -119,9 +124,6 @@ public abstract class IntegrationTestSupport {
 
     @Autowired
     protected AdminGiftBoxReader adminGiftBoxReader;
-
-    @Autowired
-    protected JwtReader jwtReader;
 
     @Autowired
     protected WithCustomMockUserSecurityContextFactory withCustomMockUserSecurityContextFactory;
