@@ -1,37 +1,33 @@
-package com.dilly.auth.model;
+package com.dilly.model;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
-import com.dilly.member.domain.Member;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Getter;
 
 @Getter
 @JsonInclude(NON_NULL)
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class KakaoResource {
 
 	private String id;
-	private KakaoAccount kakao_account;
-
-    public com.dilly.auth.domain.KakaoAccount toMember(Member member) {
-        return com.dilly.auth.domain.KakaoAccount.builder()
-			.id(id)
-			.member(member)
-			.build();
-	}
+	private KakaoAccountInfo kakaoAccount;
 
 	@JsonInclude(NON_NULL)
-	public static class KakaoAccount {
+	public static class KakaoAccountInfo {
 
 		private Profile profile;
 		private String email;
 		private String gender;
 
 		@JsonInclude(NON_NULL)
+		@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 		public static class Profile {
 
 			private String nickname;
-			private String profile_image_url;
+			private String profileImageUrl;
 		}
 	}
 

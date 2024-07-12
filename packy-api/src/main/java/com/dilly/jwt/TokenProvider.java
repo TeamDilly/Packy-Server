@@ -13,6 +13,8 @@ import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
+import java.time.Clock;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -32,18 +34,23 @@ public class TokenProvider {
 
 	private static final String AUTHORITIES_KEY = "auth";
 	private static final String BEARER_TYPE = "Bearer";
-	private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000L * 60 * 30;            // 30분
+	private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000L * 60 * 30; // 30분
 
 	private final Key key;
+	private final Clock clock;
 
-	public TokenProvider(@Value("${jwt.secret}") String secretKey) {
+	public TokenProvider(
+		@Value("${jwt.secret}") String secretKey,
+		Clock clock) {
 		byte[] keyBytes = Decoders.BASE64.decode(secretKey);
 		this.key = Keys.hmacShaKeyFor(keyBytes);
+		this.clock = clock;
 	}
 
 	public JwtResponse generateJwt(Member member) {
-		long now = (new Date()).getTime();
-		Date accessTokenExpiresIn = new Date(now + (ACCESS_TOKEN_EXPIRE_TIME));
+		LocalDateTime now = LocalDateTime.now(clock);
+		long nowMillis = now.atZone(Clock.systemDefaultZone().getZone()).toInstant().toEpochMilli();
+		Date accessTokenExpiresIn = new Date(nowMillis + (ACCESS_TOKEN_EXPIRE_TIME));
 
 		// Access Token 생성
 		String accessToken = Jwts.builder()

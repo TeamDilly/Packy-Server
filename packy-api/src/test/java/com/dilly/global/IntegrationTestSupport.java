@@ -1,5 +1,7 @@
 package com.dilly.global;
 
+import static org.mockito.BDDMockito.given;
+
 import com.dilly.admin.adaptor.AdminGiftBoxReader;
 import com.dilly.admin.adaptor.SettingReader;
 import com.dilly.admin.application.AdminService;
@@ -19,12 +21,19 @@ import com.dilly.gift.adaptor.PhotoWriter;
 import com.dilly.gift.adaptor.ReceiverReader;
 import com.dilly.gift.adaptor.ReceiverWriter;
 import com.dilly.gift.application.GiftBoxService;
+import com.dilly.jwt.JwtService;
+import com.dilly.jwt.TokenProvider;
 import com.dilly.jwt.adaptor.JwtReader;
+import com.dilly.jwt.adaptor.JwtWriter;
 import com.dilly.member.adaptor.MemberReader;
 import com.dilly.member.adaptor.MemberWriter;
 import com.dilly.member.adaptor.ProfileImageReader;
 import com.dilly.member.application.MyPageService;
 import jakarta.transaction.Transactional;
+import java.time.Clock;
+import java.time.Instant;
+import java.time.ZoneId;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -47,6 +56,9 @@ public abstract class IntegrationTestSupport {
     @MockBean
     protected FileService fileService;
 
+    @MockBean
+    protected Clock clock;
+
     @Autowired
     protected AdminService adminService;
 
@@ -54,10 +66,16 @@ public abstract class IntegrationTestSupport {
     protected AuthService authService;
 
     @Autowired
+    protected JwtService jwtService;
+
+    @Autowired
     protected GiftBoxService giftBoxService;
 
     @Autowired
     protected MyPageService myPageService;
+
+    @Autowired
+    protected TokenProvider tokenProvider;
 
     @Autowired
     protected ProfileImageReader profileImageReader;
@@ -117,7 +135,17 @@ public abstract class IntegrationTestSupport {
     protected JwtReader jwtReader;
 
     @Autowired
+    protected JwtWriter jwtWriter;
+
+    @Autowired
     protected WithCustomMockUserSecurityContextFactory withCustomMockUserSecurityContextFactory;
+
+    @BeforeEach
+    protected void setClock() {
+        final Instant now = Instant.now();
+        given(clock.instant()).willReturn(now);
+        given(clock.getZone()).willReturn(ZoneId.systemDefault());
+    }
 
     // Dynamic test에서 MockUser 다르게 설정할 때 사용
     protected void createSecurityContextWithMockUser(String memberId) {

@@ -1,16 +1,16 @@
 package com.dilly.auth.application.strategy;
 
+import com.dilly.application.AppleService;
 import com.dilly.auth.adaptor.AppleAccountReader;
 import com.dilly.auth.adaptor.AppleAccountWriter;
-import com.dilly.auth.application.AppleService;
 import com.dilly.auth.domain.AppleAccount;
 import com.dilly.auth.dto.request.SignupRequest;
-import com.dilly.auth.model.AppleAccountInfo;
-import com.dilly.auth.model.AppleToken;
 import com.dilly.member.adaptor.MemberWriter;
 import com.dilly.member.domain.Member;
 import com.dilly.member.domain.ProfileImage;
 import com.dilly.member.domain.Provider;
+import com.dilly.model.AppleAccountInfo;
+import com.dilly.model.AppleToken;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -53,8 +53,9 @@ public class AppleStrategy implements AuthStrategy {
     @Override
     public void withdraw(Member member) {
         AppleAccount appleAccount = appleAccountReader.findByMember(member);
+        String appleRefreshToken = appleAccount.getRefreshToken();
 
-        appleService.revokeAppleAccount(appleAccount);
+        appleService.revokeAppleAccount(appleRefreshToken);
         appleAccountWriter.delete(appleAccount);
     }
 }

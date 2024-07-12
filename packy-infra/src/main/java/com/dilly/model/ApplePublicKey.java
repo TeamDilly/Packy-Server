@@ -1,8 +1,7 @@
-package com.dilly.auth.model;
+package com.dilly.model;
 
 import java.util.ArrayList;
 import java.util.Optional;
-
 import lombok.Getter;
 import lombok.ToString;
 

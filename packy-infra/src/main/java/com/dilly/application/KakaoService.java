@@ -1,9 +1,8 @@
-package com.dilly.auth.application;
+package com.dilly.application;
 
-import com.dilly.auth.domain.KakaoAccount;
-import com.dilly.auth.model.KakaoResource;
 import com.dilly.exception.ErrorCode;
 import com.dilly.exception.internalserver.InternalServerException;
+import com.dilly.model.KakaoResource;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.io.BufferedReader;
@@ -60,7 +59,7 @@ public class KakaoService {
 	}
 
 	public String getKakaoAccessToken(String code) {
-		String access_Token = "";
+		String accessToken = "";
 
 		try {
 			URL url = new URL(KakaoService.this.kakaoTokenUri);
@@ -81,23 +80,25 @@ public class KakaoService {
 
 			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 			String line = "";
-			String result = "";
-
+			StringBuilder stringBuilder = new StringBuilder();
 			while ((line = br.readLine()) != null) {
-				result += line;
+				stringBuilder.append(line);
 			}
+			String result = stringBuilder.toString();
 
-			access_Token = ((JsonObject)JsonParser.parseString(result)).get("access_token").getAsString();
+			accessToken = ((JsonObject) JsonParser.parseString(result)).get(
+					"access_token")
+				.getAsString();
 			br.close();
 			bw.close();
 		} catch (IOException e) {
 			log.error("IOException", e);
 		}
 
-		return access_Token;
+		return accessToken;
 	}
 
-	public void unlinkKakaoAccount(KakaoAccount kakaoAccount) {
+    public void unlinkKakaoAccount(String kakaoAccountId) {
 		WebClient webClient = WebClient.builder()
 			.baseUrl(kakaoUnlinkUri)
 			.defaultHeader(HttpHeaders.AUTHORIZATION, "KakaoAK " + kakaoAdminKey)
@@ -106,7 +107,7 @@ public class KakaoService {
 
 		MultiValueMap<String, String> bodyData = new LinkedMultiValueMap<>();
 		bodyData.add("target_id_type", "user_id");
-		bodyData.add("target_id", kakaoAccount.getId());
+        bodyData.add("target_id", kakaoAccountId);
 
 		try {
 			webClient.post()
