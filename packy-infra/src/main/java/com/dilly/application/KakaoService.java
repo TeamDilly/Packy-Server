@@ -59,7 +59,7 @@ public class KakaoService {
 	}
 
 	public String getKakaoAccessToken(String code) {
-		String access_Token = "";
+		String accessToken = "";
 
 		try {
 			URL url = new URL(KakaoService.this.kakaoTokenUri);
@@ -80,20 +80,22 @@ public class KakaoService {
 
 			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 			String line = "";
-			String result = "";
-
+			StringBuilder stringBuilder = new StringBuilder();
 			while ((line = br.readLine()) != null) {
-				result += line;
+				stringBuilder.append(line);
 			}
+			String result = stringBuilder.toString();
 
-			access_Token = ((JsonObject)JsonParser.parseString(result)).get("access_token").getAsString();
+			accessToken = ((JsonObject) JsonParser.parseString(result)).get(
+					"access_token")
+				.getAsString();
 			br.close();
 			bw.close();
 		} catch (IOException e) {
 			log.error("IOException", e);
 		}
 
-		return access_Token;
+		return accessToken;
 	}
 
     public void unlinkKakaoAccount(String kakaoAccountId) {
