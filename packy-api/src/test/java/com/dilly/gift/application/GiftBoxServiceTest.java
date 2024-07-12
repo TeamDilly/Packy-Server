@@ -437,7 +437,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
         @DisplayName("선물박스를 보낸 사람이라면")
         class IfSender {
 
-            @DisplayName("전송 완료된 선물 박스는")
+            @DisplayName("전송 완료된 선물 박스 시나리오")
             @TestFactory
             Collection<DynamicTest> deliveredGiftBox() {
                 // given
@@ -473,7 +473,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
                 );
             }
 
-            @DisplayName("전송 대기 중인 선물박스라면")
+            @DisplayName("전송 대기 중인 선물박스 시나리오")
             @TestFactory
             Collection<DynamicTest> waitingGiftBox() {
                 // given
@@ -522,7 +522,7 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
         // 선물박스를 받았다는 정보를 soft delete한다.
         // 받은 사람은 선물박스에 다시 접근할 수 없다
         // 보낸 사람은 선물박스에  다시 접근할 수 있다
-        @DisplayName("선물박스를 받은 사람이라면")
+        @DisplayName("선물박스를 받은 사람 시나리오")
         @TestFactory
         Collection<DynamicTest> ifReceiver() {
             // given
