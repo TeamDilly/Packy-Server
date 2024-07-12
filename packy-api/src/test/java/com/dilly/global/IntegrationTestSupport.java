@@ -25,6 +25,10 @@ import com.dilly.member.adaptor.MemberWriter;
 import com.dilly.member.adaptor.ProfileImageReader;
 import com.dilly.member.application.MyPageService;
 import jakarta.transaction.Transactional;
+import java.time.Clock;
+import java.time.Instant;
+import java.time.ZoneId;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -46,6 +50,9 @@ public abstract class IntegrationTestSupport {
 
     @MockBean
     protected FileService fileService;
+
+    @MockBean
+    protected Clock clock;
 
     @Autowired
     protected AdminService adminService;
@@ -118,6 +125,13 @@ public abstract class IntegrationTestSupport {
 
     @Autowired
     protected WithCustomMockUserSecurityContextFactory withCustomMockUserSecurityContextFactory;
+
+    @BeforeEach
+    protected void setClock() {
+        final Instant now = Instant.now();
+        given(clock.instant()).willReturn(now);
+        given(clock.getZone()).willReturn(ZoneId.systemDefault());
+    }
 
     // Dynamic test에서 MockUser 다르게 설정할 때 사용
     protected void createSecurityContextWithMockUser(String memberId) {
