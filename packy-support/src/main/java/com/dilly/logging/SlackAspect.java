@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @Profile("prod")
 @Component
 @RequiredArgsConstructor
-public class LogAspect {
+public class SlackAspect {
 
     private final SlackService slackService;
     private final MemberReader memberReader;
