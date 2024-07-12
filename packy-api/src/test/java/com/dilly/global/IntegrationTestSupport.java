@@ -21,7 +21,10 @@ import com.dilly.gift.adaptor.PhotoWriter;
 import com.dilly.gift.adaptor.ReceiverReader;
 import com.dilly.gift.adaptor.ReceiverWriter;
 import com.dilly.gift.application.GiftBoxService;
+import com.dilly.jwt.JwtService;
 import com.dilly.jwt.TokenProvider;
+import com.dilly.jwt.adaptor.JwtReader;
+import com.dilly.jwt.adaptor.JwtWriter;
 import com.dilly.member.adaptor.MemberReader;
 import com.dilly.member.adaptor.MemberWriter;
 import com.dilly.member.adaptor.ProfileImageReader;
@@ -61,6 +64,9 @@ public abstract class IntegrationTestSupport {
 
     @Autowired
     protected AuthService authService;
+
+    @Autowired
+    protected JwtService jwtService;
 
     @Autowired
     protected GiftBoxService giftBoxService;
@@ -124,6 +130,12 @@ public abstract class IntegrationTestSupport {
 
     @Autowired
     protected AdminGiftBoxReader adminGiftBoxReader;
+
+    @Autowired
+    protected JwtReader jwtReader;
+
+    @Autowired
+    protected JwtWriter jwtWriter;
 
     @Autowired
     protected WithCustomMockUserSecurityContextFactory withCustomMockUserSecurityContextFactory;

@@ -15,4 +15,8 @@ public class JwtReader {
 	public RefreshToken findByMember(Member member) {
 		return refreshTokenRepository.findByMember(member);
 	}
+
+	public Long count() {
+		return refreshTokenRepository.count();
+	}
 }
