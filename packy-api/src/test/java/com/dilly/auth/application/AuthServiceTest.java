@@ -23,7 +23,7 @@ class AuthServiceTest extends IntegrationTestSupport {
         .marketingAgreement(true)
         .build();
 
-    @DisplayName("올바르지 않은 Provider Type을 요청할 경우 예외가 발생한다.")
+    @DisplayName("올바르지 않은 Provider Type으로 회원가입을 요청할 경우 예외가 발생한다.")
     @Test
     void throwExceptionWithWrongProviderType() {
         // given
