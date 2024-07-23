@@ -1,7 +1,9 @@
 package com.dilly.application;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.dilly.exception.internalserver.InternalServerException;
 import com.dilly.model.BranchUrl;
 import global.config.ServiceTestSupport;
 import java.io.IOException;
@@ -57,5 +59,23 @@ class BranchServiceTest extends ServiceTestSupport {
 
         // then
         assertThat(result).isEqualTo(branchUrl.url());
+    }
+
+    @DisplayName("branch API 호출에 실패하면 예외가 발생한다.")
+    @Test
+    void createBranchUrlThrowsException() {
+        // given
+        Long boxId = 1L;
+        String errorResponse = "{\"error\":{\"code\":400,\"message\":\"Invalid JSON\"}}";
+
+        mockWebServer.enqueue(
+            new MockResponse()
+                .setResponseCode(HttpStatus.BAD_REQUEST.value())
+                .setBody(errorResponse)
+        );
+
+        // when // then
+        assertThatThrownBy(() -> branchService.createBranchUrl(boxId))
+            .isInstanceOf(InternalServerException.class);
     }
 }
