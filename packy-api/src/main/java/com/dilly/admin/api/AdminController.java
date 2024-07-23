@@ -1,11 +1,14 @@
 package com.dilly.admin.api;
 
 import com.dilly.admin.application.AdminService;
+import com.dilly.admin.dto.request.BranchRequest;
 import com.dilly.admin.dto.response.BoxImgResponse;
 import com.dilly.admin.dto.response.ImgResponse;
 import com.dilly.admin.dto.response.MusicResponse;
 import com.dilly.admin.dto.response.SettingResponse;
+import com.dilly.admin.dto.response.UrlResponse;
 import com.dilly.admin.dto.response.YoutubeUrlValidationResponse;
+import com.dilly.application.BranchService;
 import com.dilly.application.YoutubeService;
 import com.dilly.exception.ErrorCode;
 import com.dilly.gift.dto.response.EnvelopeListResponse;
@@ -22,6 +25,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,6 +39,7 @@ public class AdminController {
 
     private final AdminService adminService;
     private final YoutubeService youtubeService;
+    private final BranchService branchService;
 
     @Operation(summary = "서버 상태 체크")
     @GetMapping("/health")
@@ -107,5 +113,16 @@ public class AdminController {
     @GetMapping("/settings")
     public DataResponseDto<List<SettingResponse>> getSettingUrls() {
         return DataResponseDto.from(adminService.getSettingUrls());
+    }
+
+    @Operation(summary = "branch 링크 생성")
+    @PostMapping("/branch")
+    public DataResponseDto<UrlResponse> createBranchUrl(
+        @RequestBody BranchRequest branchRequest
+    ) {
+        Long boxId = branchRequest.boxId();
+        UrlResponse urlResponse = UrlResponse.from(branchService.createBranchUrl(boxId));
+
+        return DataResponseDto.from(urlResponse);
     }
 }
