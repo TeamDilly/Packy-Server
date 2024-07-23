@@ -6,7 +6,6 @@ import com.amazonaws.services.s3.Headers;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import com.amazonaws.services.s3.model.ResponseHeaderOverrides;
-import com.dilly.dto.request.FileRequest;
 import com.dilly.exception.ErrorCode;
 import com.dilly.exception.internalserver.InternalServerException;
 import java.net.URL;
@@ -29,7 +28,7 @@ public class FileService {
 
 	private final AmazonS3 amazonS3;
 
-	public FileRequest getPresignedUrl(String prefix, String fileName) {
+	public String getPresignedUrl(String prefix, String fileName) {
 		if (!prefix.isEmpty()) {
 			fileName = createPath(prefix, fileName);
 		}
@@ -37,9 +36,7 @@ public class FileService {
 		GeneratePresignedUrlRequest generatePresignedUrlRequest = getGeneratePresignedUrlRequest(bucket, fileName);
 		URL url = amazonS3.generatePresignedUrl(generatePresignedUrlRequest);
 
-		return FileRequest.builder()
-			.url(url.toString())
-			.build();
+		return url.toString();
 	}
 
 	public void deleteFile(String imgUrl) {
