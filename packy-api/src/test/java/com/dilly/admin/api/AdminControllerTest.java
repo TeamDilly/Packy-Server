@@ -11,7 +11,7 @@ import com.dilly.admin.dto.response.BoxImgResponse;
 import com.dilly.admin.dto.response.ImgResponse;
 import com.dilly.admin.dto.response.MusicResponse;
 import com.dilly.admin.dto.response.SettingResponse;
-import com.dilly.dto.response.YoutubeUrlValidationResponse;
+import com.dilly.admin.dto.response.YoutubeUrlValidationResponse;
 import com.dilly.gift.dto.response.EnvelopeListResponse;
 import com.dilly.gift.dto.response.EnvelopePaperResponse;
 import com.dilly.global.ControllerTestSupport;
@@ -189,7 +189,7 @@ class AdminControllerTest extends ControllerTestSupport {
 		YoutubeUrlValidationResponse validationResponse = YoutubeUrlValidationResponse.builder()
 			.status(true).build();
 
-		given(youtubeService.validateYoutubeUrl(url)).willReturn(validationResponse);
+		given(youtubeService.validateYoutubeUrl(url)).willReturn(validationResponse.status());
 
 		// when // then
 		mockMvc.perform(

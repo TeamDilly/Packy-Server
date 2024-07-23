@@ -1,6 +1,5 @@
 package com.dilly.application;
 
-import com.dilly.dto.response.YoutubeUrlValidationResponse;
 import com.dilly.exception.ErrorCode;
 import com.dilly.exception.internalserver.InternalServerException;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
@@ -27,30 +26,30 @@ public class YoutubeService {
     private String apiKey;
     private final JsonFactory jsonFactory = GsonFactory.getDefaultInstance();
 
-    public YoutubeUrlValidationResponse validateYoutubeUrl(String url) {
+    public Boolean validateYoutubeUrl(String url) {
         String videoId = extractVideoId(url);
         // videoId 추출 불가능
         if (videoId == null) {
-            return YoutubeUrlValidationResponse.from(false);
+            return false;
         }
 
         // video 정보 접근 불가능
         Optional<Video> video = getVideoInfo(videoId);
         if (video.isEmpty()) {
-            return YoutubeUrlValidationResponse.from(false);
+            return false;
         }
 
         // 임베딩 불가능
         if (Boolean.FALSE.equals(video.get().getStatus().getEmbeddable())) {
-            return YoutubeUrlValidationResponse.from(false);
+            return false;
         }
 
         // 공개되지 않은 영상
         if (video.get().getStatus().getPrivacyStatus().equals("private")) {
-            return YoutubeUrlValidationResponse.from(false);
+            return false;
         }
 
-        return YoutubeUrlValidationResponse.builder().status(true).build();
+        return true;
     }
 
     private String extractVideoId(String url) {

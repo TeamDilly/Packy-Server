@@ -5,8 +5,8 @@ import com.dilly.admin.dto.response.BoxImgResponse;
 import com.dilly.admin.dto.response.ImgResponse;
 import com.dilly.admin.dto.response.MusicResponse;
 import com.dilly.admin.dto.response.SettingResponse;
+import com.dilly.admin.dto.response.YoutubeUrlValidationResponse;
 import com.dilly.application.YoutubeService;
-import com.dilly.dto.response.YoutubeUrlValidationResponse;
 import com.dilly.exception.ErrorCode;
 import com.dilly.gift.dto.response.EnvelopeListResponse;
 import com.dilly.global.response.DataResponseDto;
@@ -91,7 +91,10 @@ public class AdminController {
         @Schema(description = "유튜브 링크", type = "string")
         @RequestParam(value = "url")
         String url) {
-        return DataResponseDto.from(youtubeService.validateYoutubeUrl(url));
+        YoutubeUrlValidationResponse validationResponse = YoutubeUrlValidationResponse.from(
+            youtubeService.validateYoutubeUrl(url));
+
+        return DataResponseDto.from(validationResponse);
     }
 
     @Operation(summary = "설정 링크 조회", description = """
