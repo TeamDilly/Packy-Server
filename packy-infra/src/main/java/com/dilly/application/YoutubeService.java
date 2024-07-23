@@ -27,29 +27,31 @@ public class YoutubeService {
     private final JsonFactory jsonFactory = GsonFactory.getDefaultInstance();
 
     public Boolean validateYoutubeUrl(String url) {
-        String videoId = extractVideoId(url);
+        boolean isYoutubeUrlValid = true;
+
         // videoId 추출 불가능
+        String videoId = extractVideoId(url);
         if (videoId == null) {
-            return false;
+            isYoutubeUrlValid = false;
         }
 
         // video 정보 접근 불가능
         Optional<Video> video = getVideoInfo(videoId);
         if (video.isEmpty()) {
-            return false;
+            isYoutubeUrlValid = false;
         }
 
         // 임베딩 불가능
         if (Boolean.FALSE.equals(video.get().getStatus().getEmbeddable())) {
-            return false;
+            isYoutubeUrlValid = false;
         }
 
         // 공개되지 않은 영상
         if (video.get().getStatus().getPrivacyStatus().equals("private")) {
-            return false;
+            isYoutubeUrlValid = false;
         }
 
-        return true;
+        return isYoutubeUrlValid;
     }
 
     private String extractVideoId(String url) {
