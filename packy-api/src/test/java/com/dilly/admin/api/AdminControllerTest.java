@@ -2,16 +2,19 @@ package com.dilly.admin.api;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.dilly.admin.dto.request.BranchRequest;
 import com.dilly.admin.dto.response.BoxImgResponse;
 import com.dilly.admin.dto.response.ImgResponse;
 import com.dilly.admin.dto.response.MusicResponse;
 import com.dilly.admin.dto.response.SettingResponse;
-import com.dilly.dto.response.YoutubeUrlValidationResponse;
+import com.dilly.admin.dto.response.YoutubeUrlValidationResponse;
 import com.dilly.gift.dto.response.EnvelopeListResponse;
 import com.dilly.gift.dto.response.EnvelopePaperResponse;
 import com.dilly.global.ControllerTestSupport;
@@ -189,7 +192,7 @@ class AdminControllerTest extends ControllerTestSupport {
 		YoutubeUrlValidationResponse validationResponse = YoutubeUrlValidationResponse.builder()
 			.status(true).build();
 
-		given(youtubeService.validateYoutubeUrl(url)).willReturn(validationResponse);
+		given(youtubeService.validateYoutubeUrl(url)).willReturn(validationResponse.status());
 
 		// when // then
 		mockMvc.perform(
@@ -222,5 +225,27 @@ class AdminControllerTest extends ControllerTestSupport {
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.data").isArray())
 			.andExpect(jsonPath("$.data", hasSize(3)));
+	}
+
+	@DisplayName("선물박스 아이디를 받아 브랜치 URL을 반환한다.")
+	@Test
+	@WithCustomMockUser
+	void createBranchUrl() throws Exception {
+		// given
+		BranchRequest branchRequest = BranchRequest.builder().boxId(1L).build();
+		String expectedUrl = "www.test.com";
+
+		given(branchService.createBranchUrl(branchRequest.boxId())).willReturn(expectedUrl);
+
+		// when // then
+		mockMvc.perform(
+				post(baseUrl + "/admin/branch")
+					.with(csrf())
+					.contentType("application/json")
+					.content(objectMapper.writeValueAsString(branchRequest))
+			)
+			.andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.data.url").value(expectedUrl));
 	}
 }

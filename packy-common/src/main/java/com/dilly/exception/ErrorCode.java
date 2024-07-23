@@ -39,6 +39,9 @@ public enum ErrorCode {
     FILE_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "파일 서버 연동에 오류가 발생했습니다."),
     FILE_DELETE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "파일 삭제에 실패했습니다."),
 
+    // Branch
+    BRANCH_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Branch 서버 연동에 오류가 발생했습니다."),
+
     // Authorization
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "인증되지 않은 사용자입니다."),
     MALFORMED_JWT(HttpStatus.UNAUTHORIZED, "올바르지 않은 형식의 JWT 토큰입니다."),

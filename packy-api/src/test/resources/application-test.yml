@@ -54,3 +54,8 @@ cloud:
 youtube:
   api:
     key: test
+
+branch:
+  api:
+    key: test
+    url: test

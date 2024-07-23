@@ -2,6 +2,7 @@ package com.dilly.global;
 
 import com.dilly.admin.api.AdminController;
 import com.dilly.admin.application.AdminService;
+import com.dilly.application.BranchService;
 import com.dilly.application.YoutubeService;
 import com.dilly.gift.api.GiftBoxController;
 import com.dilly.gift.api.GiftController;
@@ -50,6 +51,9 @@ public abstract class ControllerTestSupport {
 
 	@MockBean
 	protected YoutubeService youtubeService;
+
+	@MockBean
+	protected BranchService branchService;
 
 	@MockBean
 	protected GiftService giftService;
