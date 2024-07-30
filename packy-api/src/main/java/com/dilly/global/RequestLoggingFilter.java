@@ -8,9 +8,13 @@ import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+// TODO: CORS 에러 해결 후 삭제
 @Component
+@Order(Ordered.HIGHEST_PRECEDENCE)
 @Slf4j
 public class RequestLoggingFilter implements Filter {
 
