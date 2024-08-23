@@ -43,6 +43,7 @@ public class JwtService {
 	}
 
 	public JwtResponse reissueJwt(JwtRequest jwtRequest) {
+		// TODO: 슬랙 알림 안 오도록 변경
 		if (!tokenProvider.validateToken(jwtRequest.refreshToken())) {
 			throw new AuthorizationFailedException(ErrorCode.INVALID_REFRESH_TOKEN);
 		}

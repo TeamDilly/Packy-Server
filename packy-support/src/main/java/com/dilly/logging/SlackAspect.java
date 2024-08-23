@@ -4,7 +4,7 @@ import com.dilly.member.adaptor.MemberReader;
 import com.dilly.member.domain.Status;
 import java.util.HashMap;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @Profile("prod")
 @Component
 @RequiredArgsConstructor
-public class LogAspect {
+public class SlackAspect {
 
     private final SlackService slackService;
     private final MemberReader memberReader;
@@ -26,7 +26,7 @@ public class LogAspect {
     @Pointcut("execution(* com.dilly.auth..AuthController.signUp(..))")
     public void signUp() {}
 
-    @After("signUp()")
+    @AfterReturning("signUp()")
     public void countMember() {
         String title = "패키에 유저가 들어왔어요!";
         HashMap<String, String> data = new HashMap<>();

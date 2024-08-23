@@ -1,4 +1,4 @@
-package com.dilly.dto.response;
+package com.dilly.admin.dto.response;
 
 import lombok.Builder;
 

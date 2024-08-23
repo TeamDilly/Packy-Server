@@ -1,13 +1,12 @@
-package com.dilly.auth.application;
+package com.dilly.application;
 
-import com.dilly.auth.domain.AppleAccount;
-import com.dilly.auth.model.AppleAccountInfo;
-import com.dilly.auth.model.ApplePublicKey;
-import com.dilly.auth.model.ApplePublicKey.Key;
-import com.dilly.auth.model.AppleToken;
 import com.dilly.exception.ErrorCode;
 import com.dilly.exception.internalserver.AppleServerException;
 import com.dilly.exception.internalserver.InternalServerException;
+import com.dilly.model.AppleAccountInfo;
+import com.dilly.model.ApplePublicKey;
+import com.dilly.model.ApplePublicKey.Key;
+import com.dilly.model.AppleToken;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
@@ -171,10 +170,8 @@ public class AppleService {
 		}
 	}
 
-	public void revokeAppleAccount(AppleAccount appleAccount) {
+	public void revokeAppleAccount(String appleRefreshToken) {
 		try {
-			String appleRefreshToken = appleAccount.getRefreshToken();
-
 			WebClient webClient = WebClient.builder()
 				.baseUrl(appleRevokeUri)
 				.build();
