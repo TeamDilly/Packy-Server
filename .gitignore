@@ -49,3 +49,6 @@ packy-support/src/main/resources/*.yml
 
 ### QueryDsl QClass ###
 packy-domain/src/main/generated
+
+### p6spy ###
+spy.log
