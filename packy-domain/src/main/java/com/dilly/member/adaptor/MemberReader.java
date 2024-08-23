@@ -20,4 +20,8 @@ public class MemberReader {
     public Long countByStatus(Status status) {
         return memberRepository.countByStatus(status);
     }
+
+	public Long count() {
+		return memberRepository.count();
+	}
 }
