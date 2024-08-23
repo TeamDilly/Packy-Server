@@ -44,6 +44,7 @@ import com.dilly.gift.dto.response.MainGiftBoxResponse;
 import com.dilly.gift.dto.response.PhotoResponseDto.PhotoResponse;
 import com.dilly.gift.dto.response.StickerResponse;
 import com.dilly.gift.dto.response.WaitingGiftBoxResponse;
+import com.dilly.global.aop.RedissonLock;
 import com.dilly.global.util.SecurityUtil;
 import com.dilly.global.util.validator.UuidValidator;
 import com.dilly.member.adaptor.MemberReader;
@@ -121,6 +122,7 @@ public class GiftBoxService {
             giftBox.getBox().getKakaoMessageImgUrl());
     }
 
+    @RedissonLock(value = "#giftBoxId")
     public GiftBoxResponse openGiftBox(Long giftBoxId) {
         Long memberId = SecurityUtil.getMemberId();
         Member member = memberReader.findById(memberId);
