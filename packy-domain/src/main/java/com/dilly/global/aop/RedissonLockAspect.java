@@ -11,6 +11,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Slf4j
@@ -18,6 +19,9 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class RedissonLockAspect {
+
+    @Value("${spring.profiles.active}")
+    private String profilePrefix;
 
     private final RedissonClient redissonClient;
     private final AopForTransaction aopForTransaction;
@@ -27,7 +31,9 @@ public class RedissonLockAspect {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
         RedissonLock annotation = method.getAnnotation(RedissonLock.class);
-        String lockKey = method.getName() + CustomSpringELParser.getDynamicValue(
+
+        String lockKey =
+            profilePrefix + ":" + method.getName() + CustomSpringELParser.getDynamicValue(
             signature.getParameterNames(), joinPoint.getArgs(), annotation.value());
 
         RLock lock = redissonClient.getLock(lockKey);
