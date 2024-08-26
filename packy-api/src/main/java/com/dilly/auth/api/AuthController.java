@@ -82,7 +82,7 @@ public class AuthController {
         return DataResponseDto.from(jwtService.reissueJwt(jwtRequest));
     }
 
-    @Operation(summary = "카카오 토큰으로 정보 조회", description = "서버에서 테스트용으로 사용하는 API입니다.")
+    @Operation(summary = "카카오 code로 token 정보 조회", description = "서버에서 테스트용으로 사용하는 API입니다.")
     @GetMapping("/token/kakao/{code}")
     public DataResponseDto<String> getKakaoAccessToken(@PathVariable(name = "code") String code) {
         return DataResponseDto.from(kakaoService.getKakaoAccessToken(code));
