@@ -20,7 +20,7 @@ public class KakaoAccountReader {
 		}
 	}
 
-	public Optional<Member> getMemberById(String id) {
+	public Optional<Member> findMemberById(String id) {
 		return kakaoAccountRepository.findById(id).map(KakaoAccount::getMember);
 	}
 

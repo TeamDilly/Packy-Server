@@ -45,7 +45,7 @@ public class KakaoStrategy implements AuthStrategy {
     public Optional<Member> signIn(String providerAccessToken) {
         KakaoResource kakaoResource = kakaoService.getKaKaoAccount(providerAccessToken);
 
-        return kakaoAccountReader.getMemberById(kakaoResource.getId());
+        return kakaoAccountReader.findMemberById(kakaoResource.getId());
     }
 
     @Override

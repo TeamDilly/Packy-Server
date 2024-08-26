@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "OAuth 관련 API")
@@ -73,6 +74,15 @@ public class AuthController {
     @DeleteMapping("/withdraw")
     public DataResponseDto<String> withdraw() {
         return DataResponseDto.from(authService.withdraw());
+    }
+
+    @Operation(hidden = true)
+    @PostMapping("/withdraw/kakao")
+    public DataResponseDto<String> externalWithdraw(
+        @RequestHeader(name = "Authorization") String authorization,
+        @RequestParam(name = "user_id") String userId
+    ) {
+        return DataResponseDto.from(authService.externalWithdraw(authorization, userId));
     }
 
     @Operation(summary = "JWT 만료 시 재발급")
