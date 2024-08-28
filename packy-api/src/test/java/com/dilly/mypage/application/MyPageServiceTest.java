@@ -6,6 +6,7 @@ import com.dilly.global.IntegrationTestSupport;
 import com.dilly.global.WithCustomMockUser;
 import com.dilly.global.util.SecurityUtil;
 import com.dilly.member.domain.Member;
+import com.dilly.member.domain.ProfileImage;
 import com.dilly.member.dto.request.ProfileRequest;
 import com.dilly.member.dto.response.ProfileResponse;
 import org.junit.jupiter.api.DisplayName;
@@ -78,16 +79,21 @@ class MyPageServiceTest extends IntegrationTestSupport {
         @WithCustomMockUser
         void updateProfileImage() {
             // given
+            Long memberId = SecurityUtil.getMemberId();
+            Member member = memberReader.findById(memberId);
+
             ProfileRequest profileRequest = ProfileRequest.builder()
                 .profileImg(2L)
                 .build();
+
+            ProfileImage profileImage = profileImageReader.findById(profileRequest.profileImg());
 
             // when
             ProfileResponse response = myPageService.updateProfile(profileRequest);
 
             // then
-            assertThat(response.nickname()).isEqualTo("1번유저");
-            assertThat(response.imgUrl()).isEqualTo("www.example2.com");
+            assertThat(response.nickname()).isEqualTo(member.getNickname());
+            assertThat(response.imgUrl()).isEqualTo(profileImage.getImgUrl());
         }
     }
 }
