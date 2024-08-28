@@ -47,7 +47,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DynamicTest;
@@ -89,11 +88,6 @@ class GiftBoxServiceTest extends IntegrationTestSupport {
         memberWriter.save(NORMAL_MEMBER_STRANGER.createMember(strangerId));
 
         letter = letterWriter.save(createLetterFixture());
-    }
-
-    @AfterEach
-    void tearDown() {
-        memberWriter.deleteAll();
     }
 
     @Nested
