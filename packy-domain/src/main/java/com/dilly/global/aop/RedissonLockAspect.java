@@ -12,12 +12,14 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.stereotype.Component;
 
 @Slf4j
 @Aspect
 @Component
 @RequiredArgsConstructor
+@ConditionalOnExpression("${ableRedissonLock:true}")
 public class RedissonLockAspect {
 
     @Value("${spring.profiles.active}")
