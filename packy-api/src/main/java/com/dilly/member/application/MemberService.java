@@ -38,8 +38,8 @@ public class MemberService {
     }
 
     public AppStatusResponse getStatus(String appVersion) {
-        Long memberId = SecurityUtil.getMemberId();
-        Member member = memberReader.findById(memberId);
+        Member member = getMember();
+        Long memberId = member.getId();
 
         // 유저 계정 상태 확인
         if (!member.getStatus().equals(Status.REGISTERED)) {
