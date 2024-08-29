@@ -12,8 +12,7 @@ import com.dilly.gift.dto.response.GiftResponseDto.ItemResponse;
 import com.dilly.gift.dto.response.LetterResponse;
 import com.dilly.gift.dto.response.MusicResponse;
 import com.dilly.gift.dto.response.PhotoResponseDto.PhotoWithoutSequenceResponse;
-import com.dilly.global.util.SecurityUtil;
-import com.dilly.member.adaptor.MemberReader;
+import com.dilly.member.application.MemberService;
 import com.dilly.member.domain.Member;
 import jakarta.transaction.Transactional;
 import java.time.LocalDateTime;
@@ -31,15 +30,15 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class GiftService {
 
-    private final MemberReader memberReader;
+    private final MemberService memberService;
+
     private final GiftBoxReader giftBoxReader;
     private final PhotoReader photoReader;
     private final LetterReader letterReader;
     private final ReceiverReader receiverReader;
 
     public Slice<PhotoWithoutSequenceResponse> getPhotos(Long lastPhotoId, Pageable pageable) {
-        Long memberId = SecurityUtil.getMemberId();
-        Member member = memberReader.findById(memberId);
+        Member member = memberService.getMember();
 
         LocalDateTime lastPhotoDate = LocalDateTime.now();
         if (lastPhotoId != null) {
@@ -59,8 +58,7 @@ public class GiftService {
     }
 
     public Slice<LetterResponse> getLetters(Long lastLetterId, Pageable pageable) {
-        Long memberId = SecurityUtil.getMemberId();
-        Member member = memberReader.findById(memberId);
+        Member member = memberService.getMember();
 
         LocalDateTime lastLetterDate = LocalDateTime.now();
         if (lastLetterId != null) {
@@ -80,8 +78,7 @@ public class GiftService {
     }
 
     public Slice<MusicResponse> getMusics(Long lastGiftBoxId, Pageable pageable) {
-        Long memberId = SecurityUtil.getMemberId();
-        Member member = memberReader.findById(memberId);
+        Member member = memberService.getMember();
 
         LocalDateTime lastGiftBoxDate = LocalDateTime.now();
         if (lastGiftBoxId != null) {
@@ -101,8 +98,7 @@ public class GiftService {
     }
 
     public Slice<ItemResponse> getItems(Long lastGiftBoxId, Pageable pageable) {
-        Long memberId = SecurityUtil.getMemberId();
-        Member member = memberReader.findById(memberId);
+        Member member = memberService.getMember();
 
         LocalDateTime lastGiftBoxDate = LocalDateTime.now();
         if (lastGiftBoxId != null) {
