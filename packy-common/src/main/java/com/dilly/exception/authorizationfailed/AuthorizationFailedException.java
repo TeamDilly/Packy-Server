@@ -1,4 +1,7 @@
-package com.dilly.exception;
+package com.dilly.exception.authorizationfailed;
+
+import com.dilly.exception.BusinessException;
+import com.dilly.exception.ErrorCode;
 
 public class AuthorizationFailedException extends BusinessException {
 

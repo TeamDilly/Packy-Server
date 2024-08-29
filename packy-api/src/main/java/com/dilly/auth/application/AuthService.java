@@ -12,7 +12,6 @@ import com.dilly.gift.adaptor.ReceiverWriter;
 import com.dilly.gift.domain.giftbox.GiftBox;
 import com.dilly.gift.domain.giftbox.admin.AdminGiftBox;
 import com.dilly.gift.domain.giftbox.admin.AdminType;
-import com.dilly.global.util.SecurityUtil;
 import com.dilly.jwt.JwtService;
 import com.dilly.jwt.RefreshToken;
 import com.dilly.jwt.adaptor.JwtReader;
@@ -20,6 +19,7 @@ import com.dilly.jwt.adaptor.JwtWriter;
 import com.dilly.jwt.dto.JwtResponse;
 import com.dilly.member.adaptor.MemberReader;
 import com.dilly.member.adaptor.ProfileImageReader;
+import com.dilly.member.application.MemberService;
 import com.dilly.member.domain.Member;
 import com.dilly.member.domain.ProfileImage;
 import com.dilly.member.domain.Provider;
@@ -42,6 +42,7 @@ public class AuthService {
 
 	private final AuthActionProvider authActionProvider;
 
+	private final MemberService memberService;
 	private final JwtService jwtService;
 
 	private final MemberReader memberReader;
@@ -95,8 +96,7 @@ public class AuthService {
 	}
 
 	public String withdraw() {
-		Long memberId = SecurityUtil.getMemberId();
-		Member member = memberReader.findById(memberId);
+		Member member = memberService.getMember();
 
 		final AuthStrategy authStrategy = authActionProvider.getStrategy(member.getProvider());
 		authStrategy.withdraw(member);
