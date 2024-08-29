@@ -1,7 +1,7 @@
 package com.dilly.jwt;
 
-import com.dilly.exception.AuthorizationFailedException;
 import com.dilly.exception.ErrorCode;
+import com.dilly.exception.authorizationfailed.AuthorizationFailedException;
 import com.dilly.jwt.dto.JwtResponse;
 import com.dilly.member.domain.Member;
 import io.jsonwebtoken.Claims;
