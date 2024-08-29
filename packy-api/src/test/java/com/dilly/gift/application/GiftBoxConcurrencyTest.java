@@ -133,8 +133,6 @@ class GiftBoxConcurrencyTest {
             System.out.println("memberId = " + receiver.getMember().getId());
         }
 
-        countDownLatch.await();
-
         // then
         assertThat(successCount.get()).isEqualTo(giftBoxAmount);
         assertThat(receiverAfter).isEqualTo(giftBoxAmount);
