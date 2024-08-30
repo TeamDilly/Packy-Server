@@ -8,6 +8,17 @@ on:
       profile:
         type: string
         required: true
+    secrets:
+      ACTION_TOKEN:
+        required: true
+      AWS_ACCESS_KEY:
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        required: true
+      AWS_REGION:
+        required: true
+      CODECOV_TOKEN:
+        required: true
 
 jobs:
   run:
