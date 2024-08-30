@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.dilly.global.IntegrationTestSupport;
 import com.dilly.global.WithCustomMockUser;
-import com.dilly.global.util.SecurityUtil;
 import com.dilly.member.domain.Member;
 import com.dilly.member.domain.ProfileImage;
 import com.dilly.member.dto.request.ProfileRequest;
@@ -20,8 +19,7 @@ class MyPageServiceTest extends IntegrationTestSupport {
     @WithCustomMockUser
     void getProfile() {
         // given
-        Long memberId = SecurityUtil.getMemberId();
-        Member member = memberReader.findById(memberId);
+        Member member = memberService.getMember();
 
         // when
         ProfileResponse response = myPageService.getProfile();

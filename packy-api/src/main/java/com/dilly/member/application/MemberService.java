@@ -4,6 +4,7 @@ import static com.dilly.global.constant.Constants.MINIMUM_REQUIRED_VERSION;
 
 import com.dilly.exception.BadRequestException;
 import com.dilly.exception.ErrorCode;
+import com.dilly.exception.authorizationfailed.AuthorizationFailedException;
 import com.dilly.exception.internalserver.InternalServerException;
 import com.dilly.global.util.SecurityUtil;
 import com.dilly.member.adaptor.MemberReader;
@@ -24,9 +25,21 @@ public class MemberService {
 
     private final MemberReader memberReader;
 
-    public AppStatusResponse getStatus(String appVersion) {
+    public Member getMember() {
         Long memberId = SecurityUtil.getMemberId();
         Member member = memberReader.findById(memberId);
+
+        Boolean isValidMember = member.getStatus().equals(Status.REGISTERED);
+        if (Boolean.FALSE.equals(isValidMember)) {
+            throw new AuthorizationFailedException(ErrorCode.INVALID_MEMBER);
+        }
+
+        return member;
+    }
+
+    public AppStatusResponse getStatus(String appVersion) {
+        Member member = getMember();
+        Long memberId = member.getId();
 
         // 유저 계정 상태 확인
         if (!member.getStatus().equals(Status.REGISTERED)) {

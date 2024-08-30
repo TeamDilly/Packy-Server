@@ -44,10 +44,8 @@ import com.dilly.gift.dto.response.MainGiftBoxResponse;
 import com.dilly.gift.dto.response.PhotoResponseDto.PhotoResponse;
 import com.dilly.gift.dto.response.StickerResponse;
 import com.dilly.gift.dto.response.WaitingGiftBoxResponse;
-import com.dilly.global.aop.RedissonLock;
-import com.dilly.global.util.SecurityUtil;
 import com.dilly.global.util.validator.UuidValidator;
-import com.dilly.member.adaptor.MemberReader;
+import com.dilly.member.application.MemberService;
 import com.dilly.member.domain.Member;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -70,6 +68,8 @@ public class GiftBoxService {
 
     private final GiftBoxActionProvider giftBoxActionProvider;
 
+    private final MemberService memberService;
+
     private final GiftBoxReader giftBoxReader;
     private final GiftBoxWriter giftBoxWriter;
     private final BoxReader boxReader;
@@ -79,15 +79,13 @@ public class GiftBoxService {
     private final PhotoWriter photoWriter;
     private final GiftBoxStickerReader giftBoxStickerReader;
     private final GiftBoxStickerWriter giftBoxStickerWriter;
-    private final MemberReader memberReader;
     private final ReceiverReader receiverReader;
     private final AdminGiftBoxReader adminGiftBoxReader;
     private final LastViewedAdminTypeReader lastViewedAdminTypeReader;
     private final LastViewedAdminTypeWriter lastViewedAdminTypeWriter;
 
     public GiftBoxIdResponse createGiftBox(GiftBoxRequest giftBoxRequest) {
-        Long memberId = SecurityUtil.getMemberId();
-        Member sender = memberReader.findById(memberId);
+        Member sender = memberService.getMember();
 
         Box box = boxReader.findById(giftBoxRequest.boxId());
         Envelope envelope = envelopeReader.findById(giftBoxRequest.envelopeId());
@@ -124,8 +122,7 @@ public class GiftBoxService {
 
     @RedissonLock(value = "#giftBoxId")
     public GiftBoxResponse openGiftBox(Long giftBoxId) {
-        Long memberId = SecurityUtil.getMemberId();
-        Member member = memberReader.findById(memberId);
+        Member member = memberService.getMember();
         GiftBox giftBox = giftBoxReader.findById(giftBoxId);
 
         MemberRole memberRole = getMemberRole(member, giftBox);
@@ -169,8 +166,7 @@ public class GiftBoxService {
     // TODO: 성능 개선 필요
     public Slice<GiftBoxesResponse> getGiftBoxes(LocalDateTime lastGiftBoxDate, String type,
         Pageable pageable) {
-        Long memberId = SecurityUtil.getMemberId();
-        Member member = memberReader.findById(memberId);
+        Member member = memberService.getMember();
 
         if (type == null) {
             type = "all";
@@ -246,8 +242,7 @@ public class GiftBoxService {
     }
 
     public String deleteGiftBox(Long giftBoxId) {
-        Long memberId = SecurityUtil.getMemberId();
-        Member member = memberReader.findById(memberId);
+        Member member = memberService.getMember();
 
         GiftBox giftBox = giftBoxReader.findById(giftBoxId);
         MemberRole memberRole = getMemberRole(member, giftBox);
@@ -277,8 +272,7 @@ public class GiftBoxService {
     }
 
     public String updateDeliverStatus(Long giftBoxId, DeliverStatusRequest deliverStatusRequest) {
-        Long memberId = SecurityUtil.getMemberId();
-        Member member = memberReader.findById(memberId);
+        Member member = memberService.getMember();
 
         GiftBox giftBox = giftBoxReader.findById(giftBoxId);
 
@@ -299,8 +293,7 @@ public class GiftBoxService {
     }
 
     public List<WaitingGiftBoxResponse> getWaitingGiftBoxes() {
-        Long memberId = SecurityUtil.getMemberId();
-        Member member = memberReader.findById(memberId);
+        Member member = memberService.getMember();
 
         return giftBoxReader.findTop6BySenderAndDeliverStatusAndSenderDeletedOrderByCreatedAtDesc(
                 member, DeliverStatus.WAITING).stream()
@@ -314,8 +307,7 @@ public class GiftBoxService {
     }
 
     public MainGiftBoxResponse getMainGiftBox() {
-        Long memberId = SecurityUtil.getMemberId();
-        Member member = memberReader.findById(memberId);
+        Member member = memberService.getMember();
 
         Optional<LastViewedAdminType> lastViewedAdminType = lastViewedAdminTypeReader.findByMember(
             member);

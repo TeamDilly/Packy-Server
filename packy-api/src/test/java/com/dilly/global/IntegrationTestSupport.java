@@ -28,6 +28,7 @@ import com.dilly.jwt.adaptor.JwtWriter;
 import com.dilly.member.adaptor.MemberReader;
 import com.dilly.member.adaptor.MemberWriter;
 import com.dilly.member.adaptor.ProfileImageReader;
+import com.dilly.member.application.MemberService;
 import com.dilly.member.application.MyPageService;
 import jakarta.transaction.Transactional;
 import java.time.Clock;
@@ -74,6 +75,9 @@ public abstract class IntegrationTestSupport {
 
     @Autowired
     protected MyPageService myPageService;
+
+    @Autowired
+    protected MemberService memberService;
 
     @Autowired
     protected TokenProvider tokenProvider;
