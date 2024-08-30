@@ -10,8 +10,13 @@ jobs:
     name: Call Reusable Deploy Workflow
     uses: ./.github/workflows/reusable-cd.yml
     with:
-      profile: dev
-
+      profile: prod
+    secrets:
+      ACTION_TOKEN: ${{ secrets.ACTION_TOKEN }}
+      AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
 #      - name: Update Release
 #        uses: release-drafter/release-drafter@v5
