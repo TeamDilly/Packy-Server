@@ -27,6 +27,14 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
+      - name: Run build Flyway Module
+        run: ./gradlew clean packy-flyway:build
+
+      - name: Run FlywayApplication
+        run: java -Dspring.profiles.active=${{ env.PROFILE }} -jar ./packy-flyway/build/libs/packy-flyway-0.0.1-SNAPSHOT.jar
+        env:
+          PROFILE: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
+
       - name: Run build with Gradle Wrapper
         run: ./gradlew clean build --parallel
 
