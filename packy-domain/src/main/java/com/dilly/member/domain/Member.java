@@ -47,6 +47,8 @@ public class Member extends BaseTimeEntity {
 	@Builder.Default
 	Status status = Status.REGISTERED;
 
+	String test;
+
 	@Builder
 	public Member(Provider provider, String nickname, ProfileImage profileImg,
 		Boolean pushNotification, Boolean marketingAgreement) {
