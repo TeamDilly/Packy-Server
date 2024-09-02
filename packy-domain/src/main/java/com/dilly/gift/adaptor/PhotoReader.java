@@ -1,7 +1,7 @@
 package com.dilly.gift.adaptor;
 
+import com.dilly.exception.EntityNotFoundException;
 import com.dilly.exception.ErrorCode;
-import com.dilly.exception.entitynotfound.EntityNotFoundException;
 import com.dilly.gift.dao.PhotoRepository;
 import com.dilly.gift.dao.querydsl.PhotoQueryRepository;
 import com.dilly.gift.domain.Photo;

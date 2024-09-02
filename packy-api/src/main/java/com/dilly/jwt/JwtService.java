@@ -1,7 +1,7 @@
 package com.dilly.jwt;
 
+import com.dilly.exception.AuthorizationFailedException;
 import com.dilly.exception.ErrorCode;
-import com.dilly.exception.authorizationfailed.AuthorizationFailedException;
 import com.dilly.jwt.adaptor.JwtReader;
 import com.dilly.jwt.adaptor.JwtWriter;
 import com.dilly.jwt.dto.JwtRequest;

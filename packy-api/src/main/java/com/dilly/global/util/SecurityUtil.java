@@ -1,7 +1,7 @@
 package com.dilly.global.util;
 
+import com.dilly.exception.AuthorizationFailedException;
 import com.dilly.exception.ErrorCode;
-import com.dilly.exception.authorizationfailed.AuthorizationFailedException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
