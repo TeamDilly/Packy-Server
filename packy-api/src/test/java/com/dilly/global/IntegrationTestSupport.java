@@ -3,6 +3,7 @@ package com.dilly.global;
 import static org.mockito.BDDMockito.given;
 
 import com.dilly.admin.adaptor.AdminGiftBoxReader;
+import com.dilly.admin.adaptor.NoticeReader;
 import com.dilly.admin.adaptor.SettingReader;
 import com.dilly.admin.application.AdminService;
 import com.dilly.application.FileService;
@@ -140,6 +141,9 @@ public abstract class IntegrationTestSupport {
 
     @Autowired
     protected JwtWriter jwtWriter;
+
+    @Autowired
+    protected NoticeReader noticeReader;
 
     @Autowired
     protected WithCustomMockUserSecurityContextFactory withCustomMockUserSecurityContextFactory;

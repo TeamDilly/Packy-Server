@@ -6,6 +6,7 @@ import com.dilly.BoxFixture;
 import com.dilly.admin.dto.response.BoxImgResponse;
 import com.dilly.admin.dto.response.ImgResponse;
 import com.dilly.admin.dto.response.MusicResponse;
+import com.dilly.admin.dto.response.NoticeResponse;
 import com.dilly.admin.dto.response.SettingResponse;
 import com.dilly.gift.domain.Box;
 import com.dilly.gift.dto.response.EnvelopeListResponse;
@@ -92,5 +93,20 @@ class AdminServiceTest extends IntegrationTestSupport {
 
         // then
         assertThat(response).isEqualTo(settingUrls);
+    }
+
+    @DisplayName("공지사항 목록을 조회한다.")
+    @Test
+    void getNotices() {
+        // given
+        List<NoticeResponse> notices = noticeReader.findAllByOrderBySequence()
+            .stream().map(NoticeResponse::from)
+            .toList();
+
+        // when
+        List<NoticeResponse> response = adminService.getNotices();
+
+        // then
+        assertThat(response).isEqualTo(notices);
     }
 }
