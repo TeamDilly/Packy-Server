@@ -78,10 +78,3 @@ jobs:
           region: ${{ secrets.AWS_REGION }}
           deployment_package: deploy/deploy.zip
           wait_for_environment_recovery: 200
-
-
-      - name: Report to CodeCov
-        uses: codecov/codecov-action@v4
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          file: 'packy-support/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml'

@@ -38,8 +38,8 @@ jobs:
       - name: Run build with Gradle Wrapper
         run: ./gradlew clean build --parallel
 
-      - name: Report to CodeCov
-        uses: codecov/codecov-action@v4
+      - name: Add coverage to PR
+        uses: madrapps/jacoco-report@v1.6.1
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          file: 'packy-support/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml'
+          paths: ${{ github.workspace }}/packy-support/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml
+          token: ${{ secrets.ACTION_TOKEN }}
