@@ -14,11 +14,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 
+import com.dilly.exception.EntityNotFoundException;
 import com.dilly.exception.GiftBoxAccessDeniedException;
 import com.dilly.exception.GiftBoxAlreadyDeletedException;
 import com.dilly.exception.GiftBoxAlreadyOpenedException;
 import com.dilly.exception.UnsupportedException;
-import com.dilly.exception.entitynotfound.EntityNotFoundException;
 import com.dilly.gift.domain.Photo;
 import com.dilly.gift.domain.giftbox.DeliverStatus;
 import com.dilly.gift.domain.giftbox.GiftBox;

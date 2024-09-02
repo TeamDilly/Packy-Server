@@ -2,9 +2,9 @@ package com.dilly.member.application;
 
 import static com.dilly.global.constant.Constants.MINIMUM_REQUIRED_VERSION;
 
+import com.dilly.exception.AuthorizationFailedException;
 import com.dilly.exception.BadRequestException;
 import com.dilly.exception.ErrorCode;
-import com.dilly.exception.authorizationfailed.AuthorizationFailedException;
 import com.dilly.exception.internalserver.InternalServerException;
 import com.dilly.global.util.SecurityUtil;
 import com.dilly.member.adaptor.MemberReader;

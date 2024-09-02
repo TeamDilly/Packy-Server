@@ -4,7 +4,7 @@ import static com.dilly.MemberEnumFixture.NORMAL_MEMBER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.dilly.exception.authorizationfailed.AuthorizationFailedException;
+import com.dilly.exception.AuthorizationFailedException;
 import com.dilly.global.IntegrationTestSupport;
 import com.dilly.global.WithCustomMockUser;
 import com.dilly.jwt.RefreshToken;

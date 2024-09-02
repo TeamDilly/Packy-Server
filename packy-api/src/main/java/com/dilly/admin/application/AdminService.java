@@ -1,9 +1,11 @@
 package com.dilly.admin.application;
 
+import com.dilly.admin.adaptor.NoticeImageReader;
 import com.dilly.admin.adaptor.NoticeReader;
 import com.dilly.admin.adaptor.SettingReader;
 import com.dilly.admin.domain.music.Music;
 import com.dilly.admin.domain.notice.Notice;
+import com.dilly.admin.domain.notice.NoticeImage;
 import com.dilly.admin.domain.setting.Setting;
 import com.dilly.admin.dto.response.BoxImgResponse;
 import com.dilly.admin.dto.response.ImgResponse;
@@ -42,6 +44,7 @@ public class AdminService {
     private final StickerReader stickerReader;
     private final SettingReader settingReader;
     private final NoticeReader noticeReader;
+    private final NoticeImageReader noticeImageReader;
 
     public List<ImgResponse> getProfiles() {
         List<ProfileImage> profileImages = profileImageReader.findAllByOrderBySequenceAsc();
@@ -90,5 +93,12 @@ public class AdminService {
         List<Notice> notices = noticeReader.findAllByOrderBySequence();
 
         return notices.stream().map(NoticeResponse::from).toList();
+    }
+
+    public List<String> getNotice(Long noticeId) {
+        Notice notice = noticeReader.findById(noticeId);
+        List<NoticeImage> noticeImages = noticeImageReader.findAllByNoticeOrderBySequence(notice);
+
+        return noticeImages.stream().map(NoticeImage::getImgUrl).toList();
     }
 }
