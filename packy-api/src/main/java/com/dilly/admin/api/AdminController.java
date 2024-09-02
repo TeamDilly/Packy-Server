@@ -5,6 +5,7 @@ import com.dilly.admin.dto.request.BranchRequest;
 import com.dilly.admin.dto.response.BoxImgResponse;
 import com.dilly.admin.dto.response.ImgResponse;
 import com.dilly.admin.dto.response.MusicResponse;
+import com.dilly.admin.dto.response.NoticeResponse;
 import com.dilly.admin.dto.response.SettingResponse;
 import com.dilly.admin.dto.response.UrlResponse;
 import com.dilly.admin.dto.response.YoutubeUrlValidationResponse;
@@ -124,5 +125,11 @@ public class AdminController {
         UrlResponse urlResponse = UrlResponse.from(branchService.createBranchUrl(boxId));
 
         return DataResponseDto.from(urlResponse);
+    }
+
+    @Operation(summary = "공지사항 목록 조회")
+    @GetMapping("/notices")
+    public DataResponseDto<List<NoticeResponse>> getNotices() {
+        return DataResponseDto.from(adminService.getNotices());
     }
 }
