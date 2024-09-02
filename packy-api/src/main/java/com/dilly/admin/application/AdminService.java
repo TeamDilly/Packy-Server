@@ -1,6 +1,5 @@
 package com.dilly.admin.application;
 
-import com.dilly.admin.adaptor.AdminGiftBoxReader;
 import com.dilly.admin.adaptor.SettingReader;
 import com.dilly.admin.domain.music.Music;
 import com.dilly.admin.domain.setting.Setting;
@@ -10,9 +9,7 @@ import com.dilly.admin.dto.response.MusicResponse;
 import com.dilly.admin.dto.response.SettingResponse;
 import com.dilly.gift.adaptor.BoxReader;
 import com.dilly.gift.adaptor.EnvelopeReader;
-import com.dilly.gift.adaptor.GiftBoxStickerReader;
 import com.dilly.gift.adaptor.MusicReader;
-import com.dilly.gift.adaptor.PhotoReader;
 import com.dilly.gift.adaptor.StickerReader;
 import com.dilly.gift.domain.Box;
 import com.dilly.gift.domain.letter.Envelope;
@@ -41,9 +38,6 @@ public class AdminService {
     private final MusicReader musicReader;
     private final StickerReader stickerReader;
     private final SettingReader settingReader;
-    private final AdminGiftBoxReader adminGiftBoxReader;
-    private final PhotoReader photoReader;
-    private final GiftBoxStickerReader giftBoxStickerReader;
 
     public List<ImgResponse> getProfiles() {
         List<ProfileImage> profileImages = profileImageReader.findAllByOrderBySequenceAsc();
