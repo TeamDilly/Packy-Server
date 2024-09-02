@@ -3,6 +3,8 @@ package com.dilly.admin.application;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.dilly.BoxFixture;
+import com.dilly.admin.domain.notice.Notice;
+import com.dilly.admin.domain.notice.NoticeImage;
 import com.dilly.admin.dto.response.BoxImgResponse;
 import com.dilly.admin.dto.response.ImgResponse;
 import com.dilly.admin.dto.response.MusicResponse;
@@ -108,5 +110,23 @@ class AdminServiceTest extends IntegrationTestSupport {
 
         // then
         assertThat(response).isEqualTo(notices);
+    }
+
+    @DisplayName("공지사항을 조회한다.")
+    @Test
+    void getNotice() {
+        // given
+        Long noticeId = 1L;
+        Notice notice = noticeReader.findById(noticeId);
+
+        List<String> noticeImages = noticeImageReader.findAllByNoticeOrderBySequence(notice)
+            .stream().map(NoticeImage::getImgUrl)
+            .toList();
+
+        // when
+        List<String> response = adminService.getNotice(noticeId);
+
+        // then
+        assertThat(response).isEqualTo(noticeImages);
     }
 }
