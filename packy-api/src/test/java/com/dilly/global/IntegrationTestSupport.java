@@ -3,6 +3,8 @@ package com.dilly.global;
 import static org.mockito.BDDMockito.given;
 
 import com.dilly.admin.adaptor.AdminGiftBoxReader;
+import com.dilly.admin.adaptor.NoticeImageReader;
+import com.dilly.admin.adaptor.NoticeReader;
 import com.dilly.admin.adaptor.SettingReader;
 import com.dilly.admin.application.AdminService;
 import com.dilly.application.FileService;
@@ -28,6 +30,7 @@ import com.dilly.jwt.adaptor.JwtWriter;
 import com.dilly.member.adaptor.MemberReader;
 import com.dilly.member.adaptor.MemberWriter;
 import com.dilly.member.adaptor.ProfileImageReader;
+import com.dilly.member.application.MemberService;
 import com.dilly.member.application.MyPageService;
 import jakarta.transaction.Transactional;
 import java.time.Clock;
@@ -73,6 +76,9 @@ public abstract class IntegrationTestSupport {
 
     @Autowired
     protected MyPageService myPageService;
+
+    @Autowired
+    protected MemberService memberService;
 
     @Autowired
     protected TokenProvider tokenProvider;
@@ -136,6 +142,12 @@ public abstract class IntegrationTestSupport {
 
     @Autowired
     protected JwtWriter jwtWriter;
+
+    @Autowired
+    protected NoticeReader noticeReader;
+
+    @Autowired
+    protected NoticeImageReader noticeImageReader;
 
     @Autowired
     protected WithCustomMockUserSecurityContextFactory withCustomMockUserSecurityContextFactory;

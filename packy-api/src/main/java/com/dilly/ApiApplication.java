@@ -22,6 +22,7 @@ public class ApiApplication {
 	public static void main(String[] args) {
 		System.setProperty("spring.config.name",
 			"application-api, application-domain, application-infra, application-support");
+
 		SpringApplication.run(ApiApplication.class, args);
 	}
 }

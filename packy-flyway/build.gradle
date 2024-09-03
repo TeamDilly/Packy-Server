@@ -1,0 +1,35 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.dilly'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // multi module
+    implementation project(':packy-domain')
+
+    // flyway
+    implementation 'org.flywaydb:flyway-mysql'
+
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+processResources.dependsOn('copySecret')
+tasks.register('copySecret', Copy) {
+    from '../packy-submodule/flyway'
+    include '*'
+    into './src/main/resources'
+}
+
+bootJar.enabled = true
+jar.enabled = false

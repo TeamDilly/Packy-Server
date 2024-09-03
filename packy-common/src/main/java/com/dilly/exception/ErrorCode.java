@@ -57,6 +57,7 @@ public enum ErrorCode {
     GIFTBOX_NOT_FOUND(HttpStatus.NOT_FOUND, "선물박스를 찾을 수 없습니다."),
     PHOTO_NOT_FOUND(HttpStatus.NOT_FOUND, "사진을 찾을 수 없습니다."),
     LETTER_NOT_FOUND(HttpStatus.NOT_FOUND, "편지를 찾을 수 없습니다."),
+    NOTICE_NOT_FOUND(HttpStatus.NOT_FOUND, "공지사항을 찾을 수 없습니다."),
 
     // Unsupported
     UNSUPPORTED_LOGIN_TYPE(HttpStatus.BAD_REQUEST, "지원하지 않는 로그인 타입입니다."),
@@ -66,6 +67,7 @@ public enum ErrorCode {
 
     // Member
     MEMBER_ALREADY_EXIST(HttpStatus.CONFLICT, "이미 가입된 유저입니다."),
+    INVALID_MEMBER(HttpStatus.UNAUTHORIZED, "유효하지 않은 유저입니다."),
 
     // GiftBox
     BOX_NOT_FOUND(HttpStatus.NOT_FOUND, "선물 박스를 찾을 수 없습니다."),

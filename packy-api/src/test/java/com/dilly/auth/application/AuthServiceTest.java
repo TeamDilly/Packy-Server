@@ -44,7 +44,7 @@ class AuthServiceTest extends IntegrationTestSupport {
 
     @DisplayName("올바르지 않은 Provider Type으로 회원가입을 요청할 경우 예외가 발생한다.")
     @Test
-    void throwExceptionWithWrongProviderType() {
+    void signUpThrowExceptionWithWrongProviderType() {
         // given
         String providerAccessToken = TEST_ACCESS_TOKEN;
         String wrongProvider = "wrong";

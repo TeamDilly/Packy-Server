@@ -1,6 +1,7 @@
 package com.dilly.admin.api;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -13,6 +14,7 @@ import com.dilly.admin.dto.request.BranchRequest;
 import com.dilly.admin.dto.response.BoxImgResponse;
 import com.dilly.admin.dto.response.ImgResponse;
 import com.dilly.admin.dto.response.MusicResponse;
+import com.dilly.admin.dto.response.NoticeResponse;
 import com.dilly.admin.dto.response.SettingResponse;
 import com.dilly.admin.dto.response.YoutubeUrlValidationResponse;
 import com.dilly.gift.dto.response.EnvelopeListResponse;
@@ -247,5 +249,47 @@ class AdminControllerTest extends ControllerTestSupport {
 			.andDo(print())
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.data.url").value(expectedUrl));
+	}
+
+    @DisplayName("공지사항 목록을 조회한다.")
+    @Test
+    @WithCustomMockUser
+    void getNotices() throws Exception {
+        // given
+        List<NoticeResponse> noticeResponses = List.of(
+            NoticeResponse.builder().imgUrl("www.test1.com").noticeUrl("www.test1.com").build(),
+            NoticeResponse.builder().imgUrl("www.test2.com").noticeUrl("www.test2.com").build(),
+            NoticeResponse.builder().imgUrl("www.test3.com").noticeUrl("www.test3.com").build()
+        );
+
+        given(adminService.getNotices()).willReturn(noticeResponses);
+
+        // when // then
+        mockMvc.perform(
+                get(baseUrl + "/admin/notices")
+            )
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.data").isArray())
+            .andExpect(jsonPath("$.data", hasSize(3)));
+    }
+
+	@DisplayName("공지사항을 조회한다.")
+	@Test
+	@WithCustomMockUser
+	void getNotice() throws Exception {
+		// given
+		List<String> noticeResponse = List.of("www.test1.com", "www.test2.com", "www.test3.com");
+
+		given(adminService.getNotice(anyLong())).willReturn(noticeResponse);
+
+		// when // then
+		mockMvc.perform(
+				get(baseUrl + "/admin/notices/web/" + anyLong())
+			)
+			.andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.data").isArray())
+			.andExpect(jsonPath("$.data", hasSize(3)));
 	}
 }

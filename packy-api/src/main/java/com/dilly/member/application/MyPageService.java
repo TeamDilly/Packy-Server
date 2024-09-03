@@ -1,6 +1,5 @@
 package com.dilly.member.application;
 
-import com.dilly.global.util.SecurityUtil;
 import com.dilly.member.adaptor.MemberReader;
 import com.dilly.member.adaptor.ProfileImageReader;
 import com.dilly.member.domain.Member;
@@ -18,19 +17,19 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 public class MyPageService {
 
+    private final MemberService memberService;
+
     private final MemberReader memberReader;
     private final ProfileImageReader profileImageReader;
 
     public ProfileResponse getProfile() {
-        Long memberId = SecurityUtil.getMemberId();
-        Member member = memberReader.findById(memberId);
+        Member member = memberService.getMember();
 
         return ProfileResponse.from(member);
     }
 
     public ProfileResponse updateProfile(ProfileRequest profileRequest) {
-        Long memberId = SecurityUtil.getMemberId();
-        Member member = memberReader.findById(memberId);
+        Member member = memberService.getMember();
 
         Optional.ofNullable(profileRequest.nickname())
             .ifPresent(member::updateNickname);
