@@ -79,7 +79,11 @@ jobs:
           region: ${{ secrets.AWS_REGION }}
           deployment_package: deploy/deploy.zip
           wait_for_environment_recovery: 200
-
+  SlackNotify:
+    needs: CD
+    if: ${{ needs.CD.result == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
       - name: Set Slack profile based on branch
         run: |
           if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
@@ -87,11 +91,6 @@ jobs:
           elif [[ "${GITHUB_REF}" == "refs/heads/develop" ]]; then
             echo "SLACK_PROFILE=개발계" >> $GITHUB_ENV
           fi
-  SlackNotify:
-    needs: CD
-    if: ${{ needs.CD.result == 'success' }}
-    runs-on: ubuntu-latest
-    steps:
       - name: Notify Message to Slack
         uses: rtCamp/action-slack-notify@v2
         env:
