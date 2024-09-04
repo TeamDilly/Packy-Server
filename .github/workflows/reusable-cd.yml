@@ -89,7 +89,7 @@ jobs:
           fi
   SlackNotify:
     needs: CD
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ needs.CD.result == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - name: Notify Message to Slack
