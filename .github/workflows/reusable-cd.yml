@@ -95,7 +95,7 @@ jobs:
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_CHANNEL: $ {{ secrets.SLACK_CHANNEL }}
+          SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
           SLACK_COLOR: ${{ job.status }}
           SLACK_TITLE: ${{ env.SLACK_PROFILE }} 서버 변경 사항
           SLACK_MESSAGE: ${{ github.workflow }}
