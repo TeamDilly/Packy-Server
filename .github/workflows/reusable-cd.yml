@@ -97,7 +97,7 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
           SLACK_COLOR: ${{ job.status }}
-          SLACK_TITLE: ${{ env.SLACK_PROFILE }} 서버 변경 사항
-          SLACK_MESSAGE: ${{ github.workflow }}
           SLACK_USERNAME: API 서버를 업데이트 했어요
           SLACK_ICON: https://i.pinimg.com/236x/86/ac/ae/86acaefa1fff543ad4b49ed39a2f38bc.jpg
+          SLACK_TITLE: 🎁 ${{ env.SLACK_PROFILE }} 서버 변경 사항 🎁
+          SLACK_MESSAGE: ${{ github.event.head_commit.message }}
