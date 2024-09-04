@@ -17,4 +17,4 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_REGION: ${{ secrets.AWS_REGION }}
       SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
-      SLACK_WEBHOOK: ${{ ssecrets.SLACK_WEBHOOK }}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
