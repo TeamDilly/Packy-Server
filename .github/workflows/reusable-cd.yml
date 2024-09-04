@@ -79,7 +79,7 @@ jobs:
           region: ${{ secrets.AWS_REGION }}
           deployment_package: deploy/deploy.zip
           wait_for_environment_recovery: 200
-  SlackNotify:
+  SlackNotification:
     needs: CD
     if: ${{ needs.CD.result == 'success' }}
     runs-on: ubuntu-latest
