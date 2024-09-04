@@ -88,6 +88,7 @@ jobs:
             echo "SLACK_PROFILE=개발계" >> $GITHUB_ENV
           fi
   SlackNotify:
+    needs: CD
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
