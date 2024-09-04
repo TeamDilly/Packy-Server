@@ -22,7 +22,7 @@ on:
       SLACK_WEBHOOK:
         required: true
 jobs:
-  run:
+  CD:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -87,8 +87,11 @@ jobs:
           elif [[ "${GITHUB_REF}" == "refs/heads/develop" ]]; then
             echo "SLACK_PROFILE=개발계" >> $GITHUB_ENV
           fi
-      - name: Notify message to Slack
-        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+  SlackNotify:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify Message to Slack
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
