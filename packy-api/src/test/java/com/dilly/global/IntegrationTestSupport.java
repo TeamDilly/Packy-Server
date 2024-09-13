@@ -7,6 +7,7 @@ import com.dilly.admin.adaptor.NoticeImageReader;
 import com.dilly.admin.adaptor.NoticeReader;
 import com.dilly.admin.adaptor.SettingReader;
 import com.dilly.admin.application.AdminService;
+import com.dilly.admin.application.AdminV2Service;
 import com.dilly.application.FileService;
 import com.dilly.auth.application.AuthService;
 import com.dilly.gift.adaptor.BoxReader;
@@ -64,6 +65,9 @@ public abstract class IntegrationTestSupport {
 
     @Autowired
     protected AdminService adminService;
+
+    @Autowired
+    protected AdminV2Service adminV2Service;
 
     @Autowired
     protected AuthService authService;

@@ -4,8 +4,8 @@
   "settings": {
     "width": 2500,
     "height": 2500,
-    "scrollTop": -535,
-    "scrollLeft": -254.4,
+    "scrollTop": -673,
+    "scrollLeft": -567.4,
     "zoomLevel": 0.8,
     "show": 431,
     "database": 4,
@@ -453,11 +453,13 @@
         "comment": "설정",
         "columnIds": [
           "d4ea9e4e-2913-4129-a1b3-e027100c110e",
+          "K6-LZgEMwEhGvBSkPJUp5",
           "feaf62d7-bbd7-4969-988a-4c207864dd9d",
           "8ab44e4f-0a67-4f7b-ba0f-a3950c02a7c7"
         ],
         "seqColumnIds": [
           "d4ea9e4e-2913-4129-a1b3-e027100c110e",
+          "K6-LZgEMwEhGvBSkPJUp5",
           "feaf62d7-bbd7-4969-988a-4c207864dd9d",
           "8ab44e4f-0a67-4f7b-ba0f-a3950c02a7c7"
         ],
@@ -470,7 +472,7 @@
           "color": ""
         },
         "meta": {
-          "updateAt": 1725271940447,
+          "updateAt": 1726223254893,
           "createAt": 1724811425587
         }
       },
@@ -2097,6 +2099,26 @@
           "updateAt": 1725278015692,
           "createAt": 1725278006200
         }
+      },
+      "K6-LZgEMwEhGvBSkPJUp5": {
+        "id": "K6-LZgEMwEhGvBSkPJUp5",
+        "tableId": "d81ebbcf-fbc5-4e81-a7aa-13cf3c5cab39",
+        "name": "name",
+        "comment": "ex) 패키 공식 SNS",
+        "dataType": "VARCHAR",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 60,
+          "widthComment": 95,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1726223256364,
+          "createAt": 1726223243117
+        }
       }
     },
     "relationshipEntities": {
@@ -2615,6 +2637,17 @@
         "name": 1725278009885,
         "dataType": 1725278013500,
         "options(notNull)": 1725278015691
+      }
+    ],
+    "K6-LZgEMwEhGvBSkPJUp5": [
+      "tableColumnEntities",
+      1726223243116,
+      -1,
+      {
+        "name": 1726223245838,
+        "dataType": 1726223248495,
+        "options(notNull)": 1726223249473,
+        "comment": 1726223256363
       }
     ]
   }
