@@ -1,7 +1,9 @@
 package com.dilly.global;
 
 import com.dilly.admin.api.AdminController;
+import com.dilly.admin.api.AdminV2Controller;
 import com.dilly.admin.application.AdminService;
+import com.dilly.admin.application.AdminV2Service;
 import com.dilly.application.BranchService;
 import com.dilly.application.YoutubeService;
 import com.dilly.gift.api.GiftBoxController;
@@ -21,6 +23,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @WebMvcTest(
 	controllers = {
 		AdminController.class,
+		AdminV2Controller.class,
 		GiftBoxController.class,
 		GiftController.class,
 		MyPageController.class,
@@ -33,6 +36,7 @@ public abstract class ControllerTestSupport {
 	}
 
 	protected final String baseUrl = "/api/v1";
+	protected final String baseUrlV2 = "/api/v2";
 
 	@Autowired
 	protected MockMvc mockMvc;
@@ -42,6 +46,9 @@ public abstract class ControllerTestSupport {
 
 	@MockBean
 	protected AdminService adminService;
+
+	@MockBean
+	protected AdminV2Service adminV2Service;
 
 	@MockBean
 	protected GiftBoxService giftBoxService;
