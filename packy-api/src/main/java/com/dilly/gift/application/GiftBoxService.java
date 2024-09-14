@@ -120,6 +120,7 @@ public class GiftBoxService {
             giftBox.getBox().getKakaoMessageImgUrl());
     }
 
+    @RedissonLock(value = "#giftBoxId")
     public GiftBoxResponse openGiftBox(Long giftBoxId) {
         Member member = memberService.getMember();
         GiftBox giftBox = giftBoxReader.findById(giftBoxId);

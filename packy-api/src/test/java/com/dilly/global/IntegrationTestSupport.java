@@ -51,6 +51,7 @@ import org.springframework.test.context.TestPropertySource;
     properties = "spring.profiles.active=test"
 )
 @TestPropertySource(locations = {"classpath:application-test.yml"})
+@TestPropertySource(properties = "ableRedissonLock=false")
 @Transactional
 public abstract class IntegrationTestSupport {
 
