@@ -63,12 +63,13 @@ public class SecurityConfig {
 						"/api/v1/admin/health",
 						"/api/v1/auth/token/kakao/**",
 						"/api/v1/admin/design/profiles",
+						"/api/v1/admin/branch",
+						"/api/v1/admin/notices/**",
 						"/api/v1/auth/sign-up",
 						"/api/v1/auth/sign-in/**",
 						"/api/v1/auth/reissue",
 						"/api/v1/auth/withdraw/kakao",
-						"/api/v1/giftboxes/web/**",
-						"/api/v1/admin/branch"
+						"/api/v1/giftboxes/web/**"
 					).permitAll()
 					.anyRequest().authenticated()
 			)

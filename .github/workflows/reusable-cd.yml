@@ -17,11 +17,12 @@ on:
         required: true
       AWS_REGION:
         required: true
-      CODECOV_TOKEN:
+      SLACK_CHANNEL:
         required: true
-
+      SLACK_WEBHOOK:
+        required: true
 jobs:
-  run:
+  CD:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -78,3 +79,32 @@ jobs:
           region: ${{ secrets.AWS_REGION }}
           deployment_package: deploy/deploy.zip
           wait_for_environment_recovery: 200
+  SlackNotification:
+    needs: CD
+    if: ${{ needs.CD.result == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set Slack profile based on branch
+        run: |
+          if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
+            echo "SLACK_PROFILE=운영계" >> $GITHUB_ENV
+          elif [[ "${GITHUB_REF}" == "refs/heads/develop" ]]; then
+            echo "SLACK_PROFILE=개발계" >> $GITHUB_ENV
+          fi
+
+      - name: Extract commit message title
+        run: |
+          COMMIT_MESSAGE="${{ github.event.head_commit.message }}"
+          COMMIT_TITLE=$(echo "$COMMIT_MESSAGE" | head -n 1)
+          echo "COMMIT_TITLE=$COMMIT_TITLE" >> $GITHUB_ENV
+
+      - name: Notify Message to Slack
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_USERNAME: API 서버를 업데이트 했어요
+          SLACK_ICON: https://i.pinimg.com/236x/86/ac/ae/86acaefa1fff543ad4b49ed39a2f38bc.jpg
+          SLACK_TITLE: 🎁 ${{ env.SLACK_PROFILE }} 서버 변경 사항 🎁
+          SLACK_MESSAGE: ${{ env.COMMIT_TITLE }}
