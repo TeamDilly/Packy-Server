@@ -42,6 +42,9 @@ public enum ErrorCode {
     // Branch
     BRANCH_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Branch 서버 연동에 오류가 발생했습니다."),
 
+    // FCM
+    FCM_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "FCM 서버 연동에 오류가 발생했습니다."),
+
     // Authorization
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "인증되지 않은 사용자입니다."),
     MALFORMED_JWT(HttpStatus.UNAUTHORIZED, "올바르지 않은 형식의 JWT 토큰입니다."),
@@ -53,6 +56,7 @@ public enum ErrorCode {
 
     // Not Found
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "유저를 찾을 수 없습니다."),
+    FCM_TOKEN_NOT_FOUND(HttpStatus.NOT_FOUND, "FCM 토큰을 찾을 수 없습니다."),
     STICKER_NOT_FOUND(HttpStatus.NOT_FOUND, "스티커를 찾을 수 없습니다."),
     GIFTBOX_NOT_FOUND(HttpStatus.NOT_FOUND, "선물박스를 찾을 수 없습니다."),
     PHOTO_NOT_FOUND(HttpStatus.NOT_FOUND, "사진을 찾을 수 없습니다."),
