@@ -21,7 +21,7 @@ import com.dilly.gift.domain.sticker.GiftBoxSticker;
 import com.dilly.gift.domain.sticker.Sticker;
 import com.dilly.global.config.P6SpyFormatter;
 import com.dilly.global.config.TestQueryDslConfig;
-import com.dilly.member.MemberRepository;
+import com.dilly.member.dao.MemberRepository;
 import com.dilly.member.domain.Member;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;

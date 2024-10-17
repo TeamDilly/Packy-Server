@@ -2,7 +2,7 @@ package com.dilly.member.adaptor;
 
 import com.dilly.exception.EntityNotFoundException;
 import com.dilly.exception.ErrorCode;
-import com.dilly.member.MemberRepository;
+import com.dilly.member.dao.MemberRepository;
 import com.dilly.member.domain.Member;
 import com.dilly.member.domain.Status;
 import lombok.RequiredArgsConstructor;
