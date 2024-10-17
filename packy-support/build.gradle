@@ -13,9 +13,9 @@ repositories {
 dependencies {
     // multi module
     implementation project(':packy-domain')
+    implementation project(':packy-infra')
 
     implementation 'org.springframework.boot:spring-boot-starter-aop'
-    implementation 'com.slack.api:slack-api-client:1.39.0'
 
     // jacoco
     jacocoAggregation project(':packy-api')

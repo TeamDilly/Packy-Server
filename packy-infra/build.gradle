@@ -41,6 +41,9 @@ dependencies {
     implementation 'org.bouncycastle:bcprov-jdk15on:1.69'
     implementation 'org.bouncycastle:bcpkix-jdk14:1.72'
 
+    // slack
+    implementation 'com.slack.api:slack-api-client:1.39.0'
+
     // fcm
     implementation 'com.google.firebase:firebase-admin:9.3.0'
 }
