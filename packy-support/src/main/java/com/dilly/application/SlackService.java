@@ -1,4 +1,4 @@
-package com.dilly.logging;
+package com.dilly.application;
 
 import com.slack.api.Slack;
 import com.slack.api.model.Attachment;
