@@ -28,6 +28,8 @@ import com.dilly.jwt.JwtService;
 import com.dilly.jwt.TokenProvider;
 import com.dilly.jwt.adaptor.JwtReader;
 import com.dilly.jwt.adaptor.JwtWriter;
+import com.dilly.member.adaptor.DeviceReader;
+import com.dilly.member.adaptor.DeviceWriter;
 import com.dilly.member.adaptor.MemberReader;
 import com.dilly.member.adaptor.MemberWriter;
 import com.dilly.member.adaptor.ProfileImageReader;
@@ -152,6 +154,12 @@ public abstract class IntegrationTestSupport {
 
     @Autowired
     protected NoticeImageReader noticeImageReader;
+
+    @Autowired
+    protected DeviceReader deviceReader;
+
+    @Autowired
+    protected DeviceWriter deviceWriter;
 
     @Autowired
     protected WithCustomMockUserSecurityContextFactory withCustomMockUserSecurityContextFactory;
