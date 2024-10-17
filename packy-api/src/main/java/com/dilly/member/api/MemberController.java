@@ -2,12 +2,15 @@ package com.dilly.member.api;
 
 import com.dilly.global.response.DataResponseDto;
 import com.dilly.member.application.MemberService;
+import com.dilly.member.dto.request.FCMTokenRequest;
 import com.dilly.member.dto.response.AppStatusResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,5 +30,11 @@ public class MemberController {
         @RequestParam("app-version") @Schema(example = "1.0.0") String appVersion
     ) {
         return DataResponseDto.from(memberService.getStatus(appVersion));
+    }
+
+    @Operation(summary = "FCM 토큰 저장")
+    @PostMapping("/fcm-token")
+    public DataResponseDto<String> issueFcmToken(@RequestBody FCMTokenRequest fcmTokenRequest) {
+        return DataResponseDto.from(memberService.issueFcmToken(fcmTokenRequest));
     }
 }
