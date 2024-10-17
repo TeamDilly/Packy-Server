@@ -32,7 +32,8 @@ public class MemberController {
         return DataResponseDto.from(memberService.getStatus(appVersion));
     }
 
-    @Operation(summary = "FCM 토큰 저장")
+    @Operation(summary = "FCM 토큰 저장"
+        , description = "platform: ANDROID, IOS")
     @PostMapping("/fcm-token")
     public DataResponseDto<String> issueFcmToken(@RequestBody FCMTokenRequest fcmTokenRequest) {
         return DataResponseDto.from(memberService.issueFcmToken(fcmTokenRequest));
