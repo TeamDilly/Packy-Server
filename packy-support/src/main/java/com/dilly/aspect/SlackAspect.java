@@ -1,5 +1,6 @@
-package com.dilly.logging;
+package com.dilly.aspect;
 
+import com.dilly.application.SlackService;
 import com.dilly.member.adaptor.MemberReader;
 import com.dilly.member.domain.Status;
 import java.util.HashMap;

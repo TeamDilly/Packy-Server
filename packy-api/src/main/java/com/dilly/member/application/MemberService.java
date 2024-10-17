@@ -7,11 +7,17 @@ import com.dilly.exception.BadRequestException;
 import com.dilly.exception.ErrorCode;
 import com.dilly.exception.internalserver.InternalServerException;
 import com.dilly.global.util.SecurityUtil;
+import com.dilly.member.adaptor.DeviceReader;
+import com.dilly.member.adaptor.DeviceWriter;
 import com.dilly.member.adaptor.MemberReader;
+import com.dilly.member.domain.Device;
 import com.dilly.member.domain.Member;
+import com.dilly.member.domain.Platform;
 import com.dilly.member.domain.Status;
+import com.dilly.member.dto.request.FCMTokenRequest;
 import com.dilly.member.dto.response.AppStatusResponse;
 import com.dilly.member.dto.response.Reason;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,6 +30,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberReader memberReader;
+    private final DeviceReader deviceReader;
+    private final DeviceWriter deviceWriter;
 
     public Member getMember() {
         Long memberId = SecurityUtil.getMemberId();
@@ -70,6 +78,30 @@ public class MemberService {
         }
 
         return AppStatusResponse.from(memberId, true);
+    }
+
+    public String issueFcmToken(FCMTokenRequest fcmTokenRequest) {
+        Member member = getMember();
+        String deviceId = fcmTokenRequest.deviceId();
+        Platform platform = Platform.valueOf(fcmTokenRequest.platform());
+        String fcmToken = fcmTokenRequest.fcmToken();
+
+        Optional<Device> device = deviceReader.findByDeviceId(deviceId);
+        if (device.isPresent()) {
+            boolean newMemberUseDevice = !device.get().getMember().equals(member);
+            boolean fcmTokenChanged = !device.get().getFcmToken().equals(fcmToken);
+
+            if (newMemberUseDevice) {
+                device.get().updateMember(member);
+            }
+            if (fcmTokenChanged) {
+                device.get().updateFcmToken(fcmToken);
+            }
+        } else {
+            deviceWriter.save(deviceId, fcmToken, platform, member);
+        }
+
+        return "FCM 토큰 저장이 완료되었습니다";
     }
 
     private Integer extractMajorVersion(String version) {

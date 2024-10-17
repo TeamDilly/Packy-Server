@@ -12,7 +12,9 @@ import com.dilly.global.IntegrationTestSupport;
 import com.dilly.global.WithCustomMockUser;
 import com.dilly.jwt.RefreshToken;
 import com.dilly.jwt.dto.JwtResponse;
+import com.dilly.member.domain.Device;
 import com.dilly.member.domain.Member;
+import com.dilly.member.domain.Platform;
 import com.dilly.member.domain.Status;
 import java.util.Collection;
 import java.util.List;
@@ -101,7 +103,7 @@ class AuthServiceTest extends IntegrationTestSupport {
     @DisplayName("회원탈퇴 시 Refresh token을 hard delete한다.")
     @Test
     @WithCustomMockUser(id = MEMBER_ID)
-    void withdraw() {
+    void hardDeleteRefreshTokenWhenWithdraw() {
         // given
         jwtWriter.save(RefreshToken.builder()
             .member(NORMAL_MEMBER)
@@ -116,5 +118,37 @@ class AuthServiceTest extends IntegrationTestSupport {
 
         // then
         assertThat(refreshTokenAfter).isEqualTo(refreshTokenBefore - 1);
+    }
+
+    @DisplayName("회원탈퇴 시 해당 유저의 모든 Device를 hard delete한다.")
+    @Test
+    @WithCustomMockUser(id = MEMBER_ID)
+    void hardDeleteDeviceWhenWithdraw() {
+        // given
+        jwtWriter.save(RefreshToken.builder()
+            .member(NORMAL_MEMBER)
+            .refreshToken("test")
+            .build());
+        createDevice("test-device-id-1", "test-fcm-token", Platform.IOS, NORMAL_MEMBER);
+        createDevice("test-device-id-2", "test-fcm-token", Platform.ANDROID, NORMAL_MEMBER);
+        createDevice("test-device-id-3", "test-fcm-token", Platform.IOS, NORMAL_MEMBER);
+
+        // when
+        authService.withdraw();
+        Long deviceAfter = deviceReader.countByMember(NORMAL_MEMBER);
+
+        // then
+        assertThat(deviceAfter).isEqualTo(0);
+    }
+
+    private void createDevice(String deviceId, String fcmToken, Platform platform, Member member) {
+        deviceWriter.save(Device.builder()
+            .deviceId(deviceId)
+            .fcmToken(fcmToken)
+            .platform(platform)
+            .member(member)
+            .fcmToken("test")
+            .build()
+        );
     }
 }

@@ -1,4 +1,4 @@
-package com.dilly.member;
+package com.dilly.member.dao;
 
 import com.dilly.member.domain.Member;
 import com.dilly.member.domain.Status;

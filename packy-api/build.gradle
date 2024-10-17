@@ -49,6 +49,9 @@ dependencies {
 
     // junit
     testImplementation('org.junit-pioneer:junit-pioneer:2.2.0')
+
+    // aop
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
 }
 
 test {
