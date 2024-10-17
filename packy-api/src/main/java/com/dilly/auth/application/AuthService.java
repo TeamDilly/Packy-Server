@@ -17,13 +17,17 @@ import com.dilly.jwt.RefreshToken;
 import com.dilly.jwt.adaptor.JwtReader;
 import com.dilly.jwt.adaptor.JwtWriter;
 import com.dilly.jwt.dto.JwtResponse;
+import com.dilly.member.adaptor.DeviceReader;
+import com.dilly.member.adaptor.DeviceWriter;
 import com.dilly.member.adaptor.MemberReader;
 import com.dilly.member.adaptor.ProfileImageReader;
 import com.dilly.member.application.MemberService;
+import com.dilly.member.domain.Device;
 import com.dilly.member.domain.Member;
 import com.dilly.member.domain.ProfileImage;
 import com.dilly.member.domain.Provider;
 import com.dilly.member.domain.Status;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +41,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 public class AuthService {
 
+	private final DeviceWriter deviceWriter;
 	@Value("${security.oauth2.provider.kakao.admin-key}")
 	private String kakaoAdminKey;
 
@@ -51,6 +56,7 @@ public class AuthService {
 	private final JwtWriter jwtWriter;
 	private final AdminGiftBoxReader adminGiftBoxReader;
 	private final ReceiverWriter receiverWriter;
+	private final DeviceReader deviceReader;
 
 	private final KakaoAccountReader kakaoAccountReader;
 	private final KakaoAccountWriter kakaoAccountWriter;
@@ -105,6 +111,9 @@ public class AuthService {
 		jwtWriter.delete(refreshToken);
 		member.withdraw();
 
+		List<Device> devices = deviceReader.findByMember(member);
+		devices.forEach(deviceWriter::delete);
+
 		return "회원 탈퇴가 완료되었습니다.";
 	}
 
@@ -118,6 +127,9 @@ public class AuthService {
 
 			RefreshToken refreshToken = jwtReader.findByMember(member.get());
 			jwtWriter.delete(refreshToken);
+
+			List<Device> devices = deviceReader.findByMember(member.get());
+			devices.forEach(deviceWriter::delete);
 
 			member.get().withdraw();
 		}
