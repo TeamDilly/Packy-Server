@@ -22,9 +22,12 @@ dependencies {
     // orm
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
-    // database
+    // mysql
     runtimeOnly 'com.mysql:mysql-connector-j'
+
+    // redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.redisson:redisson-spring-boot-starter:3.34.1'
 
     // logging
     implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0'
@@ -37,6 +40,9 @@ dependencies {
 
     // tsid
     implementation 'io.hypersistence:hypersistence-utils-hibernate-63:3.7.6'
+
+    // aop
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
 }
 
 test {

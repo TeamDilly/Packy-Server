@@ -19,6 +19,7 @@ public enum ErrorCode {
     API_NOT_FOUND(HttpStatus.NOT_FOUND, "요청한 API를 찾을 수 없습니다."),
     QUERY_PARAMETER_REQUIRED(HttpStatus.BAD_REQUEST, "쿼리 파라미터가 필요한 API입니다."),
     INVALID_INPUT_VALUE(HttpStatus.BAD_REQUEST, "입력값이 올바르지 않습니다."),
+    FAILED_TO_ACCESS_CONCURRENCY(HttpStatus.INTERNAL_SERVER_ERROR, "동시 접근에 실패했습니다."),
 
     // Kakao
     KAKAO_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "카카오 서버 연동에 오류가 발생했습니다."),

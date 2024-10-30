@@ -33,6 +33,16 @@ public enum MemberEnumFixture {
             .build();
     }
 
+    public Member createMember() {
+        return Member.builder()
+            .provider(Provider.TEST)
+            .nickname(getNickname())
+            .profileImg(createProfileImage())
+            .pushNotification(true)
+            .marketingAgreement(true)
+            .build();
+    }
+
     private ProfileImage createProfileImage() {
         return ProfileImage.builder()
             .id(1L)
